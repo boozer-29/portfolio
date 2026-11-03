@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Athena | Shoes Made for Victory</title>
+  <meta name="description" content="Athena — performance running, training and lifestyle sneakers.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%23111'/><path d='M14 48 L32 14 L50 48 L40 48 L32 32 L24 48 Z' fill='%23fff'/></svg>">
+</head>
+<body>
+
+  <!-- Top promo bar -->
+  <div class="promo-bar">
+    <div class="promo-track">
+      <span>FREE SHIPPING ON ORDERS OVER $75</span>
+      <span>MEMBERS GET 30-DAY FREE RETURNS</span>
+      <span>NEW: ATHENA AEGIS RUNNER — SHOP NOW</span>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header" id="top">
+    <a href="#top" class="logo" aria-label="Athena home">
+      <svg viewBox="0 0 64 40" class="logo-mark" aria-hidden="true">
+        <path d="M2 38 L26 2 L36 2 L20 26 L44 26 L50 18 L62 18 L48 38 Z" />
+      </svg>
+      <span class="logo-text">ATHENA</span>
+    </a>
+
+    <nav class="nav" id="nav">
+      <a href="#new">New &amp; Featured</a>
+      <a href="#shop" data-filter="men">Men</a>
+      <a href="#shop" data-filter="women">Women</a>
+      <a href="#shop" data-filter="kids">Kids</a>
+      <a href="#collections">Collections</a>
+      <a href="#sale" class="nav-sale">Sale</a>
+    </nav>
+
+    <div class="header-actions">
+      <label class="search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+        <input type="search" id="search" placeholder="Search" aria-label="Search shoes">
+      </label>
+      <button class="icon-btn" id="wishlist-btn" aria-label="Wishlist">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
+        <span class="badge" id="wish-count">0</span>
+      </button>
+      <button class="icon-btn" id="cart-btn" aria-label="Open bag">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+        <span class="badge" id="cart-count">0</span>
+      </button>
+      <button class="icon-btn menu-btn" id="menu-btn" aria-label="Menu">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero" id="new">
+      <div class="hero-bg-text" aria-hidden="true">ATHENA</div>
+      <div class="hero-content">
+        <p class="eyebrow">New Drop · Aegis Runner</p>
+        <h1>BORN<br>TO <span class="accent">WIN.</span></h1>
+        <p class="hero-sub">Engineered with ultralight foam and a carbon-infused plate. Built for the ones who never stop chasing.</p>
+        <div class="hero-cta">
+          <a href="#shop" class="btn btn-light">Shop Now</a>
+          <a href="#collections" class="btn btn-outline-light">Explore</a>
+        </div>
+      </div>
+      <div class="hero-shoe" id="hero-shoe"></div>
+    </section>
+
+    <!-- Stripe divider (three-stripe vibe) -->
+    <div class="stripes" aria-hidden="true"><span></span><span></span><span></span></div>
+
+    <!-- Categories -->
+    <section class="section" id="collections">
+      <div class="section-head">
+        <h2>Shop by Sport</h2>
+        <a href="#shop" class="link-underline">View all</a>
+      </div>
+      <div class="categories">
+        <a href="#shop" class="cat cat-run" data-filter="running">
+          <span class="cat-label">Running</span>
+          <span class="cat-big">RUN</span>
+        </a>
+        <a href="#shop" class="cat cat-train" data-filter="training">
+          <span class="cat-label">Training</span>
+          <span class="cat-big">TRAIN</span>
+        </a>
+        <a href="#shop" class="cat cat-court" data-filter="basketball">
+          <span class="cat-label">Basketball</span>
+          <span class="cat-big">COURT</span>
+        </a>
+        <a href="#shop" class="cat cat-life" data-filter="lifestyle">
+          <span class="cat-label">Lifestyle</span>
+          <span class="cat-big">STREET</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Products -->
+    <section class="section" id="shop">
+      <div class="section-head">
+        <h2>Trending Now <span class="count" id="result-count"></span></h2>
+        <select id="sort" aria-label="Sort products">
+          <option value="featured">Sort: Featured</option>
+          <option value="low">Price: Low → High</option>
+          <option value="high">Price: High → Low</option>
+          <option value="new">Newest</option>
+        </select>
+      </div>
+      <div class="filters" id="filters">
+        <button class="chip active" data-filter="all">All</button>
+        <button class="chip" data-filter="men">Men</button>
+        <button class="chip" data-filter="women">Women</button>
+        <button class="chip" data-filter="kids">Kids</button>
+        <button class="chip" data-filter="running">Running</button>
+        <button class="chip" data-filter="training">Training</button>
+        <button class="chip" data-filter="basketball">Basketball</button>
+        <button class="chip" data-filter="lifestyle">Lifestyle</button>
+        <button class="chip" data-filter="sale">Sale</button>
+      </div>
+      <div class="grid" id="grid"></div>
+      <p class="empty" id="empty" hidden>No shoes match your search. Try something else.</p>
+    </section>
+
+    <!-- Feature banner -->
+    <section class="feature">
+      <div class="feature-text">
+        <p class="eyebrow">Athena Technology</p>
+        <h2>OLYMPUS<br>FOAM.</h2>
+        <p>Our lightest, most responsive cushioning ever. 30% more energy return, so every stride gives back.</p>
+        <a href="#shop" class="btn btn-dark" data-filter="running">Shop Running</a>
+      </div>
+      <div class="feature-stats">
+        <div><strong>30%</strong><span>More energy return</span></div>
+        <div><strong>198g</strong><span>Featherlight weight</span></div>
+        <div><strong>500km</strong><span>Tested durability</span></div>
+      </div>
+    </section>
+
+    <!-- Sale banner -->
+    <section class="sale-banner" id="sale">
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee-track">
+          <span>END OF SEASON SALE — UP TO 40% OFF —</span>
+          <span>END OF SEASON SALE — UP TO 40% OFF —</span>
+          <span>END OF SEASON SALE — UP TO 40% OFF —</span>
+          <span>END OF SEASON SALE — UP TO 40% OFF —</span>
+        </div>
+      </div>
+      <a href="#shop" class="btn btn-light" data-filter="sale">Shop the Sale</a>
+    </section>
+
+    <!-- Membership -->
+    <section class="section member">
+      <div>
+        <h2>BECOME AN ATHENA MEMBER</h2>
+        <p>Sign up for first access to drops, members-only pricing, and 10% off your first order.</p>
+      </div>
+      <form class="newsletter" id="newsletter">
+        <input type="email" placeholder="Email address" required aria-label="Email address">
+        <button type="submit" class="btn btn-dark">Join Us</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-cols">
+      <div>
+        <h4>Help</h4>
+        <a href="#">Order Status</a>
+        <a href="#">Shipping &amp; Delivery</a>
+        <a href="#">Returns</a>
+        <a href="#">Size Guide</a>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <a href="#">About Athena</a>
+        <a href="#">Careers</a>
+        <a href="#">Sustainability</a>
+        <a href="#">Stores</a>
+      </div>
+      <div>
+        <h4>Shop</h4>
+        <a href="#shop">Men</a>
+        <a href="#shop">Women</a>
+        <a href="#shop">Kids</a>
+        <a href="#sale">Sale</a>
+      </div>
+      <div class="footer-brand">
+        <span class="logo-text">ATHENA</span>
+        <p>Shoes made for victory.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> Athena, Inc. All rights reserved.</span>
+      <a href="../index.html">← Back to portfolio</a>
+    </div>
+  </footer>
+
+  <!-- Cart drawer -->
+  <div class="overlay" id="overlay"></div>
+  <aside class="drawer" id="drawer" aria-label="Shopping bag">
+    <div class="drawer-head">
+      <h3>Your Bag</h3>
+      <button class="icon-btn" id="close-drawer" aria-label="Close bag">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="drawer-items" id="drawer-items"></div>
+    <div class="drawer-foot">
+      <div class="row"><span>Subtotal</span><strong id="subtotal">$0.00</strong></div>
+      <div class="row muted"><span>Shipping</span><span id="shipping">Free</span></div>
+      <button class="btn btn-dark btn-block" id="checkout">Checkout</button>
+    </div>
+  </aside>
+
+  <!-- Quick view modal -->
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
+    <div class="modal-card">
+      <button class="icon-btn modal-close" id="close-modal" aria-label="Close">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <div class="modal-img" id="modal-img"></div>
+      <div class="modal-body">
+        <p class="eyebrow" id="modal-cat"></p>
+        <h3 id="modal-title"></h3>
+        <p class="price" id="modal-price"></p>
+        <p id="modal-desc"></p>
+        <p class="label">Select Size (US)</p>
+        <div class="sizes" id="sizes"></div>
+        <button class="btn btn-dark btn-block" id="add-to-bag">Add to Bag</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
