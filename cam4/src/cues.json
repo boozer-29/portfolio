@@ -286,7 +286,7 @@
  ],
  "heartbeat": {
   "file": "heartbeat.wav",
-  "peak_db": -14,
+  "peak_db": -18,
   "segments": [
    {
     "start": 606,
@@ -325,9 +325,196 @@
    "end": 1739
   },
   {
-   "label": "final black",
+   "label": "boom tail to end card",
    "start": 1768,
-   "end": 1800
+   "end": 1769
+  }
+ ],
+ "voice": [
+  {
+   "id": "v01",
+   "text": "You live alone.",
+   "start": 56,
+   "end": 88,
+   "peak_db": -3,
+   "whisper": false
+  },
+  {
+   "id": "v02",
+   "text": "Never go outside.",
+   "start": 99,
+   "end": 128,
+   "peak_db": -3,
+   "whisper": false
+  },
+  {
+   "id": "v03",
+   "text": "Never answer the door.",
+   "start": 139,
+   "end": 168,
+   "peak_db": -3,
+   "whisper": false
+  },
+  {
+   "id": "v04",
+   "text": "Keep the lights on.",
+   "start": 179,
+   "end": 208,
+   "peak_db": -3,
+   "whisper": false
+  },
+  {
+   "id": "v05",
+   "text": "They only move in the dark.",
+   "start": 214,
+   "end": 268,
+   "peak_db": -3,
+   "whisper": false
+  },
+  {
+   "id": "v06",
+   "text": "The hallway is clear.",
+   "start": 304,
+   "end": 350,
+   "peak_db": -3,
+   "whisper": false
+  },
+  {
+   "id": "v07",
+   "text": "Front door. Chain's on.",
+   "start": 364,
+   "end": 410,
+   "peak_db": -3,
+   "whisper": false
+  },
+  {
+   "id": "v08",
+   "text": "Window. The city's burning.",
+   "start": 424,
+   "end": 472,
+   "peak_db": -3,
+   "whisper": false
+  },
+  {
+   "id": "v09",
+   "text": "Your room is empty.",
+   "start": 484,
+   "end": 534,
+   "peak_db": -3,
+   "whisper": false
+  },
+  {
+   "id": "v10",
+   "text": "All quiet. For now.",
+   "start": 556,
+   "end": 596,
+   "peak_db": -3,
+   "whisper": false
+  },
+  {
+   "id": "v11",
+   "text": "There are three of them.",
+   "start": 656,
+   "end": 696,
+   "peak_db": -3,
+   "whisper": false
+  },
+  {
+   "id": "v12",
+   "text": "Don't blink.",
+   "start": 702,
+   "end": 744,
+   "peak_db": -3,
+   "whisper": false
+  },
+  {
+   "id": "v13",
+   "text": "Every flicker... one step closer.",
+   "start": 752,
+   "end": 826,
+   "peak_db": -3,
+   "whisper": false
+  },
+  {
+   "id": "v14",
+   "text": "Your thumb hovers. You can't look away.",
+   "start": 846,
+   "end": 940,
+   "peak_db": -3,
+   "whisper": false
+  },
+  {
+   "id": "v15",
+   "text": "The door.",
+   "start": 962,
+   "end": 986,
+   "peak_db": -3,
+   "whisper": false
+  },
+  {
+   "id": "v16",
+   "text": "The handle turned.",
+   "start": 1169,
+   "end": 1198,
+   "peak_db": -3,
+   "whisper": false
+  },
+  {
+   "id": "v17",
+   "text": "They learned your name.",
+   "start": 1264,
+   "end": 1304,
+   "peak_db": -3,
+   "whisper": false,
+   "scale": 1.15
+  },
+  {
+   "id": "v18",
+   "text": "They're listening.",
+   "start": 1312,
+   "end": 1352,
+   "peak_db": -3,
+   "whisper": false
+  },
+  {
+   "id": "v19",
+   "text": "The feed is three seconds behind.",
+   "start": 1402,
+   "end": 1470,
+   "peak_db": -7,
+   "whisper": true
+  },
+  {
+   "id": "v20",
+   "text": "Look at the corner.",
+   "start": 1500,
+   "end": 1538,
+   "peak_db": -7,
+   "whisper": true
+  },
+  {
+   "id": "v21",
+   "text": "Whatever you see... is already there.",
+   "start": 1550,
+   "end": 1618,
+   "peak_db": -7,
+   "whisper": true
+  },
+  {
+   "id": "v22",
+   "text": "Don't turn around.",
+   "start": 1672,
+   "end": 1704,
+   "peak_db": -7,
+   "whisper": true
+  },
+  {
+   "id": "v23",
+   "text": "Part two tomorrow.",
+   "start": 1770,
+   "end": 1800,
+   "peak_db": -6,
+   "whisper": true
   }
  ]
 }

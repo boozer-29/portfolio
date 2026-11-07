@@ -1,0 +1,439 @@
+{
+ "v01": {
+  "start": 56,
+  "text": "You live alone.",
+  "asr": "You live alone.",
+  "takes": 1,
+  "verified": true,
+  "frames": [
+   56.0,
+   59.0,
+   63.2
+  ],
+  "ends": [
+   59.0,
+   63.2,
+   72.2
+  ]
+ },
+ "v02": {
+  "start": 99,
+  "text": "Never go outside.",
+  "asr": "Never go outside.",
+  "takes": 1,
+  "verified": true,
+  "frames": [
+   99.0,
+   104.4,
+   111.0
+  ],
+  "ends": [
+   104.4,
+   111.0,
+   121.2
+  ]
+ },
+ "v03": {
+  "start": 139,
+  "text": "Never answer the door.",
+  "asr": "Never answer the door.",
+  "takes": 1,
+  "verified": true,
+  "frames": [
+   139.0,
+   144.4,
+   153.4,
+   157.6
+  ],
+  "ends": [
+   144.4,
+   153.4,
+   157.6,
+   163.6
+  ]
+ },
+ "v04": {
+  "start": 179,
+  "text": "Keep the lights on.",
+  "asr": "Keep the lights on!",
+  "takes": 1,
+  "verified": true,
+  "frames": [
+   179.0,
+   185.0,
+   189.8,
+   195.2
+  ],
+  "ends": [
+   185.0,
+   189.8,
+   195.2,
+   203.6
+  ]
+ },
+ "v05": {
+  "start": 214,
+  "text": "They only move in the dark.",
+  "asr": "They only move in the dark.",
+  "takes": 1,
+  "verified": true,
+  "frames": [
+   214.0,
+   218.2,
+   224.8,
+   233.2,
+   238.0,
+   241.0
+  ],
+  "ends": [
+   218.2,
+   224.8,
+   233.2,
+   238.0,
+   241.0,
+   247.6
+  ]
+ },
+ "v06": {
+  "start": 304,
+  "text": "The hallway is clear.",
+  "asr": "The hallway is clear.",
+  "takes": 1,
+  "verified": true,
+  "frames": [
+   304.0,
+   308.2,
+   316.6,
+   326.2
+  ],
+  "ends": [
+   308.2,
+   316.6,
+   326.2,
+   334.6
+  ]
+ },
+ "v07": {
+  "start": 364,
+  "text": "Front door. Chain's on.",
+  "asr": "front door chains on",
+  "takes": 2,
+  "verified": true,
+  "frames": [
+   364.0,
+   373.0,
+   384.4,
+   395.8
+  ],
+  "ends": [
+   373.0,
+   384.4,
+   395.8,
+   407.8
+  ]
+ },
+ "v08": {
+  "start": 424,
+  "text": "Window. The city's burning.",
+  "asr": "Window. The city's burning.",
+  "takes": 1,
+  "verified": true,
+  "frames": [
+   424.0,
+   439.0,
+   440.2,
+   451.6
+  ],
+  "ends": [
+   433.0,
+   440.2,
+   451.6,
+   458.2
+  ]
+ },
+ "v09": {
+  "start": 484,
+  "text": "Your room is empty.",
+  "asr": "Your room is empty.",
+  "takes": 1,
+  "verified": true,
+  "frames": [
+   484.0,
+   489.4,
+   497.2,
+   503.8
+  ],
+  "ends": [
+   489.4,
+   497.2,
+   503.8,
+   512.2
+  ]
+ },
+ "v10": {
+  "start": 556,
+  "text": "All quiet. For now.",
+  "asr": "All quiet for now.",
+  "takes": 1,
+  "verified": true,
+  "frames": [
+   556.0,
+   562.6,
+   576.4,
+   583.6
+  ],
+  "ends": [
+   562.6,
+   576.4,
+   583.6,
+   590.8
+  ]
+ },
+ "v11": {
+  "start": 656,
+  "text": "There are three of them.",
+  "asr": "There are three of them!",
+  "takes": 1,
+  "verified": true,
+  "frames": [
+   656.0,
+   660.2,
+   664.4,
+   673.4,
+   679.4
+  ],
+  "ends": [
+   660.2,
+   664.4,
+   673.4,
+   679.4,
+   686.6
+  ]
+ },
+ "v12": {
+  "start": 702,
+  "text": "Don't blink.",
+  "asr": "Don't blink!",
+  "takes": 1,
+  "verified": true,
+  "frames": [
+   702.0,
+   710.4
+  ],
+  "ends": [
+   710.4,
+   715.8
+  ]
+ },
+ "v13": {
+  "start": 752,
+  "text": "Every flicker... one step closer.",
+  "asr": "Every flicker one step closer.",
+  "takes": 1,
+  "verified": true,
+  "frames": [
+   752.0,
+   759.8,
+   769.4,
+   777.2,
+   786.8
+  ],
+  "ends": [
+   759.8,
+   769.4,
+   777.2,
+   786.8,
+   799.4
+  ]
+ },
+ "v14": {
+  "start": 846,
+  "text": "Your thumb hovers. You can't look away.",
+  "asr": "Your thumb hovers, you can't look away.",
+  "takes": 1,
+  "verified": true,
+  "frames": [
+   846.0,
+   851.4,
+   859.2,
+   874.8,
+   877.2,
+   885.6,
+   888.6
+  ],
+  "ends": [
+   851.4,
+   859.2,
+   871.8,
+   877.2,
+   885.6,
+   888.6,
+   896.4
+  ]
+ },
+ "v15": {
+  "start": 962,
+  "text": "The door.",
+  "asr": "The door!",
+  "takes": 1,
+  "verified": true,
+  "frames": [
+   962.0,
+   965.6
+  ],
+  "ends": [
+   965.6,
+   972.8
+  ]
+ },
+ "v16": {
+  "start": 1169,
+  "text": "The handle turned.",
+  "asr": "The handle turned.",
+  "takes": 1,
+  "verified": true,
+  "frames": [
+   1169.0,
+   1172.0,
+   1181.6
+  ],
+  "ends": [
+   1172.0,
+   1181.6,
+   1190.6
+  ]
+ },
+ "v17": {
+  "start": 1264,
+  "text": "They learned your name.",
+  "asr": "They learned your name.",
+  "takes": 1,
+  "verified": true,
+  "frames": [
+   1264.0,
+   1267.6,
+   1273.0,
+   1278.4
+  ],
+  "ends": [
+   1267.6,
+   1273.0,
+   1278.4,
+   1285.6
+  ]
+ },
+ "v18": {
+  "start": 1312,
+  "text": "They're listening.",
+  "asr": "They're listening.",
+  "takes": 1,
+  "verified": true,
+  "frames": [
+   1312.0,
+   1318.6
+  ],
+  "ends": [
+   1318.6,
+   1327.0
+  ]
+ },
+ "v19": {
+  "start": 1402,
+  "text": "The feed is three seconds behind.",
+  "asr": "The feed is three seconds behind.",
+  "takes": 1,
+  "verified": true,
+  "frames": [
+   1402.0,
+   1406.8,
+   1414.0,
+   1421.2,
+   1429.0,
+   1441.6
+  ],
+  "ends": [
+   1406.8,
+   1414.0,
+   1421.2,
+   1429.0,
+   1441.6,
+   1455.4
+  ]
+ },
+ "v20": {
+  "start": 1500,
+  "text": "Look at the corner.",
+  "asr": "Look at the corner.",
+  "takes": 1,
+  "verified": true,
+  "frames": [
+   1500.0,
+   1505.4,
+   1509.6,
+   1513.2
+  ],
+  "ends": [
+   1505.4,
+   1509.6,
+   1513.2,
+   1520.4
+  ]
+ },
+ "v21": {
+  "start": 1550,
+  "text": "Whatever you see... is already there.",
+  "asr": "Whatever you see is already there.",
+  "takes": 1,
+  "verified": true,
+  "frames": [
+   1550.0,
+   1557.2,
+   1564.4,
+   1569.8,
+   1575.8,
+   1586.0
+  ],
+  "ends": [
+   1557.2,
+   1564.4,
+   1569.8,
+   1575.8,
+   1586.0,
+   1598.0
+  ]
+ },
+ "v22": {
+  "start": 1672,
+  "text": "Don't turn around.",
+  "asr": "Don't turn around!",
+  "takes": 1,
+  "verified": true,
+  "frames": [
+   1672.0,
+   1680.4,
+   1685.2
+  ],
+  "ends": [
+   1680.4,
+   1685.2,
+   1695.4
+  ]
+ },
+ "v23": {
+  "start": 1770,
+  "text": "Part two tomorrow.",
+  "asr": "Part 2 tomorrow.",
+  "takes": 1,
+  "verified": true,
+  "frames": [
+   1770.0,
+   1776.0,
+   1783.2
+  ],
+  "ends": [
+   1776.0,
+   1783.2,
+   1791.6
+  ]
+ }
+}

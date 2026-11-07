@@ -6,7 +6,7 @@ import {PhoneFrame} from '../shared/PhoneFrame';
 import {cam4Text, clockText} from '../timeline';
 import {ez, sp, wob, OUT, IO, IN} from '../util';
 
-const CAPS: Cap[] = [{start: 555, end: 600, lines: ['ALL QUIET.', 'FOR NOW.'], accent: [0, 1, 'lime']}];
+const CAPS: Cap[] = [{voice: 'v10', end: 600, lines: ['ALL QUIET.', 'FOR NOW.'], accent: [0, 1, 'lime']}];
 
 const CW = 486;
 const CH = 560;

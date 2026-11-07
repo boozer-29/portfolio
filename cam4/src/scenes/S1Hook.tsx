@@ -7,7 +7,7 @@ import {PhoneFrame} from '../shared/PhoneFrame';
 import {clockText} from '../timeline';
 import {ez, sp, wob, OUT, IO} from '../util';
 
-const CAPS: Cap[] = [{start: 45, end: 90, lines: ['YOU LIVE ALONE.'], accent: [0, 2, 'red']}];
+const CAPS: Cap[] = [{voice: 'v01', end: 90, lines: ['YOU LIVE ALONE.'], accent: [0, 2, 'red']}];
 
 export const S1Hook: React.FC<{f: number}> = ({f}) => {
   const on = f < 6 ? 0 : ez(f, 6, 15, 0, 1, OUT);

@@ -7,7 +7,7 @@ import {PhoneFrame} from '../shared/PhoneFrame';
 import {KNOCKS, SKIP_FLASH, clockText, knockRed} from '../timeline';
 import {ez, rnd, sp, wob, IO, OUT} from '../util';
 
-const CAPS: Cap[] = [{start: 1290, end: 1380, lines: ["THEY'RE LISTENING."], accent: [0, 1, 'red']}];
+const CAPS: Cap[] = [{voice: 'v18', end: 1380, lines: ["THEY'RE LISTENING."], accent: [0, 1, 'red']}];
 
 const LINES = ['THEY LEARNED', 'YOUR NAME.'];
 const GLYPHS = '▓▒░#@%&*+=<>/\\|';

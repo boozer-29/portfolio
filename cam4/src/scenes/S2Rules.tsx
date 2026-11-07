@@ -6,7 +6,7 @@ import {PhoneFrame} from '../shared/PhoneFrame';
 import {clockText} from '../timeline';
 import {ez, rnd, sp, wob, OUT, IO} from '../util';
 
-const CAPS: Cap[] = [{start: 196, end: 270, lines: ['THEY ONLY MOVE', 'IN THE DARK.'], accent: [1, 2, 'red']}];
+const CAPS: Cap[] = [{voice: 'v05', end: 270, lines: ['THEY ONLY MOVE', 'IN THE DARK.'], accent: [1, 2, 'red']}];
 
 const RULES = [
   {n: 1, lines: ['NEVER GO', 'OUTSIDE.'], angle: -4},

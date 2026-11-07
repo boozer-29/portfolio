@@ -52,10 +52,34 @@ for w in cues['silence_windows']:
     print(f"silence '{w['label']}' {w['start']}-{w['end']}: max |x| = {m:.6f} -> {'OK' if ok else 'FAIL'}")
     if not ok: fails.append(f"silence window {w['label']} not silent")
 
-# S6 hush: only the hum
-seg = mix[1392 * SPF: 1620 * SPF]
+# narration: placement, overlaps with long one-shots / each other, level
+vspans = []
+for v in cues['voice']:
+    x, _ = load(os.path.join(ROOT, 'public', 'voice', v['id'] + '.wav'))
+    vspans.append((v['start'], v['start'] + x.shape[0] / SPF, v['id'], x.shape[0] / SR))
+long_shots = [(a, b, i) for (a, b, i) in spans if (b - a) / FPS > 0.15]
+short_shots = [(a, b, i) for (a, b, i) in spans if (b - a) / FPS <= 0.15]
+vl = [(i, j) for (a, b, i, _) in vspans for (c, d, j) in long_shots if a < d and c < b]
+vv = [(p[2], q[2]) for p, q in zip(vspans, vspans[1:]) if q[0] < p[1]]
+vs = sorted({j for (a, b, i, _) in vspans for (c, d, j) in short_shots if a < d and c < b})
+print(f'voice lines: {len(vspans)}; overlap with long SFX: {vl or "none"}; voice-voice: {vv or "none"}')
+print(f'  (short ticks/glitches/clicks <=0.15 s under speech, by design: {len(vs)})')
+if vl: fails.append(f'voice overlaps long SFX {vl}')
+if vv: fails.append(f'voice lines overlap {vv}')
+for (a, b, i, _), v in zip(vspans, cues['voice']):
+    if b > v['end'] + 0.01: fails.append(f'voice {i} runs past its window ({b:.2f} > {v["end"]})')
+    seg = mix[int(a * SPF): int(b * SPF)]
+    rms = 20 * np.log10(np.sqrt(np.mean(seg ** 2)) + 1e-12)
+    if rms < -30: fails.append(f'voice {i} too quiet in mix ({rms:.1f} dBFS rms)')
+
+# S6 hush: only the hum, measured between voice lines
+mask = np.ones(1620 * SPF - 1392 * SPF, bool)
+for a, b, i, _ in vspans:
+    lo, hi = int((a - 4) * SPF) - 1392 * SPF, int((b + 4) * SPF) - 1392 * SPF
+    if hi > 0 and lo < len(mask): mask[max(0, lo):min(len(mask), hi)] = False
+seg = mix[1392 * SPF: 1620 * SPF][mask]
 rms = 20 * np.log10(np.sqrt(np.mean(seg ** 2)) + 1e-12)
-print(f'S6 (1392-1620) rms {rms:.1f} dBFS (hum only)')
+print(f'S6 (1392-1620) between narration lines: rms {rms:.1f} dBFS (hum only)')
 if rms > -42: fails.append('S6 not quiet enough')
 
 # heartbeat vs long one-shots

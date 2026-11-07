@@ -1,6 +1,6 @@
 import React from 'react';
 import {SCREEN, W, H} from '../constants';
-import {Hands, Thumb} from './Hands';
+import {HandsBack, HandsFront, Thumb} from './Hands';
 import {Hud} from './Hud';
 
 export const PhoneFrame: React.FC<{
@@ -22,6 +22,9 @@ export const PhoneFrame: React.FC<{
   return (
     <div style={{position: 'absolute', inset: 0, transform: `translateY(${dy}px) rotate(${rot}deg) scale(${scale})`, transformOrigin: origin, opacity: Math.min(1, on * 1.4)}}>
       <div style={{position: 'absolute', left: SCREEN.x - 90, top: SCREEN.y - 60, width: SCREEN.w + 180, height: SCREEN.h + 120, borderRadius: 120, background: 'radial-gradient(ellipse at center, rgba(120,200,255,0.20), rgba(120,200,255,0) 70%)', opacity: on * glow}} />
+      <div style={{position: 'absolute', left: 0, top: 0, width: W, height: H, transform: `translateY(${handsY}px)`}}>
+        <HandsBack light={on} />
+      </div>
       <div style={{position: 'absolute', left: SCREEN.x - pad, top: SCREEN.y - pad, width: SCREEN.w + pad * 2, height: SCREEN.h + pad * 2, borderRadius: SCREEN.r + pad, background: '#020305', border: '2px solid #1a2030', boxShadow: '0 20px 60px rgba(0,0,0,0.8)'}} />
       <div style={{position: 'absolute', left: SCREEN.x, top: SCREEN.y, width: SCREEN.w, height: SCREEN.h, borderRadius: SCREEN.r, overflow: 'hidden', background: '#000'}}>
         <div style={{position: 'absolute', inset: 0, opacity: on}}>{children}</div>
@@ -33,7 +36,7 @@ export const PhoneFrame: React.FC<{
         <div style={{position: 'absolute', inset: 0, background: 'linear-gradient(115deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 28%)', pointerEvents: 'none'}} />
       </div>
       <div style={{position: 'absolute', left: 0, top: 0, width: W, height: H, transform: `translateY(${handsY}px)`}}>
-        <Hands thumb={thumb} light={on} />
+        <HandsFront thumb={thumb} light={on} />
       </div>
     </div>
   );

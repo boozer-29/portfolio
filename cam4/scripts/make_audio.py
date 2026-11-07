@@ -82,9 +82,9 @@ def s_bass():
 
 
 def s_thud():
-    t = T(0.36)
-    y = sweep(t, 110, 46, 0.035) * np.exp(-t / 0.09)
-    y += 0.4 * fbp(noise(len(t)), 60, 700) * np.exp(-t / 0.012)
+    t = T(0.25)
+    y = sweep(t, 110, 46, 0.03) * np.exp(-t / 0.065)
+    y += 0.4 * fbp(noise(len(t)), 60, 700) * np.exp(-t / 0.010)
     return fades(norm(y), 0.001, 0.05)
 
 
@@ -297,6 +297,12 @@ def main():
     for f in played:
         put(hbs * db(hb['peak_db']), int(round(f * SPF)), 1.0)
     json.dump({'beats': played}, open(os.path.join(ROOT, 'src', 'generated', 'beats.json'), 'w'))
+
+    # narration (already trimmed so speech starts at sample 0, levelled by make_voice.py)
+    for v in cues['voice']:
+        with wave.open(os.path.join(ROOT, 'public', 'voice', f"{v['id']}.wav")) as w:
+            x = np.frombuffer(w.readframes(w.getnframes()), dtype='<i2').astype(np.float64) / 32768.0
+        put(x, v['start'] * SPF, 1.0)
 
     peak = np.max(np.abs(mix))
     print(f'heartbeat beats played {len(played)}, skipped (clash) {len(skipped)}')

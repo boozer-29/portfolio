@@ -6,7 +6,7 @@ import {PhoneFrame} from '../shared/PhoneFrame';
 import {BULB_DIES, NV_ON, bulbOn, clockText, flickerSteps, inFlicker} from '../timeline';
 import {ez, wob, IO, OUT} from '../util';
 
-const CAPS: Cap[] = [{start: 700, end: 800, lines: ["DON'T BLINK."], accent: [0, 1, 'red']}];
+const CAPS: Cap[] = [{voice: 'v12', end: 800, lines: ["DON'T BLINK."], accent: [0, 1, 'red']}];
 
 export const S4LightsOut: React.FC<{f: number; pulse: number}> = ({f, pulse}) => {
   const nv = f >= NV_ON;

@@ -7,8 +7,8 @@ import {cam4Text} from '../timeline';
 import {ez, wob, IO, OUT} from '../util';
 
 const CAPS: Cap[] = [
-  {start: 1400, end: 1492, lines: ['THE FEED IS', '3 SECONDS BEHIND.'], accent: [1, 2, 'red']},
-  {start: 1556, end: 1620, lines: ['WHATEVER YOU SEE...', 'IS ALREADY THERE.'], accent: [1, 2, 'red']},
+  {voice: 'v19', end: 1480, lines: ['THE FEED IS', '3 SECONDS BEHIND.'], accent: [1, 2, 'red']},
+  {voice: 'v21', end: 1620, lines: ['WHATEVER YOU SEE...', 'IS ALREADY THERE.'], accent: [1, 2, 'red']},
 ];
 
 export const S6Cam4: React.FC<{f: number}> = ({f}) => {
