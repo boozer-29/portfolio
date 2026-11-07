@@ -1,0 +1,333 @@
+{
+ "fps": 30,
+ "totalFrames": 1800,
+ "oneshots": [
+  {
+   "id": "buzz",
+   "file": "buzz.wav",
+   "frame": 1,
+   "peak_db": -12,
+   "shake": 5
+  },
+  {
+   "id": "alert_bass",
+   "file": "bass.wav",
+   "frame": 15,
+   "peak_db": -4,
+   "shake": 8
+  },
+  {
+   "id": "thud_1",
+   "file": "thud.wav",
+   "frame": 90,
+   "peak_db": -6,
+   "shake": 7
+  },
+  {
+   "id": "thud_2",
+   "file": "thud.wav",
+   "frame": 130,
+   "peak_db": -6,
+   "shake": 7
+  },
+  {
+   "id": "thud_3",
+   "file": "thud.wav",
+   "frame": 170,
+   "peak_db": -6,
+   "shake": 7
+  },
+  {
+   "id": "grid_glitch",
+   "file": "glitch.wav",
+   "frame": 270,
+   "peak_db": -18,
+   "shake": 4
+  },
+  {
+   "id": "tick_1",
+   "file": "tick.wav",
+   "frame": 300,
+   "peak_db": -24,
+   "shake": 4
+  },
+  {
+   "id": "tick_2",
+   "file": "tick.wav",
+   "frame": 360,
+   "peak_db": -24,
+   "shake": 4
+  },
+  {
+   "id": "tick_3",
+   "file": "tick.wav",
+   "frame": 420,
+   "peak_db": -24,
+   "shake": 4
+  },
+  {
+   "id": "tick_4",
+   "file": "tick.wav",
+   "frame": 480,
+   "peak_db": -24,
+   "shake": 4
+  },
+  {
+   "id": "flick_1",
+   "file": "flick.wav",
+   "frame": 600,
+   "peak_db": -20,
+   "shake": 4
+  },
+  {
+   "id": "flick_2",
+   "file": "flick.wav",
+   "frame": 604,
+   "peak_db": -20,
+   "shake": 4
+  },
+  {
+   "id": "flick_3",
+   "file": "flick.wav",
+   "frame": 607,
+   "peak_db": -20,
+   "shake": 4
+  },
+  {
+   "id": "flick_4",
+   "file": "flick.wav",
+   "frame": 611,
+   "peak_db": -20,
+   "shake": 4
+  },
+  {
+   "id": "flick_5",
+   "file": "flick.wav",
+   "frame": 614,
+   "peak_db": -20,
+   "shake": 4
+  },
+  {
+   "id": "flick_6",
+   "file": "flick.wav",
+   "frame": 618,
+   "peak_db": -20,
+   "shake": 4
+  },
+  {
+   "id": "flick_7",
+   "file": "flick.wav",
+   "frame": 621,
+   "peak_db": -20,
+   "shake": 4
+  },
+  {
+   "id": "flick_8",
+   "file": "flick.wav",
+   "frame": 625,
+   "peak_db": -20,
+   "shake": 4
+  },
+  {
+   "id": "bulb_die",
+   "file": "bulbdie.wav",
+   "frame": 630,
+   "peak_db": -12,
+   "shake": 6
+  },
+  {
+   "id": "nv_on",
+   "file": "nvon.wav",
+   "frame": 640,
+   "peak_db": -20,
+   "shake": 4
+  },
+  {
+   "id": "glitch_1",
+   "file": "glitch.wav",
+   "frame": 668,
+   "peak_db": -16,
+   "shake": 5
+  },
+  {
+   "id": "glitch_2",
+   "file": "glitch.wav",
+   "frame": 722,
+   "peak_db": -16,
+   "shake": 5
+  },
+  {
+   "id": "glitch_3",
+   "file": "glitch.wav",
+   "frame": 776,
+   "peak_db": -16,
+   "shake": 5
+  },
+  {
+   "id": "glitch_4",
+   "file": "glitch.wav",
+   "frame": 830,
+   "peak_db": -16,
+   "shake": 5
+  },
+  {
+   "id": "glitch_5",
+   "file": "glitch.wav",
+   "frame": 884,
+   "peak_db": -16,
+   "shake": 5
+  },
+  {
+   "id": "glitch_6",
+   "file": "glitch.wav",
+   "frame": 930,
+   "peak_db": -16,
+   "shake": 5
+  },
+  {
+   "id": "knock_1",
+   "file": "knock.wav",
+   "frame": 990,
+   "peak_db": -5,
+   "shake": 8
+  },
+  {
+   "id": "knock_2",
+   "file": "knock.wav",
+   "frame": 1020,
+   "peak_db": -5,
+   "shake": 8
+  },
+  {
+   "id": "knock_3",
+   "file": "knock.wav",
+   "frame": 1050,
+   "peak_db": -5,
+   "shake": 8
+  },
+  {
+   "id": "skip_whoosh",
+   "file": "whoosh.wav",
+   "frame": 1103,
+   "peak_db": -16,
+   "shake": 4
+  },
+  {
+   "id": "handle_creak",
+   "file": "creak.wav",
+   "frame": 1140,
+   "peak_db": -22,
+   "shake": 4
+  },
+  {
+   "id": "battery_tick",
+   "file": "tick.wav",
+   "frame": 1170,
+   "peak_db": -20,
+   "shake": 4
+  },
+  {
+   "id": "radio_static",
+   "file": "static.wav",
+   "frame": 1200,
+   "peak_db": -16,
+   "shake": 4
+  },
+  {
+   "id": "breath",
+   "file": "breath.wav",
+   "frame": 1630,
+   "peak_db": -14,
+   "shake": 4
+  },
+  {
+   "id": "hand_rustle",
+   "file": "rustle.wav",
+   "frame": 1712,
+   "peak_db": -16,
+   "shake": 8
+  },
+  {
+   "id": "boom",
+   "file": "boom.wav",
+   "frame": 1740,
+   "peak_db": -2,
+   "shake": 8
+  }
+ ],
+ "beds": [
+  {
+   "id": "drone_a",
+   "file": "drone.wav",
+   "start": 0,
+   "end": 1052,
+   "fade_in": 60,
+   "fade_out": 10,
+   "rms_db": -34
+  },
+  {
+   "id": "drone_b",
+   "file": "drone.wav",
+   "start": 1262,
+   "end": 1376,
+   "fade_in": 30,
+   "fade_out": 14,
+   "rms_db": -34
+  },
+  {
+   "id": "hum",
+   "file": "hum.wav",
+   "start": 1376,
+   "end": 1706,
+   "fade_in": 20,
+   "fade_out": 4,
+   "rms_db": -46
+  }
+ ],
+ "heartbeat": {
+  "file": "heartbeat.wav",
+  "peak_db": -14,
+  "segments": [
+   {
+    "start": 606,
+    "end": 1046,
+    "bpm0": 62,
+    "bpm1": 98
+   },
+   {
+    "start": 1264,
+    "end": 1360,
+    "bpm0": 100,
+    "bpm1": 108
+   },
+   {
+    "start": 1671,
+    "end": 1696,
+    "bpm0": 130,
+    "bpm1": 170
+   }
+  ]
+ },
+ "silence_windows": [
+  {
+   "label": "S5 total silence",
+   "start": 1062,
+   "end": 1102
+  },
+  {
+   "label": "post-contact",
+   "start": 1706,
+   "end": 1711
+  },
+  {
+   "label": "pre-boom hush",
+   "start": 1730,
+   "end": 1739
+  },
+  {
+   "label": "final black",
+   "start": 1768,
+   "end": 1800
+  }
+ ]
+}
