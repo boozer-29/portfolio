@@ -1,0 +1,114 @@
+const { chromium } = require('playwright');
+const fs = require('fs');
+
+function head(split) {
+  // background
+  const bg = split ? `
+    <rect width="1080" height="1080" fill="#0A0D16"/>
+    <path d="M0 0 H560 L520 1080 H0 Z" fill="url(#gA)"/>
+    <path d="M560 0 H1080 V1080 H520 Z" fill="url(#gB)"/>
+    <path d="M560 0 L520 1080" stroke="#F4F4EF" stroke-opacity=".18" stroke-width="4"/>
+    <text x="150" y="600" font-family="Inter" font-weight="900" font-size="230" fill="#C8E234" text-anchor="middle" filter="url(#soft)">A</text>
+    <text x="935" y="600" font-family="Inter" font-weight="900" font-size="230" fill="#E5383B" text-anchor="middle" filter="url(#soft)">B</text>`
+  : `<rect width="1080" height="1080" fill="url(#night)"/>`;
+  return `
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 1080 1080">
+<defs>
+  <radialGradient id="night" cx="50%" cy="42%" r="70%">
+    <stop offset="0" stop-color="#1E3D60"/><stop offset=".55" stop-color="#0B1F3A"/><stop offset="1" stop-color="#0A0D16"/>
+  </radialGradient>
+  <linearGradient id="gA" x1="0" x2="1"><stop offset="0" stop-color="#2A3A12"/><stop offset="1" stop-color="#0B1F3A"/></linearGradient>
+  <linearGradient id="gB" x1="1" x2="0"><stop offset="0" stop-color="#4A0E10"/><stop offset="1" stop-color="#0B1F3A"/></linearGradient>
+  <radialGradient id="rim" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#7FB3E6" stop-opacity=".55"/><stop offset="1" stop-color="#7FB3E6" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="eyeGlow" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#E6F7FF" stop-opacity=".95"/><stop offset=".35" stop-color="#BFE9FF" stop-opacity=".5"/><stop offset="1" stop-color="#BFE9FF" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="fog" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9CC3E8" stop-opacity="0"/><stop offset="1" stop-color="#9CC3E8" stop-opacity=".22"/></linearGradient>
+  <filter id="soft"><feGaussianBlur stdDeviation="1.2"/></filter>
+  <filter id="blur8"><feGaussianBlur stdDeviation="8"/></filter>
+  <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4"/><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .07 0"/></filter>
+</defs>
+${bg}
+<!-- cold rim light behind the head -->
+<circle cx="540" cy="470" r="430" fill="url(#rim)"/>
+<!-- ruined skyline -->
+<g fill="#081426">
+  <rect x="40" y="760" width="110" height="320"/><rect x="150" y="700" width="80" height="380"/>
+  <path d="M230 820 h120 v-60 l20 -30 v350 h-140z"/><rect x="380" y="780" width="70" height="300"/>
+  <rect x="640" y="770" width="90" height="310"/><path d="M730 720 h100 v360 h-100z"/>
+  <path d="M830 800 l30 -40 l40 20 v300 h-70z"/><rect x="910" y="740" width="130" height="340"/>
+</g>
+<g fill="#F2A93B" opacity=".9">
+  <rect x="70" y="800" width="16" height="20"/><rect x="175" y="760" width="14" height="18"/><rect x="950" y="790" width="16" height="20"/><rect x="760" y="770" width="14" height="18"/>
+</g>
+<rect y="760" width="1080" height="320" fill="url(#fog)"/>
+
+<!-- the Sleeper -->
+<g transform="rotate(-12 540 560)">
+  <!-- shoulders -->
+  <path d="M250 1080 L300 900 Q320 850 380 840 H700 Q760 850 780 900 L830 1080 Z" fill="#2B3240"/>
+  <path d="M300 900 Q320 850 380 840 H700 Q760 850 780 900" fill="none" stroke="#3E4759" stroke-width="10"/>
+  <!-- neck -->
+  <rect x="455" y="740" width="170" height="130" fill="#AEB4BE"/>
+  <rect x="455" y="740" width="170" height="30" fill="#8F96A2"/>
+  <!-- hum waves from throat -->
+  <g fill="none" stroke="#E6F7FF" stroke-linecap="round" opacity=".75">
+    <path d="M420 790 q-30 30 0 60" stroke-width="9"/><path d="M380 770 q-48 50 0 100" stroke-width="7" opacity=".6"/>
+    <path d="M660 790 q30 30 0 60" stroke-width="9"/><path d="M700 770 q48 50 0 100" stroke-width="7" opacity=".6"/>
+  </g>
+  <!-- head block with bevel -->
+  <rect x="300" y="260" width="480" height="500" rx="38" fill="#C9CED6"/>
+  <rect x="300" y="260" width="480" height="46" rx="38" fill="#DDE1E7"/>
+  <rect x="300" y="290" width="480" height="20" fill="#DDE1E7"/>
+  <path d="M700 260 h42 a38 38 0 0 1 38 38 v424 a38 38 0 0 1 -38 38 h-42 z" fill="#B3B9C3"/>
+  <rect x="300" y="712" width="480" height="48" rx="24" fill="#A3AAB5"/>
+  <!-- messy hair block -->
+  <path d="M290 300 q0 -70 80 -70 h330 q90 0 90 80 v30 l-40 -20 l-30 30 l-40 -30 l-50 25 l-40 -30 l-60 30 l-40 -25 l-50 30 l-50 -25 z" fill="#3A3F4B"/>
+  <!-- under-eye circles -->
+  <ellipse cx="420" cy="540" rx="70" ry="34" fill="#7E8695" opacity=".75"/>
+  <ellipse cx="640" cy="540" rx="70" ry="34" fill="#7E8695" opacity=".75"/>
+  <!-- LEFT eye: closed -->
+  <path d="M362 505 q58 34 116 0" fill="none" stroke="#1C212B" stroke-width="16" stroke-linecap="round"/>
+  <!-- RIGHT eye: opening, glowing -->
+  <circle cx="640" cy="500" r="120" fill="url(#eyeGlow)"/>
+  <rect x="588" y="474" width="104" height="54" rx="8" fill="#E6F7FF"/>
+  <rect x="624" y="482" width="32" height="38" rx="4" fill="#0A0D16"/>
+  <!-- brows (heavy, tired) -->
+  <rect x="360" y="440" width="120" height="18" rx="8" fill="#3A3F4B" transform="rotate(6 420 449)"/>
+  <rect x="580" y="430" width="120" height="18" rx="8" fill="#3A3F4B" transform="rotate(-8 640 439)"/>
+  <!-- slack mouth -->
+  <rect x="490" y="640" width="100" height="16" rx="8" fill="#5B6270"/>
+</g>
+<!-- red HUD dot -->
+<circle cx="540" cy="135" r="20" fill="#E5383B"/>
+<circle cx="540" cy="135" r="38" fill="#E5383B" opacity=".25"/>
+<rect width="1080" height="1080" filter="url(#grain)"/>
+<!-- vignette -->
+<radialGradient id="vig" cx="50%" cy="50%" r="60%"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".55"/></radialGradient>
+<rect width="1080" height="1080" fill="url(#vig)"/>
+</svg>`;
+}
+
+(async () => {
+  const b = await chromium.launch();
+  const p = await b.newPage({ viewport: { width: 1080, height: 1080 }, deviceScaleFactor: 1 });
+  for (const [name, split] of [['pfp_sleeper', false], ['pfp_choice', true]]) {
+    const svg = head(split);
+    fs.writeFileSync(name + '.svg', svg);
+    await p.setContent(`<body style="margin:0">${svg}</body>`);
+    await p.screenshot({ path: name + '.png', clip: { x: 0, y: 0, width: 1080, height: 1080 } });
+  }
+  // preview as Instagram shows it: circle crop, big and tiny
+  const img = n => 'data:image/png;base64,' + fs.readFileSync(n + '.png').toString('base64');
+  await p.setViewportSize({ width: 1000, height: 560 });
+  await p.setContent(`<body style="margin:0;background:#000;font:600 22px Inter;color:#fff;display:flex;gap:40px;padding:30px">
+   ${['pfp_sleeper','pfp_choice'].map((n,i)=>`<div style="text-align:center">
+     <img src="${img(n)}" style="width:360px;height:360px;border-radius:50%"><br>
+     <div style="display:flex;gap:16px;align-items:center;justify-content:center;margin-top:16px">
+      <img src="${img(n)}" style="width:110px;border-radius:50%"><img src="${img(n)}" style="width:56px;border-radius:50%"><img src="${img(n)}" style="width:32px;border-radius:50%">
+     </div><div style="margin-top:10px">Option ${i+1}</div></div>`).join('')}</body>`);
+  await p.screenshot({ path: 'pfp_preview.png' });
+  await b.close();
+})();
