@@ -13,8 +13,11 @@ const srv = http.createServer((q, r) => { const f = path.join(ROOT, decodeURICom
   const mode = process.argv[2];
   if (mode === 'timeline') { fs.writeFileSync(path.join(ROOT, 'timeline.json'), JSON.stringify(await p.evaluate('window.TIMELINE'), null, 1)); }
   else if (mode === 'test') {
-    fs.mkdirSync(path.join(ROOT, 'test'), { recursive: true });
-    for (const t of process.argv.slice(3)) { const d = await p.evaluate(t => window.renderFrame(t), parseFloat(t)); fs.writeFileSync(path.join(ROOT, 'test', `t${t}.jpg`), Buffer.from(d.split(',')[1], 'base64')); console.log('ok', t); }
+    fs.mkdirSync(path.join(ROOT, process.env.TDIR || 'test'), { recursive: true });
+    for (const t of process.argv.slice(3)) { const d = await p.evaluate(t => window.renderFrame(t), parseFloat(t)); fs.writeFileSync(path.join(ROOT, process.env.TDIR || 'test', `t${t}.jpg`), Buffer.from(d.split(',')[1], 'base64')); console.log('ok', t); }
+  } else if (mode === 'pairs') {
+    fs.mkdirSync(path.join(ROOT, 'pairs'), { recursive: true });
+    for (let k = 0; k < 1728; k += 15) for (const j of [0, 1]) { const i = k + 7 + j; const d = await p.evaluate(t => window.renderFrame(t), i / 30); fs.writeFileSync(path.join(ROOT, 'pairs', String(i).padStart(5, '0') + '.jpg'), Buffer.from(d.split(',')[1], 'base64')); }
   } else {
     const s = parseInt(process.argv[3]), e = parseInt(process.argv[4]), dir = process.argv[5]; fs.mkdirSync(dir, { recursive: true });
     const t0 = Date.now();

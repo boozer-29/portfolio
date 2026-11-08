@@ -10,6 +10,7 @@ const WARP = [[0, 0], [32.4, 32.4], [36.0, 34.2], [39.3, 37.5], [42.0, 38.8], [4
 export const DUR_OUT = 57.6;
 function warp(o) { for (let i = 1; i < WARP.length; i++) { const [o0, v0] = WARP[i - 1], [o1, v1] = WARP[i]; if (o <= o1) return v0 + (o - o0) * (v1 - v0) / (o1 - o0); } return DUR; }
 let DIALOGUE = [];
+function unwarp(v) { for (let i = 1; i < WARP.length; i++) { const [o0, v0] = WARP[i - 1], [o1, v1] = WARP[i]; if (v <= v1) return o0 + (v - v0) * (o1 - o0) / (v1 - v0); } return DUR_OUT; }
 
 // ---------------------------------------------------------------- step list
 export const STEPS = [
@@ -481,14 +482,14 @@ shot(1.8, 3.6, 'bedroom', { p0: [1.1, 1.0, 4.4], l0: [0.6, 1.2, 0.6], fov: 40, z
 // DAY 1 — phone: left on read (locked off)
 shot(3.6, 6.0, 'bedroom', { p0: [3.45, 1.45, 5.6], l0: [3.4, 1.45, 2.2], fov: 45, z0: 1, z1: 1.1, ease: 'out', shift: 0.1 }, (lt, T) => {
   S.bedroom.set(false); drawPhone(chatState(T));
-}, { grade: 'night', dof: 0.6, phone: true });
-shot(6.0, 9.0, 'bedroom', { p0: [-1.9, 2.3, 5.4], p1: [-1.5, 2.0, 4.9], l0: [0.9, 0.3, 1.7], fov: 40, z0: 1.0, z1: 1.08, roll0: 0, roll1: -3, ease: 'io', shift: 0.12 }, (lt) => {
-  const B = S.bedroom; B.set(false); B.hero.g.position.set(0.9, 0.26, 2.9); B.hero.g.rotation.set(-Math.PI / 2, Math.PI, 0.25); B.glow.position.set(0.2, 1.6, 2.6); B.glow.intensity = 9; B.glow.distance = 6; B.hero.torso.scale.set(1, 1, 1 + 0.035 * Math.sin(lt * 9)); B.hero.arms[0].rotation.z = -2.9 + Math.sin(lt * 6) * 0.08; B.hero.pose('lie'); B.hero.expr('sad');
-}, { grade: 'night', comments: true });
+}, { grade: 'night', dof: 0.6, phone: true, live: 2.2 });
+shot(6.0, 9.0, 'bedroom', { p0: [-2.2, 2.5, 5.6], p1: [-0.7, 1.8, 4.4], l0: [0.9, 0.3, 1.7], l1: [0.9, 0.4, 2.0], fov: 40, z0: 1.0, z1: 1.12, roll0: 2, roll1: -4, ease: 'lin', shift: 0.12 }, (lt) => {
+  const B = S.bedroom; B.set(false); B.hero.g.position.set(0.9, 0.26, 2.9); B.hero.g.rotation.set(-Math.PI / 2, Math.PI, 0.25); B.glow.position.set(0.2, 1.6, 2.6); B.glow.intensity = 9; B.glow.distance = 6; B.hero.torso.scale.set(1, 1, 1 + 0.035 * Math.sin(lt * 9)); B.hero.arms[0].rotation.z = -2.9 + Math.sin(lt * 6) * 0.15; B.hero.legs[0].rotation.x = Math.sin(lt * 14) * 0.18; B.hero.legs[1].rotation.x = -Math.sin(lt * 14) * 0.18; B.hero.pose('lie'); B.hero.expr('sad');
+}, { grade: 'night', comments: true, live: 2.4 });
 // DAY 2 — "lol"
 shot(9.0, 10.8, 'bedroom', { p0: [3.45, 1.45, 5.6], l0: [3.4, 1.45, 2.2], fov: 45, z0: 1, z1: 1.1, ease: 'out', shift: 0.1 }, (lt, T) => {
   S.bedroom.set(false); drawPhone(chatState(T));
-}, { grade: 'night', dof: 0.6 });
+}, { grade: 'night', dof: 0.6, live: 2.2 });
 shot(10.8, 12.4, 'bedroom', { p0: [0.5, 1.15, 4.4], l0: [0.6, 1.25, 0.6], fov: 40, z0: 1, z1: 1.12, ease: 'out' }, (lt) => {
   const B = S.bedroom; B.set(false); B.hero.g.position.set(0.6, 0, 0.5); B.hero.g.rotation.set(0, 0, 0); B.hero.pose('sitfloor'); B.hero.head.rotation.x = 0.1; B.hero.expr(lt < 0.5 ? 'neutral' : 'surprised');
 }, { grade: 'warmnight', dof: 0.6 });
@@ -561,10 +562,10 @@ const mPoses = [
 ];
 mPoses.forEach((m, i) => {
   const t0 = MONTAGE[0] + i * 0.72, t1 = i === mPoses.length - 1 ? MONTAGE[1] : t0 + 0.72;
-  shot(t0, t1, 'studio', { ...m.cam, z0: 1, z1: 1.06, ease: 'out' }, (lt) => {
-    const St = S.studio; St.hero.g.position.set(0, 0, 0); St.hero.g.rotation.set(0, i % 2 ? -0.3 : 0.3, 0); St.hero.pose(m.pose, lt); St.hero.expr(m.expr); St.hero.glasses.visible = i % 2 === 0;
+  shot(t0, t1, 'studio', { ...m.cam, z0: 1, z1: 1.14, roll0: i % 2 ? 2 : -2, roll1: i % 2 ? -2 : 2, ease: 'lin' }, (lt) => {
+    const St = S.studio; St.hero.g.position.set(0, 0, 0); St.hero.g.rotation.set(0, (i % 2 ? -0.3 : 0.3) + (lt - 0.5) * 0.5, 0); St.hero.pose(m.pose, lt); St.hero.expr(m.expr); St.hero.glasses.visible = i % 2 === 0;
     St.sc.overrideMaterial = m.sil ? St.black : null; St.floor.visible = !m.sil;
-  }, { grade: 'mono', flash: i % 2 === 0 ? t0 : undefined, hideStat: true, mag: m.mag });
+  }, { grade: 'mono', flash: i % 2 === 0 ? t0 : undefined, hideStat: true, mag: m.mag, live: 1.6 });
 });
 // DAY 6 — news
 shot(30.2, 32.4, 'news', { p0: [0, 2.3, 7.6], l0: [0, 2.2, -0.4], fov: 40, z0: 1, z1: 1.04, ease: 'lin' }, (lt, T) => {
@@ -590,7 +591,7 @@ shot(36.0, 37.5, 'space', { p0: [0, 1.2, 6], l0: [3.5, 3.6, -14], fov: 36, z0: 1
   spaceBase(T, { moon: true, hero: false }); const Sp = S.space; const k = eOut(lt);
   Sp.moon.position.set(lerp(6, 3.2, k), lerp(6.5, 3.4, k), lerp(-26, -12, k)); Sp.moon.rotation.set(0, lerp(-0.2, -0.25, k), Math.sin(T * 3) * 0.05);
 }, { grade: 'space', bloom: 0.25 });
-shot(37.5, 38.8, 'space', { p0: [-2.5, 2.2, 3.4], l0: [-2.8, 2.2, -0.4], fov: 32, z0: 1, z1: 1.1, ease: 'out' }, (lt, T) => {
+shot(37.5, 38.8, 'space', { p0: [-2.4, 2.1, 4.4], p1: [-2.9, 2.2, 3.9], l0: [-2.8, 2.0, -0.4], fov: 34, z0: 1, z1: 1.1, ease: 'out' }, (lt, T) => {
   spaceBase(T, { moon: true, astro: true, hero: false }); const Sp = S.space; Sp.moon.position.set(3.2, 3.4, -12);
   Sp.astro.g.position.set(-2.8, 0, -0.4 + Math.sin(T) * 0.05); Sp.astro.g.rotation.set(0, 0.15, 0.06); Sp.astro.pose('idle'); Sp.astro.arms[0].rotation.set(-2.6, 0, 0.3); Sp.astro.expr('shock');
 }, { grade: 'space', dof: 0.5 });
@@ -732,6 +733,27 @@ function drawCaptions(O) {
   if (nm) { g.font = '700 30px InterW, "Noto Color Emoji"'; g.globalAlpha = 0.85; strokeText(g, nm, W / 2, H * 0.62 - fs - 8, 6); }
   g.restore();
 }
+function idleLife(scn, O) {
+  const people = [];
+  for (const k of ['hero', 'anchor', 'astro']) if (scn[k]) people.push(scn[k]);
+  if (scn.npcs) scn.npcs.forEach(p => { if (p.g.visible) people.push(p); });
+  people.forEach((P, i) => {
+    if (!P.g.visible) return; const ph = i * 1.7;
+    P.torso.rotation.z += Math.sin(O * 2.1 + ph) * 0.035;
+    P.torso.position.y += Math.sin(O * 3.4 + ph) * 0.012;
+    P.head.rotation.y += Math.sin(O * 1.6 + ph) * 0.12;
+    P.head.rotation.z += Math.sin(O * 1.2 + ph) * 0.05;
+    P.arms[0].rotation.x += Math.sin(O * 2.6 + ph) * 0.06; P.arms[1].rotation.x += Math.sin(O * 2.4 + ph + 1) * 0.06;
+  });
+  if (scn.big) { scn.big.rotation.z = 0.03 + Math.sin(O * 1.3) * 0.05; scn.big.rotation.y = -0.1 + Math.sin(O * 0.9) * 0.08; scn.big.position.y += Math.sin(O * 1.7) * 0.0; }
+  if (scn.sunMesh && scn.sunMesh.visible) { scn.sunMesh.rotation.y += Math.sin(O * 1.4) * 0.12; scn.sunMesh.rotation.z = Math.sin(O * 0.9) * 0.06; }
+  if (scn.astro && scn.astro.g.visible) {
+    const A = scn.astro; A.g.rotation.z = Math.sin(O * 1.3) * 0.07; A.g.position.y += Math.sin(O * 1.9) * 0.05;
+    A.arms[0].rotation.set(-0.4 + Math.sin(O * 9) * 0.3, 0, -2.3 + Math.sin(O * 7) * 0.25); A.arms[1].rotation.set(-0.4 + Math.sin(O * 8 + 1) * 0.3, 0, 2.3 + Math.sin(O * 6) * 0.25);
+  }
+  if (scn.moon && scn.moon.visible) scn.moon.rotation.z += Math.sin(O * 2.2) * 0.08;
+  if (scn.planets) scn.planets.forEach((p, i) => { if (p.visible) p.position.y += Math.sin(O * 1.3 + i) * 0.4; });
+}
 function flapMouths(O, sh) {
   const c = cueAt(O); if (!c || O > c.end) return;
   const map = { hero: S[sh.scene] && S[sh.scene].hero, anchor: sh.scene === 'news' ? S.news.anchor : null, astro: sh.scene === 'space' ? S.space.astro : null };
@@ -748,7 +770,7 @@ function mkMeasure2() { measC.font = '700 26px InterW'; return measC; }
 
 // ---------------------------------------------------------------- grading / compositing
 const GRADES = {
-  night: { f: 'brightness(1.08) saturate(0.8) contrast(1.04)', tint: 'rgba(40,60,140,0.2)', mode: 'soft-light', vig: 0.45 },
+  night: { f: 'brightness(1.25) saturate(0.85) contrast(1.06)', tint: 'rgba(40,60,140,0.2)', mode: 'soft-light', vig: 0.45 },
   warmnight: { f: 'brightness(1.0) saturate(0.9)', tint: 'rgba(255,170,90,0.14)', mode: 'soft-light', vig: 0.45 },
   warm: { f: 'saturate(1.12) contrast(1.04)', tint: 'rgba(255,180,100,0.16)', mode: 'soft-light', vig: 0.35 },
   day: { f: 'saturate(1.12) contrast(1.04)', tint: null, vig: 0.28 },
@@ -760,7 +782,7 @@ const GRADES = {
   gold: { f: 'saturate(1.2) contrast(1.05)', tint: 'rgba(242,179,74,0.18)', mode: 'soft-light', vig: 0.4 },
 };
 
-function setCam(sh, T) {
+function setCam(sh, T, O = T) {
   const c = sh.cam; const lt = clamp((T - sh.t0) / (sh.t1 - sh.t0)); const e = EASE[c.ease || 'out'](lt);
   const p = V(c.p0); if (c.p1) p.lerp(V(c.p1), e);
   const l = V(c.l0); if (c.l1) l.lerp(V(c.l1), e);
@@ -770,16 +792,22 @@ function setCam(sh, T) {
   const z = lerp(c.z0 ?? 1, c.z1 ?? 1, e); const roll = lerp(c.roll0 ?? 0, c.roll1 ?? 0, e);
   cam.fov = 2 * Math.atan(Math.tan(THREE.MathUtils.degToRad(c.fov) / 2) / z) * 180 / Math.PI; cam.updateProjectionMatrix();
   cam.rotateZ(THREE.MathUtils.degToRad(roll));
-  cam.rotateX(Math.sin(T * 1.7) * 0.0045 + Math.sin(T * 4.1) * 0.0015); cam.rotateY(Math.cos(T * 1.3) * 0.0045 + Math.sin(T * 3.3) * 0.0012);
+  const live = sh.live ?? 1;
+  cam.rotateY((Math.sin(O * 0.9) * 0.022 + Math.sin(O * 2.3) * 0.004) * live);
+  cam.rotateX((Math.sin(O * 0.7 + 1.3) * 0.014 + Math.sin(O * 3.1) * 0.003) * live);
+  cam.rotateZ(Math.sin(O * 0.55) * 0.012 * live);
+  cam.fov /= 1 + 0.035 * live * (0.5 + 0.5 * Math.sin(O * 1.1)); cam.updateProjectionMatrix();
   return lt;
 }
 
 export function renderFrame(O) {
   const T = warp(O);
   const sh = shots.find(s => T >= s.t0 && T < s.t1) || shots[shots.length - 1];
-  const lt = setCam(sh, T);
+  const lt = setCam(sh, T, O);
   S.studio.sc.overrideMaterial = null; S.bedroom.glow.intensity = 0;
-  sh.setup(lt, T); flapMouths(O, sh);
+  sh.setup(lt, T);
+  idleLife(S[sh.scene], O);
+  flapMouths(O, sh);
   const scn = S[sh.scene].sc;
   if (sh.scene === 'bedroom') { const B = S.bedroom; const hp = new THREE.Vector3(); B.hero.phone.children[1].getWorldPosition(hp); B.glow.position.copy(hp).add(new THREE.Vector3(0, 0.1, 0.25)); if (B.hero.phone.visible) { B.glow.intensity = 3; B.glow.distance = 3.5; } }
   renderer.render(scn, cam);
@@ -814,7 +842,7 @@ export function renderFrame(O) {
   if (sh.comments) drawComments(T);
   drawHook(T); drawStat(T, sh); drawItalic(T); drawCaptions(O); drawWatermark();
   // flash frames (white, 3 frames)
-  for (const s of shots) if (s.flash !== undefined) { const d = (T - s.flash) * 30; if (d >= 0 && d < 3) { ctx.fillStyle = `rgba(255,255,255,${[0.95, 0.6, 0.25][Math.floor(d)]})`; ctx.fillRect(0, 0, W, H); } }
+  for (const s of shots) if (s.flash !== undefined) { const d = Math.round((O - unwarp(s.flash)) * 30); if (d >= 0 && d < 3) { ctx.fillStyle = `rgba(255,255,255,${[0.95, 0.6, 0.25][Math.floor(d)]})`; ctx.fillRect(0, 0, W, H); } }
   return out.toDataURL('image/jpeg', 0.94);
 }
 

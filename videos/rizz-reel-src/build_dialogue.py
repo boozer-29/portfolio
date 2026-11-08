@@ -51,7 +51,10 @@ def speech_span(f):
     o = subprocess.run(['ffmpeg', '-hide_banner', '-i', os.path.join(A, f + '.mp3'), '-af', 'silencedetect=n=-35dB:d=0.1', '-f', 'null', '-'], capture_output=True, text=True).stderr
     st = [float(x) for x in re.findall(r'silence_start: ([0-9.]+)', o)]; en = [float(x) for x in re.findall(r'silence_end: ([0-9.]+)', o)]
     on = en[0] if st and st[0] < 0.01 else 0.0
-    off = max([x for x in st if x > on + 0.3], default=None)
+    # speech ends only at a TRAILING silence (one that runs to the end of the file)
+    dur = float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', os.path.join(A, f + '.mp3')], capture_output=True, text=True).stdout)
+    off = None
+    if st and st[-1] > on + 0.3 and (len(en) < len(st) or en[-1] >= dur - 0.08): off = st[-1]
     return on, off
 for cue in CUES:
     f, spk, at, ts, te, kind = cue[:6]
