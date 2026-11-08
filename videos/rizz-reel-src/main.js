@@ -154,7 +154,7 @@ function setExpr(P, e) {
 }
 function setPose(P, p, t = 0) {
   const [aL, aR] = P.arms, [lL, lR] = P.legs;
-  [aL, aR, lL, lR, P.torso, P.head].forEach(o => o.rotation.set(0, 0, 0));
+  [aL, aR, lL, lR, P.torso, P.head].forEach(o => o.rotation.set(0, 0, 0)); P.torso.scale.set(1, 1, 1);
   P.torso.position.y = 0.86;
   aL.rotation.z = -0.08; aR.rotation.z = 0.08; P.phone.visible = false;
   switch (p) {
@@ -479,11 +479,11 @@ shot(1.8, 3.6, 'bedroom', { p0: [1.1, 1.0, 4.4], l0: [0.6, 1.2, 0.6], fov: 40, z
   const B = S.bedroom; B.set(false); B.hero.g.position.set(0.6, 0, 0.5); B.hero.pose('sitfloor'); B.hero.expr('sad');
 }, { grade: 'night', dof: 0.5 });
 // DAY 1 — phone: left on read (locked off)
-shot(3.6, 6.0, 'bedroom', { p0: [3.45, 1.45, 5.6], l0: [3.4, 1.45, 2.2], fov: 45, z0: 1, z1: 1, ease: 'lin', shift: 0.1 }, (lt, T) => {
+shot(3.6, 6.0, 'bedroom', { p0: [3.45, 1.45, 5.6], l0: [3.4, 1.45, 2.2], fov: 45, z0: 1, z1: 1.1, ease: 'out', shift: 0.1 }, (lt, T) => {
   S.bedroom.set(false); drawPhone(chatState(T));
 }, { grade: 'night', dof: 0.6, phone: true });
-shot(6.0, 9.0, 'bedroom', { p0: [0.9, 5.6, 0.45], l0: [0.9, 0, 0.45], up: [0, 0, -1], fov: 44, z0: 1, z1: 1, ease: 'lin', shift: 0.14 }, (lt) => {
-  const B = S.bedroom; B.set(false); B.hero.g.position.set(0.9, 0.26, 1.6); B.hero.g.rotation.set(-Math.PI / 2, Math.PI, 0.25); B.glow.position.set(0.9, 2.2, 0.6); B.glow.intensity = 6; B.glow.distance = 5; B.hero.pose('lie'); B.hero.expr('sad');
+shot(6.0, 9.0, 'bedroom', { p0: [-1.9, 2.3, 5.4], p1: [-1.5, 2.0, 4.9], l0: [0.9, 0.3, 1.7], fov: 40, z0: 1.0, z1: 1.08, roll0: 0, roll1: -3, ease: 'io', shift: 0.12 }, (lt) => {
+  const B = S.bedroom; B.set(false); B.hero.g.position.set(0.9, 0.26, 2.9); B.hero.g.rotation.set(-Math.PI / 2, Math.PI, 0.25); B.glow.position.set(0.2, 1.6, 2.6); B.glow.intensity = 9; B.glow.distance = 6; B.hero.torso.scale.set(1, 1, 1 + 0.035 * Math.sin(lt * 9)); B.hero.arms[0].rotation.z = -2.9 + Math.sin(lt * 6) * 0.08; B.hero.pose('lie'); B.hero.expr('sad');
 }, { grade: 'night', comments: true });
 // DAY 2 — "lol"
 shot(9.0, 10.8, 'bedroom', { p0: [3.45, 1.45, 5.6], l0: [3.4, 1.45, 2.2], fov: 45, z0: 1, z1: 1.1, ease: 'out', shift: 0.1 }, (lt, T) => {
@@ -504,11 +504,11 @@ function streetBase(T, o = {}) {
   St.pigeons.forEach(p => p.visible = false); St.bigPigeon.visible = false; St.pigHeart.visible = false; St.hearts.forEach(h => h.visible = false);
   return hx;
 }
-shot(13.4, 15.0, 'street', { p0: [-0.5, 1.7, 5.0], p1: [1.5, 3.6, 11.5], l0: [-4.6, 1.6, 4.2], fov: 40, z0: 1.0, z1: 0.86, roll0: 0, roll1: -3, ease: 'io' }, (lt, T) => {
+shot(13.4, 15.0, 'street', { p0: [-0.5, 1.7, 5.0], p1: [-0.2, 4.6, 6.6], l0: [-4.6, 1.6, 4.2], fov: 40, z0: 1.0, z1: 0.72, roll0: 0, roll1: -3, ease: 'io' }, (lt, T) => {
   const hx = streetBase(T, { expr: 'smirk' });
   S.street.npcs.slice(0, 5).forEach((p, i) => { p.g.visible = true; p.g.position.set(hx + 1.5 + i * 1.6, 0.15, -4.4); p.g.rotation.y = -0.35; p.pose(lt > 0.3 + i * 0.08 ? 'wave' : 'idle', T + i); p.expr('smile'); });
 }, { grade: 'day', flash: 13.4 });
-shot(15.0, 16.6, 'street', { p0: [-4.6, 2.35, 6.1], l0: [-0.6, 1.4, -4.4], fov: 40, z0: 1, z1: 1.1, ease: 'out' }, (lt, T) => {
+shot(15.0, 16.6, 'street', { follow: (T) => V([heroWalkX(T), 0, 0]), p0: [-2.3, 3.1, 6.3], l0: [3.6, 1.2, -4.4], fov: 40, z0: 1, z1: 1.1, ease: 'out' }, (lt, T) => {
   const hx = streetBase(T, { expr: 'smirk' });
   S.street.npcs.slice(0, 6).forEach((p, i) => { p.g.visible = true; p.g.position.set(hx + 1.6 + i * 1.5, 0.15, -4.4); p.g.rotation.y = -0.45; p.pose(i % 2 ? 'wave2' : 'wave', T + i * 0.7); p.expr('smile'); p.heart.visible = i < 3 && lt > 0.4; p.heart.position.y = 2.7 + Math.sin(T * 5 + i) * 0.08; });
 }, { grade: 'day' });
@@ -581,7 +581,7 @@ function spaceBase(T, o = {}) {
   Sp.hero.g.visible = o.hero !== false; Sp.hero.g.position.set(0, Math.sin(T * 1.3) * 0.08, 0); Sp.hero.g.rotation.set(0.05, o.heroRot ?? 0.2, Math.sin(T) * 0.04); Sp.hero.pose(o.pose ?? 'float', T); Sp.hero.expr(o.expr ?? 'smug'); Sp.hero.glasses.visible = o.glasses ?? true;
   Sp.earth.visible = o.earth ?? true; Sp.earth.rotation.y = T * 0.05;
   Sp.moon.visible = !!o.moon; Sp.astro.g.visible = !!o.astro; Sp.big.visible = !!o.phone;
-  Sp.planets.forEach(p => p.visible = !!o.planets); Sp.sunMesh.visible = !!o.sun; Sp.sunFace.userData.smile.forEach(m => m.visible = true); Sp.sunFace.userData.o.visible = false; Sp.hearts.forEach(h => h.visible = false);
+  Sp.sunGlow.scale.setScalar(44); Sp.planets.forEach(p => p.visible = !!o.planets); Sp.sunMesh.visible = !!o.sun; Sp.sunFace.userData.smile.forEach(m => m.visible = true); Sp.sunFace.userData.o.visible = false; Sp.hearts.forEach(h => h.visible = false);
 }
 shot(34.2, 36.0, 'space', { p0: [0.3, 1.6, 7.5], p1: [0.2, 1.5, 5.6], l0: [0, 1.2, 0], fov: 40, z0: 1, z1: 1.3, roll0: 0, roll1: 3.6, ease: 'out' }, (lt, T) => {
   spaceBase(T, { moon: true }); const Sp = S.space; Sp.moon.position.set(6, 6.5, -26); Sp.moon.rotation.set(0, -0.2, 0);
@@ -610,8 +610,8 @@ shot(42.5, 44.0, 'space', { p0: [0.5, 1.2, 9], p1: [1, 2, 24], l0: [0, 6, -14], 
   spaceBase(T, { planets: true, earth: false, cosmic: 1, sun: true }); placePlanets(1, T); const Sp = S.space; Sp.sunMesh.position.set(lerp(70, 52, lt), lerp(70, 58, lt), -90); Sp.sunMesh.rotation.set(0, -0.5, 0); Sp.sunFace.visible = false;
 }, { grade: 'cosmic', bloom: 0.55 });
 // SILENCE DROP — the Sun, still
-shot(44.0, 44.8, 'space', { p0: [0, 0, 40], l0: [0, 0, -60], fov: 40, z0: 1, z1: 1, ease: 'lin' }, (lt, T) => {
-  spaceBase(T, { earth: false, hero: false, cosmic: 0.6, sun: true }); const Sp = S.space; Sp.sunMesh.position.set(0, 0, -60); Sp.sunMesh.rotation.set(0, 0, 0); Sp.sunFace.visible = true;
+shot(44.0, 44.8, 'space', { p0: [0, 0, 40], l0: [0, 0, -60], fov: 40, z0: 0.92, z1: 1.0, ease: 'lin' }, (lt, T) => {
+  spaceBase(T, { earth: false, hero: false, cosmic: 0.6, sun: true }); const Sp = S.space; Sp.sunMesh.position.set(0, 0, -60); Sp.sunMesh.rotation.set(0, Math.sin(T * 3) * 0.06, 0); Sp.sunFace.visible = true; Sp.sunGlow.scale.setScalar(44 * (1 + 0.08 * Math.sin(T * 9)));
 }, { grade: 'gold', bloom: 0.5 });
 // DAY 9 — crash zoom on the Sun (blushing), phone, callback
 shot(44.8, 46.3, 'space', { p0: [0, 0, 40], l0: [0, 0, -60], fov: 40, z0: 1, z1: 1.93, roll0: 0, roll1: 16, ease: 'in' }, (lt, T) => {
@@ -673,14 +673,14 @@ function drawHook(T) {
 function drawComments(T) {
   if (T < 6.6 || T >= 9.0) return;
   const cs = [{ t: 6.6, u: 'jess.k', c: 'bro got left on read 💀' }, { t: 7.4, u: 'user8812', c: 'rate his texting… be honest' }, { t: 8.0, u: 'nate_irl', c: 'It’s over.' }];
-  const g = ctx; let y = 1080;
+  const g = ctx; let y = 1330;
   for (const c of cs) {
     if (T < c.t) continue; const a = clamp((T - c.t) / 0.2) * clamp((9.0 - T) / 0.15);
-    g.save(); g.globalAlpha = a * 0.95; rr(g, 56, y, 760, 118, 26); g.fillStyle = 'rgba(18,18,24,0.82)'; g.fill();
-    g.beginPath(); g.arc(112, y + 59, 30, 0, 7); g.fillStyle = ['#f0a6c0', '#8fb3c9', '#9aa06b'][cs.indexOf(c)]; g.fill();
-    g.fillStyle = '#9a9aa8'; g.font = '600 26px InterW'; g.textAlign = 'left'; g.fillText(c.u, 162, y + 46);
-    g.fillStyle = '#fff'; g.font = '600 34px InterW, "Noto Color Emoji"'; g.fillText(c.c, 162, y + 90); g.restore();
-    y += 136;
+    g.save(); g.globalAlpha = a * 0.95; rr(g, 56, y, 760, 104, 24); g.fillStyle = 'rgba(18,18,24,0.82)'; g.fill();
+    g.beginPath(); g.arc(110, y + 52, 28, 0, 7); g.fillStyle = ['#f0a6c0', '#8fb3c9', '#9aa06b'][cs.indexOf(c)]; g.fill();
+    g.fillStyle = '#9a9aa8'; g.font = '600 26px InterW'; g.textAlign = 'left'; g.fillText(c.u, 162, y + 40);
+    g.fillStyle = '#fff'; g.font = '600 34px InterW, "Noto Color Emoji"'; g.fillText(c.c, 162, y + 82); g.restore();
+    y += 116;
   }
 }
 function drawNews(T) {
@@ -705,7 +705,7 @@ function drawMag(T) {
 }
 function cueAt(O) {
   for (let i = 0; i < DIALOGUE.length; i++) {
-    const c = DIALOGUE[i]; const nxt = DIALOGUE[i + 1]; const t0 = c.words[0].t; const t1 = Math.min(c.end + 0.3, nxt ? nxt.words[0].t - 0.02 : 1e9);
+    const c = DIALOGUE[i]; const nxt = DIALOGUE[i + 1]; const t0 = c.words[0].t; const t1 = Math.min(c.end + (c.kind === 'shout' ? 0.25 : 0.12), nxt ? nxt.words[0].t - 0.02 : 1e9);
     if (O >= t0 - 0.03 && O < t1) return c;
   }
   return null;
@@ -770,6 +770,7 @@ function setCam(sh, T) {
   const z = lerp(c.z0 ?? 1, c.z1 ?? 1, e); const roll = lerp(c.roll0 ?? 0, c.roll1 ?? 0, e);
   cam.fov = 2 * Math.atan(Math.tan(THREE.MathUtils.degToRad(c.fov) / 2) / z) * 180 / Math.PI; cam.updateProjectionMatrix();
   cam.rotateZ(THREE.MathUtils.degToRad(roll));
+  cam.rotateX(Math.sin(T * 1.7) * 0.0045 + Math.sin(T * 4.1) * 0.0015); cam.rotateY(Math.cos(T * 1.3) * 0.0045 + Math.sin(T * 3.3) * 0.0012);
   return lt;
 }
 

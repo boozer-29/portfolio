@@ -12,8 +12,8 @@ CUES = [
     ('l_d3s', 'stranger', 14.7, 0, None, 'line'),
     ('k_d3h', 'hero', 16.35, 0, None, 'line'),
     ('ksts06', 'hero', 18.02, 0, None, 'shout', 'BOMBOCLAAT?!'),       # D4
-    ('k_d4h', 'hero', 19.2, 0, None, 'line'),
-    ('l_d4p', 'pigeon', 21.15, 0, None, 'line'),
+    ('k_d4h', 'hero', 19.0, 0, None, 'line'),
+    ('l_d4p', 'pigeon', 20.85, 0, None, 'line'),
     ('ksts00', 'hero', 23.22, 0, None, 'shout', 'BOMBOCLAAAT!'),      # D5
     ('k_d5', 'hero', 24.6, 0, 1.6, 'line'),
     ('ksts05', 'hero', 30.35, 0, None, 'shout', 'BOMBOCLAAT!'),       # D6
@@ -61,6 +61,9 @@ for cue in CUES:
         endp = endp or dur
         out.append({'file': f, 'speaker': spk, 'at': at, 'ts': 0, 'te': None, 'kind': kind, 'words': [{'w': cue[6], 't': round(at + on, 3)}], 'end': round(at + endp, 3)}); continue
     ws, last = words_of(f, ts, te)
+    on_, sp_end = speech_span(f)
+    if sp_end: last = min(last, sp_end + 0.05)
+    if te is not None: last = min(last, te)
     off = at - ts
     out.append({'file': f, 'speaker': spk, 'at': at, 'ts': ts, 'te': te, 'kind': kind,
                 'words': [{'w': w.upper() if kind == 'shout' else w, 't': round(t + off, 3)} for w, t in ws],
