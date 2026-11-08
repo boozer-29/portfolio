@@ -1,0 +1,129 @@
+{
+ "STEPS": [
+  {
+   "day": 1,
+   "t": 3.6,
+   "v": 1,
+   "cmp": "LEFT ON READ",
+   "line": "Day 1: Rizz 1. Left on read. It’s over."
+  },
+  {
+   "day": 2,
+   "t": 9,
+   "v": 2,
+   "cmp": "ONE (1) “LOL” RECEIVED",
+   "line": "Day 2: Rizz 2. Wait. Something changed."
+  },
+  {
+   "day": 3,
+   "t": 13.4,
+   "v": 4,
+   "cmp": "STRANGERS WAVE BACK",
+   "line": "Day 3: Rizz 4. Strangers started waving.",
+   "tier": true
+  },
+  {
+   "day": 4,
+   "t": 17.8,
+   "v": 8,
+   "cmp": "FOLLOWERS: 81 PIGEONS",
+   "line": "Day 4: Rizz 8. The pigeons started following him."
+  },
+  {
+   "day": 5,
+   "t": 22.4,
+   "v": 16,
+   "cmp": "TOP 20% OF THE CITY",
+   "line": "Day 5: Rizz 16. The whole city noticed."
+  },
+  {
+   "day": 6,
+   "t": 30.2,
+   "v": 32,
+   "cmp": "MAKES THE EVENING NEWS",
+   "line": "Day 6: Rizz 32. It made the news.",
+   "tier": true
+  },
+  {
+   "day": 7,
+   "t": 34.2,
+   "v": 64,
+   "cmp": "STRONGER THAN MOON GRAVITY",
+   "line": "Day 7: Rizz 64. The Moon moved closer.",
+   "tier": true
+  },
+  {
+   "day": 8,
+   "t": 38.8,
+   "v": 128,
+   "cmp": "ENOUGH TO ALIGN PLANETS",
+   "line": "Day 8: Rizz 128. The planets aligned.",
+   "tier": true
+  },
+  {
+   "day": 9,
+   "t": 44.8,
+   "v": 256,
+   "cmp": "THE SUN IS TYPING…",
+   "line": "Day 9.",
+   "tier": true
+  }
+ ],
+ "MONTAGE": [
+  26.6,
+  30.2
+ ],
+ "SILENCE": [
+  44,
+  44.8
+ ],
+ "FINAL_LINE": {
+  "t": 46.3,
+  "line": "Day 9: The Sun asked for his number."
+ },
+ "DUR": 51.5,
+ "flashes": [
+  13.4,
+  26.6,
+  28.040000000000003,
+  29.48,
+  30.2,
+  34.2,
+  38.8,
+  44.8
+ ],
+ "cuts": [
+  0,
+  1.8,
+  3.6,
+  6,
+  9,
+  10.8,
+  12.4,
+  13.4,
+  15,
+  16.6,
+  17.8,
+  19.6,
+  21,
+  22.4,
+  24.2,
+  26.6,
+  27.32,
+  28.040000000000003,
+  28.76,
+  29.48,
+  30.2,
+  32.4,
+  34.2,
+  36,
+  37.5,
+  38.8,
+  40.8,
+  42.5,
+  44,
+  44.8,
+  46.3,
+  49.2
+ ]
+}
