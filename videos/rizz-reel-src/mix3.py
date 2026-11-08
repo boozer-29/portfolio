@@ -18,7 +18,7 @@ def warp_out(v):  # visual -> output time
 def echo(c):
     if c['kind'] != 'shout': return ''
     if 36 <= c['at'] < 40: return 'aecho=0.8:0.6:180|360:0.45|0.25,'   # Day 7, in space
-    if c['at'] >= 47: return 'aecho=0.8:0.5:210:0.3,'
+    if c['at'] >= 47 and c['kind'] == 'shout': return 'aecho=0.8:0.5:210:0.3,'
     return ''
 vl = []
 for k, c in enumerate(DLG):
@@ -42,7 +42,7 @@ chains.append('[mus][vkey]sidechaincompress=threshold=0.04:ratio=5:attack=15:rel
 steps = [warp_out(s['t']) for s in TL['STEPS']]
 sfx = [(A1, 'pop.mp3', t, 10) for t in steps]
 sfx += [(A1, 'read.mp3', 3.75, 0), (A1, 'pop.mp3', 9.55, 6), (A2, 'sfx_whistle.mp3', 14.45, -4), (A1, 'wave.mp3', 15.0, -10),
-        (A1, 'pigeons.mp3', 18.0, -6), (A1, 'pigeons.mp3', 19.45, -6), (A2, 'sfx_screams.mp3', 22.9, -6), (A1, 'news.mp3', 30.2, -6),
+        (A1, 'pigeons.mp3', 18.0, -6), (A1, 'pigeons.mp3', 19.45, -6), (A2, 'sfx_screams.mp3', 22.9, -6), (A1, 'news.mp3', 30.0, -14),
         (A1, 'whoosh.mp3', 13.3, -5), (A1, 'whoosh.mp3', 22.3, -7), (A1, 'whoosh.mp3', 35.9, -4), (A1, 'whoosh.mp3', 41.9, -4), (A1, 'whoosh.mp3', 45.7, -5),
         (A1, 'chime.mp3', 49.95, 6), (A1, 'pop.mp3', warp_out(49.1), 6), (A2, 'sfx_scratch.mp3', 52.6, 0), (A1, 'news.mp3', 55.6, -2), (A1, 'whoosh.mp3', 55.55, -4)]
 sfx += [(A1, 'shutter.mp3', TL['MONTAGE'][0] + k * 0.72, -2) for k in range(5)]

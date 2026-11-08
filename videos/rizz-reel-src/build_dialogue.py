@@ -5,26 +5,26 @@ D = os.path.dirname(os.path.abspath(__file__)); A = os.path.join(D, 'audio2')
 
 # (file, speaker, place_at, trim_start, trim_end or None, kind)
 CUES = [
-    ('l_hook', 'hero', 0.85, 0, None, 'line'),
-    ('l_d1', 'hero', 4.8, 0, None, 'line'),
-    ('l_d2', 'hero', 10.0, 0, None, 'line'),
-    ('sts05', 'hero', 12.78, 0, None, 'shout', 'BOMBOCLAAT!'),      # D2 "lol" realisation -> beat drop into D3
+    ('k_hook', 'hero', 0.7, 0, None, 'line'),
+    ('k_d1', 'hero', 5.0, 0, None, 'line'),
+    ('k_d2', 'hero', 10.5, 0, None, 'line'),
+    ('ksts05', 'hero', 12.78, 0, None, 'shout', 'BOMBOCLAAT!'),      # D2 "lol" realisation -> beat drop into D3
     ('l_d3s', 'stranger', 14.7, 0, None, 'line'),
-    ('l_d3h', 'hero', 16.75, 0, 1.3, 'line'),
-    ('sts06', 'hero', 18.02, 0, None, 'shout', 'BOMBOCLAAT?!'),       # D4
-    ('l_d4h', 'hero', 19.3, 0, None, 'line'),
+    ('k_d3h', 'hero', 16.35, 0, None, 'line'),
+    ('ksts06', 'hero', 18.02, 0, None, 'shout', 'BOMBOCLAAT?!'),       # D4
+    ('k_d4h', 'hero', 19.2, 0, None, 'line'),
     ('l_d4p', 'pigeon', 21.15, 0, None, 'line'),
-    ('sts00', 'hero', 23.22, 0, None, 'shout', 'BOMBOCLAAAT!'),      # D5
-    ('l_d5', 'hero', 24.5, 0, 2.2, 'line'),
-    ('sts01', 'hero', 30.35, 0, None, 'shout', 'BOMBOCLAAT!'),       # D6
+    ('ksts00', 'hero', 23.22, 0, None, 'shout', 'BOMBOCLAAAT!'),      # D5
+    ('k_d5', 'hero', 24.6, 0, 1.6, 'line'),
+    ('ksts05', 'hero', 30.35, 0, None, 'shout', 'BOMBOCLAAT!'),       # D6
     ('l_d6', 'anchor', 32.3, 1.2, None, 'line'),
-    ('sts10', 'hero', 36.21, 0, None, 'shout', 'BOMBOCLAAAAT!'),      # D7 (space echo)
+    ('ksts10', 'hero', 36.21, 0, None, 'shout', 'BOMBOCLAAAAT!'),      # D7 (space echo)
     ('l_d7', 'astro', 39.2, 0, None, 'line'),
-    ('sts05', 'hero', 42.12, 0, None, 'shout', 'BOMBOCLAAT!'),      # D8
-    ('l_d8', 'hero', 44.1, 0, None, 'line'),
-    ('sts00', 'hero', 48.0, 0, None, 'shout', 'BOMBOCLAAAAT!'),      # D9 after the silence drop
+    ('ksts05', 'hero', 42.12, 0, None, 'shout', 'BOMBOCLAAT!'),      # D8
+    ('k_d8', 'hero', 44.0, 0, None, 'line'),
+    ('ksts00', 'hero', 48.0, 0, None, 'shout', 'BOMBOCLAAAAT!'),      # D9 after the silence drop
     ('l_d9s', 'sun', 50.2, 0, None, 'line'),
-    ('l_end', 'hero', 52.75, 0, None, 'line'),
+    ('k_end', 'hero', 52.85, 0, None, 'line'),
     ('sts_sun06', 'sun', 55.88, 0, None, 'shout', 'BOMBOCLAAT?!'),
 ]
 
@@ -51,7 +51,7 @@ def speech_span(f):
     o = subprocess.run(['ffmpeg', '-hide_banner', '-i', os.path.join(A, f + '.mp3'), '-af', 'silencedetect=n=-35dB:d=0.1', '-f', 'null', '-'], capture_output=True, text=True).stderr
     st = [float(x) for x in re.findall(r'silence_start: ([0-9.]+)', o)]; en = [float(x) for x in re.findall(r'silence_end: ([0-9.]+)', o)]
     on = en[0] if st and st[0] < 0.01 else 0.0
-    off = next((x for x in st if x > on + 0.3), None)
+    off = max([x for x in st if x > on + 0.3], default=None)
     return on, off
 for cue in CUES:
     f, spk, at, ts, te, kind = cue[:6]
