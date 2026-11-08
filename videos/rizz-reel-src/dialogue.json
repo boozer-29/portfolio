@@ -1,0 +1,549 @@
+[
+ {
+  "file": "l_hook",
+  "speaker": "hero",
+  "at": 0.85,
+  "ts": 0,
+  "te": null,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Mi",
+    "t": 0.992
+   },
+   {
+    "w": "send",
+    "t": 1.074
+   },
+   {
+    "w": "har",
+    "t": 1.43
+   },
+   {
+    "w": "one",
+    "t": 1.83
+   },
+   {
+    "w": "\"hey\"...",
+    "t": 2.25
+   }
+  ],
+  "end": 3.33
+ },
+ {
+  "file": "l_d1",
+  "speaker": "hero",
+  "at": 4.8,
+  "ts": 0,
+  "te": null,
+  "kind": "line",
+  "words": [
+   {
+    "w": "She",
+    "t": 5.023
+   },
+   {
+    "w": "leave",
+    "t": 5.107
+   },
+   {
+    "w": "mi",
+    "t": 5.493
+   },
+   {
+    "w": "pon",
+    "t": 5.7
+   },
+   {
+    "w": "read...",
+    "t": 6.096
+   },
+   {
+    "w": "Mi",
+    "t": 6.987
+   },
+   {
+    "w": "life",
+    "t": 7.92
+   },
+   {
+    "w": "done.",
+    "t": 8.336
+   }
+  ],
+  "end": 8.88
+ },
+ {
+  "file": "l_d2",
+  "speaker": "hero",
+  "at": 10.0,
+  "ts": 0,
+  "te": null,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Wait...",
+    "t": 10.8
+   },
+   {
+    "w": "she",
+    "t": 11.48
+   },
+   {
+    "w": "seh",
+    "t": 11.66
+   },
+   {
+    "w": "LOL?!",
+    "t": 12.0
+   }
+  ],
+  "end": 12.64
+ },
+ {
+  "file": "shout6",
+  "speaker": "hero",
+  "at": 12.55,
+  "ts": 0,
+  "te": null,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAAT!",
+    "t": 12.782
+   }
+  ],
+  "end": 14.39
+ },
+ {
+  "file": "l_d3s",
+  "speaker": "stranger",
+  "at": 14.7,
+  "ts": 0,
+  "te": null,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Wah",
+    "t": 15.06
+   },
+   {
+    "w": "gwaan,",
+    "t": 15.22
+   },
+   {
+    "w": "handsome!",
+    "t": 16.149
+   }
+  ],
+  "end": 17.02
+ },
+ {
+  "file": "l_d3h",
+  "speaker": "hero",
+  "at": 16.75,
+  "ts": 0,
+  "te": 1.3,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Ah",
+    "t": 16.819
+   },
+   {
+    "w": "suh",
+    "t": 16.937
+   },
+   {
+    "w": "mi",
+    "t": 17.257
+   },
+   {
+    "w": "stay.",
+    "t": 17.422
+   }
+  ],
+  "end": 18.99
+ },
+ {
+  "file": "shout5",
+  "speaker": "hero",
+  "at": 17.4,
+  "ts": 0,
+  "te": null,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAT?!",
+    "t": 18.024
+   }
+  ],
+  "end": 19.24
+ },
+ {
+  "file": "l_d4h",
+  "speaker": "hero",
+  "at": 19.3,
+  "ts": 0,
+  "te": null,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Why",
+    "t": 19.52
+   },
+   {
+    "w": "di",
+    "t": 19.593
+   },
+   {
+    "w": "pigeon",
+    "t": 19.757
+   },
+   {
+    "w": "dem",
+    "t": 20.14
+   },
+   {
+    "w": "a",
+    "t": 20.34
+   },
+   {
+    "w": "follow",
+    "t": 20.466
+   },
+   {
+    "w": "mi?!",
+    "t": 20.82
+   }
+  ],
+  "end": 21.14
+ },
+ {
+  "file": "l_d4p",
+  "speaker": "pigeon",
+  "at": 21.15,
+  "ts": 0,
+  "te": null,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Coo...",
+    "t": 21.302
+   },
+   {
+    "w": "yuh",
+    "t": 22.15
+   },
+   {
+    "w": "single?",
+    "t": 22.636
+   }
+  ],
+  "end": 23.07
+ },
+ {
+  "file": "shout2",
+  "speaker": "hero",
+  "at": 23.15,
+  "ts": 0,
+  "te": null,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAT!",
+    "t": 23.223
+   }
+  ],
+  "end": 24.67
+ },
+ {
+  "file": "l_d5",
+  "speaker": "hero",
+  "at": 24.5,
+  "ts": 0,
+  "te": 2.2,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Easy,",
+    "t": 25.684
+   },
+   {
+    "w": "easy!",
+    "t": 26.132
+   }
+  ],
+  "end": 26.78
+ },
+ {
+  "file": "shout1",
+  "speaker": "hero",
+  "at": 30.2,
+  "ts": 0,
+  "te": null,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAAAT!",
+    "t": 30.349
+   }
+  ],
+  "end": 32.44
+ },
+ {
+  "file": "l_d6",
+  "speaker": "anchor",
+  "at": 32.3,
+  "ts": 1.2,
+  "te": null,
+  "kind": "line",
+  "words": [
+   {
+    "w": "local",
+    "t": 32.5
+   },
+   {
+    "w": "man's",
+    "t": 32.76
+   },
+   {
+    "w": "rizz",
+    "t": 33.1
+   },
+   {
+    "w": "is",
+    "t": 33.58
+   },
+   {
+    "w": "now",
+    "t": 33.8
+   },
+   {
+    "w": "a",
+    "t": 34.1
+   },
+   {
+    "w": "public",
+    "t": 34.277
+   },
+   {
+    "w": "safety",
+    "t": 34.689
+   },
+   {
+    "w": "issue.",
+    "t": 35.18
+   }
+  ],
+  "end": 35.66
+ },
+ {
+  "file": "shout4",
+  "speaker": "hero",
+  "at": 36.05,
+  "ts": 0,
+  "te": null,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAAAAAT!",
+    "t": 36.206
+   }
+  ],
+  "end": 39.01
+ },
+ {
+  "file": "l_d7",
+  "speaker": "astro",
+  "at": 39.2,
+  "ts": 0,
+  "te": null,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Houston...",
+    "t": 39.622
+   },
+   {
+    "w": "the",
+    "t": 40.12
+   },
+   {
+    "w": "Moon",
+    "t": 40.336
+   },
+   {
+    "w": "is",
+    "t": 40.853
+   },
+   {
+    "w": "BLUSHING!",
+    "t": 41.2
+   }
+  ],
+  "end": 41.92
+ },
+ {
+  "file": "shout0",
+  "speaker": "hero",
+  "at": 42.05,
+  "ts": 0,
+  "te": null,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAAT!",
+    "t": 42.122
+   }
+  ],
+  "end": 44.05
+ },
+ {
+  "file": "l_d8",
+  "speaker": "hero",
+  "at": 44.1,
+  "ts": 0,
+  "te": null,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Di",
+    "t": 44.553
+   },
+   {
+    "w": "planets",
+    "t": 44.68
+   },
+   {
+    "w": "dem",
+    "t": 44.88
+   },
+   {
+    "w": "line",
+    "t": 45.14
+   },
+   {
+    "w": "up",
+    "t": 45.513
+   },
+   {
+    "w": "fi",
+    "t": 45.7
+   },
+   {
+    "w": "mi!",
+    "t": 45.94
+   }
+  ],
+  "end": 46.26
+ },
+ {
+  "file": "shout3",
+  "speaker": "hero",
+  "at": 47.55,
+  "ts": 0,
+  "te": null,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBO...",
+    "t": 48.003
+   },
+   {
+    "w": "CLAAAAT!",
+    "t": 49.017
+   }
+  ],
+  "end": 50.111
+ },
+ {
+  "file": "l_d9s",
+  "speaker": "sun",
+  "at": 50.2,
+  "ts": 0,
+  "te": null,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Hey...",
+    "t": 50.798
+   },
+   {
+    "w": "can",
+    "t": 51.6
+   },
+   {
+    "w": "I",
+    "t": 51.76
+   },
+   {
+    "w": "get",
+    "t": 51.84
+   },
+   {
+    "w": "your",
+    "t": 52.008
+   },
+   {
+    "w": "number?",
+    "t": 52.246
+   }
+  ],
+  "end": 53.8
+ },
+ {
+  "file": "l_end",
+  "speaker": "hero",
+  "at": 52.75,
+  "ts": 0,
+  "te": null,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Sorry,",
+    "t": 53.106
+   },
+   {
+    "w": "darlin'...",
+    "t": 53.35
+   },
+   {
+    "w": "mi",
+    "t": 54.137
+   },
+   {
+    "w": "nuh",
+    "t": 54.243
+   },
+   {
+    "w": "date",
+    "t": 54.542
+   },
+   {
+    "w": "older",
+    "t": 54.723
+   },
+   {
+    "w": "woman.",
+    "t": 55.057
+   }
+  ],
+  "end": 55.47
+ },
+ {
+  "file": "sun_shout",
+  "speaker": "sun",
+  "at": 55.65,
+  "ts": 0,
+  "te": null,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAAT?!",
+    "t": 55.884
+   }
+  ],
+  "end": 57.65
+ }
+]

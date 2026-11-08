@@ -4,7 +4,12 @@ import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 
 const W = 1080, H = 1920;
-export const DUR = 51.5;
+export const DUR = 53.0;
+// time-warp: output time -> visual time (gives the shouts and dialogue room to breathe)
+const WARP = [[0, 0], [32.4, 32.4], [36.0, 34.2], [39.3, 37.5], [42.0, 38.8], [49.5, 46.3], [52.6, 49.2], [55.6, 51.5], [57.6, 53.0]];
+export const DUR_OUT = 57.6;
+function warp(o) { for (let i = 1; i < WARP.length; i++) { const [o0, v0] = WARP[i - 1], [o1, v1] = WARP[i]; if (o <= o1) return v0 + (o - o0) * (v1 - v0) / (o1 - o0); } return DUR; }
+let DIALOGUE = [];
 
 // ---------------------------------------------------------------- step list
 export const STEPS = [
@@ -268,7 +273,7 @@ function chatState(T) {
     st.name = 'The Sun'; st.avatar = '#ffb320'; st.avatarEmoji = '☀️'; st.sub = 'Active now · 150M km away'; st.clock = '9:41';
     st.typing = T > 46.3 && T < 46.75 ? 1 : 0;
     const k = clamp((T - 46.75) / 0.18);
-    st.msgs.push({ me: false, text: 'hey… 🥺\ncan i get ur number?', a: k, s: k < 1 ? 0.6 + 0.5 * k : 1, receipt: { text: 'Seen ✓', a: clamp((T - 48.4) / 0.2) } });
+    st.msgs.push({ me: false, text: 'hey… 🥺\ncan i get ur number?', a: k, s: k < 1 ? 0.6 + 0.5 * k : 1, receipt: { text: 'Seen ✓', a: clamp((T - 49.1) / 0.2) } });
   }
   return st;
 }
@@ -429,7 +434,8 @@ function lightRig(scene, o) {
     const m1 = box(rad * 0.22, rad * 0.07, 0.1, 0x6a2a20, 0, -rad * 0.2, z - 0.02); f.add(m1);
     const m2 = box(rad * 0.08, rad * 0.05, 0.1, 0x6a2a20, -rad * 0.12, -rad * 0.17, z - 0.03); f.add(m2);
     const m3 = box(rad * 0.08, rad * 0.05, 0.1, 0x6a2a20, rad * 0.12, -rad * 0.17, z - 0.03); f.add(m3);
-    return f;
+    const mo = box(rad * 0.2, rad * 0.24, 0.1, 0x5a1a14, 0, -rad * 0.22, z); mo.visible = false; f.add(mo);
+    f.userData = { smile: [m1, m2, m3], o: mo }; return f;
   }
   const moon = planet(3, 2, (x, y, z, R) => R() < 0.2 ? 0x9a9aa2 : (R() < 0.5 ? 0xc9c9cf : 0xb7b7bf), 9); sc.add(moon);
   face(moon, 3, { lashes: true });
@@ -575,7 +581,7 @@ function spaceBase(T, o = {}) {
   Sp.hero.g.visible = o.hero !== false; Sp.hero.g.position.set(0, Math.sin(T * 1.3) * 0.08, 0); Sp.hero.g.rotation.set(0.05, o.heroRot ?? 0.2, Math.sin(T) * 0.04); Sp.hero.pose(o.pose ?? 'float', T); Sp.hero.expr(o.expr ?? 'smug'); Sp.hero.glasses.visible = o.glasses ?? true;
   Sp.earth.visible = o.earth ?? true; Sp.earth.rotation.y = T * 0.05;
   Sp.moon.visible = !!o.moon; Sp.astro.g.visible = !!o.astro; Sp.big.visible = !!o.phone;
-  Sp.planets.forEach(p => p.visible = !!o.planets); Sp.sunMesh.visible = !!o.sun; Sp.hearts.forEach(h => h.visible = false);
+  Sp.planets.forEach(p => p.visible = !!o.planets); Sp.sunMesh.visible = !!o.sun; Sp.sunFace.userData.smile.forEach(m => m.visible = true); Sp.sunFace.userData.o.visible = false; Sp.hearts.forEach(h => h.visible = false);
 }
 shot(34.2, 36.0, 'space', { p0: [0.3, 1.6, 7.5], p1: [0.2, 1.5, 5.6], l0: [0, 1.2, 0], fov: 40, z0: 1, z1: 1.3, roll0: 0, roll1: 3.6, ease: 'out' }, (lt, T) => {
   spaceBase(T, { moon: true }); const Sp = S.space; Sp.moon.position.set(6, 6.5, -26); Sp.moon.rotation.set(0, -0.2, 0);
@@ -616,10 +622,16 @@ shot(46.3, 49.2, 'space', { p0: [0.05, -0.25, 3.4], l0: [0, -0.25, 0], fov: 45, 
   spaceBase(T, { earth: false, hero: false, cosmic: 0.6, sun: true, phone: true }); const Sp = S.space; Sp.sunMesh.position.set(-14, 22, -70); Sp.sunFace.visible = true;
   Sp.big.position.set(0, 0, 0); Sp.big.rotation.set(0.04, -0.1, 0.03); drawPhone(chatState(T));
 }, { grade: 'gold', dof: 0.6, bloom: 0.35 });
-shot(49.2, DUR, 'space', { p0: [0.2, 1.95, 4.6], l0: [0, 1.85, 0], fov: 40, z0: 1, z1: 1.1, ease: 'out' }, (lt, T) => {
+shot(49.2, 51.5, 'space', { p0: [0.2, 1.95, 4.6], l0: [0, 1.85, 0], fov: 40, z0: 1, z1: 1.1, ease: 'out' }, (lt, T) => {
   spaceBase(T, { earth: false, cosmic: 0.6, sun: true, pose: 'idle', expr: lt < 0.4 ? 'smug' : 'wink', heroRot: 0, glasses: lt < 0.4 }); const Sp = S.space; Sp.sunMesh.position.set(-10, 6, -50); Sp.sunFace.visible = true;
   Sp.hero.g.position.y = 0;
 }, { grade: 'gold', dof: 0.55, bloom: 0.4 });
+
+shot(51.5, DUR, 'space', { p0: [0, 0, 30], l0: [0, 0, -60], fov: 40, z0: 1.2, z1: 1.7, roll0: 0, roll1: -8, ease: 'out' }, (lt, T) => {
+  spaceBase(T, { earth: false, hero: false, cosmic: 0.6, sun: true }); const Sp = S.space; Sp.sunMesh.position.set(Math.sin(T * 40) * 0.4 * (1 - lt), 0, -60); Sp.sunMesh.rotation.set(0, 0, 0); Sp.sunFace.visible = true;
+  Sp.sunFace.userData.smile.forEach(m => m.visible = false); Sp.sunFace.userData.o.visible = true;
+  Sp.hearts.forEach((h, i) => { h.visible = true; const ph = (lt * 0.8 + i * 0.09) % 1; h.position.set(Math.sin(i * 2.1) * 16, 12 - ph * 26, -48 + Math.cos(i) * 3); h.rotation.set(0, 0, Math.PI + Math.sin(T * 3 + i) * 0.4); });
+}, { grade: 'gold', flash: 51.5, bloom: 0.5 });
 
 // ---------------------------------------------------------------- overlay text
 function stepAt(T) { let s = null; for (const st of STEPS) if (T >= st.t) s = st; return s; }
@@ -691,6 +703,43 @@ function drawMag(T) {
   g.font = '600 28px InterW'; g.fillText('FROM “LEFT ON READ”', 60, 1430); g.fillText('TO FRONT PAGE', 60, 1470);
   g.restore();
 }
+function cueAt(O) {
+  for (let i = 0; i < DIALOGUE.length; i++) {
+    const c = DIALOGUE[i]; const nxt = DIALOGUE[i + 1]; const t0 = c.words[0].t; const t1 = Math.min(c.end + 0.3, nxt ? nxt.words[0].t - 0.02 : 1e9);
+    if (O >= t0 - 0.03 && O < t1) return c;
+  }
+  return null;
+}
+function strokeText(g, text, x, y, sw) { g.lineJoin = 'round'; g.miterLimit = 2; g.lineWidth = sw; g.strokeStyle = '#000'; g.strokeText(text, x, y); g.fillText(text, x, y); }
+function drawCaptions(O) {
+  const c = cueAt(O); if (!c) return; const g = ctx; g.save(); g.textAlign = 'center'; g.fillStyle = '#fff';
+  if (c.kind === 'shout') {
+    const k = O - c.words[0].t; const s = k < 0.12 ? 0.6 + 4 * k : 1 + 0.04 * Math.sin(O * 50);
+    const txt = c.words.map(w => w.w).join(' ');
+    g.translate(W / 2 + Math.sin(O * 73) * 6, H * 0.6 + Math.cos(O * 61) * 5); g.scale(s, s); g.rotate(Math.sin(O * 9) * 0.03);
+    let fs = 118; g.font = `800 ${fs}px Montserrat`; while (g.measureText(txt).width > W * 0.84 && fs > 60) { fs -= 4; g.font = `800 ${fs}px Montserrat`; }
+    g.shadowColor = 'rgba(0,0,0,0.45)'; g.shadowBlur = 20; strokeText(g, txt, 0, 0, 16); g.restore(); return;
+  }
+  // word-by-word build-up in chunks of <=3 words, a chunk clears after punctuation
+  const chunks = []; let cur = [];
+  c.words.forEach((w, i) => { cur.push(w); if (cur.length >= 3 || /[.!?…,]$/.test(w.w) || i === c.words.length - 1) { chunks.push(cur); cur = []; } });
+  let chunk = chunks[0]; for (const ch of chunks) if (O >= ch[0].t - 0.03) chunk = ch;
+  const shown = chunk.filter(w => O >= w.t - 0.03).map(w => w.w.toUpperCase()).join(' ');
+  if (!shown) { g.restore(); return; }
+  let fs = 78; g.font = `800 ${fs}px Montserrat`; while (g.measureText(shown).width > W * 0.82 && fs > 44) { fs -= 3; g.font = `800 ${fs}px Montserrat`; }
+  const nm = { hero: null, stranger: 'STRANGER', pigeon: 'PIGEON', anchor: 'NEWS ANCHOR', astro: 'ASTRONAUT', sun: 'THE SUN ☀️' }[c.speaker];
+  strokeText(g, shown, W / 2, H * 0.62, 12);
+  if (nm) { g.font = '700 30px InterW, "Noto Color Emoji"'; g.globalAlpha = 0.85; strokeText(g, nm, W / 2, H * 0.62 - fs - 8, 6); }
+  g.restore();
+}
+function flapMouths(O, sh) {
+  const c = cueAt(O); if (!c || O > c.end) return;
+  const map = { hero: S[sh.scene] && S[sh.scene].hero, anchor: sh.scene === 'news' ? S.news.anchor : null, astro: sh.scene === 'space' ? S.space.astro : null };
+  const P = map[c.speaker]; if (!P || !P.g.visible) return;
+  if (c.kind === 'shout') { P.expr('shock'); P.mO.scale.set(1.25, 1.5 + 0.2 * Math.sin(O * 30), 1); return; }
+  const open = Math.sin(O * 24) > -0.2;
+  P.mO.visible = open; P.mC.visible = P.mL.visible = P.mR.visible = !open; P.mO.scale.set(0.9, 0.55 + 0.3 * Math.abs(Math.sin(O * 13)), 1);
+}
 function drawWatermark() {
   const g = ctx; g.save(); g.globalAlpha = 0.55; g.fillStyle = '#fff'; g.font = '700 26px InterW'; g.shadowColor = 'rgba(0,0,0,0.5)'; g.shadowBlur = 8;
   const t = 'POLYGRAM VIDEOS'; const w = spaced(mkMeasure2(), t, 0, 0, 5); spaced(g, t, (W - w) / 2, 140, 5); g.restore();
@@ -724,11 +773,12 @@ function setCam(sh, T) {
   return lt;
 }
 
-export function renderFrame(T) {
+export function renderFrame(O) {
+  const T = warp(O);
   const sh = shots.find(s => T >= s.t0 && T < s.t1) || shots[shots.length - 1];
   const lt = setCam(sh, T);
   S.studio.sc.overrideMaterial = null; S.bedroom.glow.intensity = 0;
-  sh.setup(lt, T);
+  sh.setup(lt, T); flapMouths(O, sh);
   const scn = S[sh.scene].sc;
   if (sh.scene === 'bedroom') { const B = S.bedroom; const hp = new THREE.Vector3(); B.hero.phone.children[1].getWorldPosition(hp); B.glow.position.copy(hp).add(new THREE.Vector3(0, 0.1, 0.25)); if (B.hero.phone.visible) { B.glow.intensity = 3; B.glow.distance = 3.5; } }
   renderer.render(scn, cam);
@@ -761,12 +811,12 @@ export function renderFrame(T) {
   if (sh.mag) drawMag(T);
   if (sh.news) drawNews(T);
   if (sh.comments) drawComments(T);
-  drawHook(T); drawStat(T, sh); drawItalic(T); drawWatermark();
+  drawHook(T); drawStat(T, sh); drawItalic(T); drawCaptions(O); drawWatermark();
   // flash frames (white, 3 frames)
   for (const s of shots) if (s.flash !== undefined) { const d = (T - s.flash) * 30; if (d >= 0 && d < 3) { ctx.fillStyle = `rgba(255,255,255,${[0.95, 0.6, 0.25][Math.floor(d)]})`; ctx.fillRect(0, 0, W, H); } }
   return out.toDataURL('image/jpeg', 0.94);
 }
 
-export const TIMELINE = { STEPS, MONTAGE, SILENCE, FINAL_LINE, DUR, flashes: shots.filter(s => s.flash !== undefined).map(s => s.flash), cuts: shots.map(s => s.t0) };
+export const TIMELINE = { STEPS, MONTAGE, SILENCE, FINAL_LINE, DUR, DUR_OUT, WARP, flashes: shots.filter(s => s.flash !== undefined).map(s => s.flash), cuts: shots.map(s => s.t0) };
 window.renderFrame = renderFrame; window.S = S; window.THREE = THREE; window.TIMELINE = TIMELINE;
-document.fonts.load('500 128px Lora').then(() => Promise.all(['400 78px Lora', 'italic 400 54px Lora', '600 30px InterW', '700 30px InterW', '40px "Noto Color Emoji"'].map(f => document.fonts.load(f)))).then(() => { window.READY = true; });
+fetch('dialogue.json').then(r => r.json()).then(d => { DIALOGUE = d; }).then(() => document.fonts.load('800 78px Montserrat')).then(() => document.fonts.load('500 128px Lora')).then(() => Promise.all(['400 78px Lora', 'italic 400 54px Lora', '600 30px InterW', '700 30px InterW', '40px "Noto Color Emoji"'].map(f => document.fonts.load(f)))).then(() => { window.READY = true; });
