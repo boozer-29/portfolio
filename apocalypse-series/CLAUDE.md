@@ -50,6 +50,16 @@ The owner wants **perfection-level quality**, stunning animation and visuals, fa
 12. **Facts:** every real-world fact used in a rule must be double-checked with a web search before publishing (microsleeps, speed of sound, etc.).
 13. **Be honest about limits.** You cannot see Instagram analytics, cannot hear audio quality in renders, and cannot verify that a concept is unique on the platform. Say so when relevant.
 
+## 1.3b Owner's viral-retention notes (added before Episode 2; apply from Ep 2 on)
+1. **Hook (first 3 s):** start mid-action or with a jarring, counterintuitive line, never a slow intro ("In the year 2045..."). Keep "Imagine you..." but put the shock inside it (e.g. "Imagine you have sixty seconds..."), or put the shock line first and "Imagine you" within 2 s.
+2. **"You see" turn within 5 s:** a quick pivot that makes the viewer re-read what they are looking at (the safe thing is the threat, the rescue is a trap, the person is a Sleeper).
+3. **Hook text overlay:** a big high-contrast suspense line on screen for the first 3 s, readable on mute, separate from the karaoke captions, inside the safe zone.
+4. **Voice:** human-sounding emotional ElevenLabs voice, never flat or default TTS; pacing matches the anxiety.
+5. **Sound is mandatory:** sub-bass drone, distant alarms, static crackle, wind under every line. Never deliver a silent render.
+6. **Don't accept the first render:** iterate on camera glides, harsh backgrounds, and make the focal point clear on a small phone screen.
+7. **Snappy length:** the owner's research says 20-45 s works best; this conflicts with the 55-85 s rule in PART 4. Until the owner decides, aim for the shortest length the story allows and cut every non-essential line.
+8. **Iterate, don't spam:** no near-identical re-uploads. Use the drop-off point in analytics (owner reports it) to fix that exact scene.
+
 ## 1.4 Workflow for any request
 **When the owner says "Episode N" (or gives a vote result):**
 1. If the previous episode's vote result is unknown, ask which option won (A or B). If it is known, start immediately.
