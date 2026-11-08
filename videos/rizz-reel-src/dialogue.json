@@ -101,19 +101,19 @@
   "end": 12.64
  },
  {
-  "file": "shout6",
+  "file": "sts05",
   "speaker": "hero",
-  "at": 12.55,
+  "at": 12.78,
   "ts": 0,
   "te": null,
   "kind": "shout",
   "words": [
    {
-    "w": "BOMBOCLAAAT!",
-    "t": 12.782
+    "w": "BOMBOCLAAT!",
+    "t": 12.78
    }
   ],
-  "end": 14.39
+  "end": 13.965
  },
  {
   "file": "l_d3s",
@@ -166,19 +166,19 @@
   "end": 18.99
  },
  {
-  "file": "shout5",
+  "file": "sts06",
   "speaker": "hero",
-  "at": 17.4,
+  "at": 17.865,
   "ts": 0,
   "te": null,
   "kind": "shout",
   "words": [
    {
     "w": "BOMBOCLAAT?!",
-    "t": 18.024
+    "t": 18.02
    }
   ],
-  "end": 19.24
+  "end": 18.782
  },
  {
   "file": "l_d4h",
@@ -243,19 +243,19 @@
   "end": 23.07
  },
  {
-  "file": "shout2",
+  "file": "sts00",
   "speaker": "hero",
-  "at": 23.15,
+  "at": 23.085,
   "ts": 0,
   "te": null,
   "kind": "shout",
   "words": [
    {
-    "w": "BOMBOCLAAT!",
-    "t": 23.223
+    "w": "BOMBOCLAAAT!",
+    "t": 23.22
    }
   ],
-  "end": 24.67
+  "end": 24.286
  },
  {
   "file": "l_d5",
@@ -277,19 +277,19 @@
   "end": 26.78
  },
  {
-  "file": "shout1",
+  "file": "sts01",
   "speaker": "hero",
-  "at": 30.2,
+  "at": 30.198,
   "ts": 0,
   "te": null,
   "kind": "shout",
   "words": [
    {
-    "w": "BOMBOCLAAAAT!",
-    "t": 30.349
+    "w": "BOMBOCLAAT!",
+    "t": 30.35
    }
   ],
-  "end": 32.44
+  "end": 31.147
  },
  {
   "file": "l_d6",
@@ -339,19 +339,19 @@
   "end": 35.66
  },
  {
-  "file": "shout4",
+  "file": "sts10",
   "speaker": "hero",
-  "at": 36.05,
+  "at": 36.071,
   "ts": 0,
   "te": null,
   "kind": "shout",
   "words": [
    {
-    "w": "BOMBOCLAAAAAAT!",
-    "t": 36.206
+    "w": "BOMBOCLAAAAT!",
+    "t": 36.21
    }
   ],
-  "end": 39.01
+  "end": 37.153
  },
  {
   "file": "l_d7",
@@ -385,19 +385,19 @@
   "end": 41.92
  },
  {
-  "file": "shout0",
+  "file": "sts05",
   "speaker": "hero",
-  "at": 42.05,
+  "at": 42.12,
   "ts": 0,
   "te": null,
   "kind": "shout",
   "words": [
    {
-    "w": "BOMBOCLAAAT!",
-    "t": 42.122
+    "w": "BOMBOCLAAT!",
+    "t": 42.12
    }
   ],
-  "end": 44.05
+  "end": 43.305
  },
  {
   "file": "l_d8",
@@ -439,23 +439,19 @@
   "end": 46.26
  },
  {
-  "file": "shout3",
+  "file": "sts00",
   "speaker": "hero",
-  "at": 47.55,
+  "at": 47.865,
   "ts": 0,
   "te": null,
   "kind": "shout",
   "words": [
    {
-    "w": "BOMBO...",
-    "t": 48.003
-   },
-   {
-    "w": "CLAAAAT!",
-    "t": 49.017
+    "w": "BOMBOCLAAAAT!",
+    "t": 48.0
    }
   ],
-  "end": 50.111
+  "end": 49.066
  },
  {
   "file": "l_d9s",
@@ -532,18 +528,18 @@
   "end": 55.47
  },
  {
-  "file": "sun_shout",
+  "file": "sts_sun06",
   "speaker": "sun",
-  "at": 55.65,
+  "at": 55.725,
   "ts": 0,
   "te": null,
   "kind": "shout",
   "words": [
    {
-    "w": "BOMBOCLAAAT?!",
-    "t": 55.884
+    "w": "BOMBOCLAAT?!",
+    "t": 55.88
    }
   ],
-  "end": 57.65
+  "end": 56.678
  }
 ]
