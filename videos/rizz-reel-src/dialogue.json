@@ -1,52 +1,5 @@
 [
  {
-  "file": "k_hookq",
-  "speaker": "hero",
-  "at": 0.15,
-  "ts": 0,
-  "te": null,
-  "kind": "hook",
-  "words": [
-   {
-    "w": "What",
-    "t": 0.34
-   },
-   {
-    "w": "if",
-    "t": 0.62
-   },
-   {
-    "w": "your",
-    "t": 0.78
-   },
-   {
-    "w": "rizz",
-    "t": 1.0
-   },
-   {
-    "w": "doubled",
-    "t": 1.64
-   },
-   {
-    "w": "every",
-    "t": 2.18
-   },
-   {
-    "w": "day?",
-    "t": 2.56
-   }
-  ],
-  "end": 2.71,
-  "gain_db": 11.76,
-  "spans": [
-   [
-    0.21,
-    2.7
-   ]
-  ],
-  "stt": "What if your rizz doubled every day?"
- },
- {
   "file": "k_hook",
   "speaker": "hero",
   "at": 2.95,
