@@ -63,6 +63,9 @@ The owner wants **perfection-level quality**, stunning animation and visuals, fa
 11. **Movie-style continuity (owner rule):** write every episode like a film scene, not a list of events. Each event must be caused by the one before it and shown step by step (e.g. you lock the door, it shakes, you search the roof, you find blocks and a plank, you brace it). Any object used in the vote must be found and used earlier in the episode. Skip only dead time where nothing happens ("ten hours"). Default length 85 s. Include a "chain of cause and effect" list in every episode file.
 8. **Iterate, don't spam:** no near-identical re-uploads. Use the drop-off point in analytics (owner reports it) to fix that exact scene.
 
+## 1.3c Story craft (MANDATORY)
+Before writing any episode, read `STORY_CRAFT.md` and answer its pre-writing checklist. Events alone are boring (owner's verdict on Ep 2); every episode needs a relationship ritual, a split-second moment replayed, a guilty vote, a quiet last image and one unanswered 2 AM question.
+
 ## 1.4 Workflow for any request
 **When the owner says "Episode N" (or gives a vote result):**
 1. If the previous episode's vote result is unknown, ask which option won (A or B). If it is known, start immediately.
