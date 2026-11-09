@@ -103,7 +103,7 @@ An **apocalypse** is when the world you knew has ended and **no help is coming**
 8. One more series exists separately: **STRANDED** (island survival). It has its own master prompt and is out of scope here.
 
 ## 2.3 Open items (decide with the owner, don't assume)
-- **Episode 1 vote result** (Roof or Basement) is not known yet. Ask before writing Episode 2.
+- **Episode 1 vote result:** A (Take the seat). Episode 2 "Autopilot" is written. See `SERIES_LOG.md` for later results.
 - **Look: 2.5D layered flat vector (default, Canvas 2D pipeline) vs real 3D** (Remotion + @remotion/three, see 7.4). The owner said "3D like the samples I sent"; the samples are a mix of flat stickman (2D), flat cartoon (2D) and Roblox-style 3D. The default in this file is **chunky block characters with bevel shading, 5 parallax layers, one light source** so it reads as 3D. If the owner asks for true 3D, use 7.4.
 - **Voice engine:** ElevenLabs (emotional tags, uses account credits) vs the local free Orpheus fallback (no emotion tags). Default: ElevenLabs when connected.
 - A downloaded skill named **cartoon-audio-short** (SKILL.md) exists on the owner's side. Its contents have **not** been reviewed; read it if present and follow its audio/caption rules where they don't conflict with this file.
