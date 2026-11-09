@@ -5,11 +5,12 @@ D = os.path.dirname(os.path.abspath(__file__)); A = os.path.join(D, 'audio2')
 
 # (file, speaker, place_at, trim_start, trim_end or None, kind)
 CUES = [
-    ('k_hook', 'hero', 0.7, 0, None, 'line'),
+    ('k_hookq', 'hero', 0.15, 0, None, 'hook'),
+    ('k_hook', 'hero', 2.95, 0.6, 2.45, 'line'),
     ('k_d1', 'hero', 5.0, 0, None, 'line'),
     ('k_d2', 'hero', 10.5, 0, None, 'line'),
     ('ksts05', 'hero', 12.78, 0, None, 'shout', 'BOMBOCLAAT!'),      # D2 "lol" realisation -> beat drop into D3
-    ('l_d3s', 'stranger', 14.7, 0, None, 'line'),
+    ('l_d3s', 'stranger', 14.7, 0, 2.0, 'line'),
     ('k_d3h', 'hero', 16.35, 0, None, 'line'),
     ('ksts06', 'hero', 18.02, 0, None, 'shout', 'BOMBOCLAAT?!'),       # D4
     ('k_d4h', 'hero', 19.0, 0, None, 'line'),
@@ -18,7 +19,7 @@ CUES = [
     ('k_d5', 'hero', 24.6, 0, 1.6, 'line'),
     ('ksts05', 'hero', 30.35, 0, None, 'shout', 'BOMBOCLAAT!'),       # D6
     ('l_d6', 'anchor', 32.3, 1.2, None, 'line'),
-    ('ksts10', 'hero', 36.21, 0, None, 'shout', 'BOMBOCLAAAAT!'),      # D7 (space echo)
+    ('ksts00', 'hero', 36.21, 0, None, 'shout', 'BOMBOCLAAAAT!'),      # D7 (space echo)
     ('l_d7', 'astro', 39.2, 0, None, 'line'),
     ('ksts05', 'hero', 42.12, 0, None, 'shout', 'BOMBOCLAAT!'),      # D8
     ('k_d8', 'hero', 44.0, 0, None, 'line'),

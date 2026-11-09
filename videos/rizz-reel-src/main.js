@@ -11,7 +11,8 @@ export const DUR_OUT = 57.6;
 function warp(o) { for (let i = 1; i < WARP.length; i++) { const [o0, v0] = WARP[i - 1], [o1, v1] = WARP[i]; if (o <= o1) return v0 + (o - o0) * (v1 - v0) / (o1 - o0); } return DUR; }
 let DIALOGUE = []; let VAD = [];
 // captions only while the voice is actually audible (VAD from the final voice track, 10 ms steps)
-function voiceAt(O) { const i = Math.floor(O * 100); for (let k = i - 10; k <= i + 2; k++) if (VAD[k]) return true; return false; }
+function spanHit(c, O) { for (const [a, b] of c.spans) if (O >= a - 0.02 && O < b + 0.03) return true; return false; }
+function voiceAt(O) { return DIALOGUE.some(c => spanHit(c, O)); }
 function unwarp(v) { for (let i = 1; i < WARP.length; i++) { const [o0, v0] = WARP[i - 1], [o1, v1] = WARP[i]; if (v <= v1) return o0 + (v - v0) * (o1 - o0) / (v1 - v0); } return DUR_OUT; }
 
 // ---------------------------------------------------------------- step list
@@ -665,10 +666,12 @@ function drawItalic(T) {
   g.shadowColor = 'rgba(0,0,0,0.6)'; g.shadowBlur = 16; g.shadowOffsetY = 2;
   wrap(g, it.text, 800).forEach((l, i) => g.fillText(l, 56, 700 + i * 70)); g.restore();
 }
-function drawHook(T) {
-  if (T >= STEPS[0].t) return;
-  const k = eOut(clamp(T / 0.5)); const y = lerp(H * 0.45, H * 0.25, k);
-  const a = clamp(T / 0.12) * clamp((STEPS[0].t - T) / 0.1);
+function drawHook(O) {
+  // the hook question is spoken by the hero: on screen exactly while that line is audible
+  const c = hookCue(); if (!c) return; const t0 = c.spans[0][0], t1 = c.spans[c.spans.length - 1][1] + 0.03;
+  if (O < t0 - 0.02 || O >= t1) return;
+  const k = eOut(clamp((O - t0) / 0.5)); const y = lerp(H * 0.45, H * 0.25, k);
+  const a = clamp((O - t0 + 0.02) / 0.1) * clamp((t1 - O) / 0.03);
   const g = ctx; g.save(); g.globalAlpha = a; g.font = '400 78px Lora'; g.textAlign = 'center'; g.fillStyle = '#fff';
   g.shadowColor = 'rgba(0,0,0,0.55)'; g.shadowBlur = 22; g.shadowOffsetY = 3;
   g.fillText('What if your rizz', W / 2, y); g.fillText('doubled every day?', W / 2, y + 96); g.restore();
@@ -707,12 +710,12 @@ function drawMag(T) {
   g.restore();
 }
 function cueAt(O) {
-  for (let i = 0; i < DIALOGUE.length; i++) {
-    const c = DIALOGUE[i]; const nxt = DIALOGUE[i + 1]; const t0 = c.words[0].t; const t1 = Math.min(c.end + (c.kind === 'shout' ? 0.25 : 0.12), nxt ? nxt.words[0].t - 0.02 : 1e9);
-    if (O >= t0 - 0.03 && O < t1) return c;
-  }
-  return null;
+  // the cue whose own voice is audible right now (latest-starting wins); the hook cue is drawn by drawHook
+  let best = null;
+  for (const c of DIALOGUE) if (c.kind !== 'hook' && spanHit(c, O) && O >= c.words[0].t - 0.03) if (!best || c.spans[0][0] > best.spans[0][0]) best = c;
+  return best;
 }
+function hookCue() { return DIALOGUE.find(c => c.kind === 'hook'); }
 function strokeText(g, text, x, y, sw) { g.lineJoin = 'round'; g.miterLimit = 2; g.lineWidth = sw; g.strokeStyle = '#000'; g.strokeText(text, x, y); g.fillText(text, x, y); }
 function drawCaptions(O) {
   const c = cueAt(O); if (!c || !voiceAt(O)) return; const g = ctx; g.save(); g.textAlign = 'center'; g.fillStyle = '#fff';
@@ -757,7 +760,7 @@ function idleLife(scn, O) {
   if (scn.planets) scn.planets.forEach((p, i) => { if (p.visible) p.position.y += Math.sin(O * 1.3 + i) * 0.4; });
 }
 function flapMouths(O, sh) {
-  const c = cueAt(O); if (!c || O > c.end || !voiceAt(O)) return;
+  const hk = hookCue(); const c = cueAt(O) || (hk && spanHit(hk, O) ? hk : null); if (!c) return;
   const map = { hero: S[sh.scene] && S[sh.scene].hero, anchor: sh.scene === 'news' ? S.news.anchor : null, astro: sh.scene === 'space' ? S.space.astro : null };
   const P = map[c.speaker]; if (!P || !P.g.visible) return;
   if (c.kind === 'shout') { P.expr('shock'); P.mO.scale.set(1.25, 1.5 + 0.2 * Math.sin(O * 30), 1); return; }
@@ -842,15 +845,17 @@ export function renderFrame(O) {
   if (sh.mag) drawMag(T);
   if (sh.news) drawNews(T);
   if (sh.comments) drawComments(T);
-  drawHook(T); drawStat(T, sh); drawItalic(T); drawCaptions(O);
+  drawHook(O); drawStat(T, sh); drawCaptions(O);
   // flash frames (white, 3 frames)
   for (const s of shots) if (s.flash !== undefined) { const d = Math.round((O - unwarp(s.flash)) * 30); if (d >= 0 && d < 3) { ctx.fillStyle = `rgba(255,255,255,${[0.95, 0.6, 0.25][Math.floor(d)]})`; ctx.fillRect(0, 0, W, H); } }
   return out.toDataURL('image/jpeg', 0.94);
 }
 
 export const TIMELINE = { STEPS, MONTAGE, SILENCE, FINAL_LINE, DUR, DUR_OUT, WARP, flashes: shots.filter(s => s.flash !== undefined).map(s => s.flash), cuts: shots.map(s => s.t0) };
-window.captionText = (O) => { const c = cueAt(O); if (!c || !voiceAt(O)) return ''; if (c.kind === 'shout') return c.words.map(w => w.w).join(' ');
+window.hookText = (O) => { const c = hookCue(); if (!c) return ''; const t0 = c.spans[0][0], t1 = c.spans[c.spans.length - 1][1] + 0.03; return (O >= t0 - 0.02 && O < t1) ? 'What if your rizz doubled every day?' : ''; };
+window.captionText = (O) => { const c = cueAt(O); if (!c) return ''; if (c.kind === 'shout') return c.words.map(w => w.w).join(' ');
   const chunks = []; let cur = []; c.words.forEach((w, i) => { cur.push(w); if (cur.length >= 3 || /[.!?…,]$/.test(w.w) || i === c.words.length - 1) { chunks.push(cur); cur = []; } });
   let chunk = chunks[0]; for (const ch of chunks) if (O >= ch[0].t - 0.03) chunk = ch; return chunk.filter(w => O >= w.t - 0.03).map(w => w.w).join(' '); };
-window.renderFrame = renderFrame; window.S = S; window.THREE = THREE; window.TIMELINE = TIMELINE;
-fetch('dialogue.json').then(r => r.json()).then(d => { DIALOGUE = d; }).then(() => fetch('vad.json')).then(r => r.json()).then(v => { VAD = v; }).then(() => document.fonts.load('800 78px Montserrat')).then(() => document.fonts.load('500 128px Lora')).then(() => Promise.all(['400 78px Lora', 'italic 400 54px Lora', '600 30px InterW', '700 30px InterW', '40px "Noto Color Emoji"'].map(f => document.fonts.load(f)))).then(() => { window.READY = true; });
+window.renderFrame = renderFrame; window.S = S; window.THREE = THREE;
+window.__lib = { makePerson, makeHeart, box, mat }; window.TIMELINE = TIMELINE;
+fetch('dialogue.json').then(r => r.json()).then(d => { DIALOGUE = d; }).then(() => document.fonts.load('800 78px Montserrat')).then(() => document.fonts.load('500 128px Lora')).then(() => Promise.all(['400 78px Lora', 'italic 400 54px Lora', '600 30px InterW', '700 30px InterW', '40px "Noto Color Emoji"'].map(f => document.fonts.load(f)))).then(() => { window.READY = true; });
