@@ -32,18 +32,26 @@ const MONTAGE = [26.6, 30.2];
 const SILENCE = [44.0, 44.8];
 
 // ---------------------------------------------------------------- renderer
-const glc = document.createElement('canvas'); glc.width = W; glc.height = H;
+// render scale: 1 = 1080x1920, 2 = true 4K 2160x3840 (layout stays in 1080-space; everything is drawn at RS x)
+const RS = Number(new URLSearchParams(location.search).get('s')) || 1;
+function hiDPI(c) {   // shadows and blur filters are not affected by the canvas transform, so scale them explicitly
+  if (RS === 1) return c; const P = CanvasRenderingContext2D.prototype;
+  for (const p of ['shadowBlur', 'shadowOffsetX', 'shadowOffsetY']) { const d = Object.getOwnPropertyDescriptor(P, p); Object.defineProperty(c, p, { get() { return d.get.call(this) / RS; }, set(v) { d.set.call(this, v * RS); } }); }
+  const f = Object.getOwnPropertyDescriptor(P, 'filter'); Object.defineProperty(c, 'filter', { get() { return f.get.call(this); }, set(v) { f.set.call(this, String(v).replace(/blur\(([\d.]+)px\)/g, (m, n) => `blur(${n * RS}px)`)); } });
+  c.setTransform(RS, 0, 0, RS, 0, 0); return c;
+}
+const glc = document.createElement('canvas'); glc.width = W * RS; glc.height = H * RS;
 const renderer = new THREE.WebGLRenderer({ canvas: glc, antialias: true, preserveDrawingBuffer: true });
-renderer.setPixelRatio(1); renderer.setSize(W, H, false);
+renderer.setPixelRatio(1); renderer.setSize(W * RS, H * RS, false);
 renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 
-const out = document.getElementById('out'); const ctx = out.getContext('2d');
+const out = document.getElementById('out'); out.width = W * RS; out.height = H * RS; const ctx = hiDPI(out.getContext('2d'));
 const mk = (w, h) => { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; };
-const sceneC = mk(W, H), sctx = sceneC.getContext('2d');
-const sharpC = mk(W, H), shctx = sharpC.getContext('2d');
-const smallC = mk(270, 480), smctx = smallC.getContext('2d');
+const sceneC = mk(W * RS, H * RS), sctx = hiDPI(sceneC.getContext('2d'));
+const sharpC = mk(W * RS, H * RS), shctx = hiDPI(sharpC.getContext('2d'));
+const smallC = mk(270 * RS, 480 * RS), smctx = hiDPI(smallC.getContext('2d'));
 
 // ---------------------------------------------------------------- helpers
 const MATS = {};
@@ -207,7 +215,7 @@ function windowsTex(seed, lit = false) {
 }
 
 // ---------------------------------------------------------------- phone UI
-const phoneUI = mk(600, 1200), pg = phoneUI.getContext('2d');
+const phoneUI = mk(600 * RS, 1200 * RS), pg = hiDPI(phoneUI.getContext('2d'));
 function rr(g, x, y, w, h, r) { g.beginPath(); g.roundRect(x, y, w, h, r); }
 function drawPhone(state) {
   const g = pg, w = 600, h = 1200;
@@ -841,19 +849,19 @@ export function renderFrame(O) {
   if (sh.dof) {
     smctx.filter = 'blur(2.5px)'; smctx.drawImage(glc, 0, 0, 270, 480); smctx.filter = 'none';
     sctx.drawImage(smallC, 0, 0, W, H);
-    shctx.globalCompositeOperation = 'source-over'; shctx.clearRect(0, 0, W, H); shctx.drawImage(glc, 0, 0);
+    shctx.globalCompositeOperation = 'source-over'; shctx.clearRect(0, 0, W, H); shctx.drawImage(glc, 0, 0, W, H);
     shctx.globalCompositeOperation = 'destination-in';
     const rg = shctx.createRadialGradient(W / 2, H * 0.47, W * 0.2 * (1 - sh.dof * 0.3), W / 2, H * 0.47, W * 0.85 * (1 - sh.dof * 0.3));
     rg.addColorStop(0, 'rgba(0,0,0,1)'); rg.addColorStop(1, 'rgba(0,0,0,0)'); shctx.fillStyle = rg; shctx.fillRect(0, 0, W, H);
-    sctx.drawImage(sharpC, 0, 0);
-  } else sctx.drawImage(glc, 0, 0);
+    sctx.drawImage(sharpC, 0, 0, W, H);
+  } else sctx.drawImage(glc, 0, 0, W, H);
   if (sh.bloom) {
     smctx.filter = 'blur(6px) brightness(1.3)'; smctx.drawImage(sceneC, 0, 0, 270, 480); smctx.filter = 'none';
     sctx.globalCompositeOperation = 'lighter'; sctx.globalAlpha = sh.bloom; sctx.drawImage(smallC, 0, 0, W, H); sctx.globalAlpha = 1; sctx.globalCompositeOperation = 'source-over';
   }
   // grade
   ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
-  ctx.filter = gr.f; ctx.drawImage(sceneC, 0, 0); ctx.filter = 'none';
+  ctx.filter = gr.f; ctx.drawImage(sceneC, 0, 0, W, H); ctx.filter = 'none';
   if (gr.tint) { ctx.globalCompositeOperation = gr.mode; ctx.fillStyle = gr.tint; ctx.fillRect(0, 0, W, H); ctx.globalCompositeOperation = 'source-over'; }
   const vg = ctx.createRadialGradient(W / 2, H / 2, H * 0.3, W / 2, H / 2, H * 0.75); vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, `rgba(0,0,0,${gr.vig})`); ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H);
   // top scrim for stat legibility
@@ -866,7 +874,7 @@ export function renderFrame(O) {
   drawTitle(O); drawHook(O); drawStat(T, sh); drawCaptions(O);
   // flash frames (white, 3 frames)
   for (const s of shots) if (s.flash !== undefined) { const d = Math.round((O - unwarp(s.flash)) * 30); if (d >= 0 && d < 3) { ctx.fillStyle = `rgba(255,255,255,${[0.95, 0.6, 0.25][Math.floor(d)]})`; ctx.fillRect(0, 0, W, H); } }
-  return out.toDataURL('image/jpeg', 0.94);
+  return out.toDataURL('image/jpeg', RS > 1 ? 0.95 : 0.94);
 }
 
 export const TIMELINE = { STEPS, MONTAGE, SILENCE, FINAL_LINE, DUR, DUR_OUT, WARP, flashes: shots.filter(s => s.flash !== undefined).map(s => s.flash), cuts: shots.map(s => s.t0) };

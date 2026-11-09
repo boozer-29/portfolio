@@ -9,7 +9,7 @@ const srv = http.createServer((q, r) => { const f = path.join(ROOT, decodeURICom
   const b = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
   const p = await b.newPage({ viewport: { width: 1080, height: 1920 } });
   p.on('console', m => { if (m.type() === 'error') console.log('ERR', m.text()); }); p.on('pageerror', e => console.log('PAGEERR', e.message));
-  await p.goto(`http://localhost:${port}/index.html`); await p.waitForFunction('window.READY === true', null, { timeout: 60000 });
+  await p.goto(`http://localhost:${port}/index.html?s=${process.env.RSCALE || 1}`); await p.waitForFunction('window.READY === true', null, { timeout: 60000 });
   const mode = process.argv[2];
   if (mode === 'timeline') { fs.writeFileSync(path.join(ROOT, 'timeline.json'), JSON.stringify(await p.evaluate('window.TIMELINE'), null, 1)); }
   else if (mode === 'test') {
