@@ -1,21 +1,27 @@
-[quietly][tense] Imagine thousands of eyes... staring at you. [short pause] Most of you chose A. [urgent] So you run... for the roof.
+[quietly][tense] Imagine thousands of eyes... staring at you. [short pause] Most of you chose A. [urgent] So you grab Ollie... and run for the roof.
 
-[tense] The street below... is empty. [long pause] [whispers] They're already INSIDE.
+[rushed] Your footsteps echo. [short pause] Rule two: never make a sound. [long pause] [whispers] Below you... glass shatters.
 
-[serious] Rule one: never sleep. Rule two: never make a sound. [urgent] Rule three: if they hum... run. [long pause] [numb] Nowhere left to run.
+[urgent] Rule three: if they hum, run. [short pause] [darkly] The whole stairwell hums.
 
-[slowly][numb] Ten hours. They just hum... behind the door.
+[urgent] The roof. Reyes slams the door.
 
-[softly] Ollie fights sleep in your arms. [short pause] So do you. [long pause] [very softly] Your eyes... close.
+[tense] You need weight. [short pause] Cinder blocks. A scaffold plank. [short pause] You jam them against the door.
 
-[whispering] One microsleep. [short pause] Thirty seconds. [long pause] [tense] Your arms are EMPTY.
+[whispers] The banging stops. [long pause] They just... hum.
 
-[urgent][building energy] Maya's map. [short pause] One dot is moving. Down. [short pause] Through all of them.
+[slowly][numb] Ten hours. [short pause] Rule one: never sleep. [softly] Ollie fights it in your arms. So do you.
 
-[whispering] It's Ollie. Asleep. [long pause] And every Sleeper... kneels as he passes. [long pause] [darkly] They were never staring at you. [short pause] They were staring at HIM.
+[very softly] Your eyes close. [long pause] [whispering] One microsleep. Thirty seconds. [long pause] [tense] Your arms are EMPTY.
 
-[urgent] Then the door behind you... starts to break.
+[urgent] The door's still braced. [short pause] But his red beanie... hangs on the fire escape.
 
-[calm][serious] A... cross the plank. Save yourself. [short pause] B... go down for Ollie. Through thousands of them. [long pause] [very softly][warm] Choose. I'll stay with you. [short pause] [urgent] Comment A... or B.
+[tense] Maya's map. One dot, moving down. [short pause] Through all of them. [long pause] [whispering] Ollie. Asleep. [short pause] And every Sleeper... kneels as he passes.
+
+[darkly] They were never staring at you. [short pause] They were staring at HIM.
+
+[urgent] Then the banging starts again. [short pause] Reyes rips the plank off the door... and bridges it to the next roof.
+
+[calm][serious] A... cross the plank. Save yourself. [short pause] B... down the fire escape, for your brother. [long pause] [very softly][warm] Choose. I'll stay with you. [short pause] [urgent] Comment A... or B.
 
 [softly] Follow for hour fifty-three.

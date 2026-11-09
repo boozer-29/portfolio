@@ -10,7 +10,7 @@ Source of truth for what has aired and what won. Update after every vote.
 | Ep | Title | File | Status | Vote options | Winning vote |
 |---|---|---|---|---|---|
 | 1 | The Note (v2) | `hours-awake/ep1/` | Posted | A The roof / B The basement | **A: THE ROOF** |
-| 2 | Thirty Seconds | `hours-awake/ep2/` | Narration ready for ElevenLabs | A Save yourself (cross the plank) / B Save Ollie (go down to the basement) | (unknown, ask before Ep 3) |
+| 2 | Thirty Seconds (v2 continuous cut, 85 s) | `hours-awake/ep2/` | Narration ready for ElevenLabs | A Save yourself (cross the plank) / B Save Ollie (go down to the basement) | (unknown, ask before Ep 3) |
 
 Not posted / reserve ideas: Ep 1 v3 "The Last Seat" (`ep1/v3_unposted/`), Ep 2 "Autopilot" (`ep2/unused_autopilot/`, written for the v3 branch).
 
