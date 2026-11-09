@@ -9,7 +9,9 @@ export const DUR = 53.0;
 const WARP = [[0, 0], [32.4, 32.4], [36.0, 34.2], [39.3, 37.5], [42.0, 38.8], [49.5, 46.3], [52.6, 49.2], [55.6, 51.5], [57.6, 53.0]];
 export const DUR_OUT = 57.6;
 function warp(o) { for (let i = 1; i < WARP.length; i++) { const [o0, v0] = WARP[i - 1], [o1, v1] = WARP[i]; if (o <= o1) return v0 + (o - o0) * (v1 - v0) / (o1 - o0); } return DUR; }
-let DIALOGUE = [];
+let DIALOGUE = []; let VAD = [];
+// captions only while the voice is actually audible (VAD from the final voice track, 10 ms steps)
+function voiceAt(O) { const i = Math.floor(O * 100); for (let k = i - 10; k <= i + 2; k++) if (VAD[k]) return true; return false; }
 function unwarp(v) { for (let i = 1; i < WARP.length; i++) { const [o0, v0] = WARP[i - 1], [o1, v1] = WARP[i]; if (v <= v1) return o0 + (v - v0) * (o1 - o0) / (v1 - v0); } return DUR_OUT; }
 
 // ---------------------------------------------------------------- step list
@@ -713,7 +715,7 @@ function cueAt(O) {
 }
 function strokeText(g, text, x, y, sw) { g.lineJoin = 'round'; g.miterLimit = 2; g.lineWidth = sw; g.strokeStyle = '#000'; g.strokeText(text, x, y); g.fillText(text, x, y); }
 function drawCaptions(O) {
-  const c = cueAt(O); if (!c) return; const g = ctx; g.save(); g.textAlign = 'center'; g.fillStyle = '#fff';
+  const c = cueAt(O); if (!c || !voiceAt(O)) return; const g = ctx; g.save(); g.textAlign = 'center'; g.fillStyle = '#fff';
   if (c.kind === 'shout') {
     const k = O - c.words[0].t; const s = k < 0.12 ? 0.6 + 4 * k : 1 + 0.04 * Math.sin(O * 50);
     const txt = c.words.map(w => w.w).join(' ');
@@ -755,7 +757,7 @@ function idleLife(scn, O) {
   if (scn.planets) scn.planets.forEach((p, i) => { if (p.visible) p.position.y += Math.sin(O * 1.3 + i) * 0.4; });
 }
 function flapMouths(O, sh) {
-  const c = cueAt(O); if (!c || O > c.end) return;
+  const c = cueAt(O); if (!c || O > c.end || !voiceAt(O)) return;
   const map = { hero: S[sh.scene] && S[sh.scene].hero, anchor: sh.scene === 'news' ? S.news.anchor : null, astro: sh.scene === 'space' ? S.space.astro : null };
   const P = map[c.speaker]; if (!P || !P.g.visible) return;
   if (c.kind === 'shout') { P.expr('shock'); P.mO.scale.set(1.25, 1.5 + 0.2 * Math.sin(O * 30), 1); return; }
@@ -847,5 +849,8 @@ export function renderFrame(O) {
 }
 
 export const TIMELINE = { STEPS, MONTAGE, SILENCE, FINAL_LINE, DUR, DUR_OUT, WARP, flashes: shots.filter(s => s.flash !== undefined).map(s => s.flash), cuts: shots.map(s => s.t0) };
+window.captionText = (O) => { const c = cueAt(O); if (!c || !voiceAt(O)) return ''; if (c.kind === 'shout') return c.words.map(w => w.w).join(' ');
+  const chunks = []; let cur = []; c.words.forEach((w, i) => { cur.push(w); if (cur.length >= 3 || /[.!?…,]$/.test(w.w) || i === c.words.length - 1) { chunks.push(cur); cur = []; } });
+  let chunk = chunks[0]; for (const ch of chunks) if (O >= ch[0].t - 0.03) chunk = ch; return chunk.filter(w => O >= w.t - 0.03).map(w => w.w).join(' '); };
 window.renderFrame = renderFrame; window.S = S; window.THREE = THREE; window.TIMELINE = TIMELINE;
-fetch('dialogue.json').then(r => r.json()).then(d => { DIALOGUE = d; }).then(() => document.fonts.load('800 78px Montserrat')).then(() => document.fonts.load('500 128px Lora')).then(() => Promise.all(['400 78px Lora', 'italic 400 54px Lora', '600 30px InterW', '700 30px InterW', '40px "Noto Color Emoji"'].map(f => document.fonts.load(f)))).then(() => { window.READY = true; });
+fetch('dialogue.json').then(r => r.json()).then(d => { DIALOGUE = d; }).then(() => fetch('vad.json')).then(r => r.json()).then(v => { VAD = v; }).then(() => document.fonts.load('800 78px Montserrat')).then(() => document.fonts.load('500 128px Lora')).then(() => Promise.all(['400 78px Lora', 'italic 400 54px Lora', '600 30px InterW', '700 30px InterW', '40px "Noto Color Emoji"'].map(f => document.fonts.load(f)))).then(() => { window.READY = true; });
