@@ -840,7 +840,7 @@ export function renderFrame(O) {
   if (sh.mag) drawMag(T);
   if (sh.news) drawNews(T);
   if (sh.comments) drawComments(T);
-  drawHook(T); drawStat(T, sh); drawItalic(T); drawCaptions(O); drawWatermark();
+  drawHook(T); drawStat(T, sh); drawItalic(T); drawCaptions(O);
   // flash frames (white, 3 frames)
   for (const s of shots) if (s.flash !== undefined) { const d = Math.round((O - unwarp(s.flash)) * 30); if (d >= 0 && d < 3) { ctx.fillStyle = `rgba(255,255,255,${[0.95, 0.6, 0.25][Math.floor(d)]})`; ctx.fillRect(0, 0, W, H); } }
   return out.toDataURL('image/jpeg', 0.94);
