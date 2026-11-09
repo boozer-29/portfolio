@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "ask": [
+      "mcp__ElevenLabs__creative_generate_image",
+      "mcp__ElevenLabs__creative_generate_video",
+      "mcp__ElevenLabs__creative_generate_speech",
+      "mcp__ElevenLabs__creative_generate_in_flow",
+      "mcp__ElevenLabs__creative_edit_image",
+      "mcp__ElevenLabs__creative_transcribe_audio",
+      "mcp__ElevenLabs__creative_design_voice",
+      "mcp__ElevenLabs__creative_run_flow_nodes"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.command // \"\"' | grep -qi 'api\\.elevenlabs\\.io' && echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"permissionDecision\":\"ask\",\"permissionDecisionReason\":\"This command calls the ElevenLabs API and may spend credits. Approve only if you agreed to it.\"}}' || true",
+            "statusMessage": "Checking for ElevenLabs API use"
+          }
+        ]
+      }
+    ]
+  }
+}
