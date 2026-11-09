@@ -1,0 +1,267 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><style>html,body{margin:0;background:#000;overflow:hidden}</style></head>
+<body>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js"}}</script>
+<script type="module">
+import * as THREE from 'three';
+
+const W = 720, H = 1280;
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setSize(W, H); renderer.setPixelRatio(1);
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.2;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xcfc6b3);
+scene.fog = new THREE.Fog(0xcfc6b3, 9, 26);
+const camera = new THREE.PerspectiveCamera(40, W / H, 0.05, 100);
+
+// ---------- helpers ----------
+function noiseTex(base, amt, size = 64, rep = [1, 1]) {
+  const c = document.createElement('canvas'); c.width = c.height = size;
+  const g = c.getContext('2d'); const col = new THREE.Color(base);
+  const img = g.createImageData(size, size);
+  for (let i = 0; i < size * size; i++) {
+    const n = (Math.random() - 0.5) * amt;
+    img.data[i * 4] = Math.max(0, Math.min(255, col.r * 255 + n));
+    img.data[i * 4 + 1] = Math.max(0, Math.min(255, col.g * 255 + n));
+    img.data[i * 4 + 2] = Math.max(0, Math.min(255, col.b * 255 + n));
+    img.data[i * 4 + 3] = 255;
+  }
+  g.putImageData(img, 0, 0);
+  const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(...rep);
+  t.magFilter = THREE.NearestFilter; t.colorSpace = THREE.SRGBColorSpace; return t;
+}
+const mat = (color, opts = {}) => new THREE.MeshStandardMaterial({ color, roughness: 0.85, metalness: 0, flatShading: true, ...opts });
+function box(w, h, d, m, x = 0, y = 0, z = 0, parent = scene) {
+  const o = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), m); o.position.set(x, y, z);
+  o.castShadow = o.receiveShadow = true; parent.add(o); return o;
+}
+
+// ---------- office set ----------
+const carpet = noiseTex(0x6e7074, 40, 64, [14, 30]);
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(14, 30), new THREE.MeshStandardMaterial({ map: carpet, roughness: 1 }));
+floor.rotation.x = -Math.PI / 2; floor.position.z = -8; floor.receiveShadow = true; scene.add(floor);
+const ceil = new THREE.Mesh(new THREE.PlaneGeometry(14, 30), mat(0xd9d4c6));
+ceil.rotation.x = Math.PI / 2; ceil.position.set(0, 3.0, -8); scene.add(ceil);
+const panelMat = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xfff6e0, emissiveIntensity: 1.6 });
+for (let z = 2; z > -22; z -= 2.6) for (const x of [-2.4, 0, 2.4]) box(1.1, 0.03, 0.55, panelMat, x, 2.98, z);
+// back wall with warm windows
+const wallMat = mat(0xc9bfa8);
+box(14, 3, 0.1, wallMat, 0, 1.5, -22);
+const winMat = new THREE.MeshStandardMaterial({ color: 0xffd7a0, emissive: 0xffb866, emissiveIntensity: 1.2 });
+for (let x = -5; x <= 5; x += 2) box(1.5, 1.4, 0.05, winMat, x, 1.7, -21.9);
+// cubicles both sides of the aisle
+const fabric = noiseTex(0xbdb196, 30, 32, [2, 2]);
+const cubMat = new THREE.MeshStandardMaterial({ map: fabric, roughness: 1, flatShading: true });
+const deskMat = mat(0xcbbf9f), crtMat = mat(0xd8d0bc), chairMat = mat(0x2e3036);
+const screenMat = new THREE.MeshStandardMaterial({ color: 0x223355, emissive: 0x4f7fb8, emissiveIntensity: 0.9 });
+const phoneMat = mat(0xd9cfb4);
+function cubicle(x, z, side) {
+  box(0.06, 1.35, 2.2, cubMat, x, 0.675, z);                // side partition (aisle side)
+  box(2.0, 1.35, 0.06, cubMat, x + side * 1.0, 0.675, z - 1.1); // back partition
+  box(1.5, 0.05, 0.8, deskMat, x + side * 0.95, 0.74, z - 0.6);
+  const crt = box(0.42, 0.38, 0.42, crtMat, x + side * 1.05, 0.96, z - 0.75);
+  box(0.32, 0.26, 0.01, screenMat, x + side * 1.05, 0.97, z - 0.53);
+  box(0.22, 0.07, 0.18, phoneMat, x + side * 0.55, 0.8, z - 0.45);
+  box(0.45, 0.08, 0.45, chairMat, x + side * 0.9, 0.48, z + 0.05);
+  box(0.45, 0.5, 0.06, chairMat, x + side * 0.9, 0.75, z + 0.27);
+}
+for (let z = 0; z > -20; z -= 2.4) { cubicle(-1.0, z, -1); cubicle(1.0, z, 1); }
+// filing cabinets
+for (let z = -1; z > -20; z -= 4.8) { box(0.5, 1.2, 0.6, mat(0x8d9093), -3.6, 0.6, z); box(0.5, 1.2, 0.6, mat(0x8d9093), 3.6, 0.6, z - 2); }
+
+// ---------- lights ----------
+const hemi = new THREE.HemisphereLight(0xfff1d6, 0xa89a88, 1.1); scene.add(hemi); scene.add(new THREE.AmbientLight(0xfff0e0, 0.55));
+const sun = new THREE.DirectionalLight(0xffc98a, 2.2); sun.position.set(-4, 6, -14); sun.castShadow = true;
+sun.shadow.mapSize.set(2048, 2048); Object.assign(sun.shadow.camera, { left: -8, right: 8, top: 8, bottom: -8, far: 40 });
+scene.add(sun);
+const key = new THREE.DirectionalLight(0xfff0dc, 1.3); key.position.set(2, 4, 5); key.castShadow = true;
+Object.assign(key.shadow.camera, { left: -4, right: 4, top: 4, bottom: -4 }); scene.add(key);
+const rim = new THREE.PointLight(0xffb070, 0, 6); scene.add(rim);
+
+// ---------- characters ----------
+async function loadImg(src) { const i = new Image(); i.src = src; await i.decode(); return i; }
+
+function makeFace(img, mouth, skinHex) {
+  const c = document.createElement('canvas'); c.width = img.width; c.height = img.height;
+  const g = c.getContext('2d'); const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
+  const face = { img, c, g, tex, mouth, last: -1 };
+  face.set = (amp, imgOverride) => {
+    const im = imgOverride || face.img; const key = Math.round(amp * 20) + (imgOverride ? 1000 : 0);
+    if (key === face.last) return; face.last = key;
+    g.drawImage(im, 0, 0, c.width, c.height);
+    const m = mouth;
+    if (m.baked) { // close the baked-in open mouth with soft lip colour
+      g.save(); g.filter = 'blur(5px)'; g.fillStyle = m.lip; g.beginPath(); g.ellipse(m.x, m.y, m.w * 0.5, m.h * 0.55, 0, 0, Math.PI * 2); g.fill(); g.restore();
+      g.save(); g.filter = 'blur(1.5px)'; g.strokeStyle = '#4a1c1a'; g.lineWidth = 3; g.beginPath(); g.moveTo(m.x - m.w * 0.42, m.y); g.quadraticCurveTo(m.x, m.y + 3, m.x + m.w * 0.42, m.y); g.stroke(); g.restore();
+    }
+    if (amp > 0.06) {
+      const oh = amp * m.h; g.save(); g.filter = 'blur(1.5px)';
+      g.fillStyle = '#220a0a'; g.beginPath(); g.ellipse(m.x, m.y + oh * 0.15, m.w * 0.36, oh * 0.5, 0, 0, Math.PI * 2); g.fill();
+      if (amp > 0.3) { g.fillStyle = '#ddd6c8'; g.beginPath(); g.ellipse(m.x, m.y - oh * 0.25, m.w * 0.26, Math.min(5, oh * 0.15), 0, 0, Math.PI * 2); g.fill(); }
+      g.restore();
+    }
+    // soft oval alpha mask so the low-poly skull gives the silhouette
+    g.save(); g.globalCompositeOperation = 'destination-in';
+    g.translate(c.width / 2, c.height * 0.5); g.scale(1, (c.height * 0.56) / (c.width * 0.5));
+    const gr = g.createRadialGradient(0, 0, c.width * 0.36, 0, 0, c.width * 0.5);
+    gr.addColorStop(0, 'rgba(0,0,0,1)'); gr.addColorStop(1, 'rgba(0,0,0,0)');
+    g.fillStyle = gr; g.fillRect(-c.width, -c.height, c.width * 2, c.height * 2); g.restore();
+    tex.needsUpdate = true;
+  };
+  face.set(0.001); return face;
+}
+
+function limb(len, rTop, rBot, m) {
+  const pivot = new THREE.Group();
+  const mesh = new THREE.Mesh(new THREE.CylinderGeometry(rTop, rBot, len, 6), m);
+  mesh.position.y = -len / 2; mesh.castShadow = true; pivot.add(mesh); return pivot;
+}
+
+function makeChar(o) {
+  const root = new THREE.Group(); scene.add(root);
+  const skin = mat(o.skin);
+  const hips = new THREE.Group(); hips.position.y = 0.92; root.add(hips);
+  // legs
+  const legs = [-1, 1].map(s => {
+    const leg = limb(0.86, o.legR, o.legR * 1.1, mat(o.pants)); leg.position.set(s * 0.12, 0, 0); hips.add(leg);
+    const shoe = box(0.18, 0.12, 0.34, mat(o.shoes), 0, -0.88, 0.05, leg); return leg;
+  });
+  // torso
+  const torso = new THREE.Group(); hips.add(torso);
+  box(o.torsoW, 0.62, o.torsoD, mat(o.shirt), 0, 0.31, 0, torso);
+  if (o.tie) { box(0.07, 0.42, 0.02, mat(0x7a1d24), 0, 0.36, o.torsoD / 2 + 0.01, torso);
+    for (const s of [-1, 1]) box(0.035, 0.62, 0.02, mat(0x141414), s * 0.14, 0.31, o.torsoD / 2 + 0.012, torso); }
+  if (o.chain) { const ch = new THREE.Mesh(new THREE.TorusGeometry(0.1, 0.006, 4, 16), mat(0xd8d8d8, { metalness: 0.9, roughness: 0.3 }));
+    ch.position.set(0, 0.6, o.torsoD / 2 - 0.02); ch.rotation.x = 1.2; torso.add(ch); }
+  // arms
+  const arms = [-1, 1].map(s => {
+    const sh = new THREE.Group(); sh.position.set(s * (o.torsoW / 2 + 0.05), 0.56, 0); torso.add(sh);
+    box(0.2, 0.26, 0.24, mat(o.shirt), 0, -0.08, 0, sh); // sleeve
+    const upper = limb(0.3, 0.062, 0.056, skin); upper.position.y = -0.04; sh.add(upper);
+    const fore = limb(0.27, 0.056, 0.05, skin); fore.position.y = -0.3; upper.add(fore);
+    box(0.09, 0.11, 0.06, skin, 0, -0.3, 0, fore);
+    return { sh, upper, fore };
+  });
+  // head
+  const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.06, 0.1, 6), skin); neck.position.y = 0.66; torso.add(neck);
+  const head = new THREE.Group(); head.position.y = 0.72; torso.add(head);
+  const skull = new THREE.Mesh(new THREE.CylinderGeometry(0.135, 0.115, 0.28, 8), skin); skull.rotation.y = Math.PI / 8; skull.position.set(0, 0.13, -0.03); skull.castShadow = true; head.add(skull);
+  const fh = 0.29, fw = fh * o.face.c.width / o.face.c.height;
+  const facePlane = new THREE.Mesh(new THREE.PlaneGeometry(fw, fh, 4, 4), new THREE.MeshStandardMaterial({ map: o.face.tex, roughness: 0.7, transparent: true, depthWrite: false }));
+  // slight curvature
+  const pos = facePlane.geometry.attributes.position;
+  for (let i = 0; i < pos.count; i++) { const x = pos.getX(i); pos.setZ(i, -x * x * 3.0); }
+  facePlane.geometry.computeVertexNormals();
+  facePlane.position.set(0, 0.12, 0.105); head.add(facePlane);
+  // hair
+  const hairMat = mat(o.hair);
+  if (o.hairStyle === 'afro') {
+    const blobs = [[0, 0.31, -0.02, 0.19], [-0.12, 0.27, 0.0, 0.12], [0.12, 0.27, 0.0, 0.12], [0, 0.29, 0.07, 0.12], [0, 0.23, -0.11, 0.15], [-0.08, 0.33, 0.05, 0.1], [0.08, 0.33, 0.05, 0.1]];
+    for (const [x, y, z, r] of blobs) { const b = new THREE.Mesh(new THREE.IcosahedronGeometry(r, 1), hairMat); b.position.set(x * 1.2, y + 0.01, z - 0.03); b.scale.set(1.35, 0.9, 1.15); b.castShadow = true; head.add(b); }
+  } else {
+    const b = new THREE.Mesh(new THREE.IcosahedronGeometry(0.15, 1), hairMat); b.position.set(0, 0.24, -0.06); b.scale.set(1.0, 0.55, 1.0); head.add(b);
+  }
+  if (o.earbuds) for (const s of [-1, 1]) box(0.025, 0.045, 0.025, mat(0xffffff), s * 0.14, 0.1, 0.0, head);
+  if (o.phone) { box(0.08, 0.15, 0.012, mat(0x0d0d0f, { roughness: 0.3 }), 0, -0.33, 0.04, arms[1].fore); }
+  return { root, hips, torso, legs, arms, head, face: o.face, facePlane };
+}
+
+const imgs = {
+  calm: await loadImg('face_zay_calm.png'), shock: await loadImg('face_zay_shock.png'), boss: await loadImg('face_boss.png'),
+};
+const zayFace = makeFace(imgs.calm, { x: 328, y: 320, w: 140, h: 40, lip: '#a8665c' }, '#9c6a4d');
+const shockFace = makeFace(imgs.shock, { x: 301, y: 372, w: 150, h: 50, lip: '#b0736b', baked: true }, '#9c6a4d');
+const bossFace = makeFace(imgs.boss, { x: 198, y: 354, w: 105, h: 48, lip: '#93584c', baked: true }, '#a86c55');
+
+const zay = makeChar({ face: zayFace, skin: 0x9c6a4d, pants: 0x9db4cc, shoes: 0xf2f2f2, shirt: 0x2a2a2c, hair: 0x2b1d15,
+  hairStyle: 'afro', torsoW: 0.52, torsoD: 0.27, legR: 0.12, chain: true, earbuds: true, phone: true });
+const boss = makeChar({ face: bossFace, skin: 0xa86c55, pants: 0x3b3b40, shoes: 0x1a1a1a, shirt: 0xe8e6e0, hair: 0x8f8f8c,
+  hairStyle: 'comb', torsoW: 0.62, torsoD: 0.36, legR: 0.11, tie: true });
+
+// ---------- animation ----------
+const env = await (await fetch('env.json')).json();
+const LINES = [ // [line, start, who]
+  ['l1', 5.15, 'boss'], ['l2', 7.45, 'zay'], ['l3', 10.55, 'boss'], ['l7', 13.55, 'zay'], ['l8', 16.45, 'zay'],
+];
+function amp(who, t) {
+  for (const [n, s, w] of LINES) { if (w !== who) continue; const e = env[n]; if (t >= s && t < s + e.dur) {
+    const i = Math.floor((t - s) * 24); return e.amp[Math.min(i, e.amp.length - 1)] || 0; } }
+  return 0;
+}
+const ease = x => x < 0 ? 0 : x > 1 ? 1 : x * x * (3 - 2 * x);
+const lerp = (a, b, k) => a + (b - a) * k;
+
+function pose(ch, t, walking, speed = 1) {
+  const ph = t * 7.0 * speed;
+  const sw = walking ? Math.sin(ph) : 0;
+  ch.legs[0].rotation.x = sw * 0.45; ch.legs[1].rotation.x = -sw * 0.45;
+  ch.hips.position.y = 0.92 + (walking ? Math.abs(Math.cos(ph)) * 0.035 : Math.sin(t * 1.7) * 0.004);
+  ch.torso.rotation.y = walking ? sw * 0.06 : 0;
+  // left arm swings, right arm holds phone up
+  ch.arms[0].upper.rotation.x = walking ? -sw * 0.35 : 0.05; ch.arms[0].fore.rotation.x = -0.25;
+  ch.arms[0].sh.rotation.z = -0.08;
+}
+
+function frame(t) {
+  // ---- Zay walk-in (0 - 4.6 s): z from -9 to 0.6, ease-out
+  const wk = ease(t / 4.6);
+  const zz = lerp(-9.5, 0.6, 1 - Math.pow(1 - Math.min(t / 4.6, 1), 1.6));
+  zay.root.position.set(0, 0, zz); zay.root.rotation.y = 0;
+  const walking = t < 4.4;
+  pose(zay, t, walking);
+  // phone arm: forearm up in front while walking/scrolling
+  zay.arms[1].upper.rotation.x = -0.35; zay.arms[1].fore.rotation.x = -1.35; zay.arms[1].sh.rotation.z = 0.12;
+  zay.head.rotation.x = t < 4.5 ? 0.32 : lerp(0.32, 0, ease((t - 4.5) / 0.5));
+  // ---- Boss: standing at right side of aisle, turns toward Zay when he arrives
+  boss.root.position.set(0.75, 0, 0.1);
+  boss.root.rotation.y = lerp(-0.2, -0.7, ease((t - 3.8) / 0.8));
+  pose(boss, t, false);
+  boss.arms[1].upper.rotation.x = -1.0; boss.arms[1].fore.rotation.x = -0.6; // crossed-ish
+  boss.arms[0].upper.rotation.x = -1.0; boss.arms[0].fore.rotation.x = -0.6;
+  if (t > 5) { boss.arms[1].upper.rotation.x = -1.35; boss.arms[1].fore.rotation.x = -0.2; boss.arms[1].sh.rotation.z = 0.25; } // points
+  const bA = amp('boss', t); boss.face.set(bA); boss.head.rotation.x = -bA * 0.06;
+  // Zay face: shock texture during shot C
+  const zA = amp('zay', t);
+  const shock = t >= 7.3 && t < 10.4;
+  zay.facePlane.material.map = shock ? shockFace.tex : zayFace.tex;
+  zay.facePlane.scale.y = shock ? (550 / 512) / (495 / 512) : 1;
+  (shock ? shockFace : zayFace).set(zA);
+  if (t > 5) { zay.head.rotation.x = -zA * 0.05; zay.head.rotation.z = Math.sin(t * 1.3) * 0.02; }
+
+  // ---- lighting mood: golden "freedom" in shot F
+  const gold = ease((t - 16.3) / 0.6);
+  sun.intensity = lerp(2.2, 3.4, gold); sun.color.set(new THREE.Color(0xffc98a).lerp(new THREE.Color(0xff9a4a), gold));
+  hemi.intensity = lerp(0.9, 0.55, gold); panelMat.emissiveIntensity = lerp(1.6, 0.3, gold);
+  rim.intensity = gold * 3; rim.position.set(-0.6, 1.9, zay.root.position.z - 0.5);
+  scene.background.set(new THREE.Color(0xcfc6b3).lerp(new THREE.Color(0x8a5a3a), gold)); scene.fog.color.copy(scene.background);
+
+  // ---- cameras per shot
+  const zp = zay.root.position, bp = boss.root.position;
+  const headZ = new THREE.Vector3(zp.x, 1.77, zp.z + 0.08), headB = new THREE.Vector3(bp.x, 1.77, bp.z);
+  let pos, look, fov = 40;
+  if (t < 5.0) { // A: wide walk-in, slow push
+    const k = t / 5; pos = new THREE.Vector3(-0.15, 1.45, lerp(4.9, 4.2, k)); look = new THREE.Vector3(0.05, 1.15, -3); fov = 46;
+  } else if (t < 7.3) { // B: boss MCU, low angle, from Zay's side
+    const k = (t - 5) / 2.3; pos = new THREE.Vector3(bp.x - 0.75, 1.6, bp.z + lerp(1.45, 1.3, k)); look = headB.clone().add(new THREE.Vector3(0, -0.22, 0)); fov = 34;
+  } else if (t < 10.4) { // C: Zay ECU, dead straight
+    const k = (t - 7.3) / 3.1; pos = new THREE.Vector3(zp.x, 1.76, zp.z + lerp(1.0, 0.9, k)); look = headZ.clone().add(new THREE.Vector3(0, 0.02, 0)); fov = 30;
+  } else if (t < 13.4) { // D: boss tighter, lower
+    const k = (t - 10.4) / 3; pos = new THREE.Vector3(bp.x - 0.55, 1.66, bp.z + lerp(0.95, 0.88, k)); look = headB.clone().add(new THREE.Vector3(0, 0.0, 0)); fov = 30;
+  } else if (t < 16.3) { // E: Zay medium shot, slight low angle
+    const k = (t - 13.4) / 2.9; pos = new THREE.Vector3(zp.x + 0.1, 1.45, zp.z + lerp(1.75, 1.6, k)); look = new THREE.Vector3(zp.x, 1.5, zp.z); fov = 38;
+  } else { // F: Zay CU, golden, slight low angle
+    const k = (t - 16.3) / 3.7; pos = new THREE.Vector3(zp.x - 0.05, 1.66, zp.z + lerp(1.2, 1.08, k)); look = headZ.clone().add(new THREE.Vector3(0, -0.05, 0)); fov = 32;
+  }
+  camera.position.copy(pos); camera.fov = fov; camera.updateProjectionMatrix(); camera.lookAt(look);
+  // hide boss when he'd block Zay's close-ups
+  boss.root.visible = !(t >= 7.3 && t < 10.4) && !(t >= 13.4);
+  zay.root.visible = !((t >= 5.0 && t < 7.3) || (t >= 10.4 && t < 13.4));
+  renderer.render(scene, camera);
+}
+window.renderAt = (t) => { frame(t); return renderer.domElement.toDataURL('image/jpeg', 0.9); };
+window.ready = true;
+</script></body></html>
