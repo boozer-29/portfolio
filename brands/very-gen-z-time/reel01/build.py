@@ -1,5 +1,5 @@
 import subprocess, os, json
-S="/tmp/claude-0/-home-user-portfolio/ef58beb2-756a-5942-9e07-b15c5dbbcc56/scratchpad"
+S="."  # folder that contains gz/ (keyframes, vo, sfx, tee) and fonts/
 G=S+"/gz"; OUT=S+"/reel1"; os.chdir(OUT)
 SILK=S+"/fonts/fontsource-silkscreen/files/silkscreen-latin-700-normal.woff"
 ANTON=S+"/fonts/fontsource-anton/files/anton-latin-400-normal.woff"
