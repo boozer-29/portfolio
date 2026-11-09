@@ -666,6 +666,24 @@ function drawItalic(T) {
   g.shadowColor = 'rgba(0,0,0,0.6)'; g.shadowBlur = 16; g.shadowOffsetY = 2;
   wrap(g, it.text, 800).forEach((l, i) => g.fillText(l, 56, 700 + i * 70)); g.restore();
 }
+// opening title card: big, clean serif; fades out before the first spoken line
+const TITLE = { t0: 0.15, t1: 2.95 };
+function drawTitle(O) {
+  if (O < TITLE.t0 || O >= TITLE.t1) return;
+  const a = eOut(clamp((O - TITLE.t0) / 0.45)) * clamp((TITLE.t1 - O) / 0.3);
+  const rise = (1 - eOut(clamp((O - TITLE.t0) / 0.7))) * 40;
+  const g = ctx; g.save(); g.globalAlpha = a; g.textAlign = 'center'; g.textBaseline = 'alphabetic';
+  // soft dark wash behind the title so it reads cleanly on any frame
+  const wash = g.createLinearGradient(0, 120, 0, 900); wash.addColorStop(0, 'rgba(6,8,24,0.55)'); wash.addColorStop(1, 'rgba(6,8,24,0)');
+  g.fillStyle = wash; g.fillRect(0, 0, W, 900);
+  g.translate(0, rise);
+  g.shadowColor = 'rgba(0,0,0,0.45)'; g.shadowBlur = 30; g.shadowOffsetY = 4; g.fillStyle = '#ffffff';
+  g.font = '500 104px Playfair'; g.fillText('What if your', W / 2, 380);
+  g.font = 'italic 500 236px Playfair'; g.fillStyle = '#ffe9ef'; g.fillText('rizz', W / 2, 600);
+  g.fillStyle = '#ffffff'; g.font = '500 104px Playfair'; g.fillText('doubled every day?', W / 2, 735);
+  g.shadowBlur = 0; g.shadowOffsetY = 0; g.globalAlpha = a * 0.85; g.fillStyle = '#E21E39'; g.fillRect(W / 2 - 70, 780, 140, 6);
+  g.restore();
+}
 function drawHook(O) {
   // the hook question is spoken by the hero: on screen exactly while that line is audible
   const c = hookCue(); if (!c) return; const t0 = c.spans[0][0], t1 = c.spans[c.spans.length - 1][1] + 0.03;
@@ -845,7 +863,7 @@ export function renderFrame(O) {
   if (sh.mag) drawMag(T);
   if (sh.news) drawNews(T);
   if (sh.comments) drawComments(T);
-  drawHook(O); drawStat(T, sh); drawCaptions(O);
+  drawTitle(O); drawHook(O); drawStat(T, sh); drawCaptions(O);
   // flash frames (white, 3 frames)
   for (const s of shots) if (s.flash !== undefined) { const d = Math.round((O - unwarp(s.flash)) * 30); if (d >= 0 && d < 3) { ctx.fillStyle = `rgba(255,255,255,${[0.95, 0.6, 0.25][Math.floor(d)]})`; ctx.fillRect(0, 0, W, H); } }
   return out.toDataURL('image/jpeg', 0.94);
@@ -858,4 +876,4 @@ window.captionText = (O) => { const c = cueAt(O); if (!c) return ''; if (c.kind 
   let chunk = chunks[0]; for (const ch of chunks) if (O >= ch[0].t - 0.03) chunk = ch; return chunk.filter(w => O >= w.t - 0.03).map(w => w.w).join(' '); };
 window.renderFrame = renderFrame; window.S = S; window.THREE = THREE;
 window.__lib = { makePerson, makeHeart, box, mat }; window.TIMELINE = TIMELINE;
-fetch('dialogue.json').then(r => r.json()).then(d => { DIALOGUE = d; }).then(() => document.fonts.load('800 78px Montserrat')).then(() => document.fonts.load('500 128px Lora')).then(() => Promise.all(['400 78px Lora', 'italic 400 54px Lora', '600 30px InterW', '700 30px InterW', '40px "Noto Color Emoji"'].map(f => document.fonts.load(f)))).then(() => { window.READY = true; });
+fetch('dialogue.json').then(r => r.json()).then(d => { DIALOGUE = d; }).then(() => document.fonts.load('800 78px Montserrat')).then(() => document.fonts.load('500 104px Playfair')).then(() => document.fonts.load('italic 500 236px Playfair')).then(() => document.fonts.load('500 128px Lora')).then(() => Promise.all(['400 78px Lora', 'italic 400 54px Lora', '600 30px InterW', '700 30px InterW', '40px "Noto Color Emoji"'].map(f => document.fonts.load(f)))).then(() => { window.READY = true; });
