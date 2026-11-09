@@ -1,126 +1,146 @@
-# HOURS AWAKE: Episode 2 / 7, "Autopilot" (Branch A: you took the seat)
+# HOURS AWAKE: Episode 2 / 7, "Thirty Seconds" (Branch A: THE ROOF)
+Follows the posted Episode 1 v2 "The Note" (ended: thousands of Sleepers kneel, open their eyes and stare up at YOU; vote A ROOF / B BASEMENT; A won).
 
 ## 0. Episode block
 ```
-Story:     HOURS AWAKE (zombie), Episode 2 / 7, "Autopilot"
-Premise:   Imagine you + you abandoned your brother to save the world + the Sleeper flying your helicopter is taking orders from him
-Counter:   HOURS AWAKE 42:01 → 42:09
-HUD:       stats ALTITUDE ft · NOISE dB · SLEEPERS BELOW; line 4 amber DAWN CAMP 14 MIN → red HOME 2 MIN
-Hook text: YOUR PILOT IS ASLEEP.  (overlay, 0-3 s)
-You-see:   He's asleep... but still flying perfectly (4-6 s)
-Mid twist: The back of "LEAVE THE BOY" is in crayon: "GO. I'LL HOLD THEM. — OLLIE". The horde is his. (~61%)
-Big twist: The helicopter turns around, GPS says HOME, and the sleeping pilot squeezes your hand exactly like Ollie did. (~76%)
-Choice:    A BLAST THE SIREN (cure escapes, horde breaks loose around Ollie) vs B LET HIM LAND (keep your brother, lose the world)
-Last vote: A, TAKE THE SEAT ("YOU CHOSE: A" in the HUD for 3 s)
-Length:    ~66 s, 9:16, 30 fps (1980 frames). Narration 150 words.
+Story:     HOURS AWAKE (zombie), Episode 2 / 7, "Thirty Seconds"
+Premise:   Imagine you + you ran for the roof + one microsleep costs you your brother
+Counter:   HOURS AWAKE 42:00 → 52:00 (+10 HRS) → frozen 30 s microsleep → 52:01
+HUD:       EP 2 / 7 · SURVIVORS 5 → 4 · NOISE dB · IN BUILDING 3,412; line 4 amber RESCUE IN 6 DAYS
+Hook text: MOST OF YOU CHOSE THE ROOF. / YOU SHOULDN'T HAVE.   (overlay, 0-3 s)
+You-see:   The street is empty... because they're already inside the building (5-8 s)
+Mid twist: Ollie is sleepwalking DOWN through the horde, and every Sleeper kneels as he passes (~64%)
+Big twist: Ep 1 re-read: they were never staring at you, they were staring at Ollie behind you.
+           The moment he's gone, the roof door starts to break (~73-77%)
+Choice:    A SAVE YOURSELF: cross the plank to the next roof, leave Ollie
+           B SAVE OLLIE: go down into the basement, through thousands of them
+Last vote: A, THE ROOF ("YOU CHOSE: A · ROOF" HUD tag, 0-3 s)
+Length:    ~65 s, 9:16, 30 fps (~1950 frames). Narration 142 words.
 ```
-Length note: the owner hasn't picked 45 s vs 60 s yet. This runs ~66 s (over 1 minute, so it qualifies for TikTok payouts). A 45 s cut is possible by dropping beat 4 (rules) and beat 3 (recap).
 
-## 1. Why the twists land
-- **The hook is a paradox:** a sleeping man flying perfectly. Viewers stay to find out how.
-- **The rules beat raises the question:** the rotors break Rule 2 and *nothing attacks*. Why? The mid twist answers it.
-- **Mid twist flips Ollie from monster to protector:** he's not one of them, they're his. He's holding back 3,412 Sleepers so you can escape.
-- **Big twist flips him again, from protector to something scarier:** he's eight, he misses you, and his dream turns the helicopter around. The hand squeeze is a callback to the last frame of Ep 1, so no explanation is needed.
-- **The vote makes you the villain either way:** A, you actively unleash the horde on your brother; B, you personally hand the world's cure to the Sleepers.
-- **Fair-play clue:** the pilot hums at a child's pitch, the same note Ollie hummed in Ep 1. Rewatchers will catch it.
+## 1. Why this works (and isn't basic)
+- **The opening rewards the voters.** It starts on Episode 1's last image, the narrator says "Most of you chose A", and the hook text immediately punishes it: "YOU SHOULDN'T HAVE." Viewers stay to find out why.
+- **The relief-to-horror flip in 5 seconds.** The street is empty, so you're safe... no: they're already inside.
+- **The rules get broken on screen.** Rule 1 is "never sleep", and 20 seconds later you microsleep. In Episode 1 the rule said one microsleep makes you one of them. You don't turn. That is never explained, and it's comment bait plus a Subject 0 plant.
+- **The twist rewrites Episode 1.** Episode 1 ended "At YOU." Now we learn they were staring at your little brother standing behind you. Rewatchers will go back to check, which helps the algorithm.
+- **Cause and effect with no exposition.** The door held for ten hours. It breaks the second Ollie is gone. Nobody says why; viewers work out that he was protecting you.
+- **The vote is the user's own format:** A = save yourself and abandon your brother; B = risk your life to save him. It's physical, it's on a clock, and both options cost something.
 
 ## 2. Tagged narration (ElevenLabs, one paragraph = one generation)
-Full text in `script_tagged.txt`; captions from `script_clean.txt`.
+Full text in `script_tagged.txt`; captions from `script_clean.txt`. Times are estimates; re-time from the transcribed audio.
 
 | # | Time | Beat | Tagged line |
 |---|---|---|---|
-| 1 | 0.0-4.5 | HOOK | `[quietly][tense] Imagine you're two thousand feet up... [short pause] and your pilot is ASLEEP.` |
-| 2 | 4.5-6.5 | YOU-SEE TURN | `[whispering] But he's still flying. [short pause] [slowly] Perfectly.` |
-| 3 | 6.5-11.5 | RECAP | `[softly][numb] You chose the world. [short pause] The cure is you. [short pause] Your brother... stayed on the roof.` |
-| 4a | 11.5-14.0 | RULE 1 | `[serious] Rule one. Never sleep. [short pause] He did.` |
-| 4b | 14.0-18.5 | RULE 2 | `[whispers] Rule two. Never make a sound. [serious] The rotors scream... [short pause] and nothing attacks.` |
-| 4c | 18.5-23.0 | RULE 3 | `[urgent][low, restrained voice] Rule three. If they hum... run. [short pause] [darkly] He's humming. [short pause] There's nowhere to run.` |
-| 5 | 23.0-28.0 | BELOW | `[tense] Below, Ollie stands on the roof. [short pause] Asleep. [whispers] One hand raised... to you.` |
-| 6 | 28.0-40.8 | MID TWIST | `[quietly] The pilot's sign. You flip it. [long pause] [whispering] Crayon. [softly] "Go. I'll hold them." [short pause] [slowly] He's not one of them. [long pause] [darkly] They're HIS.` |
-| — | 40.8-41.3 | silence drop | |
-| 7 | 41.3-51.0 | BIG TWIST | `[tense] Then the helicopter turns around. [short pause] The screen says: home. [long pause] [whispering] And the pilot... squeezes your hand.` |
-| 8 | 51.0-62.5 | THE VOTE | `[calm][serious] One siren could drown out his hum. [short pause] A... blast it. You get the cure out... and his horde breaks loose. Around him. [short pause] B... let him land. [slowly] Keep your brother. Lose the world. [long pause] [very softly][warm] Choose. I'll stay with you.` |
-| CTA | 62.5-66.0 | FOLLOW | `[urgent] Comment A... or B. [short pause] [softly] Follow for part three.` |
+| 1 | 0.0-6.5 | HOOK + RECAP | `[quietly][tense] Imagine thousands of eyes... staring at you. [short pause] Most of you chose A. [urgent] So you run... for the roof.` |
+| 2 | 6.5-10.5 | YOU-SEE TURN | `[tense] The street below... is empty. [long pause] [whispers] They're already INSIDE.` |
+| 3 | 10.5-18.5 | RULES | `[serious] Rule one: never sleep. Rule two: never make a sound. [urgent] Rule three: if they hum... run. [long pause] [numb] Nowhere left to run.` |
+| 4 | 18.5-22.0 | TEN HOURS | `[slowly][numb] Ten hours. They just hum... behind the door.` |
+| 5 | 22.0-28.5 | FIGHTING SLEEP | `[softly] Ollie fights sleep in your arms. [short pause] So do you. [long pause] [very softly] Your eyes... close.` |
+| — | 28.5-29.5 | TRUE SILENCE (the microsleep) | |
+| 6 | 29.5-33.5 | EMPTY ARMS | `[whispering] One microsleep. [short pause] Thirty seconds. [long pause] [tense] Your arms are EMPTY.` |
+| 7 | 33.5-38.0 | THE DOT | `[urgent][building energy] Maya's map. [short pause] One dot is moving. Down. [short pause] Through all of them.` |
+| 8 | 38.0-48.0 | MID + BIG TWIST | `[whispering] It's Ollie. Asleep. [long pause] And every Sleeper... kneels as he passes. [long pause] [darkly] They were never staring at you. [short pause] They were staring at HIM.` |
+| — | 48.0-48.5 | silence drop | |
+| 9 | 48.5-51.5 | THE DOOR | `[urgent] Then the door behind you... starts to break.` |
+| 10 | 51.5-62.5 | THE VOTE | `[calm][serious] A... cross the plank. Save yourself. [short pause] B... go down for Ollie. Through thousands of them. [long pause] [very softly][warm] Choose. I'll stay with you. [short pause] [urgent] Comment A... or B.` |
+| CTA | 62.5-65.0 | FOLLOW | `[softly] Follow for hour fifty-three.` |
 
-Caption colors: lime = TWO THOUSAND FEET, PERFECTLY, CRAYON, HOME, A; red = ASLEEP, SLEEP, SOUND, HUM, HUMMING, HIS, HORDE, B; amber = CURE, WORLD.
+Caption colors: lime = A, ROOF, OLLIE, MAP; red = INSIDE, SLEEP, SOUND, RUN, EMPTY, KNEELS, HIM, BREAK, B; amber = PLANK.
+
+**ElevenLabs tip:** if the voice reads "A" as "uh", type it as `Ay...` in that one generation (captions still show "A").
 
 ## 3. Beat-by-beat production
-Style, palette, captions and HUD as in CLAUDE.md PART 4. **The pilot is a Sleeper, so he is never seen moving:** his hands, head and grip change only across cuts. The horizon, clouds and city move instead.
+Style, palette, HUD, captions, camera: CLAUDE.md PART 4. Sleepers are never seen moving. POV shots (your hands, your breath) whenever possible, so the viewer *is* you.
 
-**1 · 0.0-4.5 · HOOK**
-- 0.0-2.0 Inside the cockpit, wide from the back seat: you (mustard hoodie, from behind) beside the pilot. Night city 2,000 ft below through the bubble window, cold blue. Push-in x1.12.
-- Overlay (0.0-3.0): **YOUR PILOT IS ASLEEP.** Montserrat 900, white with "ASLEEP" red, centered at 30% height, pop-in. HUD tag lime **YOU CHOSE: A** (0.0-3.0).
-- 2.0-4.5 Close on the pilot's visor going clear: eyes closed, dark under-eye circles, head tilted 12°. Name tape on his chest: `REYES` (plant, never mentioned).
-- HUD: `42:01`, ALTITUDE 2,000 FT, NOISE 104 dB (red), SLEEPERS BELOW 3,412. Line 4 amber `DAWN CAMP · 14 MIN`.
-- SFX: rotor roar (ducked under the voice), wind buffeting, the pilot's hum at a child's pitch (D4).
+**1 · 0.0-6.5 · HOOK + RECAP**
+- 0.0-1.8 Episode 1's last image, re-rendered: wide from your window, the perfect kneeling circle, thousands of glowing white eyes staring up. HUD on at frame 0: `EP 2 / 7`, `42:00`, lime tag `YOU CHOSE: A · ROOF` (0-3 s).
+- Hook text overlay 0.0-3.0, centred at ~32% height, Montserrat 900: white `MOST OF YOU CHOSE THE ROOF.` then at 1.4 s red `YOU SHOULDN'T HAVE.` pops in under it.
+- 1.8-4.0 POV handheld sprint up the stairwell: your hands on the rail, Ollie's arms locked around your neck (his red beanie and dinosaur toy in frame), Reyes's flashlight behind you (amber = the only light).
+- 4.0-6.5 The roof door bursts open: cold blue wind. Wide from behind you (mustard hoodie): five of you on a small gravel roof, skyline beyond.
+- SFX: the Ep 1 hum chord held under 0-1.8, footsteps, your breathing, door bang, wind rush. Narrator breath sample 0.15 s before the line.
 
-**2 · 4.5-6.5 · YOU-SEE TURN**
-- 4.5-5.3 Gust: the horizon tilts 15° (camera roll), alarm chirp.
-- 5.3-6.5 Cut: the pilot's gloved hands are on the stick in a new position, the horizon snaps level. Insert: the throat vibrating.
+**2 · 6.5-10.5 · THE YOU-SEE TURN**
+- 6.5-8.0 You at the ledge, 1 s tilt-down: the street is EMPTY. Just a perfect ring of scuffed dust where they knelt.
+- 8.0-8.5 Silence drop, static frame.
+- 8.5-10.5 Hard cut to the roof door from your side: the hum swells behind it, the light under the door gap flickers with shadows. Reyes rams a steel pipe through the handle. Shake.
+- HUD: `SLEEPERS NEARBY` label flips to red `IN BUILDING 3,412`; NOISE 30 → 85 dB (red).
 
-**3 · 6.5-11.5 · RECAP (desaturated flashback, cuts every 1 s)**
-- Roof at 41:58, the helicopter wash; Ollie's small hand slipping out of yours; the skids lifting; Ollie getting smaller in a ring of kneeling Sleepers; snap back to color in the cockpit.
-- HUD flashes the vote result: `A · TAKE THE SEAT` (lime pill, 1 s).
+**3 · 10.5-18.5 · RULES**
+- 10.5-12.2 Red pill `RULE #1 NEVER SLEEP` over DJ's drooping eyelids.
+- 12.2-14.2 Red pill `RULE #2 NEVER MAKE A SOUND` over your own hand clamped over your mouth (POV).
+- 14.2-16.0 Red pill `RULE #3 IF THEY HUM, RUN` over the door, vibrating with the hum.
+- 16.0-18.5 Drone crane-up: the tiny roof, five survivors, a five-floor drop on every side. A long scaffold **plank** lies by the ledge facing the next building (setup for the vote).
 
-**4 · 11.5-23.0 · RULES (red pill above each, rules turned against you)**
-- 4a: pill `RULE #1 NEVER SLEEP`; text `MICROSLEEP: UP TO 30 s`; cut to the pilot's closed eyes.
-- 4b: pill `RULE #2 NEVER MAKE A SOUND`; NOISE meter pinned red at 104 dB; wide shot down at the street: 3,412 faces tilted up at the helicopter, completely still. Nobody moves.
-- 4c: pill `RULE #3 IF THEY HUM, RUN`; extreme close on the pilot's humming throat; tilt down to your knee bouncing, cabin door handle, 2,000 ft of air. Two-tone alert.
+**4 · 18.5-22.0 · TEN HOURS**
+- HUD clock rolls `42:00 → 52:00` with a `+10 HRS` tag. Time-lapse of shadows sliding across the roof; survivors slumped against the parapet; the door pulses with the hum but never opens.
+- Reyes glances at the gap to the next roof, then at the plank (setup).
+- HUD line 4 amber `RESCUE IN 6 DAYS`. Radio crackle with the breath sample (plant).
 
-**5 · 23.0-28.0 · BELOW**
-- 23.0-25.0 Wide through the floor window: your building, the ring of kneeling Sleepers, the roof in amber light.
-- 25.0-28.0 Zoom: Ollie (red beanie, dinosaur toy dangling) standing at the roof edge, eyes closed, one hand raised toward the helicopter. Every head in the street follows the helicopter as it moves (new positions after each cut).
-- SFX: Ollie's hum (D4) faint under the rotors; it matches the pilot's note exactly.
+**5 · 22.0-28.5 · FIGHTING SLEEP**
+- 22.0-24.5 Close: Ollie in your arms, head bobbing; your hand jostles him awake. He clutches his dinosaur.
+- 24.5-27.0 POV: your own eyelids closing (black vignette closing top and bottom), sound goes muffled, heartbeat slows 70 → 50 bpm.
+- 27.0-28.5 Fully black.
+- **28.5-29.5 TRUE SILENCE** (everything cut). A tiny red mono counter in the black rolls `MICROSLEEP 00:01 → 00:30`.
 
-**6 · 28.0-40.8 · MID TWIST (~61%)**
-- 28.0-30.0 The cardboard sign `LEAVE THE BOY` on the cabin floor, sliding with the vibration.
-- 30.0-32.5 Your hands pick it up and flip it.
-- 32.5-33.1 SILENCE DROP (static frame on the flip).
-- 33.1-36.5 The back: red crayon, a child's handwriting (Caveat): **GO. I'LL HOLD THEM. — OLLIE**, with a little dinosaur drawing and a sound-wave doodle (plant: the same icon as the `1 NEW SOUND` phone screen in Ep 1).
-- 36.5-39.4 Hard cut, street wide: every Sleeper's hand is raised exactly like Ollie's.
-- 39.4-39.9 Silence drop. 39.9-40.8 "They're HIS": smash zoom on Ollie's sleeping face, a tiny smile. Boom, shake.
+**6 · 29.5-33.5 · EMPTY ARMS**
+- 29.5-30.5 POV snaps open, 2-frame white flash. Your arms hold only **the dinosaur toy**.
+- 30.5-31.5 3-frame plant: a faint hum in the mix that could be coming from YOUR throat. Never explained.
+- 31.5-33.5 Wide: Maya, Reyes, DJ asleep-ish, jolting up. The fire escape ladder at the roof edge: **Ollie's red beanie** caught on the top rung.
+- HUD: `SURVIVORS 5 → 4` with a red `−1` tag. Heartbeat jumps to 100 bpm.
 
-**7 · 41.3-51.0 · BIG TWIST (~76%)**
-- 41.3-43.5 The world swings: the horizon rotates 180° (camera roll), city lights streak. G-force shake.
-- 43.5-45.5 GPS screen: `AUTOPILOT: DAWN CAMP` → `OVERRIDE` → the pin snaps back to your building, labeled `HOME`. HUD line 4 turns red: `HOME · 2 MIN`. ALTITUDE starts dropping 2,000 → 1,400.
-- 45.5-47.5 LONG TRUE SILENCE (rotors cut out of the mix entirely, 2 s). Static wide: below, the horde shuffles into a perfect empty circle on the roof (new positions after the cut), a landing pad around Ollie.
-- 47.5-48.5 Your hand on the armrest, alone.
-- 48.5-51.0 Cut: the pilot's pale gray hand is on yours. Cut tighter: the grip has closed. Same framing as the last shot of Ep 1. Sub-bass boom.
+**7 · 33.5-38.0 · THE DOT**
+- 33.5-35.0 Maya's tablet slides up into frame (3° tilt): a floor-by-floor map of the building packed with white dots, all frozen.
+- 35.0-38.0 One small lime dot moves **down**, floor by floor (cut-based steps, not smooth): 5 → 4 → 3 → 2. The white dots around it shift into a ring after each cut. Label flashes for 6 frames at the bottom floor: `B1 · SLEEP STUDY` (plant, never explained).
+- SFX: tablet pings per floor, heartbeat 100 → 120.
 
-**8 · 51.0-62.5 · THE VOTE**
-- 51.0-53.0 Insert: a red dash button `PA / SIREN` under a plastic flip cover.
-- 53.0 Hard cut to the dark `#0A0D16` vote card, `WHAT DO YOU DO?` types on.
-- Card A (lime): `A · BLAST THE SIREN · SAVE THE CURE` (speaker icon). Card B (red): `B · LET HIM LAND · SAVE OLLIE` (house icon).
-- `COMMENT A OR B · THE MOST VOTED CHOICE DECIDES`. HUD keeps counting `HOME · 1:40`.
+**8 · 38.0-48.0 · MID TWIST → BIG TWIST**
+- 38.0-41.0 Building CCTV stills (static frames, timestamped, green tint), one per cut: a stairwell packed with Sleepers; next still, they're **kneeling**, eyes glowing; Ollie, eyes closed, walking between them. **[MID TWIST ~41-43 s, 63-66%]**
+- 41.0-43.5 Next still: Ollie at the basement door, one small hand on the handle. Every Sleeper in the frame faces him.
+- 43.5-44.0 Silence drop.
+- 44.0-46.5 **Re-cut of Episode 1's last shot**, now pulling BACK from your window: you at the glass... and Ollie standing right behind you, eyes closed. Every glowing eye was aimed past you, at him. **[BIG TWIST ~46-48 s, 71-74%]**
+- 46.5-48.0 Push-in on Ollie's sleeping face in that flashback. Sub-bass boom on "HIM".
 
-**CTA · 62.5-66.0** Black, `FOLLOW FOR PART 3` fades up. Loop: frame 0 is the cockpit again.
+**9 · 48.0-51.5 · THE DOOR**
+- 48.0-48.5 Silence drop on the roof door.
+- 48.5-50.0 BANG. The door bows, the pipe bends. Shake. NOISE 95 dB flashing red. The hum becomes thousands.
+- 50.0-51.5 Reyes slides the plank across the gap to the next roof. DJ and Maya already crawling across it, a five-floor drop under them. Reyes looks back at you and holds out his hand.
+
+**10 · 51.5-62.5 · THE VOTE**
+- 51.5-53.0 POV split moment: your left hand reaching for Reyes's hand and the plank; your right hand still holding the dinosaur, near the fire-escape ladder down into the dark.
+- 53.0 Hard cut to the dark `#0A0D16` vote card. `WHAT DO YOU DO?` types on.
+- Card A (lime): `A · SAVE YOURSELF` / small: `CROSS THE PLANK. LEAVE OLLIE.` (plank icon)
+- Card B (red): `B · SAVE OLLIE` / small: `GO DOWN. THROUGH THOUSANDS.` (stairs icon)
+- `COMMENT A OR B · THE MOST VOTED CHOICE DECIDES`. The door-banging continues under the card, louder with each hit.
+
+**CTA · 62.5-65.0** Black, `FOLLOW FOR HOUR 53` fades up. Loop: frame 0 is the staring eyes again.
 
 ## 4. Sound map
-- Rotor bed is the drone for this episode: loud in pictures, ducked 8 dB under every word, cut completely for the 45.5-47.5 hold (the silence will feel deafening).
-- The hum: pilot and Ollie on the same child-pitched note (D4); the horde joins in at 36.5.
-- Alarms: two-tone alert at 4c; GPS chime at 43.5; stall-warning beeps under the vote card.
-- Breath sample before every narrator line, and once in the cockpit radio static at 24.0 (plant).
-- Silence drops: 32.5-33.1, 39.4-39.9, 45.5-47.5 (long hold), 40.8-41.3.
+- Voice -13 LUFS per line; SFX about half; drone about a quarter; final -14 LUFS. Never silent apart from the planned drops.
+- Bed: sub-bass drone (varied every <10 s), wind on the roof, distant car alarm far off in the city, radio static crackle at 19-21 s.
+- The hum: thousands (beat 1) → muffled behind the door (2-5) → nothing (microsleep) → thousands breaking loose (9-10).
+- Silence drops: 8.0-8.5, 28.5-29.5 (true silence), 43.5-44.0, 48.0-48.5.
+- Heartbeat: 70 → 50 bpm (falling asleep) → 100 (empty arms) → 120 (the dot) → peak at "HIM".
+- Hits: door bangs with shake, pill thuds, tablet pings, the boom on "HIM", caption pops (-24 dB).
 
 ## 5. Plants (never explained)
-- Pilot's name tape reads `REYES`.
-- Ollie's crayon note has the sound-wave icon from Ep 1's `1 NEW SOUND` screen.
-- GPS destination: `DAWN CAMP · SLEEP RESEARCH CENTER`.
-- The pilot hums at a child's pitch.
-- Narrator: "I'll stay with you." Breath in the radio static.
+1. You microslept 30 s and didn't turn, which breaks Episode 1's rule ("one microsleep and you're one of them"). Payoff: Subject 0 / immunity.
+2. The 3-frame hum that might be coming from your own throat.
+3. `B1 · SLEEP STUDY` on the map (6 frames). Payoff: the basement's secret.
+4. The door holds for 10 hours and breaks only once Ollie is gone.
+5. Radio crackle with the narrator's breath sample; "I'll stay with you".
 
-## 6. Where each vote leads (Episode 3)
-**A · BLAST THE SIREN → Ep 3 "Dawn Camp"**
-The siren breaks the hum; the pilot goes limp and autopilot drags you to the sleep research center. Over the radio, Maya's last text from the roof: `HE WOKE UP. HE'S CRYING. THEY'RE COMING UP THE STAIRS.` At the camp, the doctors don't want your blood. They want to put you to sleep, because the cure only works if Subject 0 dreams.
+## 6. Where each vote leads (Episode 3, branches never rejoin)
+**A · SAVE YOURSELF → Ep 3 "The Other Roof" (Hour 53).** You cross; the plank drops behind you. Your old roof floods with Sleepers, but none of them come after you. They all turn and go back down, to Ollie. Then every radio in the city starts playing a child humming the Note. Ollie is broadcasting, and he's calling them all home.
 
-**B · LET HIM LAND → Ep 3 "Home"**
-You land in the circle. Ollie, still asleep, walks into your arms, and 3,412 Sleepers kneel to both of you. Reyes walks up to the cockpit, sees the sleeping pilot's face, and drops his shotgun: it's his son. Then the radio: Dawn Camp is coming for the cure, with soldiers.
+**B · SAVE OLLIE → Ep 3 "The Basement" (Hour 53).** You climb down the fire escape into the dark, through rows of kneeling Sleepers who let you pass. The basement is an old sleep-study clinic. Ollie is asleep on a bed wired to a speaker playing the Note. Next to him is an empty bed with a name tag: yours. `SUBJECT 0`.
 
 ## 7. Episode QA (on top of the master checklist)
-- [ ] The hook overlay is readable on mute and sits inside the safe zone
-- [ ] The "still flying" turn lands by 6 s
-- [ ] The pilot never moves on screen; hands and grip change only across cuts
-- [ ] The crayon note is the cleanest, brightest frame of the mid twist
-- [ ] The hand squeeze matches the Ep 1 final-shot framing
-- [ ] Facts to verify with a web search before publishing: microsleep up to ~30 s; helicopter noise around 100 dB
-- [ ] Vote card clean and dark; ~66 s total
+- [ ] The staring eyes are on screen at frame 0; the hook text is readable on mute in the first 3 s.
+- [ ] "Most of you chose A" is said within the first 4 s; the `YOU CHOSE: A · ROOF` tag shows 0-3 s.
+- [ ] The empty-street turn lands by about 6-8 s.
+- [ ] The plank is shown twice before the vote (beats 3 and 4), so option A isn't a surprise.
+- [ ] Ollie is never seen moving: only static CCTV stills and map steps.
+- [ ] The Episode 1 re-cut (Ollie behind you) is the brightest, clearest image of the episode.
+- [ ] The vote card is clean and dark; door bangs under it.
+- [ ] Facts on screen (microsleep up to ~30 s) web-verified before publishing.
+- [ ] ~65 s, 1080x1920, 30 fps.

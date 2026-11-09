@@ -40,7 +40,7 @@ The owner wants **perfection-level quality**, stunning animation and visuals, fa
 2. **Second person, viewer = character.** First words are "Imagine you…". Use hands, reflections, phone screens and a HUD so the viewer is the survivor.
 3. **Hook in the first second.** The threat must be on screen at frame 0. No slow openings, no black starts.
 4. **Every episode has:** at least 3 numbered RULES of the monster, a mid twist (about 60-65%), a big twist (70-85%), at least 2 silence drops before reveals, at least 2 plants for later episodes, and an **A/B vote** ending with a "Follow for…" line.
-5. **7 episodes per story, then switch.** Alternate zombie / demon / last-person-in-an-apocalypse. **(Updated by owner) Each vote changes the course of the story completely; branches do NOT rejoin.** The A/B options must be a painful trade-off (save a loved one vs. something huge, like the world or a billion dollars). Only the winning branch is built; plan one episode ahead per vote. Episode 1 is now v3 "The Last Seat" (`hours-awake/ep1/ep1_script.md`), which replaces PART 6; the PART 3.4 arc table is superseded, see `SERIES_LOG.md`.
+5. **7 episodes per story, then switch.** Alternate zombie / demon / last-person-in-an-apocalypse. **(Updated by owner) Each vote changes the course of the story completely; branches do NOT rejoin.** The A/B options must be a painful trade-off (save a loved one vs. something huge, like the world or a billion dollars). Only the winning branch is built; plan one episode ahead per vote. **The POSTED Episode 1 is v2 "The Note" (PART 6, `hours-awake/ep1/`).** v3 "The Last Seat" was never posted (`hours-awake/ep1/v3_unposted/`, an idea reserve). The PART 3.4 arc table is superseded; `SERIES_LOG.md` is the source of truth for what has aired and what won.
 6. **Pace up.** Flashback or montage shots 0.8-1.5 s; other shots no longer than 3 s except planned holds. A visual or sound event at least every 0.8 s in montage beats.
 7. **Quality bar.** Clear geography (always a wide shot before close-ups), two-color lighting logic (warm amber = safe, cold blue = danger, red only for alerts), readable final frame on a phone at low brightness, text kept out of the top 12% and bottom 25% of the screen. No clutter on the vote card.
 8. **Never see the monster move.** Monsters only appear in new positions after a cut, a silence drop or a light going out.
@@ -58,6 +58,8 @@ The owner wants **perfection-level quality**, stunning animation and visuals, fa
 5. **Sound is mandatory:** sub-bass drone, distant alarms, static crackle, wind under every line. Never deliver a silent render.
 6. **Don't accept the first render:** iterate on camera glides, harsh backgrounds, and make the focal point clear on a small phone screen.
 7. **Snappy length:** the owner's research says 20-45 s works best; this conflicts with the 55-85 s rule in PART 4. Until the owner decides, aim for the shortest length the story allows and cut every non-essential line.
+9. **Episode openings (owner rule):** every episode after the first starts with "Imagine..." + the final moment of the previous episode, then the narrator acknowledges the vote in plain words ("Most of you chose A. So..."), with a `YOU CHOSE: A · <option>` HUD tag for 3 s.
+10. **Vote format (owner rule):** the final A/B grows straight out of the big twist and is a concrete, physical, on-the-clock situation the viewer is in. A = save yourself / take the safe or selfish way out; B = risk your life for someone you love (or the reverse framing, but always that tension). Example: the Sleepers are breaking the door, your brother is in the basement: A run to the roof and leave him, B go down for him. Full immersion: POV, your hands, your breath.
 8. **Iterate, don't spam:** no near-identical re-uploads. Use the drop-off point in analytics (owner reports it) to fix that exact scene.
 
 ## 1.4 Workflow for any request
@@ -103,7 +105,7 @@ An **apocalypse** is when the world you knew has ended and **no help is coming**
 8. One more series exists separately: **STRANDED** (island survival). It has its own master prompt and is out of scope here.
 
 ## 2.3 Open items (decide with the owner, don't assume)
-- **Episode 1 vote result:** A (Take the seat). Episode 2 "Autopilot" is written. See `SERIES_LOG.md` for later results.
+- **Episode 1 vote result:** A, THE ROOF (posted Ep 1 = v2 "The Note"). Episode 2 "Thirty Seconds" is written. See `SERIES_LOG.md` for later results.
 - **Look: 2.5D layered flat vector (default, Canvas 2D pipeline) vs real 3D** (Remotion + @remotion/three, see 7.4). The owner said "3D like the samples I sent"; the samples are a mix of flat stickman (2D), flat cartoon (2D) and Roblox-style 3D. The default in this file is **chunky block characters with bevel shading, 5 parallax layers, one light source** so it reads as 3D. If the owner asks for true 3D, use 7.4.
 - **Voice engine:** ElevenLabs (emotional tags, uses account credits) vs the local free Orpheus fallback (no emotion tags). Default: ElevenLabs when connected.
 - A downloaded skill named **cartoon-audio-short** (SKILL.md) exists on the owner's side. Its contents have **not** been reviewed; read it if present and follow its audio/caption rules where they don't conflict with this file.
