@@ -18,3 +18,18 @@
 7. QA before delivery: automated checks (static runs, black frames, caption/face overlap, duplicate limbs) with opencv,
    plus motion-strip review (every 6th frame) not just stills.
 8. Deliver one polished cut, with a short issues list.
+
+## Mistakes the user caught in EP2 (must never repeat)
+1. Facing vs limbs: a character with their back/head turned away had hands reaching toward the camera.
+   Rule: the facing direction (front / back / side) is decided first; head, torso, arms and held objects must all
+   agree with it. Back-view characters reach AWAY from camera, front-view ones reach toward the subject they look at.
+2. Occlusion: the cinder blocks and plank were drawn behind a survivor, yet the highlight ring was drawn on top as if
+   visible. Rule: anything the narration names must be fully unobstructed in frame; highlights are drawn in the same
+   layer as the object, so they are hidden whenever the object is. Stage named props in clear space, never behind people.
+3. Z-order check on every shot: list foreground / mid / background objects explicitly, and confirm nothing important is covered.
+
+## Process change
+- Before rendering, I produce a per-shot staging sheet (facing, who holds what, what is occluded, what is highlighted)
+  and review it against the narration line by line.
+- Every shot is checked as a full-resolution frame at three moments (start, middle, end) for facing, limbs, occlusion.
+- Render a low-fps preview strip of the whole video and check motion, not just stills, before the final render.
