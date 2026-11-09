@@ -127,6 +127,8 @@ The grade is **warm and lifted** by default. Contrast between warm "freedom" and
 | Product end card | Neutral, crisp, hard window-light shadows | concrete #8C8A86 | `NEUTRAL` |
 
 Always finish with the **FINISH** chain: soft bloom + fine animated grain (section 9).
+It MUST start with `format=gbrp`: the bloom uses a *screen* blend, and on YUV video a screen
+blend also brightens the colour channels and turns the whole frame purple (found in testing).
 
 ---
 
@@ -250,7 +252,8 @@ Supporting cast (design or pick from the Voice Library with these descriptions):
 | Dialogue | -14 LUFS reference, high-pass 80 Hz, light compression |
 | Music bed | -26 to -24 LUFS (≈ 10–12 dB under voice); duck a further 3 dB under lines |
 | SFX hits | Peaks at -6 dBFS; land exactly on the cut |
-| Master | loudnorm I=-14, TP=-1.5 |
+| Master | loudnorm I=-14, TP=-1.5. Single-pass loudnorm lands ~1 dB low; finish with
+`-af "volume=1.5dB,alimiter=limit=0.75:level=false"` and re-measure (target -14 LUFS, peak ≤ -1.5) |
 
 ---
 
@@ -326,7 +329,7 @@ OVERCAST="eq=saturation=0.82:contrast=1.02,colorbalance=rs=-0.01:bs=0.02:rh=0.02
 COLD="eq=saturation=0.55:contrast=1.03,colorbalance=rs=-0.04:bs=0.06:rm=-0.03:bm=0.05,curves=all='0/0.05 0.5/0.47 1/0.92'"
 GOLD_NOIR="eq=saturation=0.95:contrast=1.15,colorbalance=rs=0.07:bs=-0.07:rm=0.05:bm=-0.05,curves=all='0/0.02 0.4/0.36 1/0.98'"
 NEUTRAL="eq=saturation=0.9:contrast=1.04"
-FINISH="split[a][b];[b]curves=all='0/0 0.75/0 1/1',gblur=sigma=18[g];[a][g]blend=all_mode=screen:all_opacity=0.35,noise=alls=3:allf=t,format=yuv420p"
+FINISH="format=gbrp,split[a][b];[b]curves=all='0/0 0.75/0 1/1',gblur=sigma=18[g];[a][g]blend=all_mode=screen:all_opacity=0.35,noise=alls=3:allf=t,format=yuv420p"
 ```
 
 Render one shot from a still (push-in + grade + finish + caption). Tested: 4 shots / 8.5 s
