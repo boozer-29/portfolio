@@ -196,8 +196,13 @@ Rules:
 
 ### 7.2 ElevenLabs cast
 
-Hero voice: designed with ElevenLabs Voice Design (`eleven_ttv_v3`) from this description —
-reuse it to design yours, then save the preview you like:
+**LOCK — Hero voice: `Slacker Hero - Deadpan Drawl`, voice_id `M5iS4o2i0R8IeaOr2LmG`**
+(saved in the ElevenLabs voice library; approved by the user as the perfect match). Always use
+this voice_id for every hero line. Never substitute another voice for the hero.
+Reference sample: `examples/voice/hero_voice_FINAL.mp3`.
+
+It was designed with ElevenLabs Voice Design (`eleven_ttv_v3`) from this description (keep it
+in case the voice ever needs to be re-created in another workspace):
 
 ```
 Young American man, about 24, low relaxed baritone (around 100 Hz), lazy laid-back slacker drawl, deadpan and completely unbothered, slightly smug, soft vocal fry at the ends of phrases, stretched vowels, slow unhurried pacing with small pauses, sounds half-asleep but confident. Clean, dry, close-mic studio recording, no reverb.
