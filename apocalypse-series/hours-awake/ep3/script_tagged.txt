@@ -1,25 +1,21 @@
-[quietly][tense] Imagine crawling across a plank... five floors up. [short pause] Most of you chose A. [slowly] You saved yourself.
+[quietly][tense] Imagine crawling across a plank... five floors up. [short pause] Most of you chose A. [slowly] You left him.
 
-[tense] Rule two: never make a sound. [short pause] The plank... creaks. [urgent] The door behind you explodes. [short pause] Rule three: if they hum... run. [darkly] You can't run on a plank.
+[tense] Rule two: never make a sound. [short pause] The plank... creaks. [urgent] Rule three: if they hum, run. [short pause] [darkly] You can't run on a plank.
 
-[whispers] They flood your old roof... [long pause] and stop. [short pause] They turn back. Down. [darkly] To him.
+[urgent] Reyes drags you across... and kicks the plank into the dark. [long pause] [whispers] They don't come for you. [short pause] [darkly] They turn back. To him.
 
-[numb] Rule one: never sleep. [short pause] You grip his dinosaur to stay awake.
+[warm][gently] Ollie never made a sound. [short pause] He talked in crayon. [softly] He laughed without noise. [short pause] And three taps on your hand meant... I'm still awake.
 
-[warm][gently] Forty hours. Ollie never said a word. [short pause] He talked in crayon.
+[tense] In your pocket... his crayon. [softly] "I'll lead them away. Come get me after." [long pause] [warm] He chose this. [very softly] It's not your fault.
 
-[very softly] Three taps on your hand meant... "I'm still awake."
+[whispering] Then you see it. "Brave." [short pause] Ollie always wrote the R backwards. [long pause] [darkly] He didn't write this.
 
-[tense] Then, in your pocket... a note. His crayon. [short pause] [softly] "I'll lead them away. Come get me after." [long pause] [warm] He chose this. [very softly] It's not your fault.
+[whispering] Reyes's fingers... are red with crayon. [long pause] [darkly] He wrote it hours ago. [short pause] Your thirty seconds... were all he needed.
 
-[whispering] Then you see it. [long pause] "Brave." [short pause] Ollie always wrote the R backwards. [long pause] [darkly] He didn't write this.
+[quietly] The walkie on your hoodie crackles. [long pause] Tap. Tap. Tap. [long pause] [very softly] He's awake. He thinks you're coming.
 
-[whispering] Reyes's fingers... are stained red. [long pause] He doesn't look away.
+[urgent] Every crackle... the street below fills. [short pause] Reyes holds out his hand.
 
-[quietly] Then the walkie on your hoodie crackles. [long pause] Tap. Tap. Tap.
-
-[whispering] He's awake. [long pause] [very softly] He thinks you're coming.
-
-[calm][serious] A... turn off the walkie. Stay safe. [short pause] B... climb down. Alone. Through all of them. For Ollie. [long pause] [very softly][warm] Choose. I'll stay with you. [short pause] [urgent] Comment A... or B.
+[calm][serious] A... hand it over. Silence him. Keep them alive. [short pause] B... tap back. And go down. Alone. [long pause] [very softly][warm] Choose. I'll stay with you. [short pause] [urgent] Comment A... or B.
 
 [softly] Follow for hour fifty-four.

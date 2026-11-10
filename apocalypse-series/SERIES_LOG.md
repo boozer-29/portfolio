@@ -11,7 +11,7 @@ Source of truth for what has aired and what won. Update after every vote.
 |---|---|---|---|---|---|
 | 1 | The Note (v2) | `hours-awake/ep1/` | Posted | A The roof / B The basement | **A: THE ROOF** |
 | 2 | Thirty Seconds (v2 continuous cut, 85 s) | `hours-awake/ep2/` | Posted | A Save yourself (cross the plank) / B Save Ollie (go down to the basement) | **A: SAVE YOURSELF** |
-| 3 | Backwards | `hours-awake/ep3/` | Narration ready for ElevenLabs | A Turn off the walkie (stay safe with Reyes) / B Climb down alone for Ollie | (unknown, ask before Ep 4) |
+| 3 | Backwards (v2) | `hours-awake/ep3/` | Narration ready for ElevenLabs | A Hand it over (silence Ollie, keep the group alive) / B Tap back (go down alone for Ollie) | (unknown, ask before Ep 4) |
 
 Not posted / reserve ideas: Ep 1 v3 "The Last Seat" (`ep1/v3_unposted/`), Ep 2 "Autopilot" (`ep2/unused_autopilot/`, written for the v3 branch).
 
@@ -38,8 +38,8 @@ Branch plans for Ep 3: `hours-awake/ep2/ep2_script.md` section 6.
 - Branch seeds: see `hours-awake/ep2/ep2_script.md` section 6 (A "The Other Roof", B "The Basement"). Rework both to the craft bar; don't reuse them as-is.
 
 ## Character bible (established on screen; keep consistent)
-- **Ollie:** can't speak (sound kills), talks in crayon notes; writes R backwards ("BЯAVE", his dinosaur's name); ritual = three taps on your hand = "I'm still awake"; gives you the bigger half; drew you with a cape, "MY BROTHER NEVER LEAVES"; has the matching yellow toy walkie ("IF WE GET LOST I'LL TAP"). Awake the whole time in Ep 2; he walked through the horde with his eyes shut.
-- **Reyes:** sent Ollie down as bait during your microsleep and forged his note in red crayon. Holds up "IT WAS HIM OR ALL OF US." Kicked the plank.
+- **Ollie:** can't speak (sound kills), talks in crayon notes; laughs with both hands over his mouth so no sound escapes; writes R backwards ("BЯAVE", his dinosaur's name); ritual = three taps on your hand = "I'm still awake"; gives you the bigger half; drew you with a cape, "MY BROTHER NEVER LEAVES"; has the matching yellow toy walkie ("IF WE GET LOST I'LL TAP"). Awake the whole time in Ep 2; he walked through the horde with his eyes shut.
+- **Reyes:** wrote the forged note during the ten quiet hours, then sent Ollie down as bait during your 30-second microsleep. Holds up "IT WAS HIM OR ALL OF US." Kicked the plank.
 - **Maya / DJ:** looked away when you found out. Did they know? (open)
 
 ## Plants added in Ep 3
