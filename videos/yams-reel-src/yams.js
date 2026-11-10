@@ -524,7 +524,7 @@ shot(30.8, 33.6, 'news', { p0: [0, 2.3, 7.6], p1: [0, 2.25, 7.0], l0: [0, 2.2, -
   const N = S.news; resetRig(N.anchor); N.anchor.root.position.set(0, 0.1, -0.6); const t = talking('anchor', O);
   pose(N.anchor, { ...idle(O), arms: [[-0.9, 0, 0.3, 1.1], [-0.9 + (t ? 0.15 * Math.sin(O * 6) : 0), 0, -0.3, 1.1]] }); N.anchor.face(O < 32.4 ? 'shock' : 'calm', O, t);
 }, { grade: 'news', news: true, flash: 30.8 });
-shot(33.6, 36.4, 'traffic', { p0: [0, 18, 16], p1: [0, 15, 12.5], l0: [0, 1, -1], fov: 46 }, (lt, O) => {
+shot(33.6, 36.4, 'traffic', { p0: [0, 18, 16], p1: [0, 14.2, 11.6], l0: [0, 1, -1], fov: 46, ease: 'lin', z1: 1.12 }, (lt, O) => {
   const T = S.traffic; resetRig(T.hero); T.hero.setYams(12); T.hero.root.position.set(0, 0, 0); T.hero.root.rotation.y = 0.1; pose(T.hero, { ...idle(O), arms: [[0, 0, 0.6, 0.3], [0, 0, -0.6, 0.3]] }); T.hero.face('worried', O);
   T.cars.forEach((c, i) => { c.position.y = 0.02 * Math.sin(O * 20 + i); });
 }, { grade: 'market' });
@@ -537,7 +537,7 @@ function spaceBase(O, o = {}) { const P = S.space; const cos = o.cosmic ?? 0;
   P.sunMesh.visible = !!o.sun; P.sunMesh.scale.setScalar(1); P.sunFace.userData.smile.forEach(m => m.visible = true); P.sunFace.userData.o.visible = false; P.hearts.forEach(h => h.visible = false); P.bub.update(O, o.bubbles ?? 1); }
 function floatPose(O, extra = {}) { return { bob: 0, legs: [[0.25 + 0.1 * Math.sin(O * 1.7), 0.35], [-0.1 + 0.1 * Math.sin(O * 1.5), 0.2]], arms: [[0, 0, 0.9 + 0.1 * Math.sin(O * 2), 0.3], [0, 0, -0.9 - 0.1 * Math.sin(O * 2.1), 0.3]], headY: Math.sin(O * 0.8) * 0.1, ...extra }; }
 const moonOrbit = (O, R = 5.2) => { const a = O * 1.4; return V([Math.cos(a) * R, 1.2 + Math.sin(a * 0.7) * 0.8, -1.2 + Math.sin(a) * R]); };
-shot(36.4, 38.6, 'space', { p0: [8, 3.0, 12], p1: [4, 2.4, 13], l0: [0, 0.8, -1.2], fov: 44, ease: 'lin' }, (lt, O) => {   // DAY 7 — the Moon orbits the yams
+shot(36.4, 38.6, 'space', { p0: [8, 3.0, 12], p1: [2.6, 2.2, 12.4], l0: [0, 0.8, -1.2], fov: 44, ease: 'lin', z1: 1.14 }, (lt, O) => {   // DAY 7 — the Moon orbits the yams
   const P = S.space; spaceBase(O, { moon: true }); popYams(P.hero, O, 36.45, 5, 13, 0.9); pose(P.hero, floatPose(O)); P.hero.face('shock', O);
   P.moon.position.copy(moonOrbit(O)); P.moon.lookAt(cam.position);
 }, { grade: 'space', flash: 36.4, bloom: 0.3 });
@@ -736,4 +736,3 @@ window.hookText = () => '';
 window.renderFrame = renderFrame; window.TIMELINE = TIMELINE;
 fetch('dialogue.json').then(r => r.json()).then(d => { DIALOGUE = d; }).catch(() => { DIALOGUE = []; })
   .then(() => Promise.all(['800 78px Montserrat', '500 104px Playfair', 'italic 500 236px Playfair', '500 128px Lora', '600 30px InterW', '700 30px InterW', '40px "Noto Color Emoji"'].map(f => document.fonts.load(f)))).then(() => { window.READY = true; });
-window.__dbg = () => { const P = S.space; const o = {}; const v = new THREE.Vector3(); P.sunMesh.getWorldPosition(v); o.sun = v.clone().project(cam).toArray(); o.kids = P.sunFace.children.slice(0,4).map(c => { c.getWorldPosition(v); return [v.toArray().map(x=>+x.toFixed(2)), v.clone().project(cam).toArray().map(x=>+x.toFixed(2))]; }); o.cam = cam.position.toArray(); o.faceParent = P.sunFace.parent === P.sunMesh; o.faceVis = P.sunFace.visible; o.sunPos=P.sunMesh.position.toArray(); o.faceLocal=P.sunFace.position.toArray(); o.faceScale=P.sunFace.scale.toArray(); return o; };
