@@ -566,7 +566,7 @@ shot(19.4, 20.9, 'park', { p0: [2.7, 1.6, 13.2], p1: [2.5, 1.55, 12.4], l0: [2.5
   if (O < sitT) strangerSit(O); else { const dt = O - sitT; s.root.visible = true; const e0 = endPos({ plank: { rotation: { z: 0.2 } } }, -1); s.root.position.set(e0.x - 1.2 * dt, e0.y - 0.56 + 44 * dt - 6 * dt * dt, 0.6); s.root.rotation.set(0, Math.PI / 2, 0); s.root.rotateX(-dt * 9);
     pose(s, { legs: [[0.6 + Math.sin(O * 30) * 0.5, 0.7], [-0.3 + Math.cos(O * 30) * 0.5, 0.5]], arms: [[-2.6 + Math.sin(O * 34) * 0.5, 0, -0.6, 0.2], [-2.6 + Math.cos(O * 31) * 0.5, 0, 0.6, 0.2]] }); s.face('shock', O, true); burst(P.deb.slice(0, 8), O, sitT, V([0.3, 0.3, 0.6]), 1.2, 1.4); }
 }, { grade: 'park', shakeAt: [[sitT, 0.07]], mblur: (O) => O > 20.36 && O < 20.9 ? 6 : 1 });
-shot(20.9, 22.4, 'park', { p0: [2.6, 1.3, 5.5], p1: [2.5, 1.3, 5.2], l0: [1.6, 9, -3], l1: [1.3, 15, -5], fov: 50, ease: 'out' }, (lt, O) => {   // into the sky
+shot(20.9, 22.4, 'park', { p0: [2.8, 1.3, 5.6], p1: [2.2, 1.3, 5.0], l0: [1.9, 6.5, -3], l1: [0.9, 19, -6], fov: 50, z1: 1.3, roll0: -4, roll1: 5, ease: 'lin' }, (lt, O) => {   // into the sky
   const P = S.park; parkBase(O); P.hero.root.visible = false; const s = P.stranger; const k = seg(O, 20.9, 22.15); s.root.visible = k < 1; const kk = 1 - Math.pow(1 - k, 2);
   s.root.position.set(lerp(2.1, 0.9, k), lerp(4.6, 26, k), lerp(0.6, -9, k)); s.root.scale.setScalar(lerp(1.5, 0.25, k)); s.root.rotation.set(O * 7, 1.2, O * 3);
   pose(s, { legs: [[0.6 + Math.sin(O * 30) * 0.5, 0.7], [-0.3 + Math.cos(O * 30) * 0.5, 0.5]], arms: [[-2.6 + Math.sin(O * 34) * 0.5, 0, -0.6, 0.2], [-2.6 + Math.cos(O * 31) * 0.5, 0, 0.6, 0.2]] }); s.face('shock', O, true);
@@ -582,7 +582,7 @@ shot(22.4, 23.8, 'park', { p0: [2.9, 1.75, 4.4], p1: [3.0, 1.72, 4.0], l0: [4.1,
 const HP = [4.3, 0, 1.6];
 shot(23.8, 25.5, 'park', { p0: [4.3, 12, 8.4], p1: [4.3, 19, 10.4], l0: [4.3, 0, 3.8], fov: 44, ease: 'out' }, (lt, O) => {
   const P = S.park; parkBase(O, { plank: -0.2 }); const h = P.hero; popYams(h, O, 23.85, 3.2, 5.0); h.root.position.set(...HP); h.root.rotation.y = Math.PI; pose(h, { ...idle(O), headX: -0.5, arms: [[0, 0, -0.6, 0.3], [0, 0, 0.6, 0.3]] }); h.face('shock', O);
-}, { grade: 'park', flash: 23.8, map: true });
+}, { grade: 'park', flash: 23.8, map: true, dark: () => 0.1 });
 shot(25.5, 27.2, 'park', { p0: [4.9, 1.9, 5.6], p1: [4.75, 1.85, 5.1], l0: [4.3, 1.6, 1.6], fov: 36 }, (lt, O) => {
   const P = S.park; parkBase(O, { plank: -0.2 }); const h = P.hero; h.setYams(5.0); h.root.position.set(...HP); h.root.rotation.y = 0.2; P.phone.visible = true; const up = eOut(seg(O, 25.6, 25.8)); const tk = talking('hero', O);
   pose(h, { ...idle(O), headX: 0.42 * (1 - up) - 0.05 * up, headY: 0.25 * (1 - up), arms: [[-0.5, 0, 0.3, 1.3 + 0.1 * Math.sin(O * 14) * (1 - up)], [-0.75 - 0.25 * up, 0, -0.3 - 0.3 * up, 1.75]] }); h.face(up > 0.5 ? 'confused' : 'calm', O, tk);
@@ -617,7 +617,7 @@ shot(30.8, 33.0, 'ski', { p0: [0, 2.0, 7.5], p1: [0, 3.6, 16], l0: [0, 2.6, -1.4
 }, { grade: 'ski', flash: 30.8 });
 shot(33.0, 34.0, 'ski', { pf: () => CAMP, lf: () => CAML, fov: 44 }, (lt, O) => {
   const K = S.ski; skiBase(O, 13); const h = K.hero; pose(h, idle(O)); h.face('worried', O); const g = K.skiers[3]; const p = g.userData.p; CAML = p.clone().add(V([0, 0.25, 0])); CAMP = p.clone().add(V([1.6, 0.9, 3.4]));
-}, { grade: 'ski' });
+}, { grade: 'ski2' });
 shot(34.0, 36.4, 'ski', { p0: [0.7, 1.95, 3.9], p1: [0.5, 1.9, 3.3], l0: [0, 1.72, 0], fov: 36 }, (lt, O) => {
   const K = S.ski; skiBase(O, 13); const h = K.hero; const tk = talking('hero', O); h.root.position.x = shiver(O); h.root.rotation.y = 0.1;
   pose(h, { bob: Math.sin(O * 39) * 0.006, spineX: 0.1, spineZ: Math.sin(O * 37) * 0.012, headX: 0.05, headY: 0.35 * Math.sin(seg(O, 34.9, 36.2) * Math.PI), legs: [[0.05, 0.12], [0.05, 0.12]], arms: [[-0.9, 0, 0.93, 1.9], [-0.9, 0, -0.93, 1.9]] }); h.face('grit', O, tk); h.brows[0].rotation.z = 0.35; h.brows[1].rotation.z = -0.35; h.brows.forEach(b => b.position.y = 0.5);
@@ -634,15 +634,15 @@ function spaceBase(O, o = {}) { const P = S.space; const cos = o.cosmic ?? 0;
 function floatPose(O, extra = {}) { return { bob: 0, legs: [[0.25 + 0.1 * Math.sin(O * 1.7), 0.35], [-0.1 + 0.1 * Math.sin(O * 1.5), 0.2]], arms: [[0, 0, -0.9 - 0.1 * Math.sin(O * 2), 0.3], [0, 0, 0.9 + 0.1 * Math.sin(O * 2.1), 0.3]], headY: Math.sin(O * 0.8) * 0.1, ...extra }; }
 const orbitPlanets = (O, R0 = 14) => S.space.planets.forEach((p, i) => { const a = O * (0.5 + i * 0.07) + i * 0.9, R = R0 + i * 2.2, zz = Math.sin(a) * R * 0.7; p.position.set(Math.cos(a) * R, Math.sin(a * 1.3) * 2.5 + 8, -Math.abs(zz) - 14); p.rotation.y = O * 0.5 + i; });
 // DAY 7 — the eclipse
-shot(36.4, 38.0, 'space', { p0: [0, 1, 10], p1: [0, 1.2, 8.5], l0: [0, 6.6, -90], fov: 30, ease: 'lin' }, (lt, O) => {
+shot(36.4, 38.0, 'space', { p0: [0, 1, 10], p1: [0, 1.2, 8.5], l0: [0, 6.6, -90], fov: 30, z1: 1.4, roll0: -5, roll1: 5, ease: 'lin', live: 3 }, (lt, O) => {
   const P = S.space; spaceBase(O, { sun: true }); P.sunMesh.position.set(0, 7, -90); P.sunMesh.scale.setScalar(1.15); P.sunMesh.rotation.set(0, O * 0.2, 0);
-  popYams(P.hero, O, 36.45, 13, 26, 0.9); P.hero.root.position.set(lerp(-17, 0.4, eOut(seg(O, 36.4, 37.75))), 0.55 + Math.sin(O * 1.3) * 0.1, -70); P.hero.root.rotation.set(0, Math.PI, 0); pose(P.hero, floatPose(O)); P.hero.face('shock', O);
-}, { grade: 'space', flash: 36.4, bloom: 0.3, dark: (O) => 0.5 * eIO(seg(O, 37.0, 37.7)) });
+  popYams(P.hero, O, 36.45, 13, 26, 0.9); P.hero.root.position.set(lerp(-17, -0.5, eOut(seg(O, 36.4, 37.6))) + 3.0 * seg(O, 37.1, 38.0), 0.55 + Math.sin(O * 1.3) * 0.1, -70); P.hero.root.rotation.set(0, Math.PI, 0); pose(P.hero, floatPose(O)); P.hero.face('shock', O);
+}, { grade: 'space', flash: 36.4, bloom: 0.3, dark: (O) => 0.42 * eIO(seg(O, 37.0, 37.7)) });
 function eclipseCrowd(O, back) { const M = S.market; const sl = [[-2.6, 2.4], [-1.5, 3.1], [1.6, 2.9], [2.7, 2.2], [-3.6, 3.4], [3.7, 3.3], [-0.9, 1.7], [1.0, 1.6]];
   sl.forEach(([x, z], i) => { const p = M.crowd[i]; p.root.visible = true; p.root.position.set(x, 0, z); p.root.rotation.y = 0.1 * Math.sin(i * 3); p.glasses.visible = true; pose(p, { ...idle(O, i), headX: -0.62, headY: 0, arms: i % 3 === 0 ? [[-2.5, 0, 0.3, 1.9], [0, 0, -0.13, 0.15]] : undefined }); p.face('shock', O); });
   const k = M.kid; k.root.visible = true; k.root.position.set(0.05, 0, 3.7); const tk = talking('kid', O); pose(k, { ...idle(O, 3), headX: -0.6, headY: 0.3 * Math.sin(O * 2.2) * (tk ? 1 : 0.3), arms: [[-2.75 + 0.06 * Math.sin(O * 12), 0, -0.7, 0.05], [0, 0, 0.15, 0.2]] }); k.face(tk ? 'laugh' : 'shock', O, tk); }
 shot(38.0, 39.6, 'market', { p0: [1.0, 1.0, 7.4], p1: [0.8, 1.0, 6.7], l0: [0.05, 1.1, 3.7], fov: 40 }, (lt, O) => { marketBase(O, { bus: false }); S.market.hero.root.visible = false; eclipseCrowd(O); }, { grade: 'eclipse' });
-shot(39.6, 40.8, 'market', { p0: [0.4, 1.3, -1.8], p1: [0.3, 1.35, -1.4], l0: [0, 9, 20], l1: [0, 10.5, 20], fov: 50 }, (lt, O) => { marketBase(O, { bus: false }); S.market.hero.root.visible = false; eclipseCrowd(O); S.market.ecl.visible = true; S.market.ecl.children[0].scale.setScalar(62 + 4 * Math.sin(O * 5)); }, { grade: 'eclipse' });
+shot(39.6, 40.8, 'market', { p0: [0.9, 1.3, -2.2], p1: [-0.3, 1.4, -1.2], l0: [0, 8, 20], l1: [0, 12, 20], fov: 50, z1: 1.2, roll0: 3, roll1: -3, ease: 'lin', live: 2.5 }, (lt, O) => { marketBase(O, { bus: false }); S.market.hero.root.visible = false; eclipseCrowd(O); S.market.ecl.visible = true; S.market.ecl.children[0].scale.setScalar(62 + 4 * Math.sin(O * 5)); }, { grade: 'eclipse' });
 // DAY 8 — the parking ticket
 const ufoPos = (O) => { const k = seg(O, 40.95, 41.75); const e = elastic(k); return V([lerp(26, 6.0, e), lerp(30, 14.5, e) + Math.sin(O * 2.6) * 0.25, lerp(16, 9, e)]); };
 function ufoSet(O) { const P = S.space; P.ufo.position.copy(ufoPos(O)); P.ufo.rotation.set(0.08 * Math.sin(O * 2.1), O * 1.2, 0.1 * Math.sin(O * 1.7)); const A = P.alien; A.root.rotation.y = -O * 1.2 + 0.1; const tk = talking('alien', O);
@@ -668,8 +668,8 @@ shot(44.4, 45.8, 'space', { p0: [1.3, 2.0, 4.6], p1: [1.0, 1.95, 4.0], l0: [0.1,
 const sitE = 49.3, YS = 48;
 function day9(O, o = {}) { const P = S.space; spaceBase(O, { planets: false, earth: true, cosmic: 0.55, heroRot: 0, moon: true }); const h = P.hero; popYams(h, O, 45.85, 34, YS, 0.9);
   const drop = eIn(seg(O, 48.75, sitE)), set = elastic(seg(O, sitE, sitE + 0.9)); const y = -7.0 * drop - 4.6 * set; h.root.position.set(0, y + Math.sin(O * 1.3) * 0.06 * (1 - drop), 0); h.root.rotation.set(0, 0, 0);
-  const sq = set; P.earth.position.set(0, -15.5, -8.6); P.earth.scale.set(0.6 * (1 + 0.28 * sq), 0.6 * (1 - 0.47 * sq), 0.6 * (1 + 0.28 * sq));
-  const a = O * 0.22 + 0.5; P.moon.position.set(Math.cos(a) * 15, -6 + Math.sin(a * 1.7) * 1.0, 14 + Math.sin(a) * 6); P.moon.rotation.y = O * 0.1;
+  const sq = set; P.earth.position.set(0, -15.5, -8.6); const jel = O > sitE ? 0.035 * Math.sin((O - sitE) * 7) * Math.exp(-(O - sitE) * 0.35) : 0; P.earth.scale.set(0.6 * (1 + 0.28 * sq + jel), 0.6 * (1 - 0.47 * sq - jel), 0.6 * (1 + 0.28 * sq + jel));
+  const a = O * 0.5 - 0.9; P.moon.position.set(Math.cos(a) * 15, -6 + Math.sin(a * 1.7) * 1.0, 14 + Math.sin(a) * 6); P.moon.rotation.y = O * 0.1;
   const g = P.girl; g.root.visible = true; g.root.position.copy(P.moon.position).add(V([0, 1.52, 0])); g.root.rotation.y = o.girlRot ?? Math.atan2(-g.root.position.x, -g.root.position.z);
   const sh = shouting('stranger', O); pose(g, { ...idle(O, 1), headY: o.girlHead ?? 0, headX: sh ? -0.15 : 0.05, arms: sh ? [[-0.4, 0, -1.2, 0.6], [-0.4, 0, 1.2, 0.6]] : [[-0.75, 0, 0.5, 1.75], [-0.75, 0, -0.5, 1.75]] }); g.face(sh ? 'shock' : 'confused', O, sh);
   if (sh) { g.mLine.visible = false; g.cL.visible = g.cR.visible = false; g.mO.visible = true; g.mO.scale.set(1.25, 1.5 + 0.15 * Math.sin(O * 30), 1); }
@@ -677,8 +677,8 @@ function day9(O, o = {}) { const P = S.space; spaceBase(O, { planets: false, ear
   pose(h, { bob: 0, legs: [[lerp(0.25, 1.35, seated), lerp(0.35, -0.5, seated)], [lerp(-0.1, 1.35, seated), lerp(0.2, -0.5, seated)]], spineX: -0.22 * relax, headX: lerp(0.45 * seg(O, 46.6, 47.2) * (1 - seg(O, 47.6, 48.0)), -0.1, relax), headY: 0.1 * Math.sin(O * 0.8),
     arms: [[lerp(0, -2.75, relax), 0, lerp(0.9, -0.55, relax), lerp(0.3, 2.3, relax)], [lerp(0, -2.75, relax), 0, lerp(-0.9, 0.55, relax), lerp(0.3, 2.3, relax)]] });
   h.face(O < 47.6 ? 'shock' : O < sitE ? 'smirk' : 'smile', O, tk); return y; }
-shot(45.8, 48.6, 'space', { p0: [0, 6, 96], l0: [0, 0, -4], fov: 46, z0: 1.7, z1: 1.0, roll0: 9, roll1: 0, ease: 'out' }, (lt, O) => { day9(O); }, { grade: 'space2', bloom: 0.16, flash: 45.8 });
-shot(48.6, 51.6, 'space', { p0: [0, 0, 84], p1: [0, -3, 70], l0: [0, -5, -5], fov: 46 }, (lt, O) => { day9(O); }, { grade: 'space2', bloom: 0.16, shakeAt: [[sitE, 0.09]] });
+shot(45.8, 48.6, 'space', { p0: [8, 10, 102], p1: [-7, 3, 88], l0: [0, 0, -4], fov: 46, z0: 1.7, z1: 1.0, roll0: 9, roll1: -4, ease: 'lin', live: 3 }, (lt, O) => { day9(O); }, { grade: 'space2', bloom: 0.16, flash: 45.8 });
+shot(48.6, 51.6, 'space', { p0: [-4, 2, 88], p1: [5, -4, 66], l0: [0, -5, -5], fov: 46, roll0: -3, roll1: 2, ease: 'lin', live: 3 }, (lt, O) => { day9(O); }, { grade: 'space2', bloom: 0.16, shakeAt: [[sitE, 0.09]] });
 shot(51.6, 53.6, 'space', { pf: () => CAMP, lf: () => CAML, fov: 36 }, (lt, O) => { const y = day9(O); CAML = V([0, y + 1.78, 0]); CAMP = V([lerp(1.3, 1.0, lt), y + 2.0, lerp(4.8, 4.1, eOut(lt))]); }, { grade: 'space2', bloom: 0.14, dof: 0.45 });
 shot(53.6, 54.6, 'space', { pf: () => CAMP, lf: () => CAML, fov: 40 }, (lt, O) => { day9(O, { girlHead: 0.0 }); const m = S.space.moon.position; CAML = m.clone().lerp(V([0, -9, -8]), 0.3).add(V([0, 1.5, 0])); CAMP = m.clone().add(V([lerp(5.5, 4.6, eOut(lt)), 4.2, 11])); }, { grade: 'space2', bloom: 0.14 });
 shot(54.6, DUR, 'space', { pf: () => CAMP, lf: () => CAML, fov: 34 }, (lt, O) => { day9(O, { girlRot: 0.2 }); const hd = wp(S.space.girl.head).add(V([0, 0.3, 0])); CAML = hd.clone(); CAMP = hd.clone().add(V([lerp(0.9, 0.6, lt), 0.2, lerp(4.4, 3.2, eOut(lt))])); }, { grade: 'space2', bloom: 0.14, dof: 0.4, shakeAt: [[54.8, 0.04]] });
@@ -726,7 +726,7 @@ function drawCaptions(O) {
   g.restore();
 }
 function drawMap(O) {      // the yams get listed on a (generic) map app
-  const a = eOut(seg(O, 24.2, 24.5)); if (a <= 0) return; const g = ctx; g.save(); g.globalAlpha = 0.26 * a; g.fillStyle = '#eef5ea'; g.fillRect(0, 0, W, H); g.globalAlpha = a;
+  const a = eOut(seg(O, 24.2, 24.5)); if (a <= 0) return; const g = ctx; g.save(); g.globalAlpha = 0.14 * a; g.fillStyle = '#dfe9d8'; g.fillRect(0, 0, W, H); g.globalAlpha = a;
   g.shadowColor = 'rgba(0,0,0,0.28)'; g.shadowBlur = 22; g.shadowOffsetY = 5; rr(g, 40, 130, W - 80, 100, 50); g.fillStyle = '#fff'; g.fill(); g.shadowBlur = 0; g.shadowOffsetY = 0;
   g.strokeStyle = '#5f6368'; g.lineWidth = 6; g.beginPath(); g.arc(104, 178, 17, 0, 7); g.stroke(); g.beginPath(); g.moveTo(117, 191); g.lineTo(131, 205); g.stroke(); g.fillStyle = '#3c4043'; g.font = '600 42px InterW'; g.textAlign = 'left'; g.fillText('Twin Hills', 160, 195);
   const pk = seg(O, 24.5, 25.0); if (pk > 0) { const py = lerp(-260, H * 0.4, Math.min(1, pk * 2.4)) - Math.abs(Math.sin(Math.max(0, pk - 0.42) * 11)) * 60 * (1 - pk); const px = W / 2;
@@ -745,7 +745,7 @@ function drawPolaroid(p, O, lt) {     // montage: the graded frame becomes a tou
   tctx.setTransform(RS, 0, 0, RS, 0, 0); tctx.clearRect(0, 0, W, H); tctx.drawImage(out, 0, 0, W, H);
   const g = ctx; g.save(); const bg = g.createLinearGradient(0, 0, W, H); bg.addColorStop(0, '#39b6e0'); bg.addColorStop(1, '#0f6ea6'); g.fillStyle = bg; g.fillRect(0, 0, W, H);
   g.globalAlpha = 0.16; g.fillStyle = '#fff'; for (let i = 0; i < 9; i++) { g.beginPath(); g.arc((i * 331 + O * 40) % (W + 200) - 100, (i * 587 - O * 55 + 4000) % (H + 200) - 100, 50 + (i % 4) * 34, 0, 7); g.fill(); } g.globalAlpha = 1;
-  const s = 0.92 + 0.045 * eOut(Math.min(1, lt * 2.2)); g.translate(W / 2, H * 0.47); g.rotate(p.rot * (1 + 0.5 * (1 - eOut(Math.min(1, lt * 2.5))))); g.scale(s, s);
+  const s = 0.9 + 0.045 * eOut(Math.min(1, lt * 2.2)) + 0.045 * lt; g.translate(W / 2, H * 0.47); g.rotate(p.rot * (1 + 0.5 * (1 - eOut(Math.min(1, lt * 2.5))) - 0.6 * lt)); g.scale(s, s);
   const fw = 860, fh = 1240, iw = 780, ih = 960; g.shadowColor = 'rgba(0,20,40,0.45)'; g.shadowBlur = 60; g.shadowOffsetY = 24; g.fillStyle = '#ecebe4'; rr(g, -fw / 2, -fh / 2, fw, fh, 10); g.fill(); g.shadowBlur = 0; g.shadowOffsetY = 0;
   const srcH = W * ih / iw; g.drawImage(tmpC, 0, (H * 0.47 - srcH / 2) * RS, W * RS, srcH * RS, -iw / 2, -fh / 2 + 40, iw, ih);
   if (p.post) { g.fillStyle = '#fff'; g.textAlign = 'center'; g.shadowColor = 'rgba(0,0,0,0.5)'; g.shadowBlur = 16; g.font = '700 30px InterW'; spaced(g, 'GREETINGS FROM', -150, -fh / 2 + 150, 6); g.font = 'italic 500 150px Playfair'; g.fillText('Twin Hills', 0, -fh / 2 + 290); g.shadowBlur = 0; }
@@ -818,6 +818,7 @@ const GRADES = {
   news: { f: 'saturate(1.12) contrast(1.05)', tint: null, vig: 0.3 },
   space: { f: 'saturate(1.1) contrast(1.06)', tint: null, vig: 0.42 },
   space2: { f: 'saturate(1.18) contrast(1.07) brightness(0.98)', tint: 'rgba(58,43,217,0.08)', mode: 'screen', vig: 0.4 },
+  ski2: { f: 'saturate(1.08) contrast(1.08) brightness(0.8)', tint: 'rgba(150,200,255,0.14)', mode: 'soft-light', vig: 0.3 },
   ski: { f: 'saturate(1.08) contrast(1.08) brightness(0.9)', tint: 'rgba(150,200,255,0.14)', mode: 'soft-light', vig: 0.26 },
   eclipse: { f: 'saturate(0.85) contrast(1.1) brightness(0.64)', tint: 'rgba(40,60,150,0.30)', mode: 'soft-light', vig: 0.5 },
   cosmic: { f: 'saturate(1.25) contrast(1.08) brightness(0.92)', tint: 'rgba(58,43,217,0.12)', mode: 'screen', vig: 0.38 },

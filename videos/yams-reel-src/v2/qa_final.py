@@ -47,7 +47,7 @@ subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', MP4, '-vn', '-ac', '1', '-b
 subprocess.run('curl -sS -H "xi-api-key: dummy" -F model_id=scribe_v1 -F file=@final_check.mp3 -F timestamps_granularity=word https://api.elevenlabs.io/v1/speech-to-text -o mix_stt.json', shell=True, check=True)
 txt = json.load(open('mix_stt.json'))['text']; print('   transcript of the MP4:', txt)
 shouts = sum('ombo' in w['text'].lower() for w in json.load(open('mix_stt.json'))['words'] if w['type'] == 'word')
-check('all 10 BOMBOCLAT shouts heard (9 doublings + the last word)', shouts >= 10, shouts)
+check('all 9 BOMBOCLAT shouts heard (8 doublings + the last word)', shouts >= 9, shouts)
 for line in ['fine boy', 'trouser', 'two seat', 'only me', 'sit down', 'sorry', 'reviewing me', 'ski resort', 'cold back there', 'has a crack', 'cannot park', 'even get car', 'chair my size']:
     check(f'line heard: "{line}"', line.lower() in txt.lower())
 r = subprocess.run(['python3', 'verify_captions.py'], capture_output=True, text=True).stdout; print('  ', r.strip().replace('\n', '\n   '))
