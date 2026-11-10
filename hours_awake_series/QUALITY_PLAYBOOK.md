@@ -33,3 +33,8 @@
   and review it against the narration line by line.
 - Every shot is checked as a full-resolution frame at three moments (start, middle, end) for facing, limbs, occlusion.
 - Render a low-fps preview strip of the whole video and check motion, not just stills, before the final render.
+
+## EP3 build notes
+- Side-view puppet (`sideFig`), crayon lettering with a mirrored R (`crayonText`), warm flashback palette, toy walkie prop.
+- Reviewed every shot at start/middle/end as full frames before the final render; automated check found no static runs >1.5 s and no unplanned black frames.
+- Known weak spots: crayon-arm sleeves in the flashback read as large red tubes; the white ring on the correct R in the note is hard to see; first-person knee in the hand shot is a plain dark block.
