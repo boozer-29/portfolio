@@ -21,8 +21,12 @@ Read before writing ANY episode. This overrides "tell the events in order". The 
 9. **Cause and effect still rules** (owner rule 11 in CLAUDE.md), but compress actions into 1-2 s shots and spend the saved time on emotional beats.
 10. **Rhythm:** fast, fast, fast, then one held breath (1.5-2 s, almost silent) right before the gut punch.
 
+## 2b. Character establishment (owner rule, from Ep 3 on)
+Every episode spends 8-15 s making viewers love at least one character through small, specific, visual moments (a habit, a sacrifice, a joke, a drawing), ideally in warm-amber flashbacks. Owner's diagnosis: viewers abandoned Ollie because they never got to love him. Keep the character bible in `SERIES_LOG.md` consistent. Guilt only works if the viewer loved what they gave up.
+
 ## 3. Pre-writing checklist (answer these before any script)
 - What is the ritual, and where is it set up warm?
+- Which character do we make the viewer love this episode, and with which 2-3 specific moments?
 - What is the split-second moment? How do we replay it?
 - What does each vote option betray?
 - What is the last quiet image?
