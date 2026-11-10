@@ -6,7 +6,8 @@ const types = { '.html': 'text/html', '.js': 'text/javascript', '.woff2': 'font/
 const srv = http.createServer((q, r) => { const f = path.join(ROOT, decodeURIComponent(q.url.split('?')[0])); fs.readFile(f, (e, d) => { if (e) { r.writeHead(404); r.end(); return; } r.writeHead(200, { 'Content-Type': types[path.extname(f)] || 'application/octet-stream' }); r.end(d); }); });
 (async () => {
   await new Promise(res => srv.listen(0, res)); const port = srv.address().port;
-  const b = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
+  const GPU = process.env.GPU === '1';   // GPU=1 -> use the Mac's Metal GPU (fast); default -> software renderer (slow, works anywhere)
+  const b = await chromium.launch({ args: GPU ? ['--use-gl=angle', '--use-angle=metal', '--ignore-gpu-blocklist', '--enable-gpu-rasterization'] : ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
   const p = await b.newPage({ viewport: { width: 1080, height: 1920 } });
   p.on('console', m => { if (m.type() === 'error') console.log('ERR', m.text()); }); p.on('pageerror', e => console.log('PAGEERR', e.message));
   await p.goto(`http://localhost:${port}/index.html?s=${process.env.RSCALE || 1}`); await p.waitForFunction('window.READY === true', null, { timeout: 60000 });
