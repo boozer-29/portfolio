@@ -38,3 +38,11 @@
 - Side-view puppet (`sideFig`), crayon lettering with a mirrored R (`crayonText`), warm flashback palette, toy walkie prop.
 - Reviewed every shot at start/middle/end as full frames before the final render; automated check found no static runs >1.5 s and no unplanned black frames.
 - Known weak spots: crayon-arm sleeves in the flashback read as large red tubes; the white ring on the correct R in the note is hard to see; first-person knee in the hand shot is a plain dark block.
+
+## EP4 (outlined rig v6)
+- Arms are solved with a pole target (elbow goes to the natural side) or an explicit elbow for forearms pointing at the camera.
+- Hands always continue the forearm; wrist bend clamped to ±35°. Thumb side is chosen semantically (thumbToward).
+- Contacts (fingertip on a palm, fingertip on a letter) are solved from the contact point backwards; error must be < 3 px.
+- Every rendered frame runs an automatic pose check: elbow folded, elbow above shoulder, unreachable target,
+  stretched limb, arms crossing each other, missed contact. EP4 final render: 0 flags.
+- Audio check: every spoken line's level in the final mix is compared with the voice track (no line may drop > 6 dB).
