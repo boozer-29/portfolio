@@ -9,7 +9,7 @@ folder `videos/rizz-reel-src/` (three.js version) and `videos/gyatt-test-src/` (
 ## 0. Machine and tools
 - MacBook Pro M1, **8 GB RAM**. Blender 4.2+ (Apple Silicon). Render with **EEVEE** (Metal GPU). Never Cycles for full episodes.
 - Drive Blender headless: `blender -b scene.blend -P build.py` and `blender -b scene.blend -a` (or render frame ranges in chunks of ~150 frames).
-- 8 GB rules: low-poly only, instanced crowds/debris, textures ≤ 2K, one scene per location, `caffeinate -dimsu` while rendering, render 4K in chunks.
+- 8 GB rules: low-poly only, instanced crowds/debris, textures ≤ 2K, one scene per location, `caffeinate -dimsu` while rendering, render in chunks.
 - Audio: ElevenLabs (API key on the user's account), ffmpeg, Python + numpy for the mix.
 - Re-use the shout takes and SFX in `videos/assets/audio/` (no credits needed). Music: `TIKI_TIKI.mp3` (QMIIR) supplied by the user — put it in the project folder.
 
@@ -76,8 +76,9 @@ White flash (3 frames: 95% / 60% / 25%) on tier jumps.
 - Click-free edits (fades on every segment), no two voices overlapping, master two-pass loudnorm **−14 LUFS, −1 dBTP**.
 
 ## 6. Deliverables
-- **4K only:** 2160×3840, 30 fps, H.264 High (CRF ~16, capped ~12–13 Mbps so the file stays < 100 MB), AAC 256 kbps 44.1 kHz.
-- Low-res (540×960) preview first for approval, then the 4K render.
+- **Full HD 1080p (owner's choice, saves time and usage):** 1080×1920, 30 fps, H.264 High (CRF ~17, maxrate ~10 Mbps), AAC 256 kbps 44.1 kHz.
+  Render at scale 1 (`RSCALE=1`). Only make 4K if the owner asks for it.
+- Low-res (540×960) preview first for approval, then the 1080p render.
 
 ## 7. QA before delivering (all must pass)
 - 0 frames with a caption and no audible voice; 0 spoken words without a caption; no caption > 0.1 s late (check against Scribe of the final MP4).
