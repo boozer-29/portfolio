@@ -20,7 +20,9 @@ No narrator. The story is told by the visuals, funny dialogue in accents, and th
 - **Length:** 50–60 s. **Cuts:** every ~1.5–2 s outside slow emotional beats. A face reaction at least every ~10 s.
 - **Opening:** silent title card (0.15–2.95 s) — "What if your ___ doubled every day?" in **Playfair Display** 500, white,
   the topic word ("rizz", "yams"…) huge in *italic* (≈2.3× size), thin red (#E21E39) accent line under it, soft dark wash behind, fade in 0.45 s, fade out 0.3 s.
-- **Ending:** a cosmic punchline line + one final BOMBOCLAT / reaction. Optional callback to earlier episodes (the Sun from the rizz episode).
+- **Ending:** a cosmic punchline line + one final BOMBOCLAT / reaction.
+- **Standalone episodes (owner's rule):** every episode is self-contained with its own humour. Only the hero recurs.
+  Never bring back side characters, props or jokes from earlier episodes (no callbacks, no returning cast). Same animation style every time.
 - **Silence drop:** 0.8 s of total silence (music + SFX off, voice free) right before the Day 9 payoff.
 
 ## 2. The hero (same in every episode)
