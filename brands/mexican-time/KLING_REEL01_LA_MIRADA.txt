@@ -1,0 +1,80 @@
+MEXICAN TIME — REEL 01 "LA MIRADA" — KLING PASTE FILE
+=====================================================
+One block = one generation in Kling (klingai.com).
+Copy "PROMPT" into the prompt box and "NEGATIVE" into the Negative Prompt box.
+Choose the SETTINGS shown. Download each result and name it as given in FILE NAME.
+No text appears in any shot: captions are added later in the edit.
+
+---------------------------------------------------------------------
+STEP 1 — CHARACTER IMAGES  (Kling > AI Images)
+---------------------------------------------------------------------
+
+[ IMG-A  SANTI ]
+SETTINGS: AI Images · Aspect ratio 9:16 · 4 images
+FILE NAME: santi.png  (pick the best one)
+PROMPT:
+Full body portrait of SANTI, a Mexican man in his early 30s, tall and broad-shouldered, warm tan skin, thick well-groomed black mustache, short neat stubble, slicked-back black hair, strong jawline, calm heavy-lidded dark eyes, confident half-smile. Crisp white western shirt with pearl snap buttons, sleeves rolled up, dark jeans, brown tooled leather belt with a big plain silver buckle, polished brown cowboy boots, cream felt rancher cowboy hat, thin gold chain. Standing on a plain grey studio background, front view. Style: remastered early-2000s PS2 open-world video game character model, low-polygon faceted body, hat and hair made of large flat polygon planes, angular jaw, chunky hands, stiff pose, but a photoreal face texture with skin pores and realistic eyes, soft studio light, film grain.
+NEGATIVE:
+text, letters, logo, watermark, cartoon, anime, smooth high-poly hair, tourist sombrero, poncho, extra fingers, blurry face
+
+[ IMG-B  MAMÁ ]
+SETTINGS: AI Images · Aspect ratio 9:16 · 4 images
+FILE NAME: mama.png
+PROMPT:
+Full body portrait of MAMÁ, a Mexican mother in her late 50s, short and sturdy, warm tan skin, black hair with grey streaks in a tight bun, thin arched eyebrows, small gold hoop earrings, reading glasses on a beaded chain, colourful floral blouse, plain apron, dark skirt, flat shoes, arms crossed, one eyebrow raised. Plain grey studio background, front view. Style: remastered early-2000s PS2 open-world video game character model, low-polygon faceted body, hair made of large flat polygon planes, angular jaw, chunky hands, stiff pose, but a photoreal face texture with skin pores and realistic eyes, soft studio light, film grain.
+NEGATIVE:
+text, letters, logo, watermark, cartoon, anime, smooth high-poly hair, extra fingers, blurry face
+
+TIP: In Kling video, add santi.png (and mama.png for clip 4) under "Elements" /
+"Reference" so the same faces appear in every clip.
+
+---------------------------------------------------------------------
+STEP 2 — VIDEO CLIPS  (Kling > AI Videos)
+Default SETTINGS for all clips: Aspect ratio 9:16 · Duration 5s · Mode Standard
+(Professional looks better if you have credits) · Elements: santi.png
+Add this NEGATIVE to every clip:
+text, letters, subtitles, logo, watermark, cartoon, anime, flowing hair, morphing face, extra fingers, camera shake, fast cuts, blurry
+---------------------------------------------------------------------
+
+[ CLIP 1  THE WALK-IN ]   FILE NAME: s01.mp4
+PROMPT:
+Night party in a Mexican hacienda courtyard, warm string lights zig-zagging overhead, bougainvillea on adobe walls, long wooden tables, a mariachi band in black charro suits on the left. Santi walks slowly and confidently straight toward the camera down the middle of the courtyard in slow motion; the crowd steps aside on both sides and stares; the mariachi band freezes mid-song. Low-angle wide shot, locked camera with a slow push-in. Remastered early-2000s PS2 video game cutscene look: low-poly faceted bodies, rigid blocky polygon hat and hair that never flow, photoreal faces, warm golden light, soft bloom, film grain.
+
+[ CLIP 2  CUP DROP + THE LAST TAMAL ]   FILE NAME: s02.mp4
+PROMPT:
+Same night hacienda party. Close-up of a rival cowboy's hand dropping a small clay coffee cup that falls and splashes, then the camera tilts to a long party table with clay pots, tortillas and salsas, where one last tamal sits on a plate. Santi leans in and slowly reaches for the last tamal while five aunts in floral blouses freeze mid-bite and stare at him in shock. Medium shot at table height, slow movement. Remastered early-2000s PS2 video game cutscene look: low-poly faceted bodies, rigid blocky polygon hair and hat, photoreal faces, warm string-light glow, soft bloom, film grain.
+
+[ CLIP 3  THE HAT TIP ]   FILE NAME: s03.mp4   (lip-sync later)
+PROMPT:
+Close-up from a low angle of Santi at the night hacienda party, string lights as warm bokeh behind him. He slowly tips the brim of his cream rancher hat with one finger, raises one eyebrow and gives a calm, smug half-smile while looking straight into the camera, then speaks one short sentence calmly. Very slow push-in, locked camera. Remastered early-2000s PS2 video game cutscene look: low-poly faceted model, rigid polygon hat, photoreal face, warm golden rim light, soft bloom, film grain.
+TIP: After it renders, use Kling "Lip Sync" with the voice file L1 that Claude sends you.
+
+[ CLIP 4  LA MIRADA ]   FILE NAME: s04.mp4   · Elements: mama.png AND santi.png
+PROMPT:
+Night hacienda party. Extreme close-up of Mamá across the courtyard: her eyes slowly narrow into a deadly silent stare, one eyebrow rises, lips press thin, the camera pushes in fast toward her eyes like a western showdown. Then cut to an extreme close-up of Santi frozen in fear, eyes wide, a single drop of sweat rolling down his temple, his hat brim slowly lowering. Dramatic side lighting. Remastered early-2000s PS2 video game cutscene look: low-poly faceted models, rigid blocky polygon hair and hat, photoreal faces, soft bloom, film grain.
+
+[ CLIP 5  THE TAMAL GOES TO ABUELA ]   FILE NAME: s05.mp4
+PROMPT:
+Night hacienda party, long wooden table with clay pots. Santi bows slightly and respectfully places the last tamal on a plate in front of a tiny white-haired grandmother in a black shawl at the head of the table; she smiles sweetly and the aunts around the table relax and nod in approval. Medium-wide shot at table height, locked camera, stiff video-game animation. Remastered early-2000s PS2 video game cutscene look: low-poly faceted bodies, rigid polygon hair and hat, photoreal faces, warm string-light glow, soft bloom, film grain.
+
+[ CLIP 6  WASHING THE DISHES ]   FILE NAME: s06.mp4
+PROMPT:
+Rustic outdoor kitchen behind a hacienda at night, a big metal sink overflowing with a mountain of clay pots and pans, soap bubbles, one bare warm light bulb, the party glowing far behind. Santi, still in his cream rancher hat and white western shirt, wearing yellow rubber gloves, scrubs a giant pot with a deadpan face. High-angle shot looking down at him, locked camera, slow push-in. Remastered early-2000s PS2 video game cutscene look: low-poly faceted model, rigid polygon hat, photoreal face, slightly desaturated cool light, soft bloom, film grain.
+
+[ CLIP 7  THE COFFEE SIP (ENDING) ]   FILE NAME: s07.mp4   (lip-sync later)
+PROMPT:
+Late at night in the hacienda courtyard, the party winding down, string lights glowing softly behind him. Close-up from a slight low angle: Santi slowly sips from a small clay cup of coffee, lowers it, eyes half closed, calm and wise with a tiny knowing smile, then speaks calmly to the camera. Very slow push-in, locked camera. Remastered early-2000s PS2 video game cutscene look: low-poly faceted model, rigid polygon hat, photoreal face, warm golden rim light, soft bloom, film grain.
+TIP: Use Kling "Lip Sync" with voice files L2 + L3 that Claude sends you.
+
+---------------------------------------------------------------------
+STEP 3 — SEND BACK
+---------------------------------------------------------------------
+Upload s01.mp4 … s07.mp4 (plus santi.png and mama.png) in the chat.
+Claude trims and edits them into the ~18 s reel with the hook header,
+captions, voices, sound effects, music and the "LA MIRADA SURVIVOR" tee end card.
+
+Voice lines Claude will make (asks before spending ElevenLabs credits):
+L1 "Nobody tells Santi what to do."
+L2 "Some powers... even I respect."
+L3 "You met me at a very Mexican time of my life."
+L4 "Get yours at mexican time dot com."
