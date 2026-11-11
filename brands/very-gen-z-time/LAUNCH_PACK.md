@@ -187,6 +187,8 @@ drop 01 → link in bio
 ---
 
 ## 6. Rules
+- **Credit rule (from the user, applies to every session):** never spend ElevenLabs credits without asking first. Before any image, video, speech, sound-effect, music, voice-design or transcription call, show the estimated cost (use `estimate_only` where available) and wait for an explicit yes. A previous approval does not carry over to the next spend.
+- Reference look for this page: `reel01_the_phone_call.mp4` (AI keyframes + slow push-ins). The locally rendered Three.js draft was scrapped.
 - Never put real brand logos, game titles, celebrities or real people in reels or tees.
 - Keep Zay likeable: he's lazy and dramatic, never cruel.
 - Same hero, same voice, same end line in every reel. Consistency builds the brand.

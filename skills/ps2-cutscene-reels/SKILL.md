@@ -19,6 +19,8 @@ block marked **LOCK** is copied verbatim into every prompt. Never paraphrase a L
 
 ## 0. Quick start (what to do when invoked)
 
+> **Credit rule (from the user, applies to every session):** never spend ElevenLabs credits without asking first. Before any image, video, speech, sound-effect, music, voice-design or transcription call, show the estimated cost (use `estimate_only` where available) and wait for an explicit yes. A previous approval does not carry over to the next spend.
+
 1. Ask for (or invent if the user says "you choose"): **premise**, **hero line**, **payoff
    line**, **product/end card** (optional). Default runtime 18–26 s.
 2. Write the script using the **6-beat structure** (section 5).
