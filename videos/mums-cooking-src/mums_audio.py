@@ -77,12 +77,19 @@ for path, spk, on_t, kind, cap, echo, xf in CUES:
     words = [{'w': cap, 't': round(on_t, 3)}] if kind == 'shout' else words_of(path[:-4] + '.json', at)
     DLG.append({'file': path, 'speaker': spk, 'at': round(at, 3), 'kind': kind, 'words': words})
 
-# ---------------- music: Let It All Work Out cut to the story
+# ---------------- music: TIKI TIKI (if videos/assets/music/tiki.mp3 exists) cut to the story, else the filtered fallback bed
+TIKI = os.environ.get('TIKI', '/home/user/portfolio/videos/assets/music/tiki.mp3')
 music = np.zeros((N, 2), np.float32)
-place(music, edge(load(SONG, 'atrim=2.0:9.4,asetpts=PTS-STARTPTS,lowpass=f=700,lowpass=f=700,volume=2dB,afade=t=out:st=6.6:d=0.3'), 0.4, 0.01), 0.0)   # soft muffled intro under the title
-place(music, edge(load(SONG, 'atrim=28.5:60.5,asetpts=PTS-STARTPTS'), 0.004, 0.05), 7.0)       # full beat lands on the first BOMBOCLAAT
-place(music, edge(load(SONG, 'atrim=189.5:206.0,asetpts=PTS-STARTPTS,afade=t=out:st=13.0:d=1.9'), 0.25, 0.02), 40.5)   # the lift for Day 9
-music *= 0.34
+if os.path.exists(TIKI):
+    place(music, edge(load(TIKI, 'atrim=1.0:7.6,asetpts=PTS-STARTPTS,lowpass=f=650,lowpass=f=650,volume=2dB,afade=t=out:st=6.35:d=0.25'), 0.3, 0.01), 0.0)   # muffled intro under the title
+    place(music, edge(load(TIKI, 'atrim=8.0:46.0,asetpts=PTS-STARTPTS'), 0.004, 0.05), 7.0)       # drop lands on the first BOMBOCLAAT
+    place(music, edge(load(TIKI, 'atrim=57.0:67.0,asetpts=PTS-STARTPTS,afade=t=out:st=9.2:d=0.8'), 0.25, 0.02), 40.5)   # second drop for Day 9
+    music *= 0.32
+else:
+    place(music, edge(load(SONG, 'atrim=2.0:9.4,asetpts=PTS-STARTPTS,lowpass=f=700,lowpass=f=700,volume=2dB,afade=t=out:st=6.6:d=0.3'), 0.4, 0.01), 0.0)
+    place(music, edge(load(SONG, 'atrim=28.5:60.5,asetpts=PTS-STARTPTS'), 0.004, 0.05), 7.0)
+    place(music, edge(load(SONG, 'atrim=189.5:206.0,asetpts=PTS-STARTPTS,afade=t=out:st=13.0:d=1.9'), 0.25, 0.02), 40.5)
+    music *= 0.34
 # day-3 hush: street goes quiet, only the pot bubbles
 hush = np.ones(N, np.float32); i0, i1 = int(12.9 * SR), int(14.8 * SR); hush[i0:i1] = 0.25; hush[i0 - 2000:i0] = np.linspace(1, 0.25, 2000); hush[i1:i1 + 4000] = np.linspace(0.25, 1, 4000)
 music *= hush[:, None]
@@ -148,6 +155,8 @@ for t in (36.05, 36.2, 36.35): place(sfx, noise(0.1, 1500, 5500, 0.12, 0.005, 0.
 # Day 9: lid, cosmic swell, moon plate, hand-over
 place(sfx, lib('pop'), 40.5, 0); place(sfx, rise(1.6, 120, 1400), 40.6, -12); place(sfx, noise(3.0, 2000, 9000, 0.015, 1.0, 1.0), 40.5); place(sfx, ding(2300), 41.9, -9); place(sfx, ding(1700), 42.95, -2); place(sfx, thud(90, 0.1, 0.5), 42.95)
 place(sfx, thud(70, 0.12, 0.5), 46.5); place(sfx, wood(), 46.0, -6)
+for k in range(6): place(sfx, noise(0.1, 700, 3800, 0.1, 0.01, 0.07), 47.45 + k * 0.1)
+place(sfx, thud(80, 0.12, 0.6), 50.95); place(sfx, ding(1300), 50.97, -8)
 place(sfx, thud(46, 0.3, 1.0), 50.72)
 sfx *= 0.75
 sub = np.zeros((N, 2), np.float32); tt = np.arange(int(2.5 * SR)) / SR

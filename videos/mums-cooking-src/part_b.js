@@ -101,6 +101,12 @@ const S = {};
   const astro = [0, 1].map(i => { const P = makeRig({ hood: 0xe9ecf1, hoodD: 0xc9ced8, pants: 0xdfe3ea, skin: [0xe2a77f, 0x7a4a2e][i], hair: 0x3a2a1a, noHood: true, helmet: true, pack: true, shoe: 0xdddddd }); sc.add(P.root); const patch = rbox(0.18, 0.12, 0.03, mat(i ? 0x1f8fe0 : 0xe8343c), 0.22, 0.62, 0.245); P.spine.add(patch); return P; });
   const kneelFx = ball(0.2, mat(0xd9a56a, { roughness: 1 }), 0, 0, 0, undefined, 8); kneelFx.visible = false; sc.add(kneelFx);
   const deb = debrisPool(sc, 24, [0xd9a56a, 0xc88b57, 0xe8e1d0]);
-  const pot2 = grp(0, 0, 0, sc); pot2.add(cyl(0.56, 0.5, 0.78, alu, 0, 0.39, 0, 28)); pot2.add(cyl(0.6, 0.6, 0.06, alu, 0, 0.78, 0, 28)); pot2.add(cyl(0.5, 0.5, 0.05, mat(0x15110f, { roughness: 0.8 }), 0, 0.72, 0, 24)); T(pot2, rbox(0.06, 0.6, 0.06, mat(0xb07a42), 0.42, 0.9, 0.0)).rotation.z = -0.75; pot2.visible = false;
+  const pot2 = grp(0, 0, 0, sc); { const inner = mat(0xdfe4ea, { roughness: 0.35, metalness: 0.85, envMapIntensity: 1.4, side: THREE.DoubleSide });
+    const wall = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.52, 0.8, 32, 1, true), new THREE.MeshStandardMaterial({ color: 0xc9ced6, roughness: 0.28, metalness: 0.9, envMapIntensity: 1.5, side: THREE.DoubleSide })); wall.position.y = 0.4; wall.castShadow = true; pot2.add(wall);
+    pot2.add(cyl(0.52, 0.52, 0.04, inner, 0, 0.04, 0, 28)); const rim = new THREE.Mesh(new THREE.TorusGeometry(0.6, 0.04, 8, 32), mat(0xc9ced6, { roughness: 0.28, metalness: 0.9 })); rim.rotation.x = Math.PI / 2; rim.position.y = 0.8; pot2.add(rim);
+    [-1, 1].forEach(sx => pot2.add(rbox(0.2, 0.1, 0.14, mat(0xc9ced6, { roughness: 0.28, metalness: 0.9 }), sx * 0.66, 0.66, 0)));
+    for (let i = 0; i < 7; i++) { const g = ball(0.045, mat(JOLLOF, { roughness: 0.5 }), Math.cos(i * 2.4) * (0.1 + 0.3 * ((i * 37) % 10) / 10), 0.075, Math.sin(i * 2.4) * (0.1 + 0.3 * ((i * 53) % 10) / 10), undefined, 8); g.scale.set(1.3, 0.6, 1); pot2.add(g); }
+    const grain = ball(0.05, mat(JOLLOF, { roughness: 0.5 }), 0, 0.5, 0, undefined, 8); grain.scale.set(1.3, 0.6, 1); grain.visible = false; pot2.grain = grain; pot2.add(grain);
+    const sp = grp(0, 0.1, 0, pot2); sp.add(rbox(0.05, 0.5, 0.05, mat(0xb07a42, { roughness: 0.6 }), 0, 0.25, 0)); sp.add(rbox(0.2, 0.05, 0.26, mat(0xb07a42, { roughness: 0.6 }), 0, 0.0, 0)); sp.visible = false; pot2.spoon = sp; } pot2.visible = false;
   S.yard = { umb, sc, hero, mum, mumSpoon, neigh, nPlate, king, drummers, bearer, guards, crowd, astro, pot, potIn, lid, rice, steam, clothes, dayDome, cosDome, stars, galaxies, vort, vd, moon, cosGlow, cap: capsule, hatch, chute, rainG, rainD, ricePile, kneelFx, deb, pot2, gate, doorLeaf, canopy };
 }
