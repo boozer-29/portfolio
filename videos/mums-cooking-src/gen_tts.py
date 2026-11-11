@@ -15,7 +15,7 @@ for k in only:
     vid, text = LINES[k]
     if os.path.exists(f'audio/{k}.mp3'): print('skip', k); continue
     body = json.dumps({'text': text, 'model_id': 'eleven_v3'})
-    r = subprocess.run(['curl','-sS','-H','xi-api-key: dummy','-H','Content-Type: application/json','-d',body,f'https://api.elevenlabs.io/v1/text-to-speech/{vid}/with-timestamps?output_format=mp3_44100_128'],capture_output=True,text=True)
+    r = subprocess.run(['curl','-sS','-H','xi-api-key: ' + os.environ.get('ELEVENLABS_API_KEY', 'dummy'),'-H','Content-Type: application/json','-d',body,f'https://api.elevenlabs.io/v1/text-to-speech/{vid}/with-timestamps?output_format=mp3_44100_128'],capture_output=True,text=True)
     try: j = json.loads(r.stdout)
     except Exception: print(k,'ERR',r.stdout[:300]); continue
     if 'audio_base64' not in j: print(k,'ERR',json.dumps(j)[:300]); continue

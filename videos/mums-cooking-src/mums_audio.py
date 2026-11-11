@@ -1,7 +1,7 @@
 # Mum's cooking episode: cue sheet -> dialogue.json, numpy mix with loudness-matched voices, dynamic ducking, synthesized + library SFX.
 import json, os, re, subprocess, numpy as np
 D = os.path.dirname(os.path.abspath(__file__)); VA = os.path.join(D, 'audio')
-REPO = '/home/user/portfolio/videos/assets/audio'; SONG = '/home/user/portfolio/videos/assets/music/let_it_all_work_out.mp3'
+REPO = os.path.join(D, '..', 'assets', 'audio'); SONG = os.path.join(D, '..', 'assets', 'music', 'let_it_all_work_out.mp3')
 SR = 44100; DUR = 55.2; N = int(DUR * SR)
 
 # (file path, speaker, desired speech onset, kind, caption override for shouts, echo, extra ffmpeg filter)
@@ -78,7 +78,7 @@ for path, spk, on_t, kind, cap, echo, xf in CUES:
     DLG.append({'file': path, 'speaker': spk, 'at': round(at, 3), 'kind': kind, 'words': words})
 
 # ---------------- music: TIKI TIKI (if videos/assets/music/tiki_tiki.mp3 exists) cut to the story, else the filtered fallback bed
-TIKI = os.environ.get('TIKI', '/home/user/portfolio/videos/assets/music/tiki_tiki.mp3')
+TIKI = os.environ.get('TIKI', os.path.join(D, '..', 'assets', 'music', 'tiki_tiki.mp3'))
 music = np.zeros((N, 2), np.float32)
 if os.path.exists(TIKI):
     place(music, edge(load(TIKI, 'atrim=1.0:7.6,asetpts=PTS-STARTPTS,lowpass=f=650,lowpass=f=650,volume=2dB,afade=t=out:st=6.35:d=0.25'), 0.3, 0.01), 0.0)   # muffled intro under the title

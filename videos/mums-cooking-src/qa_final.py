@@ -44,7 +44,7 @@ check('no clicks at any edit point', not clicks, clicks)
 
 # --- captions vs what is actually heard in the MP4
 subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', MP4, '-vn', '-ac', '1', '-b:a', '128k', 'final_check.mp3'], check=True)
-subprocess.run('curl -sS -H "xi-api-key: dummy" -F model_id=scribe_v1 -F file=@final_check.mp3 -F timestamps_granularity=word https://api.elevenlabs.io/v1/speech-to-text -o mix_stt.json', shell=True, check=True)
+subprocess.run('curl -sS -H "xi-api-key: ' + os.environ.get('ELEVENLABS_API_KEY', 'dummy') + '" -F model_id=scribe_v1 -F file=@final_check.mp3 -F timestamps_granularity=word https://api.elevenlabs.io/v1/speech-to-text -o mix_stt.json', shell=True, check=True)
 txt = json.load(open('mix_stt.json'))['text']; print('   transcript of the MP4:', txt)
 shouts = sum(('ombo' in w['text'].lower() or 'omba' in w['text'].lower() or 'bomb' in w['text'].lower() or 'umbo' in w['text'].lower() or 'claa' in w['text'].lower() or 'clat' in w['text'].lower()) for w in json.load(open('mix_stt.json'))['words'] if w['type'] == 'word')
 check('all 9 BOMBOCLAT shouts heard (8 doublings + the final one)', shouts >= 9, shouts)
