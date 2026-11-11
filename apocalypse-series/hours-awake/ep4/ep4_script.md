@@ -8,7 +8,7 @@ Premise:   Imagine you + you went down alone, eyes shut, through thousands + rea
 Counter:   HOURS AWAKE 53:10 → 54:02
 HUD:       EP 4 / 7 · SURVIVORS 4 → 2 (you + Ollie, separated from the group) · NOISE dB · SLEEPERS NEARBY 600 → 3,412
            During eyes-shut scenes the HUD dims to 30% and shows only NOISE (your breath).
-Hook text: 91% OF YOU WENT BACK FOR HIM. / YOU HAD NO IDEA.   (overlay 0-3 s)
+Hook text: 91% OF YOU WENT BACK FOR HIM. / HE WAS SAFE UNTIL YOU DID.   (overlay 0-3 s)
 Mid twist: Ollie's note: "WHEN I TAPPED BACK THEY STOOD UP." He was safe with his eyes shut. Your taps made him answer,
            and answering made him awake in their eyes (~62%)
 Big twist: He held on 54 hours for you. Now you're here, he finally lets go. His eyes close, and the whole horde kneels (~72-77%)
@@ -54,7 +54,7 @@ Full text in `script_tagged.txt`; captions from `script_clean.txt`. Re-time from
 
 | # | Time | Beat | Tagged line |
 |---|---|---|---|
-| 1 | 0.0-6.0 | HOOK | `[quietly][tense] Imagine tapping three times... [long pause] and hearing him tap back. [short pause] Ninety-one percent of you chose B.` |
+| 1 | 0.0-6.0 | HOOK | `[whispers] Imagine walking through thousands of them... [short pause] with your eyes closed. [long pause] [quietly] Ninety-one percent of you chose B. [softly] You tapped. He tapped back.` |
 | 2 | 6.0-13.5 | MAYA | `[urgent] Reyes lunges for the walkie. [short pause] Maya stops him. [softly] Her note: "I knew. I'm sorry. Eyes shut... like him."` |
 | 3 | 13.5-18.5 | THE LADDER | `[tense] You climb down into them. [short pause] [darkly] Above you, Reyes pulls the ladder up.` |
 | 4 | 18.5-26.0 | EYES SHUT | `[whispering] So you do what Ollie did. [short pause] You close your eyes. [long pause] [darkly] Rule one: never sleep. [short pause] And your eyes are closed.` |
@@ -77,14 +77,20 @@ Full text in `script_tagged.txt`; captions from `script_clean.txt`. Re-time from
 
 Caption colors: lime = B, 91%, EYES SHUT, BROTHER, TAP; red = SLEEP, SOUND, BREATHE, STOOD UP, UNTIL YOU ANSWERED, KNEEL, HUNTS; amber = NOTE, MAYA.
 
+## 4b. Hook options (owner picks; option 1 is written into the script)
+1. **(Used) The blind walk, flash-forward.** Frame 0 is the eyes-shut red darkness with a pale face 10 cm from yours. Voice: "Imagine walking through thousands of them... with your eyes closed." Text: `91% OF YOU WENT BACK FOR HIM.` / `HE WAS SAFE UNTIL YOU DID.` Why: an impossible situation in the first second, plus a line that accuses the exact people watching (91% voted B), so they stay to find out what they did.
+2. **The bargain.** Frame 0: Ollie asleep, a ring of kneeling Sleepers around him. Voice: "Imagine the only way to keep your brother safe... is to let them have him." Text: `THEY WON'T HURT HIM.` / `AS LONG AS HE'S ASLEEP.` Strongest emotionally, but it gives away the big twist.
+3. **The countdown.** Frame 0: your eyes shut, HUD `HOURS AWAKE 53:58`. Voice: "Imagine fifty-four hours awake... and the only way to survive is to close your eyes." Text: `CLOSE YOUR EYES.` / `DON'T FALL ASLEEP.` A clean "Don't..." hook built on rule 1 vs rule 4; less personal than option 1.
+
 ## 5. Shot-by-shot direction
 Style, palette, HUD, captions: CLAUDE.md PART 4. Sleepers are never seen moving.
 **New visual language for this episode: EYES-SHUT MODE.** When your eyes are closed, the screen is warm red-black (light through eyelids), with only faint blurred silhouettes when light passes, and soft white "sound rings" drawn where noises happen (a breath, a shuffle, the hum), the way you'd picture them blind. Captions stay. The HUD dims to 30% and shows only NOISE (your breathing) as a big number that you must keep low. This makes the blind walk feel like a game the viewer is playing.
 
 ### SCENE 1. THE NEW ROOF (0.0-18.5)
-**0.0-1.5** Close POV: your thumb taps the yellow walkie three times. HUD at frame 0: `EP 4 / 7 · 53:10`, lime tag `YOU CHOSE: B · 91%`. Hook text at 32%: white `91% OF YOU WENT BACK FOR HIM.`, then at 1.3 s red `YOU HAD NO IDEA.`
-**1.5-3.5** Silence. The red light stays dark. One second. Two. Then it blinks: tap-tap-tap, fast, eager, like a kid jumping up and down. Push-in.
-**3.5-6.0** Wide (geography): the four of you on the roof; the street below packed with upturned faces; Ollie's old building across the gap.
+**0.0-2.5** **COLD OPEN, flash-forward in EYES-SHUT MODE:** warm red-black eyelid light; a pale Sleeper face swims into focus 10 cm from yours, then another behind it, then dozens; a soft white sound ring blooms with each of their breaths on your skin. HUD at frame 0, dimmed: `EP 4 / 7` and a huge `NOISE 0`. Hook text at 32%: white `91% OF YOU WENT BACK FOR HIM.`, then at 1.3 s red `HE WAS SAFE UNTIL YOU DID.`
+**2.5-4.0** 2-frame white flash, smash cut to the roof, 53:10, lime tag `YOU CHOSE: B · 91%`. Close POV: your thumb taps the yellow walkie three times.
+**4.0-5.0** The red light stays dark. Half a second. Then it blinks: tap-tap-tap, fast and eager, like a kid jumping up and down.
+**5.0-6.0** Wide (geography): the four of you on the roof; the street below packed with upturned faces; Ollie's old building across the gap.
 **6.0-7.5** Reyes lunges for the walkie. Maya catches his arm with both hands and hangs on. He stops: she's never touched him before.
 **7.5-11.0** Insert: Maya's note, nurse's neat pen on the back of a medication label: `I KNEW. I'M SORRY.` then, underlined, `EYES SHUT. LIKE HIM.` Her watch visible on her wrist (she's been counting your heartbeats all night; second hand ticking).
 **11.0-13.5** Your hand closes over the note. DJ, without a word, unclips his own headphones and hangs them round your neck (he can't come; it's what he has). Push-in on his face: 16 years old.
