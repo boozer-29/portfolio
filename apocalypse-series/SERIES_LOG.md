@@ -11,7 +11,8 @@ Source of truth for what has aired and what won. Update after every vote.
 |---|---|---|---|---|---|
 | 1 | The Note (v2) | `hours-awake/ep1/` | Posted | A The roof / B The basement | **A: THE ROOF** |
 | 2 | Thirty Seconds (v2 continuous cut, 85 s) | `hours-awake/ep2/` | Posted | A Save yourself (cross the plank) / B Save Ollie (go down to the basement) | **A: SAVE YOURSELF** |
-| 3 | Backwards (v2) | `hours-awake/ep3/` | Narration ready for ElevenLabs | A Hand it over (silence Ollie, keep the group alive) / B Tap back (go down alone for Ollie) | (unknown, ask before Ep 4) |
+| 3 | Backwards (v2) | `hours-awake/ep3/` | Posted | A Hand it over (silence Ollie, keep the group alive) / B Tap back (go down alone for Ollie) | **B: TAP BACK (91%)** |
+| 4 | Eyes Shut | `hours-awake/ep4/` | Narration ready for ElevenLabs | A Let him sleep (they'll never hurt him; he's theirs) / B Wake him (he's yours, and they hunt you both) | (unknown, ask before Ep 5) |
 
 Not posted / reserve ideas: Ep 1 v3 "The Last Seat" (`ep1/v3_unposted/`), Ep 2 "Autopilot" (`ep2/unused_autopilot/`, written for the v3 branch).
 
@@ -40,7 +41,12 @@ Branch plans for Ep 3: `hours-awake/ep2/ep2_script.md` section 6.
 ## Character bible (established on screen; keep consistent)
 - **Ollie:** can't speak (sound kills), talks in crayon notes; laughs with both hands over his mouth so no sound escapes; writes R backwards ("BЯAVE", his dinosaur's name); ritual = three taps on your hand = "I'm still awake"; gives you the bigger half; drew you with a cape, "MY BROTHER NEVER LEAVES"; has the matching yellow toy walkie ("IF WE GET LOST I'LL TAP"). Awake the whole time in Ep 2; he walked through the horde with his eyes shut.
 - **Reyes:** wrote the forged note during the ten quiet hours, then sent Ollie down as bait during your 30-second microsleep. Holds up "IT WAS HIM OR ALL OF US." Kicked the plank.
-- **Maya / DJ:** looked away when you found out. Did they know? (open)
+- **Maya:** nurse; counts heartbeats on her watch. She KNEW about Reyes's plan (Ep 4 note: "I KNEW. I'M SORRY. EYES SHUT. LIKE HIM."), held Reyes back so you could go.
+- **DJ:** 16. Gave you his headphones without a word when you went down (Ep 4). Whether he knew: open.
+- **Reyes (Ep 4):** pulled the fire-escape ladder up behind you. The group (Reyes, Maya, DJ) is now split from you and Ollie.
+
+## Canon rule (Ep 4, from the owner's observation)
+**They don't hunt sound; they hunt whoever is awake. Sound is how the awake give themselves away.** Eyes shut + silent = you pass as one of them. Ollie asleep (or passing as asleep) = they KNEEL to him. Ollie doing something only an awake person does (tapping back) = they STAND and turn on him. Why they kneel to him: never explained yet (2 AM question).
 
 ## Plants added in Ep 3
 | Plant | Planned payoff |
@@ -49,3 +55,12 @@ Branch plans for Ep 3: `hours-awake/ep2/ep2_script.md` section 6.
 | Maya and DJ looked away | Whether they knew (Ep 4/5) |
 | Reyes keeps the red crayon | Ep 4+ |
 | Sleepers faced YOU first, then turned to follow Ollie | Why they follow Ollie |
+
+## Plants added in Ep 4
+| Plant | Planned payoff |
+|---|---|
+| `SUBJECT 0` clipboard with your name on the cot next to Ollie's | Ep 5 B-branch / your immunity |
+| You walked with eyes shut after 53 h awake and didn't fall asleep | Immunity thread |
+| Dinosaur tail in your pocket ("so you'd have to come back for the rest") | Emotional callback |
+| The third tap never came | Callback when/if Ollie wakes |
+| Faint hum in sleeping Ollie's throat | Is he becoming one of them? |
