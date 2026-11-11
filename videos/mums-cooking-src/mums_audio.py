@@ -77,8 +77,8 @@ for path, spk, on_t, kind, cap, echo, xf in CUES:
     words = [{'w': cap, 't': round(on_t, 3)}] if kind == 'shout' else words_of(path[:-4] + '.json', at)
     DLG.append({'file': path, 'speaker': spk, 'at': round(at, 3), 'kind': kind, 'words': words})
 
-# ---------------- music: TIKI TIKI (if videos/assets/music/tiki.mp3 exists) cut to the story, else the filtered fallback bed
-TIKI = os.environ.get('TIKI', '/home/user/portfolio/videos/assets/music/tiki.mp3')
+# ---------------- music: TIKI TIKI (if videos/assets/music/tiki_tiki.mp3 exists) cut to the story, else the filtered fallback bed
+TIKI = os.environ.get('TIKI', '/home/user/portfolio/videos/assets/music/tiki_tiki.mp3')
 music = np.zeros((N, 2), np.float32)
 if os.path.exists(TIKI):
     place(music, edge(load(TIKI, 'atrim=1.0:7.6,asetpts=PTS-STARTPTS,lowpass=f=650,lowpass=f=650,volume=2dB,afade=t=out:st=6.35:d=0.25'), 0.3, 0.01), 0.0)   # muffled intro under the title
