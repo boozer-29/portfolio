@@ -7,7 +7,7 @@ PAUSES = {'isp': (3.542, 0.45)}
 CUTS = {'h15': (2.85, 3.70)}   # shorten the 1.34 s silence before 'Landlord' to ~0.5 s
 STEPS = [  # day, range, comparison, status, setup, punch, [(cue, rel_t)], length
  (1, '10 m', 'A NORMAL ROUTER', 'HOME', 'Day 1. 10 metres. A normal router.', 'One bar in the bathroom.', [('h1', 2.9)], 8.0),
- (3, '40 m', 'THROUGH THE WALL', 'HOME', "Day 3. 40 metres. The neighbour's TV connects.", "He's been using your Netflix.", [('sh_question', 4.3), ('h3', 5.4)], 9.0),
+ (3, '40 m', 'THROUGH THE WALL', 'HOME', "Day 3. 40 metres. The neighbour's TV connects.", "He's been using your Netflix.", [('sh_question', 4.3), ('h3', 5.65)], 9.0),
  (5, '160 m', 'THE WHOLE STREET', 'STREET', 'Day 5. The whole street connects.', 'Nobody here has paid for internet since Tuesday.', [('h5', 4.6)], 9.8),
  (7, '640 m', 'REACHES THE SCHOOL', 'NEIGHBOURHOOD', 'Day 7. The school next door connects.', 'Exam results: up 0%. TikTok: up 4,000%.', [], 6.4),
  (12, '20.5 km', 'HIGHER THAN PLANES', 'CITY', 'Day 12. Planes cruise at 11 km.', 'Flight 302 is now buffering over your house.', [('sh_stutter', 3.0), ('h12', 6.8)], 9.8),

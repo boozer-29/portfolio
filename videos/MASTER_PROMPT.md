@@ -43,8 +43,12 @@ speak when the story needs them (a friend, a doctor, a voicemail).
 **BOMBOCLAT is a reaction, not a rule.** Never put one mechanically on every step. Use it only where it's funny (a few times per reel, sometimes never),
 and **never the same way twice in a row**: a stuttered "bombo… bombo… bomboclat!", a confused "bomboclat?", a resigned "hmm… bomboclat",
 a long "BOMBOOOOOO…" hard-cut by the next impact, a muffled one from inside something, a delayed one after a held silence.
-Build the variants by editing the recorded takes in `videos/assets/audio/shouts/` (cut, repeat the first syllable, time-stretch the vowel,
-filter, hard-cut) — **never TTS the BOMBOCLAT**. Caption the shout exactly as it is heard ("BOMBO… BOMBO… BOMBOCLAAT!", "BOMBOOOO—").
+**Generate every shout in the hero's own voice** (Kevin `eRcsJdPMOM0mtGC03ul7`, eleven_v3) so it matches his lines — the old shared takes in
+`videos/assets/audio/shouts/` sound like a different person (owner, Nov 2026). Write the delivery into the text + tags, e.g.
+`[confused, shocked] Bomboclaat?` · `[stuttering in disbelief, getting louder] Bombo... bombo... BOMBOCLAAAT!` ·
+`[screaming, rising panic, getting louder and louder] BOMBOOOOOOOOOOOO` · `[tired, defeated, quiet sigh] Hmm... bomboclaat.`
+For the long scream, shape a **crescendo** (gain ramp from ≈ −14 dB to full over its length, no compressor on it) and hard-cut it at its
+loudest with the next shot — the swelling "BOMBOOOOO" is the joke. Trim each take to the slot, take word times from Whisper (`wifi-src/shouts.py`). Caption the shout exactly as it is heard ("BOMBO… BOMBO… BOMBOCLAAT!", "BOMBOOOO—").
 
 ## 3. On-screen text system
 1. **Stat block** (top-left, x≈2.5 %, y≈14–29 %): label (Inter SemiBold caps, wide tracking, e.g. `BODY WEIGHT`), big number **with a unit** (Lora Medium,

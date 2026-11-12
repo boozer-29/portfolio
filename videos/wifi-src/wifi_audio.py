@@ -34,14 +34,14 @@ def words_of(js, off):
     if cur.strip(): words.append({'w': cur.strip(), 't': round(t0 + off, 3)})
     return words
 # ---------------- voices: shouts (pre-built variants) + the voicemail
-SHOUT_WORDS = {'sh_question': [('BOMBOCLAAT?', 0)], 'sh_stutter': [('BOMBO…', 0), ('BOMBO…', 0.68), ('BOMBOCLAAT!', 1.32)], 'sh_long': [('BOMBOOOOOOO—', 0)], 'sh_resigned': [('hmm…', 0), ('bomboclaat.', 1.13)]}
+SHOUT_WORDS = json.load(open(os.path.join(VA, 'shout_words.json')))   # word reveal offsets of each shout (from shouts.py)
 voice = np.zeros((N, 2), np.float32); dry = []; DLG = []
 PAUSES = TLJ['PAUSES']
 for s in TLJ['steps']:
   for a in s['audio']:
     f = a['file']
     if f.startswith('sh_'):
-        x = edge(load(f"{VA}/{f}.wav", 'acompressor=threshold=-24dB:ratio=4:attack=4:release=90:makeup=1'), 0.008, 0.003 if f == 'sh_long' else 0.03)
+        x = edge(load(f"{VA}/{f}.wav", '' if f == 'sh_long' else 'acompressor=threshold=-24dB:ratio=4:attack=4:release=90:makeup=1'), 0.008, 0.003 if f == 'sh_long' else 0.03)
         on = onset(x); at = a['at'] - on; e = env_db(x); act = e > e.max() - 30; hop = int(0.01 * SR); sp_ = np.concatenate([x[k * hop:(k + 1) * hop] for k in np.where(act)[0]]); g = -15.0 - db(sp_); x *= 10 ** (min(g, -1.5 - 20 * np.log10(np.abs(x).max() + 1e-12)) / 20)
         words = [{'w': w, 't': round(a['at'] + dt, 3)} for w, dt in SHOUT_WORDS[f]]; spk, kind = 'hero', 'shout'
     else:

@@ -11,6 +11,10 @@ LINES = {   # Wi-Fi episode: voicemail + the hero's lines (Revision 1, approved)
  'h15': ('eRcsJdPMOM0mtGC03ul7', '[smug, slow, deep voice] From today... you call me... [pause] Landlord.'),
  'h20': ('eRcsJdPMOM0mtGC03ul7', '[calm, bored] Tell them to turn it off and on again.'),
  'h72': ('eRcsJdPMOM0mtGC03ul7', '[sad, deflated] Left on read... by a whole galaxy.'),
+ 'kq': ('eRcsJdPMOM0mtGC03ul7', '[confused, shocked, staring] Bomboclaat?'),
+ 'ks': ('eRcsJdPMOM0mtGC03ul7', '[stuttering in disbelief, getting louder] Bombo... bombo... BOMBOCLAAAT!'),
+ 'kl': ('eRcsJdPMOM0mtGC03ul7', '[screaming, rising panic, getting louder and louder] BOMBOOOOOOOOOOOOOOOO'),
+ 'kr': ('eRcsJdPMOM0mtGC03ul7', '[tired, defeated, quiet sigh] Hmm... bomboclaat.'),
  'hend': ('eRcsJdPMOM0mtGC03ul7', '[tired, defeated] The whole universe is connected... and I cannot load one video.'),
 }
 KEY = os.environ.get('ELEVENLABS_API_KEY', 'dummy')
