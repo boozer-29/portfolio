@@ -53,3 +53,8 @@ Checks after the fix: -14.2 LUFS, no spoken line drops >6 dB in the mix, loudest
 - The "sample jump" click check reports ~0.98: the jumps are inside sharp F/S sounds of the original narration (present in voice.mp3 at the same times), not clicks.
 - The stairs read as "going down into the dark" mainly through darkness and the figure moving away; the perspective is simple.
 - DJ's headphones beat (picture only, 1 s) is unchanged.
+### Final file checks (from the encoded MP4)
+- 1080x1920, 30 fps, H.264 CRF 18 preset slow, AAC 48 kHz, faststart, 84.8 s, 2545 frames rendered with 0 pose-QA flags.
+- Loudness -14.1 LUFS, true peak -1.3 dB. No muted lines. Effects ~10 dB under the voice.
+- In-shot jumps flagged by qa_video were all checked on motion strips: ladder re-grips, fingertip lifting from B to 1, eyelids opening, rule-one jolt, red flash (intended), cut to kneeling (intended).
+- Black frames = the planned dips and the end-card fade-in. One still run of 1.7 s (Maya before she writes; under 2 s).
