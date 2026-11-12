@@ -4,11 +4,11 @@ SC.maya_note=(t,u,d)=>{QA_SHOT='maya_note';const p=u/d;const Wd=CU.W;vgr(0,H,'#1
   ctx.save();zoomAt(270,560,lerp(1.0,1.14,EZ.io(p)));ctx.translate(Math.sin(t*1.3)*3,Math.sin(t*2.1)*2);
   const pg={y:-98,w:80,h:60};
   fig('maya',270,912,3.4,{eyes:'open',brow:'worry',mouth:'sad',tears:t>Wd.c5[0][1],tilt:-3,
-    arms:[{elbow:[-27,-111],to:[-pg.w/2-1,pg.y+8],hand:'grip',thumbToward:[0,-200]},{elbow:[27,-111],to:[pg.w/2+1,pg.y+8],hand:'grip',thumbToward:[0,-200]}],
+    arms:[{elbow:[-27,-111],to:[-pg.w/2+2,pg.y+14],hand:'grip',thumbToward:[0,pg.y]},{elbow:[27,-111],to:[pg.w/2-2,pg.y+14],hand:'grip',thumbToward:[0,pg.y]}],
     propFront:(A,g)=>{ctx.save();ctx.translate(0,pg.y);ctx.rotate(-.02);paperSheet(0,0,pg.w,pg.h,0,'#f3eee2',true);const ink='#1f3a7a',r=(i)=>pr(t,Wd[i][0][1],Wd[i][0][1]+.45);
       penText("I knew.",0,-16,10.5,ink,r('c4'));penText("I'm sorry.",0,-3,10.5,ink,r('c5'));penText('Eyes shut...',-4,11,10.5,ink,pr(t,Wd.c6[0][1],Wd.c6[1][1]+.3));penText('like him.',0,24,10.5,ink,pr(t,Wd.c6[2][1],Wd.c6[3][1]+.4));
       if(t>Wd.c6[3][1]){ctx.strokeStyle=ink;ctx.lineWidth=1;for(const sd of[-1,1]){ctx.beginPath();ctx.arc(27+sd*5,19,2.6,.2,Math.PI-.2);ctx.stroke()}}ctx.restore();
-      for(let i=0;i<2;i++)thumbOver(g.grips[i],g.skin,g.o,[0,-7])}});
+      for(let i=0;i<2;i++)thumbOver(g.grips[i],g.skin,g.o,[2,8])}});
   ctx.restore();vig(.45)};
 // ============ 8. DJ gives you his headphones
 function phonesProp(cx,cy,s,oo){ctx.save();ctx.translate(cx,cy);ctx.scale(s,s);ctx.lineCap='round';ctx.strokeStyle=OLc;ctx.lineWidth=7;ctx.beginPath();ctx.arc(0,0,22,Math.PI*1.05,Math.PI*1.95);ctx.stroke();ctx.strokeStyle='#5b6274';ctx.lineWidth=3.5;ctx.stroke();orr(-28,-6,12,20,5,'#2b2f3a',oo/s);orr(16,-6,12,20,5,'#2b2f3a',oo/s);ctx.restore()}
@@ -36,14 +36,23 @@ SC.ladder_down=(t,u,d)=>{QA_SHOT='ladder_down';const L=CU.ladder,g=L.g,v=L.v,tt=
   fig('you',fx,fy,s,{back:true,step:step*.5,neck:neckPhones,
     arms:[0,1].map(i=>{const sd=i?1:-1;const h=hs[i];return{to:[sd*32+sd*h.lift*10,(h.y-fy)/s+6-h.lift*4],pole:[sd*52,-150],raise:true,hand:'back',thumbToward:[0,(h.y-fy)/s+30],behind:false}})});
   ctx.restore();vig(.5)};
-// ============ 10. above you, Reyes pulls the ladder up
-SC.ladder_up=(t,u,d)=>{QA_SHOT='ladder_up';const p=u/d;const up=EZ.i3(pr(t,CU.W.d2[3][1]-.15,CU.W.d2[6][1]+.25));nightSky();
-  // building wall seen from below, roof edge high up with three small silhouettes
-  ctx.fillStyle='#1c2338';ctx.beginPath();ctx.moveTo(60,960);ctx.lineTo(150,250);ctx.lineTo(390,250);ctx.lineTo(480,960);ctx.fill();ctx.fillStyle='#2b3350';ctx.fillRect(140,240,260,14);
-  for(let r=0;r<6;r++)for(let c=0;c<3;c++){ctx.fillStyle='#121829';const yy=300+r*95,xx=lerp(170,95,r/6)+c*lerp(70,115,r/6);ctx.fillRect(xx,yy,lerp(40,70,r/6),lerp(40,60,r/6))}
-  for(const [x,who,sc] of[[215,'maya',.42],[270,'reyes',.46],[325,'dj',.42]]){ctx.save();ctx.globalAlpha=.95;fig(who,x,244,sc,{eyes:'open',look:0,shadow:false,c:{top:'#0e1220',bot:'#0e1220',skin:'#2a3044',hair:'#0e1220',beard:'#3a4258'}});ctx.restore()}
-  // the ladder rising out of reach
-  ctx.save();ctx.translate(0,-up*520);ladder(238,302,250,720,40,2);ctx.restore();
-  // grey heads around you in the foreground (backs of heads, eyes facing the building)
+// ============ 10. above you, Reyes pulls the ladder up. Looking up from the street: the roof edge, Maya, Reyes (centre right,
+// hauling the ladder hand over hand) and DJ; your own hand reaches up from below and the bottom rung rises out of reach.
+// layers: sky -> wall -> ladder part above the parapet -> the three survivors -> parapet -> ladder part on the wall -> heads + your arm
+SC.ladder_up=(t,u,d)=>{QA_SHOT='ladder_up';const p=u/d;const W2=CU.W.d2;const up=EZ.io(pr(t,W2[3][1]-.25,W2[6][1]+.55));nightSky();
+  ctx.save();zoomAt(270,600,lerp(1,1.04,EZ.io(p)));
+  const PY=372,LX0=380,LX1=436,shift=up*330;
+  ctx.fillStyle='#1c2338';ctx.beginPath();ctx.moveTo(-20,960);ctx.lineTo(70,PY);ctx.lineTo(560,PY);ctx.lineTo(560,960);ctx.fill();
+  for(let r=0;r<5;r++)for(let c=0;c<4;c++){const yy=PY+40+r*100,xx=lerp(95,40,r/5)+c*lerp(120,140,r/5);if(xx>LX0-60&&xx<LX1+10)continue;ctx.fillStyle='#121829';ctx.fillRect(xx,yy,lerp(48,70,r/5),lerp(46,62,r/5))}
+  const lad=(clipTop)=>{ctx.save();ctx.beginPath();if(clipTop)ctx.rect(0,PY-150,W,150);else ctx.rect(0,PY,W,800);ctx.clip();ladder(LX0,LX1,250-shift,620-shift,38,2.4);ctx.restore()};
+  lad(true);
+  ctx.save();ctx.beginPath();ctx.rect(-50,-300,W+100,PY+300);ctx.clip();fig('maya',222,PY+78,.92,{eyes:'open',brow:'worry',mouth:'sad',look:1,shadow:false});
+  const ph=up*Math.PI*4;const hA=-104+Math.sin(ph)*14,hB=-104-Math.sin(ph)*14;
+  fig('reyes',408,PY+86,1.0,{eyes:'open',brow:'angry',mouth:'grit',look:-1,shadow:false,
+    arms:[{to:[(LX0-408)+2,hA],pole:[-40,-120],raise:true,hand:'fist',thumbToward:[0,-200]},{to:[(LX1-408)-2,hB],pole:[40,-120],raise:true,hand:'fist',thumbToward:[0,-200]}]});
+  fig('dj',300,PY+82,.9,{eyes:'open',brow:'worry',mouth:'line',look:1,noPhones:true,shadow:false});ctx.restore();
+  ctx.fillStyle='#2b3350';ctx.fillRect(60,PY-6,500,16);ctx.strokeStyle=OLc;ctx.lineWidth=2.4;ctx.strokeRect(60,PY-6,500,16);
+  lad(false);ctx.restore();
   const r=mul(5);for(let i=0;i<9;i++){const x=i*70-20+r()*20,y=900+r()*40,s=2.2+r()*.6;figHead('sleeper',x,y,s,{back:true,arms:[{none:true},{none:true}],c:slpC(i)})}
+  const reach=EZ.io(pr(t,W2[0][1],W2[2][1]+.3));fpArm([150,1080],[lerp(250,372,reach),lerp(860,650,reach)],{w:58,k:2.3,hand:'open',spread:1.1,thumbToward:[200,600],pole:[60,900],L1:260,L2:260});
   vig(.5)};

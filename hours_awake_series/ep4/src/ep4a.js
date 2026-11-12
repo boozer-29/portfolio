@@ -40,41 +40,48 @@ SC.roof_stamp=(t,u,d)=>{const p=u/d;ctx.save();zoomAt(270,700,lerp(1.0,1.05,EZ.i
   ctx.restore();
   stamp('91% OF YOU WENT BACK FOR HIM.',t,CU.stampT[0],330,'#F4F4EF',38);stamp('HE WAS SAFE UNTIL YOU DID.',t,CU.W.b1[4][1]-.1,398,K.red,44);vig(.4)};
 // ============ 3/4. your thumb on the walkie, his answer
-function walkieClose(t,o){vgr(0,H,'#151b2e','#090c16');ctx.save();ctx.filter='blur(8px)';roofNight(t);ctx.restore();ctx.fillStyle='rgba(8,10,20,.55)';ctx.fillRect(0,0,W,H);
-  const wx=286,wy=470,k=4.6;QA_SHOT=QA_SHOT||'walkie';
-  // forearm + palm sit BEHIND the walkie (drawn first); fingertips wrap round its left edge; thumb on the front
-  fpArm([600,1100],[wx+30,wy+120],{w:62,k:3.4,hand:'grip',thumbToward:[wx-80,wy],pole:[700,880],L1:300,L2:300});
+// your hand holding the toy walkie, at any size (k=4.6 is the close-up). fingers wrap the left edge, thumb on the front button
+function walkieHeld(wx,wy,k,o){const f=k/4.6;const S=o.S||[wx+314*f,wy+630*f];
+  fpArm(S,[wx+30*f,wy+120*f],{w:62*f,k:3.4*f,hand:'grip',thumbToward:[wx-80*f,wy],pole:o.pole||[S[0]+100*f,S[1]-220*f],L1:300*f,L2:300*f,o:2.8});
   toyWalkie(wx,wy,k,2.8,o.led,0,o.press);
-  for(let i=0;i<4;i++)tube([[wx-13*k+8,wy+6+i*25],[wx-13*k-7,wy+10+i*25]],19,shade(K.skin,-.06),2.8);
-  const base=[wx+13*k-4,wy+44],tip=o.thumbOff?[wx+13*k-6,wy+12]:[wx+4,wy+11*k-1+o.press*2];
-  tube([base,[lerp(base[0],tip[0],.55),lerp(base[1],tip[1],.55)+6],tip],22,K.skin,2.8);
-  const len=Math.hypot(tip[0]-base[0],tip[1]-base[1]);if(len>75)qaFlag('thumb too long '+len.toFixed(0));
-  return{wx,wy,k}}
+  for(let i=0;i<4;i++)tube([[wx-13*k+8*f,wy+(6+i*25)*f],[wx-13*k-7*f,wy+(10+i*25)*f]],19*f,shade(K.skin,-.06),2.8);
+  const base=[wx+13*k-4*f,wy+44*f],tip=o.thumbOff?[wx+13*k-6*f,wy+12*f]:[wx+4*f,wy+(11*k-1)+o.press*2*f];
+  tube([base,[lerp(base[0],tip[0],.55),lerp(base[1],tip[1],.55)+6*f],tip],22*f,K.skin,2.8);
+  const len=Math.hypot(tip[0]-base[0],tip[1]-base[1]);if(len>75*f)qaFlag('thumb too long '+len.toFixed(0));return{wx,wy,k}}
+function walkieClose(t,o){vgr(0,H,'#151b2e','#090c16');ctx.save();ctx.filter='blur(8px)';roofNight(t);ctx.restore();ctx.fillStyle='rgba(8,10,20,.55)';ctx.fillRect(0,0,W,H);
+  QA_SHOT=QA_SHOT||'walkie';return walkieHeld(286,470,4.6,o)}
 SC.you_tap=(t,u,d)=>{QA_SHOT='you_tap';let press=0;for(const x of CU.tapsYou){const a=t-x;if(a>=0&&a<.12)press=1}const w=walkieClose(t,{led:.25,press});
   for(const x of CU.tapsYou){const a=t-x;if(a>0&&a<.6){ctx.strokeStyle=`rgba(255,255,255,${.6*(1-a/.6)})`;ctx.lineWidth=3;ctx.beginPath();ctx.arc(w.wx,w.wy+11*w.k,30+a*220,0,7);ctx.stroke()}}vig(.5)};
 SC.tap_back=(t,u,d)=>{QA_SHOT='tap_back';let led=.15;for(const x of CU.tapsBack){const a=t-x;if(a>=0&&a<.09)led=1}const w=walkieClose(t,{led,press:0,thumbOff:true});
   for(const x of CU.tapsBack){const a=t-x;if(a>0&&a<.7){ctx.strokeStyle=`rgba(74,222,128,${.55*(1-a/.7)})`;ctx.lineWidth=3;ctx.beginPath();ctx.arc(w.wx+8*w.k,w.wy-14*w.k,20+a*260,0,7);ctx.stroke()}}
   if(t>CU.tapsBack[0]){ctx.save();ctx.globalAlpha=.18;ctx.fillStyle='#fff';for(let i=0;i<20;i++){const r=mul(Math.floor(t*30)*5+i);ctx.fillRect(r()*W,r()*H,r()*90,2)}ctx.restore()}vig(.5)};
-// ============ 5. Reyes lunges
-SC.reyes_lunge=(t,u,d)=>{QA_SHOT='reyes_lunge';const p=u/d;const go=EZ.o3(pr(t,CU.lines.c1.s,CU.lines.c1.s+.45));const sh=t>CU.lines.c1.s&&t<CU.lines.c1.s+.4?Math.sin(t*80)*3*(1-pr(t,CU.lines.c1.s,CU.lines.c1.s+.4)):0;
-  ctx.save();ctx.translate(sh,0);zoomAt(270,520,lerp(1.0,1.12,go));roofNight(t);
-  fig('reyes',270,930,2.9,{eyes:'wide',brow:'angry',mouth:'grit',lean:lerp(0,8,go),
-    arms:[{none:true},{}],
-    propFront:(A,g)=>{const S=A[0].S;const H=[lerp(-24,-6,go),lerp(-82,-62,go)];const w1=11+go*13;
-      // the arm comes toward us: it widens and the hand grows (foreshortening), drawn in front of his chest
-      shapeO(()=>{const dx=H[0]-S[0],dy=H[1]-S[1],d=Math.hypot(dx,dy),nx=-dy/d,ny=dx/d;ctx.beginPath();ctx.moveTo(S[0]+nx*5.5,S[1]+ny*5.5);ctx.lineTo(H[0]+nx*w1/2,H[1]+ny*w1/2);ctx.arc(H[0],H[1],w1/2,Math.atan2(ny,nx),Math.atan2(-ny,-nx));ctx.lineTo(S[0]-nx*5.5,S[1]-ny*5.5);ctx.arc(S[0],S[1],5.5,Math.atan2(-ny,-nx),Math.atan2(ny,nx));ctx.closePath()},shade(K.olive,-.18),g.oo);{const dx=H[0]-S[0],dy=H[1]-S[1],d=Math.hypot(dx,dy);tube([[H[0]-dx/d*3,H[1]-dy/d*3],[H[0]-dx/d*1,H[1]-dy/d*1]],w1*1.04,shade(K.olive,-.3),g.oo)}
-      drawHand(H[0],H[1],Math.atan2(H[1]-S[1],H[0]-S[0])+.25,lerp(.95,2.3,go),'open',K.skinR,g.o/2.9,{thumbToward:[40,-60],spread:1.1,tips:'rgba(201,56,47,.9)'})}});
-  ctx.restore();vig(.45)};
-// ============ 6. Maya grabs his forearm: her palm is behind his arm (hidden), her fingers wrap OVER it toward us, her thumb curls up from underneath
-SC.maya_grip=(t,u,d)=>{QA_SHOT='maya_grip';const g0=EZ.o3(pr(t,CU.lines.c2.s,CU.lines.c2.s+.3));vgr(0,H,'#151b2e','#0a0d18');ctx.save();ctx.filter='blur(7px)';roofNight(t);ctx.restore();ctx.fillStyle='rgba(8,10,20,.5)';ctx.fillRect(0,0,W,H);
-  const A=[640,170],B=[200,500],R=32;const strain=Math.sin(t*30)*1.5*g0;const dir=Math.atan2(B[1]-A[1],B[0]-A[0]);const ux=Math.cos(dir),uy=Math.sin(dir);let nx=-uy,ny=ux;if(ny>0){nx=-nx;ny=-ny}
-  const G=[lerp(B[0],A[0],.45),lerp(B[1],A[1],.45)];const come=(1-g0);
-  // her teal sleeve + palm: BEHIND his arm (drawn first), coming from the upper left
-  const Wr=[G[0]+nx*(R+22)-ux*10-come*40,G[1]+ny*(R+22)-uy*10-come*60];tube([[-60,40],Wr],50,K.teal,2.8);oblob(G[0]+nx*(R+4),G[1]+ny*(R+4),30,22,K.skinM,2.8,dir);
-  // his forearm and open hand reaching for the walkie; red crayon on the fingertips
-  tube([A,[B[0]+strain,B[1]]],R*2,K.olive,2.8);drawHand(B[0]+strain,B[1],dir,3.0,'open',K.skinR,2.8,{thumbToward:[B[0]+80,B[1]+60],spread:.9,tips:'rgba(201,56,47,.9)'});
-  // her four fingers come over the far edge and lie across his sleeve; her thumb curls up from the near edge
-  if(g0>.02){const wrap=lerp(.2,1,g0);const P=[];for(let i=0;i<4;i++){const al=(i-1.5)*15-6;const sx=G[0]+ux*al+nx*(R+2),sy=G[1]+uy*al+ny*(R+2);const L=(i==1||i==2?1:.86)*R*1.5*wrap;P.push({t:[[sx,sy],[sx-nx*L*.6+ux*3,sy-ny*L*.6+uy*3],[sx-nx*L+ux*6,sy-ny*L+uy*6]],w:15})}
-    const th0=[G[0]+ux*18-nx*(R+3),G[1]+uy*18-ny*(R+3)];P.push({t:[th0,[th0[0]+nx*16-ux*4,th0[1]+ny*16-uy*4]],w:16});union(P,K.skinM,2.8);
-    ctx.strokeStyle='rgba(0,0,0,.18)';ctx.lineWidth=2;for(const q of P.slice(0,4)){const m=q.t[1];ctx.beginPath();ctx.arc(m[0],m[1],4,0,Math.PI);ctx.stroke()}}
-  vig(.5)};
+// ============ 5. Reyes lunges: front view, he throws his left arm at the walkie in YOUR hand (foreground, bottom right).
+// layers: night roof -> Reyes body -> his reaching arm + open hand (red crayon tips) -> your hand + walkie (nearest)
+SC.reyes_lunge=(t,u,d)=>{QA_SHOT='reyes_lunge';const ls=CU.lines.c1.s;const go=EZ.o3(pr(t,ls-.05,ls+.5));const jolt=t>ls&&t<ls+.35?Math.sin((t-ls)*60)*2.5*(1-pr(t,ls,ls+.35)):0;
+  ctx.save();ctx.translate(jolt,0);zoomAt(270,560,lerp(1.0,1.1,go));roofNight(t);
+  const fx=lerp(222,236,go),fy=lerp(930,948,go),s=lerp(2.7,3.0,go);
+  const tgt=[lerp(310,336,go),lerp(700,672,go)];const loc=[(tgt[0]-fx)/s,(tgt[1]-fy)/s];
+  fig('reyes',fx,fy,s,{eyes:'wide',brow:'angry',mouth:'grit',lean:lerp(0,5,go),look:1,
+    arms:[{},{to:loc,pole:[44,-130],hand:'open',hk:lerp(.95,1.45,go),spread:lerp(.8,1.25,go),tips:'rgba(201,56,47,.92)',thumbToward:[0,-170],wrist:-10}]});
+  ctx.restore();
+  walkieHeld(466,826,2.2,{led:.2,press:0,S:[630,1080],pole:[650,880]});vig(.45)};
+// ============ 6. Maya stops him. Side view of his forearm (from the left, reaching down-right toward the walkie).
+// Maya's hand comes from the upper right and closes on it: her fingers go over the FAR side (hidden, only the tips peek
+// under the lower edge), the back of her hand sits on top, her thumb lies across the NEAR side (in front of the sleeve).
+SC.maya_grip=(t,u,d)=>{QA_SHOT='maya_grip';const g0=EZ.o3(pr(t,CU.lines.c2.s-.05,CU.lines.c2.s+.32));vgr(0,H,'#151b2e','#0a0d18');ctx.save();ctx.filter='blur(7px)';roofNight(t);ctx.restore();ctx.fillStyle='rgba(8,10,20,.5)';ctx.fillRect(0,0,W,H);
+  ctx.save();zoomAt(270,480,lerp(1,1.05,EZ.io(u/d)));
+  const pull=g0*14;const A=[-60,330-pull*.5],B=[392-pull,592-pull*.6],R=31;const strain=Math.sin(t*34)*1.4*g0;const dir=Math.atan2(B[1]-A[1],B[0]-A[0]);const ux=Math.cos(dir),uy=Math.sin(dir);let nx=-uy,ny=ux;if(ny>0){nx=-nx;ny=-ny}
+  const G=[lerp(A[0],B[0],.56),lerp(A[1],B[1],.56)];const come=1-g0;const off=[come*70,-come*150];const at=(al,nn)=>[G[0]+ux*al+nx*nn+off[0],G[1]+uy*al+ny*nn+off[1]];
+  // 1) her fingertips: drawn BEFORE his sleeve, so only the curled tips below its lower edge show
+  if(g0>.55){const P=[];for(let i=0;i<4;i++){const al=(i-1.5)*15;P.push({t:[at(al,R*.2),at(al,-R-lerp(0,9,pr(g0,.55,1)))],w:14})}union(P,shade(K.skinM,-.08),2.8)}
+  // 2) his forearm and open hand (red crayon on the fingertips)
+  tube([A,[B[0]+strain,B[1]]],R*2,K.olive,2.8);ctx.strokeStyle=shade(K.olive,-.25);ctx.lineWidth=2;for(const k of[.3,.7]){const q=[lerp(A[0],B[0],k),lerp(A[1],B[1],k)];ctx.beginPath();ctx.moveTo(q[0]+nx*R*.7,q[1]+ny*R*.7);ctx.quadraticCurveTo(q[0]+ux*8,q[1]+uy*8,q[0]-nx*R*.5,q[1]-ny*R*.5);ctx.stroke()}
+  {const q=[B[0]+strain-ux*16,B[1]-uy*16];tubeF([[q[0]+nx*(R-3),q[1]+ny*(R-3)],[q[0]-nx*(R-3),q[1]-ny*(R-3)]],7,shade(K.olive,-.3))}
+  drawHand(B[0]+strain+ux*4,B[1]+uy*4,dir,3.0,'open',K.skinR,2.8,{thumbToward:[B[0]+60,B[1]-80],spread:1.05,tips:'rgba(201,56,47,.92)'});
+  // 3) her teal sleeve from the upper right, then the back of her hand on top of his arm
+  const Wr=at(30,R+30);tube([[640,40],Wr],46,K.teal,2.8);
+  oblob(...at(2,R-2),31,21,K.skinM,2.8,dir);ctx.strokeStyle='rgba(0,0,0,.2)';ctx.lineWidth=2;ctx.beginPath();const k1=at(-18,R-8),k2=at(20,R-14);ctx.moveTo(...k1);ctx.quadraticCurveTo(...at(0,R-4),...k2);ctx.stroke();
+  // 4) her thumb across the near side of his sleeve (in front)
+  if(g0>.4){const c=pr(g0,.4,1);tube([at(16,R-6),at(lerp(14,12,c),lerp(R-12,R*.05,c)),at(lerp(12,4,c),lerp(R-16,-R*.5,c))],15,K.skinM,2.8);
+    if(c>.8){ctx.strokeStyle='rgba(0,0,0,.22)';ctx.lineWidth=2;for(const al of[-34,40]){const q=at(al,0);ctx.beginPath();ctx.arc(q[0],q[1],7,dir-.6,dir+.6);ctx.stroke()}}}
+  ctx.restore();vig(.5)};

@@ -18,20 +18,27 @@ SC.rule1_red=(t,u,d)=>{const p=u/d;const e4=CU.lines.e4.s;const sag=pr(t,e4-.2,e
   redLids(t,k,7);ctx.save();ctx.filter='blur(9px)';ctx.globalAlpha=.35*k;const r=mul(9);for(let i=0;i<6;i++){const x=r()*W,y=300+r()*400;figHead('sleeper',x,y,1.6+r(),{eyes:'closed',arms:[{none:true},{none:true}],c:{top:'#2a0a08',skin:'#8a6a66'}})}ctx.restore();
   // heavy lids: top and bottom close in as you sag toward sleep
   const lid=jolt?400*(1-EZ.o3(pr(t,e4+1.0,e4+1.12))):EZ.io(sag)*400;if(lid>1){ctx.fillStyle='#050000';ctx.beginPath();ctx.ellipse(270,-400+lid,560,380,0,0,7);ctx.fill();ctx.beginPath();ctx.ellipse(270,1360-lid,560,380,0,0,7);ctx.fill()}vig(.5,160)};
-// ============ 14. shoulders brush yours (we walk past them: the camera moves, they stay still)
-SC.shoulder=(t,u,d)=>{const p=u/d;redLids(t,1,9);const pan=lerp(-60,260,EZ.io(p));
-  ctx.save();ctx.translate(-pan,0);ctx.filter='blur(4px)';fig('sleeper',300,1250,4.2,{eyes:'closed',tilt:-10,arms:[{none:true},{none:true}],c:{top:'#5a2420',skin:'#9a7470'}});ctx.restore();
-  const touch=CU.W.f1[1][1];const a=t-touch;if(a>0&&a<.8){for(let i=0;i<3;i++){ctx.strokeStyle=`rgba(255,210,200,${.5*(1-a/.8)*(1-i*.3)})`;ctx.lineWidth=3;ctx.beginPath();ctx.arc(70,640,30+a*160+i*24,-1.2,1.2);ctx.stroke()}}
-  ctx.fillStyle='rgba(120,0,0,.18)';ctx.fillRect(0,0,W,H);vig(.55,160)};
-// ============ 15. breath on your neck: a pale face in profile at your ear
+// ============ 14. shoulders brush yours. Over your shoulder (eyes shut, red): you walk, a Sleeper stands still; the camera moves
+// with you so it slides past and its shoulder touches yours on "brush" (ring at the contact).
+SC.shoulder=(t,u,d)=>{QA_SHOT='shoulder';const p=u/d;redLids(t,1,9);const touch=CU.W.f1[1][1];const s0=CU.shots.find(x=>x.n==='shoulder').s;
+  const k=(t-s0)/(touch-s0);const sx=k<1?lerp(560,268,EZ.o2(clamp(k))):268-(t-touch)*45;
+  ctx.save();ctx.filter='blur(2.5px)';fig('sleeper',sx,1260,4.0,{eyes:'closed',tilt:-8,arms:[{none:true},{none:true}],c:{top:'#5a2420',skin:'#9a7470',hair:'#3a1a18'},shadow:false});ctx.restore();
+  fig('you',120,1300,4.3,{back:true,arms:[{none:true},{none:true}],neck:neckPhones,c:{top:'#b08a20'},idle:false});
+  const a=t-touch;const cx=200,cy=718;if(a>-.05&&a<.9){for(let i=0;i<3;i++){const q=Math.max(0,a);ctx.strokeStyle=`rgba(255,215,200,${.6*(1-q/.9)*(1-i*.3)})`;ctx.lineWidth=3;ctx.beginPath();ctx.arc(cx,cy,14+q*150+i*22,0,7);ctx.stroke()}}
+  ctx.fillStyle='rgba(120,0,0,.22)';ctx.fillRect(0,0,W,H);vig(.55,160)};
+// ============ 15. breath on your neck: a pale face in profile right behind you, its breath reaching the side of your neck
 function profileHead(x,y,s,dir,skin,hair){ctx.save();ctx.translate(x,y);ctx.scale(s*dir,s);const o=2.6/s;
-  shapeO(()=>{ctx.beginPath();ctx.moveTo(-14,-20);ctx.bezierCurveTo(-16,-36,14,-38,16,-18);ctx.lineTo(18,-8);ctx.lineTo(23,-2);ctx.lineTo(18,1);ctx.lineTo(17,8);ctx.quadraticCurveTo(14,18,2,19);ctx.lineTo(-6,26);ctx.lineTo(-14,24);ctx.quadraticCurveTo(-20,4,-14,-20);ctx.closePath()},skin,o);
-  ctx.fillStyle=hair;ctx.beginPath();ctx.moveTo(-14,-20);ctx.bezierCurveTo(-16,-36,14,-38,16,-18);ctx.quadraticCurveTo(0,-26,-10,-12);ctx.closePath();ctx.fill();
-  ctx.strokeStyle=OLc;ctx.lineWidth=1.8;ctx.beginPath();ctx.arc(10,-6,3,.2,Math.PI-.4);ctx.stroke();ctx.strokeStyle='rgba(90,80,120,.5)';ctx.beginPath();ctx.arc(10,-3,3.4,.3,Math.PI-.5);ctx.stroke();ctx.strokeStyle=OLc;ctx.beginPath();ctx.moveTo(15,10);ctx.lineTo(19,10);ctx.stroke();ctx.restore()}
-SC.breath_neck=(t,u,d)=>{const p=u/d;redLids(t,.95,11);ctx.save();zoomAt(400,420,lerp(1,1.06,EZ.io(p)));ctx.filter='blur(1.5px)';profileHead(470,420,6.2,-1,'#c9b9b6','#3a1a18');ctx.restore();
-  // breath: soft curling wisps from its mouth toward your ear (off-frame left)
-  for(let i=0;i<4;i++){const ph=(t*.7+i/4)%1;ctx.strokeStyle=`rgba(255,220,210,${.35*(1-ph)})`;ctx.lineWidth=3;ctx.beginPath();const x0=330-ph*200,y0=480+i*6;ctx.moveTo(x0,y0);ctx.bezierCurveTo(x0-30,y0-20,x0-60,y0+20,x0-90,y0);ctx.stroke()}
-  ctx.fillStyle='rgba(120,0,0,.16)';ctx.fillRect(0,0,W,H);vig(.55,160)};
+  shapeO(()=>{ctx.beginPath();ctx.moveTo(-15,-18);ctx.bezierCurveTo(-17,-38,15,-40,16,-16);ctx.quadraticCurveTo(17,-10,17,-7);ctx.quadraticCurveTo(22,-1,21,2);ctx.quadraticCurveTo(19,4,17,4);ctx.quadraticCurveTo(18,9,16,11);ctx.quadraticCurveTo(15,17,8,19);ctx.lineTo(4,30);ctx.lineTo(-12,30);ctx.quadraticCurveTo(-19,6,-15,-18);ctx.closePath()},skin,o);
+  ctx.fillStyle=hair;ctx.beginPath();ctx.moveTo(-15,-18);ctx.bezierCurveTo(-17,-38,15,-40,16,-16);ctx.quadraticCurveTo(2,-26,-10,-8);ctx.quadraticCurveTo(-15,-12,-15,-18);ctx.fill();
+  oblob(-4,-3,3.2,4.4,shade(skin,-.08),o*.7);
+  ctx.strokeStyle=OLc;ctx.lineWidth=1.8;ctx.lineCap='round';ctx.beginPath();ctx.arc(10,-6,3,.2,Math.PI-.4);ctx.stroke();ctx.strokeStyle='rgba(90,80,120,.5)';ctx.beginPath();ctx.arc(10,-3,3.4,.3,Math.PI-.5);ctx.stroke();ctx.strokeStyle=OLc;ctx.lineWidth=1.6;ctx.beginPath();ctx.moveTo(13,9);ctx.lineTo(16.5,8.5);ctx.stroke();ctx.restore()}
+SC.breath_neck=(t,u,d)=>{QA_SHOT='breath_neck';const p=u/d;redLids(t,.95,11);ctx.save();zoomAt(300,560,lerp(1,1.06,EZ.io(p)));
+  oblob(214,700,15,26,shade(K.skin,-.05),2.6,.2);
+  fig('you',128,1330,4.7,{back:true,arms:[{none:true},{none:true}],neck:neckPhones,c:{top:'#b08a20'},idle:false});
+  ctx.save();ctx.filter='blur(1px)';profileHead(452,560,6.0,-1,'#c9b9b6','#3a1a18');ctx.restore();
+  const M=[452-16.5*6,560+8.5*6],N_=[222,690];for(let i=0;i<4;i++){const ph=(t*.75+i/4)%1;const x0=lerp(M[0],N_[0],ph),y0=lerp(M[1],N_[1],ph);ctx.strokeStyle=`rgba(255,225,215,${.5*Math.sin(ph*Math.PI)})`;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(x0+18,y0-6);ctx.bezierCurveTo(x0+6,y0-18,x0-6,y0+10,x0-18,y0);ctx.stroke()}
+  const gb=.5+.5*Math.sin(t*9);ctx.fillStyle=`rgba(255,235,225,${.35+.3*gb})`;for(const [gx,gy] of[[214,684],[222,696],[212,708],[224,714]]){ctx.beginPath();ctx.arc(gx,gy,1.8,0,7);ctx.fill()}
+  ctx.restore();ctx.fillStyle='rgba(120,0,0,.16)';ctx.fillRect(0,0,W,H);vig(.55,160)};
 // ============ 16/17. rule two: your breath on the NOISE meter, then "don't breathe" -> 0
 function breathMeter(t,val,flat){ctx.save();ctx.fillStyle='rgba(0,0,0,.55)';ctx.translate(0,-70);ctx.beginPath();ctx.roundRect(90,420,360,170,22);ctx.fill();ctx.strokeStyle='rgba(255,180,170,.35)';ctx.lineWidth=2;ctx.stroke();
   ctx.font='700 14px "JetBrains Mono"';ctx.fillStyle='#ffb4a8';ctx.textAlign='left';ctx.letterSpacing='3px';ctx.fillText('YOUR BREATH',112,452);ctx.letterSpacing='0px';ctx.font='68px "Bebas Neue"';ctx.fillStyle=val>0?'#fff':K.lime;ctx.fillText(Math.round(val)+' dB',112,520);
@@ -40,12 +47,13 @@ SC.rule2_noise=(t,u,d)=>{redLids(t,.9,13);const v=evVal(CU.noise,t,.15);breathMe
 SC.dont_breathe=(t,u,d)=>{redLids(t,.75,13);const f0=CU.W.f4[1][1];const v=t<f0?evVal(CU.noise,t,.15)*(1-pr(t,f0-.5,f0)):0;breathMeter(t,v,t>f0);vig(.6,160)};
 // ============ 18. they let you pass (seen from above)
 SC.let_pass=(t,u,d)=>{QA_SHOT='let_pass';const p=u/d;const sc=lerp(0,120,p);vgr(0,H,'#2a2f3c','#1c212c');ctx.save();ctx.translate(0,sc);
-  const r=mul(51);for(let i=0;i<90;i++){const x=r()*W,y=-200+r()*1200;if(Math.abs(x-270)<70)continue;const c=slpC(i);topDown(x,y,2.1+r()*.3,c.top,c.hair,(r()-.5)*.6,{arms:true})}ctx.restore();
+  const r=mul(51);for(let i=0;i<90;i++){const x=r()*W,y=-200+r()*1200;if(Math.abs(x-270)<100)continue;const c=slpC(i);topDown(x,y,2.1+r()*.3,c.top,c.hair,(r()-.5)*.6,{arms:true})}ctx.restore();
   topDown(270,520,2.6*(1+.015*Math.sin(t*12)),K.must,K.must,Math.sin(t*6)*.05,{hood:true,phones:true,arms:true,swing:Math.sin(t*6)});vig(.45)};
 // ============ 19/20. down, down
 function stairsDown(t,dark,fy,s){vgr(0,H,'#151a26','#05070c');const vx=270,vy=330;for(let k=0;k<12;k++){const z=k/12;const y=lerp(960,vy,Math.pow(z,.6));const w=lerp(520,90,Math.pow(z,.6));ctx.fillStyle=shade('#3a4258',-z*.6);ctx.fillRect(vx-w/2,y-6,w,lerp(20,4,z));ctx.fillStyle='rgba(0,0,0,.4)';ctx.fillRect(vx-w/2,y+lerp(14,2,z),w,lerp(10,2,z))}
   ctx.strokeStyle='#59607a';ctx.lineWidth=6;ctx.beginPath();ctx.moveTo(40,700);ctx.lineTo(vx-50,vy+10);ctx.stroke();
-  fig('you',270,fy,s,{back:true,step:Math.sin(t*7)*.7,bob:Math.abs(Math.sin(t*7))*-2,neck:neckPhones});
+  const sw_=Math.sin(t*7)*5;fig('you',270,fy,s,{back:true,step:Math.sin(t*7)*.7,bob:Math.abs(Math.sin(t*7))*-2,neck:neckPhones,arms:[{to:[-26+sw_*.3,-90+sw_],pole:[-44,-110],behind:false},{to:[26+sw_*.3,-90-sw_],pole:[44,-110],behind:false}]});
+  {const g=ctx.createLinearGradient(0,240,0,560);g.addColorStop(0,'rgba(2,3,6,.95)');g.addColorStop(1,'rgba(2,3,6,0)');ctx.fillStyle=g;ctx.fillRect(0,240,W,320);ctx.fillStyle='rgba(2,3,6,.95)';ctx.fillRect(0,0,W,240)}
   ctx.fillStyle=`rgba(0,0,0,${dark})`;ctx.fillRect(0,0,W,H)}
 SC.down1=(t,u,d)=>{QA_SHOT='down1';const p=EZ.io(u/d);stairsDown(t,.25,lerp(900,830,p),lerp(2.0,1.7,p));vig(.55)};
 SC.down2=(t,u,d)=>{QA_SHOT='down2';const p=EZ.io(u/d);stairsDown(t,.5,lerp(760,690,p),lerp(1.45,1.2,p));ctx.save();ctx.fillStyle='#e7e2d0';ctx.beginPath();ctx.roundRect(360,260,92,54,6);ctx.fill();ctx.strokeStyle=OLc;ctx.lineWidth=3;ctx.stroke();ctx.font='34px "Bebas Neue"';ctx.fillStyle='#1b1e29';ctx.textAlign='center';ctx.fillText('B1 ↓',406,300);ctx.restore();vig(.6)};

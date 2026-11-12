@@ -46,3 +46,12 @@
 - Every rendered frame runs an automatic pose check: elbow folded, elbow above shoulder, unreachable target,
   stretched limb, arms crossing each other, missed contact. EP4 final render: 0 flags.
 - Audio check: every spoken line's level in the final mix is compared with the voice track (no line may drop > 6 dB).
+
+## EP4 recheck 2 lessons (user: "the last one had many mistakes")
+- A shot about an action toward an object must show the object: "lunges for the walkie" = the walkie is in frame.
+- A sensation on "you" (shoulder brush, breath on the neck) needs your body part in frame and the contact landing ON it.
+- Never compose the main subject in the HUD corner (top-left, y < 240 at 540x960) — check stills for HUD overlap.
+- Hugs: one clear framing (over the shoulder). Arms that leave the frame read as arms spread, not a hug.
+- Continuity of physical contact across cuts (asleep in your arms -> you stay with him).
+- Hats/brims must not cover eyes; back views must never look like a face.
+- Audio: never tanh-clip the narration. Compressor + look-ahead limiter on the voice; final = fixed gain + true-peak limiter (4x oversampled), not one-pass dynamic loudnorm.

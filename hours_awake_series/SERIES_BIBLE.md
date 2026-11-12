@@ -14,8 +14,8 @@ A low note played from every phone. One hour later everyone was asleep; at 3:07 
 ## Characters (drawn by kit/engine/rig6.js — outlined style; same colours/proportions every time)
 | Character | Look | Notes |
 |---|---|---|
-| YOU | mustard hoodie #EAB308 with hood, jeans, short dark-brown hair; mostly from behind / first-person hands | since EP4 wears DJ's black headphones round the neck; carries Ollie's toy walkie (blue, orange antenna) |
-| OLLIE (8) | red beanie with pink pompom, red sweater, blue trousers, tan skin, kid proportions | silent: talks in crayon, writes R backwards (BЯAVE), laughs with hands over his mouth; three taps = "I'm still awake"; green dino toy |
+| YOU | mustard hoodie #EAB308 with hood (from behind: plain hood dome with a centre seam, never a face opening), jeans, short dark-brown hair; mostly from behind / first-person hands | since EP4 wears DJ's black headphones round the neck; carries Ollie's toy walkie (blue, orange antenna) |
+| OLLIE (8) | red beanie with pink pompom (sits high: brim above the eyes, eyes always visible), red sweater, blue trousers, tan skin, kid proportions | silent: talks in crayon, writes R backwards (BЯAVE), laughs with hands over his mouth; three taps = "I'm still awake"; green dino toy |
 | MAYA | teal scrubs, long dark-brown hair, brown skin | nurse; tablet map; knew about Reyes's plan (EP4 note: "I knew. I'm sorry. Eyes shut... like him.") |
 | REYES (60s) | bald, grey beard, olive jacket, bushy brows, shotgun | ex-soldier; wrote the fake crayon note; red crayon on his fingertips; "IT WAS HIM OR ALL OF US" |
 | DJ (16) | purple hoodie, dark skin, black hair | gave you his headphones in EP4 (no headphones on him from EP4 on); radio |
@@ -25,7 +25,7 @@ A low note played from every phone. One hour later everyone was asleep; at 3:07 
 - EP1 "The Note": the outbreak, the rules, four survivors + Ollie, thousands of Sleepers kneel then look up at your window. Vote: A roof / B basement -> A.
 - EP2: run for the roof (footsteps echo, glass shatters, stairwell hums); door jammed with cinder blocks + a scaffold plank; TEN HOURS pass (night->day); your 30-second microsleep; Ollie gone, his red beanie on the fire escape; Maya's map: one dot moving down — Ollie asleep, every Sleeper kneels as he passes; they were staring at HIM. Reyes bridges the plank to the next roof. Vote: A cross the plank / B down the fire escape -> A.
 - EP3: you cross; Reyes kicks the plank away; warm flashback (crayon, silent laugh, three taps); the note "Be brave" is spelled right -> Ollie didn't write it; Reyes did, during the ten hours. The walkie: tap tap tap — he's awake and thinks you're coming; every crackle fills the street. Vote: A hand it over / B tap back -> 91% B.
-- EP4: you tapped, he tapped back; Maya stops Reyes; DJ gives you his headphones; you climb down, Reyes pulls the ladder up; blind walk with eyes shut; B1 sleep clinic; Ollie on a cot in a ring of Sleepers; "MY BЯOTHEЯ CAME" / "When I tapped back... they stood up" — he was safe until you answered; 54 hours awake for you, he falls asleep in your arms; they KNEEL. Vote: A let him sleep / B wake him (result: ask the user). Ends "Follow for hour 55". HUD clock 54:00.
+- EP4: you tapped, he tapped back; Maya stops Reyes; DJ gives you his headphones; you climb down, Reyes pulls the ladder up; blind walk with eyes shut; B1 sleep clinic; Ollie on a cot in a ring of Sleepers; "MY BЯOTHEЯ CAME" / "When I tapped back... they stood up" — he was safe until you answered; 54 hours awake for you, he falls asleep in your arms (over-the-shoulder hug); you kneel at his cot and they KNEEL. Vote: A let him sleep / B wake him (result: ask the user). Ends "Follow for hour 55". HUD clock 54:00.
 
 ## Open threads / plants (pay off or keep alive)
 - Why do they kneel to Ollie? (never explain directly)

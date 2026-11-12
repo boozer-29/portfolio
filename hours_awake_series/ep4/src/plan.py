@@ -1,8 +1,8 @@
 import json,re,subprocess,numpy as np,sys,os
-os.chdir(os.path.dirname(os.path.abspath(__file__))+'/..')
-AUD=json.load(open('e5/aud.json')); LINES=json.load(open('e5/lines.json'))
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+AUD=json.load(open('aud.json')); LINES=json.load(open('lines.json'))
 S=[{'id':l[0],'text':l[1]} for l in LINES]; LN={x['id']:x for x in S}
-AUDIO_LEN=float(subprocess.check_output(['ffprobe','-v','error','-show_entries','format=duration','-of','csv=p=0','e5/voice48.wav']))
+AUDIO_LEN=float(subprocess.check_output(['ffprobe','-v','error','-show_entries','format=duration','-of','csv=p=0','voice48.wav']))
 lines={k:v['s'] for k,v in AUD.items()}; dur={k:v['e']-v['s'] for k,v in AUD.items()}
 MERGE={}
 def rel_words(i):
@@ -88,7 +88,7 @@ sh=lambda n:[s for s in shots if s['n']==n][0]
 CU={'duration':round(D,3),'shots':shots,'ep':4,'fb':[-1,-1],'rewind':[-1,-1]}
 CU['roll']=[ST('j1')-.05,ST('j1')+.9,53*60+40,54*60]
 CU['clock']=[[0,'53:40',None],[ST('j1')+.9,'54:00',None]]
-CU['awake']=[[0,4,.25]]; CU['survivors_t']=0
+CU['awake']=[[0,4]]; CU['survivors_t']=-5
 CU['noise']=[[0,0],[sh('roof_stamp')['s'],8],[ST('b2'),26],[ST('b3'),32],[ST('c1'),44],[ST('d1'),12],[sh('eyes_close')['s'],4],[ST('f3')+.9,6],[ST('f3')+1.4,9],[ST('f3')+1.9,12],[ST('f4')+.2,0],[sh('let_pass')['s'],0],[sh('open_eyes')['s'],0],[ST('i5'),18],[sh('in_arms')['s'],0],[sh('vote')['s'],0]]
 CU['nearby']={'t':9999,'from':9806,'to':9806,'dur':1,'tag':''}
 CU['rescue']=0; CU['rescue6']=0.0001
@@ -105,7 +105,7 @@ CU['dark']=[]
 CU['dip']=[sh('roof_stamp')['s'],sh('ladder_down')['s'],sh('eyes_close')['s'],sh('let_pass')['s'],sh('open_eyes')['s'],sh('vote')['s']]
 CU['flash']=[ST('i5')-.02]
 CU['whiteflash']=[]
-CU['cap_y']={}
+CU['cap_y']={'reyes_lunge':330,'shoulder':400,'breath_neck':290,'in_arms':290,'eyes_closing':268}
 CU['nocap']=['cta','roof_stamp','maya_note']
 CU['drops']=[[E('a1')+.08,ST('b1')-.06],[E('f4')+.05,ST('g1')-.06],[E('j3')+.06,ST('j4')-.05]]
 CU['cta_t']=ST('z1'); CU['vote_t']=[sh('vote')['s']+.02,ST('p1')-.05,ST('p4')-.1,ST('p6'),ST('p7')]
@@ -122,7 +122,7 @@ for i in (0,1):
         tt=(2*58*k-i*58)/110.0
         if tt<L_['e']-L_['s']: gr.append(round(L_['s']+tt,3))
 CU['ladderGrabs']=sorted(gr)
-json.dump(CU,open('e5/cues.json','w'),indent=1); json.dump(TL,open('e5/timeline.json','w'),indent=1)
-open('e5/site/data.js','w').write('window.TL='+json.dumps(TL)+';window.CUES='+json.dumps(CU)+';')
+json.dump(CU,open('cues.json','w'),indent=1); json.dump(TL,open('timeline.json','w'),indent=1)
+open('site/data.js','w').write('window.TL='+json.dumps(TL)+';window.CUES='+json.dumps(CU)+';')
 print('shots',len(shots)); 
 for s in shots: print(f"{s['n']:14s} {s['s']:6.2f} {s['e']:6.2f} {s['e']-s['s']:4.2f}")

@@ -17,7 +17,21 @@ def sm(x,w): k=int(w*SR); return np.convolve(x,np.ones(k)/k,mode='same') if k>1 
 import pyloudnorm as pln
 vv,vsr=sf.read('voice48.wav'); vv=vv if vv.ndim==1 else vv[:,0]
 voice=np.zeros(N); voice[:min(N,len(vv))]=vv[:N]
-_l=pln.Meter(SR).integrated_loudness(voice); voice=voice*10**((-13.0-_l)/20); voice=np.tanh(voice/.95)*.93
+# voice chain: gentle RMS compressor (3:1 above -20 dBFS) then a 5 ms look-ahead peak limiter (no tanh clipping of Brian's voice)
+def env_follow(x,att,rel):
+    a=np.exp(-1/(att*SR)); r=np.exp(-1/(rel*SR)); y=np.zeros_like(x); e=0.0
+    for i,v in enumerate(x):
+        c=a if v>e else r; e=c*e+(1-c)*v; y[i]=e
+    return y
+def compress(x,thr_db=-20,ratio=3,att=.01,rel=.15):
+    p=env_follow(x**2,att,rel); lv=10*np.log10(p+1e-12); over=np.maximum(0,lv-thr_db); g=10**(-(over*(1-1/ratio))/20); return x*g
+def limit(x,ceil=.79,look=.005,rel=.08):
+    n=int(look*SR); a=np.abs(x); from scipy.ndimage import maximum_filter1d
+    pk=maximum_filter1d(a,size=2*n+1); g=np.minimum(1,ceil/np.maximum(pk,1e-9)); gs=np.copy(g); r=np.exp(-1/(rel*SR)); 
+    for i in range(1,len(gs)): gs[i]=min(g[i],r*gs[i-1]+(1-r)*g[i]) if g[i]>=gs[i-1] else g[i]
+    gs=np.convolve(gs,np.ones(n)/n,mode='same'); return x*np.minimum(gs,g)
+_l=pln.Meter(SR).integrated_loudness(voice); voice=voice*10**((-19.0-_l)/20); voice=compress(voice,thr_db=-25,ratio=3.5,att=.004,rel=.12)
+_l=pln.Meter(SR).integrated_loudness(voice); voice=voice*10**((-14.5-_l)/20); voice=limit(voice)
 tb=t_(int(.3*SR)); br=bp(rng.standard_normal(len(tb)),600,4200)*np.sin(np.pi*np.clip(tb/.3,0,1))**2
 breath=br/np.abs(br).max()*10**(-22/20)*0.89
 sfx=np.zeros(N); bed=np.zeros(N)
@@ -147,8 +161,24 @@ gate=np.ones(N)
 for a,b in C['drops']: gate[int(a*SR):int(b*SR)]=0
 gate=sm(gate,0.012)
 duckS=1-(1-10**(-5/20))*np.clip(sm(act,0.06),0,1)
+sfx*=10**(-2.5/20)
 mix=(voice+sfx*duckS+bedmix)*gate
 sf.write('mix_raw.wav',mix.astype(np.float32),SR)
 sf.write('aud/st_voice.wav',(voice*gate).astype(np.float32),SR);sf.write('aud/st_sfx.wav',(sfx*duckS*gate).astype(np.float32),SR);sf.write('aud/st_bed.wav',(bedmix*gate).astype(np.float32),SR)
-subprocess.run(['ffmpeg','-y','-loglevel','error','-i','mix_raw.wav','-af','loudnorm=I=-14:TP=-1:LRA=9','-ar','48000','mix_final.wav'],check=True)
+# final: one fixed gain to -14 LUFS, then the look-ahead limiter at -1.6 dBFS (sample peak) so the true peak stays <= -1 dB
+def limitTP(x,ceil_db=-1.4,look=.004,rel=.06):
+    # true-peak limiter: peaks are measured on a 4x oversampled copy, the gain is applied at 48 kHz
+    from scipy.signal import resample_poly; from scipy.ndimage import maximum_filter1d
+    up=np.abs(resample_poly(x,4,1));tp=up[:len(x)*4].reshape(-1,4).max(1)[:len(x)];n=int(look*SR)
+    pk=maximum_filter1d(tp,size=2*n+1);g=np.minimum(1,10**(ceil_db/20)/np.maximum(pk,1e-9));r=np.exp(-1/(rel*SR));gs=np.copy(g)
+    for i in range(1,len(gs)): gs[i]=g[i] if g[i]<gs[i-1] else min(g[i],r*gs[i-1]+(1-r)*g[i])
+    gs=np.minimum(np.convolve(gs,np.ones(n)/n,mode='same'),g);return x*gs
+tgt=-14.0
+for _ in range(12):
+    fin=limitTP(mix*10**((tgt-pln.Meter(SR).integrated_loudness(mix))/20))
+    li=pln.Meter(SR).integrated_loudness(fin)
+    if abs(li+14.0)<.05:break
+    tgt+=-14.0-li
+print('final LUFS',round(li,2),'pre-gain target',round(tgt,2))
+sf.write('mix_final.wav',fin.astype(np.float32),SR,subtype='PCM_24')
 print('audio ok',D)
