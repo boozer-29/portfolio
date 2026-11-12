@@ -14,8 +14,17 @@ Every episode delivers **one loss** (emotional) and **one answer** (mystery). Th
 4. **The narrator is the dream itself** (the "virus"). It survives only while you're awake. Every "Stay with me" and "I'll stay with you" was it keeping you awake so it could live. **The cure is you falling asleep.** The narrator has been comforting you away from the cure the whole time.
 5. **The radio's "help comes in seven days" is a loop**, made by the same study. The breath in the radio static is the narrator's breath (planted since Ep 1). "Dawn Camp" is the study's main facility, not a refuge.
 
+## 2b. Length (owner decision)
+Story 1 does NOT have to end at Episode 7. The milestones below are an order, not episode numbers: they can stretch over more episodes if the story and the audience want more. Ending around 7 is fine too; never pad.
+
+## 2c. Where each clue really came from (honest record)
+- **Planted in the posted episodes:** the barcode mark behind your ear (Ep 1 v2, 8 frames, written in the shot script); the narrator's "Stay with me" and the breath shared with the radio (Ep 1); Ollie nodding off (Ep 1); the 30-second microsleep that didn't turn you, logged as a deliberate plant when Ep 2 was written (it also contradicts Ep 1's rule, so viewers may call it a plot hole until it pays off); a 3-frame hum from your own throat and `B1 · SLEEP STUDY` on the map (Ep 2).
+- **Planned from the original brief:** the mark → Subject 0, the narrator is the virus, the radio is a loop, Dawn Camp isn't a refuge.
+- **New in this arc (not yet on screen):** Ollie as Subject 1, the Note being a recording of your brain, the cure being you falling asleep, Maya as a former night nurse at the study. The `SUBJECT 0` cot (Ep 4) and Maya's "I knew" (Ep 4) are the first on-screen steps.
+- Only the scripts can be checked here. Whether an 8-frame or 6-frame clue actually made it into a posted video depends on the edit.
+
 ## 3. Fixed milestones (happen in every branch, by different roads)
-| Ep | Fixed reveal | What changes by branch |
+| Ep (approx.) | Fixed reveal | What changes by branch |
 |---|---|---|
 | 5 | **You are Subject 0.** (Files, the cot, a childhood photo with Maya in it) | Who is with you; whether Ollie is awake or asleep |
 | 6 | **The radio is a loop, Dawn Camp is the lab, and the dream needs you awake.** | Which ally dies; whether Reyes redeems himself or becomes the human villain |
