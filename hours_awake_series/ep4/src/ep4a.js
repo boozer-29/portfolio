@@ -12,7 +12,7 @@ function flatSkyline(base,col,seed,lit=.15){const r=mul(seed);let x=-30;while(x<
 // a grey face looking up (front, eyes shut) — used for crowds seen from above
 function upFace(x,y,s,seed){const c=slpC(seed);ctx.save();ctx.translate(x,y);ctx.scale(s,s);oblob(0,10,16,9,c.top,2.2);oblob(0,0,11,11.5,K.slp,2.2);ctx.fillStyle=c.hair;ctx.beginPath();ctx.ellipse(0,-6,10,5,0,Math.PI,0);ctx.fill();ctx.strokeStyle=OLc;ctx.lineWidth=1.4;for(const sd of[-1,1]){ctx.beginPath();ctx.arc(sd*4,1,2.2,.3,Math.PI-.3);ctx.stroke()}ctx.restore()}
 // top-down person: shoulders + head
-function topDown(x,y,s,col,hair,rot=0,o={}){ctx.save();ctx.translate(x,y);ctx.rotate(rot);ctx.scale(s,s);if(o.arms){for(const sd of[-1,1])tube([[sd*15,0],[sd*17,8],[sd*15,15]],7,col,2.2/s*1.0);for(const sd of[-1,1])oblob(sd*15,16,3.4,3.4,o.skin||K.slp,2.2/s)}oblob(0,0,17,9,col,2.2);if(o.hood){oblob(0,-1,10,10,shade(col,-.1),2.2)}else{oblob(0,-1,8.5,9,hair,2.2)}if(o.phones){ctx.strokeStyle='#2b2f3a';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,3,10,.2,Math.PI-.2);ctx.stroke()}ctx.restore()}
+function topDown(x,y,s,col,hair,rot=0,o={}){ctx.save();ctx.translate(x,y);ctx.rotate(rot);ctx.scale(s,s);if(o.arms){const sw=o.swing||0;for(const sd of[-1,1]){const k=sd*sw*5;tube([[sd*15,0],[sd*17,8-k],[sd*15,15-k*1.6]],7,col,2.2/s*1.0);oblob(sd*15,16-k*1.6,3.4,3.4,o.skin||(o.hood?K.skin:K.slp),2.2/s)}}oblob(0,0,17,9,col,2.2);if(o.hood){oblob(0,-1,10,10,shade(col,-.1),2.2)}else{oblob(0,-1,8.5,9,hair,2.2)}if(o.phones){ctx.strokeStyle='#2b2f3a';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,3,10,.2,Math.PI-.2);ctx.stroke()}ctx.restore()}
 // figure head close-up helper: draw fig so the head centre lands at (hx,hy)
 function figHead(who,hx,hy,s,p={}){const c=CAST[who];const kid=c.kid?1:0,teen=c.teen?1:0;const L=kid?.66:teen?.93:1,hs=kid?1.32:1;const hr=15*hs*L*(kid?1.08:1);const off=(-140*L-2)+(-hr-4)+(p.kneel?40*L:0);return fig(who,hx,hy-off*s,s,p)}
 function thumbDev(base,tip,w,col,o){ctx.save();ctx.setTransform(1,0,0,1,0,0);ctx.lineCap='round';ctx.strokeStyle=OLc;ctx.lineWidth=w+2*o;ctx.beginPath();ctx.moveTo(base.x,base.y);ctx.lineTo(tip.x,tip.y);ctx.stroke();ctx.strokeStyle=col;ctx.lineWidth=w;ctx.stroke();ctx.restore()}
@@ -59,7 +59,11 @@ SC.tap_back=(t,u,d)=>{QA_SHOT='tap_back';let led=.15;for(const x of CU.tapsBack)
 SC.reyes_lunge=(t,u,d)=>{QA_SHOT='reyes_lunge';const p=u/d;const go=EZ.o3(pr(t,CU.lines.c1.s,CU.lines.c1.s+.45));const sh=t>CU.lines.c1.s&&t<CU.lines.c1.s+.4?Math.sin(t*80)*3*(1-pr(t,CU.lines.c1.s,CU.lines.c1.s+.4)):0;
   ctx.save();ctx.translate(sh,0);zoomAt(270,520,lerp(1.0,1.12,go));roofNight(t);
   fig('reyes',270,930,2.9,{eyes:'wide',brow:'angry',mouth:'grit',lean:lerp(0,8,go),
-    arms:[{elbow:[lerp(-21,-31,go),lerp(-110,-112,go)],to:[lerp(-23,-42,go),lerp(-84,-88,go)],hand:'open',hk:lerp(.95,1.7,go),thumbToward:[0,-140],tips:'rgba(201,56,47,.9)'},{}]});
+    arms:[{none:true},{}],
+    propFront:(A,g)=>{const S=A[0].S;const H=[lerp(-24,-6,go),lerp(-82,-62,go)];const w1=11+go*13;
+      // the arm comes toward us: it widens and the hand grows (foreshortening), drawn in front of his chest
+      shapeO(()=>{const dx=H[0]-S[0],dy=H[1]-S[1],d=Math.hypot(dx,dy),nx=-dy/d,ny=dx/d;ctx.beginPath();ctx.moveTo(S[0]+nx*5.5,S[1]+ny*5.5);ctx.lineTo(H[0]+nx*w1/2,H[1]+ny*w1/2);ctx.arc(H[0],H[1],w1/2,Math.atan2(ny,nx),Math.atan2(-ny,-nx));ctx.lineTo(S[0]-nx*5.5,S[1]-ny*5.5);ctx.arc(S[0],S[1],5.5,Math.atan2(-ny,-nx),Math.atan2(ny,nx));ctx.closePath()},shade(K.olive,-.18),g.oo);{const dx=H[0]-S[0],dy=H[1]-S[1],d=Math.hypot(dx,dy);tube([[H[0]-dx/d*3,H[1]-dy/d*3],[H[0]-dx/d*1,H[1]-dy/d*1]],w1*1.04,shade(K.olive,-.3),g.oo)}
+      drawHand(H[0],H[1],Math.atan2(H[1]-S[1],H[0]-S[0])+.25,lerp(.95,2.3,go),'open',K.skinR,g.o/2.9,{thumbToward:[40,-60],spread:1.1,tips:'rgba(201,56,47,.9)'})}});
   ctx.restore();vig(.45)};
 // ============ 6. Maya grabs his forearm: her palm is behind his arm (hidden), her fingers wrap OVER it toward us, her thumb curls up from underneath
 SC.maya_grip=(t,u,d)=>{QA_SHOT='maya_grip';const g0=EZ.o3(pr(t,CU.lines.c2.s,CU.lines.c2.s+.3));vgr(0,H,'#151b2e','#0a0d18');ctx.save();ctx.filter='blur(7px)';roofNight(t);ctx.restore();ctx.fillStyle='rgba(8,10,20,.5)';ctx.fillRect(0,0,W,H);

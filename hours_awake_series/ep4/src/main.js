@@ -5,6 +5,7 @@ function frame(t){
   ctx.setTransform(2,0,0,2,0,0);ctx.clearRect(0,0,W,H);rect(0,0,W,H,'#05070d');const sh=shotAt(t);
   let shk=0;for(const s of CU.shake){const d=t-s;if(d>=0&&d<.2)shk=Math.max(shk,6*(1-d/.2))}
   ctx.save();if(shk){const r=mul(Math.floor(t*30)+7);ctx.translate((r()-.5)*2*shk,(r()-.5)*2*shk)}
+  window.NOWT=t;const still=sh&&['vote','cta','roof_stamp'].includes(sh.n);if(sh&&!still){const h=hand(t,.55,77);ctx.translate(270,480);ctx.scale(1.025,1.025);ctx.rotate(h.rot*.004);ctx.translate(-270+h.x,-480+h.y)}
   if(sh&&SC[sh.n]){const tf=sh.freeze&&t>sh.e-sh.freeze?sh.e-sh.freeze:t;SC[sh.n](tf,tf-sh.s,sh.e-sh.s,sh)}else if(sh){rect(0,0,W,H,'#222');ctx.fillStyle='#fff';ctx.font='20px sans-serif';ctx.fillText('TODO '+sh.n,40,400)}
   ctx.restore();
   if(t>=CU.fb[0]&&t<CU.fb[1]){ctx.save();ctx.globalCompositeOperation='saturation';ctx.globalAlpha=.4;ctx.fillStyle='#808080';ctx.fillRect(0,0,W,H);ctx.restore();ctx.fillStyle='rgba(120,150,190,.05)';ctx.fillRect(0,0,W,H)}

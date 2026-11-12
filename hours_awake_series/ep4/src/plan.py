@@ -97,9 +97,10 @@ CU['pills']=[['RULE #1',ST('e3')-.04,E('e3')+.3],['RULE #2',ST('f3')-.04,E('f3')
 CU['kneel_times']=[]
 CU['tapsYou']=[ST('b2')+.0,ST('b2')+.22,ST('b2')+.44]
 CU['tapsBack']=[ST('b3')+.02,ST('b3')+.14,ST('b3')+.26]
-CU['tapsOllie']=[ST('h2'),ST('h3'),ST('h4')]
+CU['tapsOllie']=[ST('h2')-.12,ST('h3')-.12,ST('h4')-.12]
 CU['lastTaps']=[ST('j3')+.15,ST('j3')+.75]
-CU['shake']=[ST('c1')+.12,sh('kneel_all')['s']]
+CU['kneelT']=wt('j4','KNEEL')
+CU['shake']=[ST('c1')+.12,CU['kneelT']]
 CU['dark']=[]
 CU['dip']=[sh('roof_stamp')['s'],sh('ladder_down')['s'],sh('eyes_close')['s'],sh('let_pass')['s'],sh('open_eyes')['s'],sh('vote')['s']]
 CU['flash']=[ST('i5')-.02]
@@ -114,6 +115,13 @@ CU['W']={i:[[w['t'],round(lines[i]+w['s'],3)] for w in rel_words(i)] for i in li
 CU['stampT']=[ST('b1'),ST('b1')+1.0]
 CU['flashFwd']=sh('blind_open')['e']
 CU['tod']=[-2,-1]
+L_=sh('ladder_down');CU['ladder']={'t0':L_['s'],'v':110.0,'g':58.0,'y0':760.0,'r0':490.0}
+gr=[]
+for i in (0,1):
+    for k in range(1,6):
+        tt=(2*58*k-i*58)/110.0
+        if tt<L_['e']-L_['s']: gr.append(round(L_['s']+tt,3))
+CU['ladderGrabs']=sorted(gr)
 json.dump(CU,open('e5/cues.json','w'),indent=1); json.dump(TL,open('e5/timeline.json','w'),indent=1)
 open('e5/site/data.js','w').write('window.TL='+json.dumps(TL)+';window.CUES='+json.dumps(CU)+';')
 print('shots',len(shots)); 

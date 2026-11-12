@@ -14,27 +14,27 @@ SC.maya_note=(t,u,d)=>{QA_SHOT='maya_note';const p=u/d;const Wd=CU.W;vgr(0,H,'#1
 function phonesProp(cx,cy,s,oo){ctx.save();ctx.translate(cx,cy);ctx.scale(s,s);ctx.lineCap='round';ctx.strokeStyle=OLc;ctx.lineWidth=7;ctx.beginPath();ctx.arc(0,0,22,Math.PI*1.05,Math.PI*1.95);ctx.stroke();ctx.strokeStyle='#5b6274';ctx.lineWidth=3.5;ctx.stroke();orr(-28,-6,12,20,5,'#2b2f3a',oo/s);orr(16,-6,12,20,5,'#2b2f3a',oo/s);ctx.restore()}
 SC.dj_phones=(t,u,d)=>{QA_SHOT='dj_phones';const p=u/d;const fw2=EZ.io(pr(p,.1,.95));vgr(0,H,'#151b2e','#0a0d18');ctx.save();ctx.filter='blur(6px)';roofNight(t);ctx.restore();ctx.fillStyle='rgba(8,10,20,.45)';ctx.fillRect(0,0,W,H);
   // he holds the headphones by the ear-cups, fingers behind the cups, thumbs in front; they come toward you
-  const cy=lerp(-114,-104,fw2),half=lerp(19,24,fw2);
+  const cy=lerp(-112,-100,fw2),half=lerp(17,21,fw2);
   fig('dj',270,930,3.3,{eyes:'half',brow:'worry',mouth:'line',noPhones:true,tilt:4,
-    arms:[{elbow:[-22,-108],to:[-half-2,cy+4],hand:'grip',thumbToward:[0,-200]},{elbow:[22,-108],to:[half+2,cy+4],hand:'grip',thumbToward:[0,-200]}],
-    propFront:(A,g)=>{ctx.save();ctx.lineCap='round';ctx.strokeStyle=OLc;ctx.lineWidth=5;ctx.beginPath();ctx.ellipse(0,cy,half,half*.9,0,Math.PI*1.08,Math.PI*1.92);ctx.stroke();ctx.strokeStyle='#5b6274';ctx.lineWidth=2.4;ctx.stroke();ctx.restore();
-      orr(-half-6,cy-7,10,15,4,'#2b2f3a',g.oo);orr(half-4,cy-7,10,15,4,'#2b2f3a',g.oo);for(let i=0;i<2;i++)thumbOver(g.grips[i],g.skin,g.o,[0,-6])}});
+    arms:[{elbow:[-22,-108],to:[-half-6,cy+8],hand:'grip',thumbToward:[0,-200]},{elbow:[22,-108],to:[half+6,cy+8],hand:'grip',thumbToward:[0,-200]}],
+    propFront:(A,g)=>{ctx.save();ctx.lineCap='round';ctx.strokeStyle=OLc;ctx.lineWidth=9;ctx.beginPath();ctx.arc(0,cy-2,half-1,Math.PI*1.12,Math.PI*1.88);ctx.stroke();ctx.strokeStyle='#3a3f4e';ctx.lineWidth=5.5;ctx.stroke();ctx.strokeStyle='#6b7286';ctx.lineWidth=1.6;ctx.beginPath();ctx.arc(0,cy-2,half-2.5,Math.PI*1.25,Math.PI*1.75);ctx.stroke();ctx.restore();
+      for(const sd of[-1,1]){orr(sd*half-7+sd*1,cy-6,14,20,6,'#2b2f3a',g.oo);orr(sd*half-4.5+sd*1-sd*3.5,cy-3,9,14,4,'#4b5163',g.oo*.6)}for(let i=0;i<2;i++)thumbOver(g.grips[i],g.skin,g.o,[0,-6])}});
   vig(.45)};
 // ============ 9. you climb down into them (from behind, camera above)
 function ladder(x0,x1,ytop,ybot,gap,o){for(const x of[x0,x1])orr(x-6,ytop,12,ybot-ytop,4,'#59607a',o);const rungs=[];for(let y=ytop+20;y<ybot;y+=gap){orr(x0,y-5,x1-x0,10,4,'#7a8199',o);rungs.push(y)}return rungs}
-SC.ladder_down=(t,u,d)=>{QA_SHOT='ladder_down';const p=u/d;const dy=lerp(0,70,EZ.io(p));
+SC.ladder_down=(t,u,d)=>{QA_SHOT='ladder_down';const L=CU.ladder,g=L.g,v=L.v,tt=t-L.t0;const cam=v*tt;
   vgr(0,H,'#101626','#05070c');
-  // the street far below: hundreds of upturned grey faces
-  ctx.save();ctx.translate(0,-dy*.25);const r=mul(31);for(let i=0;i<260;i++){const x=r()*W,y=560+r()*480;upFace(x,y,.55+(y-560)/480*.5,i)}ctx.restore();
-  const g=ctx.createLinearGradient(0,0,0,700);g.addColorStop(0,'rgba(16,22,38,1)');g.addColorStop(1,'rgba(16,22,38,0)');ctx.fillStyle=g;ctx.fillRect(0,0,W,700);
-  // building wall + ladder, you on it from behind
-  ctx.fillStyle='#232b40';ctx.fillRect(120,-40,300,760);ctx.save();ctx.translate(0,-dy);
-  const rungs=ladder(176,364,-60,820,58,2.6);
-  const ry=rungs.find(y=>y>230)||300;const rL=ry,rR=ry+58;
-  // hands: fingers go over the top of the rung and behind it (hidden); back of the hand in front
-  const s=2.05,fx=270,fy=rR+330;
-  fig('you',fx,fy,s,{back:true,step:.6,neck:(g)=>{ctx.strokeStyle=OLc;ctx.lineWidth=5;ctx.beginPath();ctx.arc(0,g.shY+2,13,.15,Math.PI-.15);ctx.stroke();ctx.strokeStyle='#2b2f3a';ctx.lineWidth=2.6;ctx.stroke()},
-    arms:[{to:[-34,(rL-fy)/s+6],pole:[-48,-150],raise:true,hand:'back',thumbToward:[0,(rL-fy)/s+30],behind:false},{to:[34,(rR-fy)/s+6],pole:[48,-130],raise:true,hand:'back',thumbToward:[0,(rR-fy)/s+30],behind:false}]});
+  ctx.save();ctx.translate(0,-cam*.25);const r=mul(31);for(let i=0;i<260;i++){const x=r()*W,y=560+r()*480;upFace(x,y,.55+(y-560)/480*.5,i)}ctx.restore();
+  const gg=ctx.createLinearGradient(0,0,0,700);gg.addColorStop(0,'rgba(16,22,38,1)');gg.addColorStop(1,'rgba(16,22,38,0)');ctx.fillStyle=gg;ctx.fillRect(0,0,W,700);
+  ctx.fillStyle='#232b40';ctx.fillRect(120,-40,300,760);
+  // world: ladder fixed; you descend at speed v; the camera follows you
+  ctx.save();ctx.translate(0,-cam);
+  ladder(176,364,-400,1400,g,2.6);
+  const s=2.05,fx=270,fy=L.y0+cam;const shW=fy+(-137)*s;   // your shoulder height in world
+  const handY=(i)=>{const ph=(v*tt+i*g)/(2*g);const k=Math.floor(ph),f=ph-k;const base=L.r0-i*g+2*g*k;const tr=clamp((f-.86)/.14);return{y:lerp(base,base+2*g,EZ.io(tr)),lift:Math.sin(tr*Math.PI)}};
+  const hs=[0,1].map(i=>handY(i));const step=Math.sin(tt*v/g*Math.PI);
+  fig('you',fx,fy,s,{back:true,step:step*.5,neck:neckPhones,
+    arms:[0,1].map(i=>{const sd=i?1:-1;const h=hs[i];return{to:[sd*32+sd*h.lift*10,(h.y-fy)/s+6-h.lift*4],pole:[sd*52,-150],raise:true,hand:'back',thumbToward:[0,(h.y-fy)/s+30],behind:false}})});
   ctx.restore();vig(.5)};
 // ============ 10. above you, Reyes pulls the ladder up
 SC.ladder_up=(t,u,d)=>{QA_SHOT='ladder_up';const p=u/d;const up=EZ.i3(pr(t,CU.W.d2[3][1]-.15,CU.W.d2[6][1]+.25));nightSky();

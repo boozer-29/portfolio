@@ -1,8 +1,8 @@
 // ============ the old sleep clinic, B1
-function clinicRoom(t,warm=1){vgr(0,640,'#2c3a3c','#1c2628');ctx.strokeStyle='rgba(255,255,255,.05)';ctx.lineWidth=1.5;for(let y=0;y<640;y+=34){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}for(let x=0;x<W;x+=34){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,640);ctx.stroke()}
+function clinicRoom(t,warm=1,noSign=false){vgr(0,640,'#2c3a3c','#1c2628');ctx.strokeStyle='rgba(255,255,255,.05)';ctx.lineWidth=1.5;for(let y=0;y<640;y+=34){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}for(let x=0;x<W;x+=34){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,640);ctx.stroke()}
   vgr(640,H,'#232a30','#12161a');ctx.fillStyle='#3a4448';ctx.fillRect(0,636,W,6);
   // sign
-  ctx.fillStyle='#d9dcd2';ctx.beginPath();ctx.roundRect(170,262,200,42,6);ctx.fill();ctx.strokeStyle=OLc;ctx.lineWidth=3;ctx.stroke();ctx.font='26px "Bebas Neue"';ctx.letterSpacing='2px';ctx.fillStyle='#2a3a3a';ctx.textAlign='center';ctx.fillText('SLEEP CLINIC · B1',270,292);ctx.letterSpacing='0px';
+  if(!noSign){ctx.fillStyle='#d9dcd2';ctx.beginPath();ctx.roundRect(170,262,200,42,6);ctx.fill();ctx.strokeStyle=OLc;ctx.lineWidth=3;ctx.stroke();ctx.font='26px "Bebas Neue"';ctx.letterSpacing='2px';ctx.fillStyle='#2a3a3a';ctx.textAlign='center';ctx.fillText('SLEEP CLINIC · B1',270,292);ctx.letterSpacing='0px'}
   // EEG cart (left) with a flat green trace
   orr(40,470,100,150,8,'#3a4250',2.4);orr(52,482,76,52,5,'#0b1a14',2);ctx.strokeStyle='#4ade80';ctx.lineWidth=1.6;ctx.beginPath();for(let x=0;x<70;x+=2){const y=508+Math.sin(x*.4+t*6)*2;x?ctx.lineTo(55+x,y):ctx.moveTo(55,y)}ctx.stroke();ctx.strokeStyle='#1b1e29';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(140,520);ctx.quadraticCurveTo(200,600,240,600);ctx.stroke();
   // lamp + warm cone over the cot
@@ -10,17 +10,21 @@ function clinicRoom(t,warm=1){vgr(0,640,'#2c3a3c','#1c2628');ctx.strokeStyle='rg
   const g=ctx.createRadialGradient(270,560,10,270,600,300);g.addColorStop(0,`rgba(255,200,130,${.42*warm})`);g.addColorStop(1,'rgba(255,200,130,0)');ctx.fillStyle=g;ctx.beginPath();ctx.moveTo(250,346);ctx.lineTo(290,346);ctx.lineTo(470,760);ctx.lineTo(70,760);ctx.fill()}
 function cot(){orr(160,640,220,24,6,'#e8e4da',2.6);orr(150,630,240,14,5,'#a9b0bc',2.6);for(const x of[168,372])orr(x-4,662,8,40,3,'#59607a',2.2)}
 // mode: mixed (back row stands, front row kneels) | kneel | stand ; ollie: awake | asleepLying | asleepKneel
-function clinic(t,o={}){const mode=o.mode||'mixed';clinicRoom(t,o.warm??1);
+function clinic(t,o={}){const mode=o.mode||'mixed';clinicRoom(t,o.warm??1,o.noSign);
   const back=[[70,602,1.02],[130,606,1.05],[190,610,1.05],[350,610,1.05],[410,606,1.05],[470,602,1.02]];const fx=o.frontX||[60,150,390,480];const front=[[fx[0],800,1.5],[fx[1],820,1.55],[fx[2],820,1.55],[fx[3],800,1.5]];
   const standB=mode!=='kneel',standF=mode==='stand';
   back.forEach(([x,y,s],i)=>fig('sleeper',x,y,s,{kneel:!standB,eyes:'closed',tilt:(x<270?14:-14)+(standB?0:8),lean:standB?0:8,arms:standB?[{},{}]:[{to:[-20,-46]},{to:[20,-46]}],c:slpC(i+3),shadow:false}));
   cot();
   if(o.ollie==='asleepLying'){ctx.save();ctx.translate(330,640);ctx.rotate(-Math.PI/2);fig('ollie',0,0,1.25,{eyes:'closed',mouth:'line',shadow:false});ctx.restore()}
+  else if(o.holding){const J=[268,602];const ox=300,oy=650,os=1.6;fig('ollie',ox,oy,os,{kneel:true,eyes:o.ollieEyes||'open',mouth:o.ollieMouth||'smile',look:-1,
+      arms:[{to:[(J[0]+16-ox)/os,(J[1]-10-oy)/os],pole:[-30,-30],hand:'none'},{to:[14,-50],pole:[30,-40],hand:'grip',thumbToward:[0,-200]}],
+      propFront:(A,g)=>{ctx.save();ctx.translate(16,-58);ctx.rotate(.12);ctx.fillStyle='#f6efdc';ctx.fillRect(-11,-9,22,16);ctx.strokeStyle=OLc;ctx.lineWidth=1.2;ctx.strokeRect(-11,-9,22,16);ctx.strokeStyle='#d6453c';ctx.lineWidth=1.1;for(let i=0;i<3;i++){ctx.beginPath();ctx.moveTo(-8,-5+i*4.5);ctx.lineTo(6,-5+i*4.5);ctx.stroke()}ctx.restore();thumbOver(g.grips[1],g.skin,g.o,[0,-5])}})}
   else fig('ollie',270,650,1.5,{kneel:true,eyes:o.ollie==='asleepKneel'?'closed':(o.ollieEyes||'open'),mouth:o.ollieMouth||'line',tilt:o.ollieTilt||0,look:0,arms:o.ollieArms||[{},{}]});
   front.forEach(([x,y,s],i)=>fig('sleeper',x,y,s,{back:true,kneel:!standF,tilt:(x<270?-6:6),c:slpC(i+11),shadow:false,arms:[{},{}]}));
-  if(o.you)fig('you',o.youX??120,1210,2.7,{back:true,arms:[{},{}],neck:(g)=>{ctx.strokeStyle=OLc;ctx.lineWidth=5;ctx.beginPath();ctx.arc(0,g.shY+2,13,.15,Math.PI-.15);ctx.stroke();ctx.strokeStyle='#2b2f3a';ctx.lineWidth=2.6;ctx.stroke()}})}
+  if(o.you){if(o.holding){const J=[268,602];const yx=170,yy=1060,ys=2.6;fig('you',yx,yy,ys,{back:true,neck:neckPhones,arms:[{},{to:[(J[0]-28-yx)/ys,(J[1]+16-yy)/ys],pole:[40,-110],raise:true,hand:'none',behind:false}]});clasp(t,1,1,0,{x:J[0],y:J[1],s:.42,rot:-.55,noSleeves:true})}
+    else fig('you',o.youX??120,1210,2.7,{back:true,arms:[{},{}],neck:neckPhones})}}
 // ============ 24. you open your eyes
-SC.open_eyes=(t,u,d)=>{QA_SHOT='open_eyes';const p=u/d;const op=EZ.io(pr(p,.0,.45));ctx.save();if(op<1)ctx.filter=`blur(${(1-op)*8}px)`;clinic(t,{mode:'mixed',ollie:'awake',ollieEyes:'wide',ollieMouth:'smile',you:true});ctx.restore();
+SC.open_eyes=(t,u,d)=>{QA_SHOT='open_eyes';const p=u/d;const op=EZ.io(pr(p,.0,.45));ctx.save();if(op<1)ctx.filter=`blur(${(1-op)*8}px)`;clinic(t,{mode:'mixed',ollie:'awake',ollieEyes:'wide',ollieMouth:'smile',you:true,holding:true});ctx.restore();
   // your eyelids part
   const gap=op*620;ctx.fillStyle='#120202';ctx.beginPath();ctx.ellipse(270,480-gap-200,560,420,0,0,7);ctx.fill();ctx.beginPath();ctx.ellipse(270,480+gap+200,560,420,0,0,7);ctx.fill();ctx.fillStyle=`rgba(150,20,10,${.5*(1-op)})`;ctx.fillRect(0,0,W,H);vig(.45)};
 // ============ 25/26. his crayon note
@@ -33,7 +37,7 @@ function ollieNote(t,o){ctx.save();ctx.filter='blur(7px)';clinic(t,{mode:'mixed'
   // both R's are backwards: ring them
   const rr_=pr(t,Wd.i2[1][1]+.2,Wd.i2[1][1]+.5);if(rr_>0){ctx.strokeStyle=`rgba(255,255,255,${.9*rr_})`;ctx.lineWidth=3;for(const i of[3,9]){const q=p1[i];ctx.beginPath();ctx.ellipse(q[0],q[1],17,21,0,0,7);ctx.stroke()}}
   if(o.under){crayon('WHEN I TAPPED',0,40,42,'#d6453c',{seed:43,reveal:pr(t,Wd.i3[3][1],Wd.i3[6][1]+.3)});crayon('BACK...',0,90,42,'#d6453c',{seed:44,reveal:pr(t,Wd.i3[6][1],Wd.i3[6][1]+.4)});crayon('THEY STOOD UP',0,142,42,'#d6453c',{seed:45,reveal:pr(t,Wd.i3[7][1]-.1,Wd.i3[9][1]+.2)})}
-  ctx.restore();thumbOver(arm.g,K.skinO,2.8,[2,-8]);vig(.45)}
+  ctx.restore();for(let i=0;i<3;i++)tube([[px-pw/2+6,py+ph/2-62+i*16],[px-pw/2-8,py+ph/2-58+i*16]],13,shade(K.skinO,-.06),2.6);thumbOver(arm.g,K.skinO,2.8,[2,-8]);vig(.45)}
 SC.note_came=(t)=>ollieNote(t,{under:false});SC.note_under=(t)=>ollieNote(t,{under:true});
 // ============ 27. they stood up (from the cot, looking out)
 SC.stood_up=(t,u,d)=>{QA_SHOT='stood_up';const p=u/d;ctx.save();zoomAt(270,520,lerp(1,1.08,EZ.io(p)));clinicRoom(t,.6);
@@ -52,7 +56,7 @@ SC.in_arms=(t,u,d)=>{QA_SHOT='in_arms';const p=u/d;
   // your arms come round his back from both sides; your hands are behind him (hidden)
   for(const sd of[-1,1])tube([[270+sd*330,520],[270+sd*170,640],[270+sd*60,700]],62,K.must,2.8);
   // Ollie against your chest, face tilted up at you, both fists holding your hoodie
-  fig('ollie',270,1000,4.0,{eyes:'half',mouth:'smile',tilt:-6,brow:'worry',arms:[{to:[-26,-58],pole:[-34,-70],hand:'fist',thumbToward:[0,-140]},{to:[26,-58],pole:[34,-70],hand:'fist',thumbToward:[0,-140]}]});
+  fig('ollie',270,1000,4.0,{eyes:'half',mouth:'smile',tilt:-6,brow:'worry',arms:[{to:[-24,-61],pole:[-34,-70],hand:'fist',thumbToward:[0,-140]},{to:[24,-61],pole:[34,-70],hand:'fist',thumbToward:[0,-140]}]});
   ctx.restore();
   // your own chest and belly (yellow hoodie) in the foreground hide his legs
   ctx.fillStyle=K.must;ctx.beginPath();ctx.ellipse(270,1110,560,370,0,0,7);ctx.fill();ctx.strokeStyle=OLc;ctx.lineWidth=5;ctx.stroke();orr(170,860,200,70,22,shade(K.must,-.1),2.6);vig(.45)};
@@ -70,7 +74,7 @@ function buildingKneel(t){vgr(0,H,'#0b1226','#1c2540');ctx.fillStyle='#232b40';c
   for(let f=0;f<7;f++){const y=150+f*100;ctx.fillStyle='#2b3350';ctx.fillRect(74,y+92,392,8);for(let i=0;i<9;i++){const x=104+i*42+(f%2)*10;fig('sleeper',x,y+92,.34,{kneel:true,eyes:'closed',tilt:22,lean:12,shadow:false,o:1.2,c:slpC(f*9+i),arms:[{to:[-20,-46]},{to:[20,-46]}]})}}
   // basement: the cot under the warm lamp
   ctx.fillStyle='#120f0a';ctx.fillRect(70,870,400,90);const g=ctx.createRadialGradient(270,905,4,270,905,90);g.addColorStop(0,'rgba(255,200,130,.8)');g.addColorStop(1,'rgba(255,200,130,0)');ctx.fillStyle=g;ctx.fillRect(170,860,200,90);ctx.font='14px "Bebas Neue"';ctx.fillStyle='#ffd9a0';ctx.textAlign='center';ctx.fillText('B1',270,940)}
-SC.kneel_all=(t,u,d)=>{QA_SHOT='kneel_all';const wide=CU.W.j4[3][1]-.1;if(t<wide){ctx.save();ctx.translate(0,-80);clinic(t,{mode:'kneel',ollie:'asleepLying',frontX:[30,105,435,510]});ctx.restore();vig(.5);return}buildingKneel(t);vig(.45)};
+SC.kneel_all=(t,u,d)=>{QA_SHOT='kneel_all';const k=t>=CU.kneelT;ctx.save();ctx.translate(0,-80);if(k)zoomAt(270,560,lerp(1.0,1.06,EZ.o3(pr(t,CU.kneelT,CU.kneelT+.9))));clinic(t,{mode:k?'kneel':'stand',ollie:'asleepLying',frontX:[30,105,435,510],noSign:true});ctx.restore();vig(.5)};
 // ============ 32. the vote
 function miniSleep(t,x,y,w,h){ctx.save();ctx.beginPath();ctx.rect(x,y,w,h);ctx.clip();vgr(y,y+h,'#2c3a3c','#1c2628');const cx=x+w/2,cy=y+h*.7;ctx.fillStyle='#e8e4da';ctx.fillRect(cx-40,cy,80,8);ctx.save();ctx.translate(cx+16,cy);ctx.rotate(-Math.PI/2);fig('ollie',0,0,.42,{eyes:'closed',shadow:false,o:1.4});ctx.restore();for(let i=0;i<6;i++){const sx=cx+(i-2.5)*62;if(Math.abs(sx-cx)<50)continue;fig('sleeper',sx,cy+16,.32,{kneel:true,eyes:'closed',tilt:16,lean:8,shadow:false,o:1.2,c:slpC(i),arms:[{to:[-20,-46]},{to:[20,-46]}]})}ctx.restore()}
 function miniWake(t,x,y,w,h){ctx.save();ctx.beginPath();ctx.rect(x,y,w,h);ctx.clip();vgr(y,y+h,'#2c3a3c','#1c2628');const cx=x+w/2,cy=y+h*.85;fig('ollie',cx,cy,.42,{kneel:true,eyes:'wide',mouth:'o',shadow:false,o:1.4});for(let i=0;i<6;i++){const sx=cx+(i-2.5)*62;if(Math.abs(sx-cx)<40)continue;fig('sleeper',sx,cy+6,.36,{eyes:'closed',tilt:(sx<cx?10:-10),shadow:false,o:1.2,c:slpC(i)})}ctx.restore()}

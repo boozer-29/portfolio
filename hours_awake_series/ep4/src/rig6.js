@@ -69,7 +69,9 @@ function face(c,p,hy,hr,s){const look=p.look||0,ey=hy-1;const eyes=p.eyes||'open
 function fig(who,x,y,s,p={}){const c=Object.assign({},CAST[who],p.c||{});const o=p.o??2.6;const kid=c.kid?1:0,teen=c.teen?1:0;
   const hs=kid?1.32:1,L=kid?.66:teen?.93:1,back=!!p.back;const oo=o/s;
   ctx.save();ctx.translate(x,y);ctx.scale(s,s);
-  const bob=p.bob||0,lean=(p.lean||0)*RAD,tilt=(p.tilt||0)*RAD;const kd=p.kneel?40*L:0;
+  const live=!c.sleeper&&p.idle!==false;const sd0=[...who].reduce((a,ch)=>a+ch.charCodeAt(0),0)%17;const T0=window.NOWT||0;
+  if(live&&p.eyes&&['open','wide','half','heavy'].includes(p.eyes)){const per=2.9+sd0*.11,ph=(T0+sd0*.37)%per;if(ph<.11)p=Object.assign({},p,{eyes:'closed'})}
+  const bob=(p.bob||0)+(live?Math.sin(T0*1.75+sd0)*.55:0),lean=(p.lean||0)*RAD,tilt=((p.tilt||0)+(live?Math.sin(T0*.8+sd0)*1.3:0))*RAD;const kd=p.kneel?40*L:0;
   const hipY=-82*L+bob+kd,shY=-140*L+bob+kd;
   if(p.shadow!==false){ctx.fillStyle='rgba(0,0,0,.22)';ctx.beginPath();ctx.ellipse(0,2,30*L,6,0,0,7);ctx.fill()}
   // legs
@@ -96,7 +98,7 @@ function fig(who,x,y,s,p={}){const c=Object.assign({},CAST[who],p.c||{});const o
   if(!back){if(c.hood){ctx.strokeStyle=shade(c.top,-.25);ctx.lineWidth=1.6;ctx.beginPath();ctx.moveTo(-3,shY+2);ctx.lineTo(-4,shY+20);ctx.moveTo(3,shY+2);ctx.lineTo(4,shY+20);ctx.stroke();orr(-11*L,hipY-24*L,22*L,14*L,5,shade(c.top,-.1),oo*.7)}
     if(who==='maya'){ctx.fillStyle=shade(c.top,-.25);ctx.beginPath();ctx.moveTo(-7,shY-3);ctx.lineTo(0,shY+11);ctx.lineTo(7,shY-3);ctx.fill()}
     if(who==='reyes'){orr(-12,shY+16,9,8,2,shade(c.top,-.15),oo*.6);orr(3,shY+16,9,8,2,shade(c.top,-.15),oo*.6)}}
-  if(p.neck)p.neck({shY,L,oo});
+  if(p.neck)p.neck({shY,L,oo,back});
   if(p.propMid)p.propMid(A,{shY,hipY,L,oo,s});
   for(let i=0;i<2;i++)if(!(A[i].behind??back))drawArm(i);
   if(p.propFront)p.propFront(A,{shY,hipY,L,oo,s,grips,skin:c.skin,o});
