@@ -1,0 +1,9 @@
+# generated per build (re-create with prep_voice.sh / plan.py / build.sh / audio.py)
+episodes/*/site/
+episodes/*/stills/
+episodes/*/frames/
+episodes/*/aud/
+episodes/*/*.wav
+episodes/*/cues.json
+episodes/*/timeline.json
+episodes/*/sheet*.jpg
