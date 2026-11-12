@@ -36,8 +36,9 @@ face controls for brows, eyelids (blinks), pupils (darts), mouth shapes. Anticip
 blinks every 2–4 s, mouth only moves while that character is audibly speaking, camera shake on impacts.
 
 **Voices** (ElevenLabs `eleven_v3`, audio tags like `[deadpan]`): hero = Kevin `eRcsJdPMOM0mtGC03ul7`. One-off characters: pick fitting voices from the owner's
-list (`GET /v2/voices`), new to the series each episode. Dialogue is optional — several of the best references are captions + music only;
-use dialogue when the story is a conversation (e.g. two friends, a doctor, a news anchor).
+list (`GET /v2/voices`), new to the series each episode. **The hero always talks (owner's rule):** give him 5–8 short spoken lines per reel in Kevin's voice — reactions and punchlines on the beats
+where he's on screen, reacting to or extending the caption joke (never reading the caption aloud). Shouts alone don't count. Other characters
+speak when the story needs them (a friend, a doctor, a voicemail).
 
 **BOMBOCLAT is a reaction, not a rule.** Never put one mechanically on every step. Use it only where it's funny (a few times per reel, sometimes never),
 and **never the same way twice in a row**: a stuttered "bombo… bombo… bomboclat!", a confused "bomboclat?", a resigned "hmm… bomboclat",

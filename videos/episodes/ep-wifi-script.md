@@ -106,3 +106,20 @@ Built in `videos/wifi-src/`: `gen_tts.py` (2 TTS clips), `shouts.py` (shout vari
 | Day 72 | 77.05–82.50 | 2.5 million light-years |  |
 | Day 87 | 82.50–86.55 | 82 billion light-years |  |
 | Day END | 86.55–91.82 |  | sh_resigned 88.7–91.07 |
+
+---
+## Revision 1 — the hero talks (owner: "there is absolutely no dialogue for the main character")
+Kevin `eRcsJdPMOM0mtGC03ul7`, English, short. Each line reacts to or extends the caption joke — never reads it.
+
+| Beat | On screen | HERO says |
+|---|---|---|
+| Day 1 | waving the phone at the bathroom ceiling | "Come on… one bar. Just one more bar." |
+| Day 3 | his TV: "Continue watching: Peppa Pig" | *bomboclat?* → "Who is watching Peppa Pig on MY account?!" |
+| Day 5 | leans out of his window over the lit-up street | "Oi! I can see your phones! That's MY Wi-Fi!" |
+| Day 12 | on the balcony as the jet circles | *bombo… bombo… bomboclat!* → "Flight 302… you're welcome." |
+| Day 15 | the router throne, sunglasses | "From today… you call me Landlord." |
+| Day 20 | after the voicemail plays | "Tell them to turn it off and on again." |
+| Day 72 | phone: "hi" — Read | "Left on read… by a whole galaxy." |
+| END | still one bar in the bathroom | "The whole universe is connected… and I can't load one video." → *hmm… bomboclat.* |
+
+8 lines, ~20 s of speech; the timeline grows from 92 s to ≈ 105 s (Day 5 gets a new window shot of him).
