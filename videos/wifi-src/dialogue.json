@@ -1,0 +1,148 @@
+[
+ {
+  "file": "sh_question",
+  "speaker": "hero",
+  "at": 11.52,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAT?",
+    "t": 11.56
+   }
+  ],
+  "spans": [
+   [
+    11.67,
+    12.19
+   ]
+  ]
+ },
+ {
+  "file": "sh_stutter",
+  "speaker": "hero",
+  "at": 27.77,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBO\u2026",
+    "t": 27.79
+   },
+   {
+    "w": "BOMBO\u2026",
+    "t": 28.47
+   },
+   {
+    "w": "BOMBOCLAAT!",
+    "t": 29.11
+   }
+  ],
+  "spans": [
+   [
+    27.82,
+    29.79
+   ]
+  ]
+ },
+ {
+  "file": "isp",
+  "speaker": "isp",
+  "at": 45.38,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Hi...",
+    "t": 45.678
+   },
+   {
+    "w": "this",
+    "t": 46.163
+   },
+   {
+    "w": "is",
+    "t": 46.371
+   },
+   {
+    "w": "your",
+    "t": 46.563
+   },
+   {
+    "w": "internet",
+    "t": 46.727
+   },
+   {
+    "w": "provider.",
+    "t": 47.073
+   },
+   {
+    "w": "We",
+    "t": 47.891
+   },
+   {
+    "w": "have...",
+    "t": 48.435
+   },
+   {
+    "w": "questions.",
+    "t": 49.837
+   }
+  ],
+  "spans": [
+   [
+    45.62,
+    47.64
+   ],
+   [
+    48.12,
+    48.67
+   ],
+   [
+    49.82,
+    50.37
+   ]
+  ]
+ },
+ {
+  "file": "sh_long",
+  "speaker": "hero",
+  "at": 59.16,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOOOOOOO\u2014",
+    "t": 59.17
+   }
+  ],
+  "spans": [
+   [
+    59.43,
+    60.33
+   ]
+  ]
+ },
+ {
+  "file": "sh_resigned",
+  "speaker": "hero",
+  "at": 88.66,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "hmm\u2026",
+    "t": 88.7
+   },
+   {
+    "w": "bomboclaat.",
+    "t": 89.83
+   }
+  ],
+  "spans": [
+   [
+    88.78,
+    89.19
+   ],
+   [
+    89.89,
+    90.77
+   ]
+  ]
+ }
+]
