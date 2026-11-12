@@ -257,3 +257,19 @@ Each item below is a bug that actually happened. Avoid it while building; tick i
 - **Reusing an old mixer:** copy helper *functions* only — the old file's placement lines come along and break the new mix. String-replace patterns
   fail on tiny differences; use a regex or rewrite the section.
 
+### 9.10 Learned on Wi-Fi revision 2 (owner's screenshots)
+- **THE arm bug (caused hands-through-faces in every episode):** in the original `pose()`, a shoulder's z rotation swings the **right** arm
+  (+x side) *inward* for negative values — so every "arm out to the side" pose crossed the face. Fixed in `wifi-src/part_a.js`:
+  `A.sh.rotation.set(a[0], a[1], -a[2])`, so now arm 0 (left) uses **+z = outward**, arm 1 (right) uses **−z = outward**, for every rig.
+  Copy this `part_a.js` for new episodes; never copy the older ones (mums/afro still have the inward sign).
+- Hand props raised high: hold the arm *up and out* (`[-2.3, 0, ±1.05, 0.25]`), never folded over the top of the head (the forearm bends back through the skull).
+- Seated characters need real seats: give every sitter a chair (seat ≈ 0.5, hips bob ≈ −0.26) — without one they hover at desk height and read as sitting *on* the desk.
+- A phone's glow light goes **in front of the face** (≈ 0.45 in front of the head), not at the phone — a light inside the torso makes the chest glow.
+- Captions vs in-world text: move boards/signs out of the caption band (y ≈ 33–40 % of frame) or reframe — text over text is unreadable.
+- Status pills must match the place (the school was labelled STREET).
+- "Something happens, then it doubles": every step needs a physical action the hero or the world performs (chair collapses, a bike crashes into a bin,
+  the plug gets pulled and a continent goes dark, rent envelopes pile up) — a ring sweeping past plus a caption is not an action.
+- The hero talks on most beats (section 2); generate his lines, check them with Whisper, and when a written `[pause]` produces an over-long gap, trim it in the mix (`CUTS` in `timeline.py`) instead of regenerating again.
+- Inserting a pause: cut only at true silence (≤ −45 dB). If two words run together (no silence), regenerate with the beat written into the line.
+- Turned characters: after a turn, check the final yaw faces the camera (the teacher ended up back-to-camera).
+- **Camera paths through bodies/props:** a push-in that passes through a character or a chair gives frames of solid colour (and mpdecimate flags them as duplicates). Check both ends AND the middle of every camera move against the characters and furniture near it.

@@ -3,12 +3,12 @@ import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
-const W = 1080, H = 1920; export const DUR = 92.12;
+const W = 1080, H = 1920; export const DUR = 111.34;
 let DIALOGUE = [];
 function spanHit(c, O) { for (const [a, b] of c.spans) if (O >= a - 0.02 && O < b + 0.03) return true; return false; }
 
 // ---------------------------------------------------------------- story steps (one doubling each)
-const STEPS = [{"day": 1, "t": 3.0, "t1": 7.87, "v": "10 m", "cmp": "A NORMAL ROUTER", "status": "HOME", "setup": "Day 1. 10 metres. A normal router.", "son": 3.35, "punch": "One bar in the bathroom.", "pon": 5.61}, {"day": 3, "t": 7.87, "t1": 13.62, "v": "40 m", "cmp": "THROUGH THE WALL", "status": "HOME", "setup": "Day 3. 40 metres. The neighbour's TV connects.", "son": 8.22, "punch": "He's been using your Netflix.", "pon": 10.96}, {"day": 5, "t": 13.62, "t1": 19.31, "v": "160 m", "cmp": "THE WHOLE STREET", "status": "STREET", "setup": "Day 5. The whole street connects.", "son": 13.97, "punch": "Nobody here has paid for internet since Tuesday.", "pon": 16.19}, {"day": 7, "t": 19.31, "t1": 25.1, "v": "640 m", "cmp": "REACHES THE SCHOOL", "status": "STREET", "setup": "Day 7. The school next door connects.", "son": 19.66, "punch": "Exam results: up 0%. TikTok: up 4,000%.", "pon": 22.04}, {"day": 12, "t": 25.1, "t1": 31.0, "v": "20.5 km", "cmp": "HIGHER THAN PLANES", "status": "CITY", "setup": "Day 12. Planes cruise at 11 km.", "son": 25.45, "punch": "Flight 302 is now buffering over your house.", "pon": 27.59}, {"day": 15, "t": 31.0, "t1": 37.71, "v": "164 km", "cmp": "THREE CITIES", "status": "COUNTRY", "setup": "Day 15. Three cities run on your Wi-Fi.", "son": 31.35, "punch": "You've stopped paying rent. They pay you now.", "pon": 33.81}, {"day": 17, "t": 37.71, "t1": 43.06, "v": "655 km", "cmp": "REACHES THE ISS", "status": "COUNTRY", "setup": "Day 17. The space station connects.", "son": 38.06, "punch": "An astronaut asks for the password.", "pon": 40.36}, {"day": 20, "t": 43.06, "t1": 51.27, "v": "5,243 km", "cmp": "COAST TO COAST", "status": "COUNTRY", "setup": "Day 20. Coast to coast.", "son": 43.41, "punch": "Your internet provider calls.", "pon": 45.23}, {"day": 23, "t": 51.27, "t1": 56.92, "v": "41,943 km", "cmp": "PAST THE SATELLITES", "status": "PLANET", "setup": "Day 23. Past the GPS satellites.", "son": 51.62, "punch": "Every map app now says 'Turn left at his house.'", "pon": 53.8}, {"day": 27, "t": 56.92, "t1": 60.56, "v": "671,089 km", "cmp": "THE MOON HAS FULL BARS", "status": "PLANET", "setup": "Day 27. The Moon now has full bars.", "son": 57.27, "punch": "", "pon": null}, {"day": 36, "t": 60.56, "t1": 65.69, "v": "344 million km", "cmp": "MARS", "status": "SOLAR SYSTEM", "setup": "Day 36. Mars connects.", "son": 60.91, "punch": "Ping: 25 minutes. The rover still blames lag.", "pon": 62.69}, {"day": 43, "t": 65.69, "t1": 70.94, "v": "44 billion km", "cmp": "PASSES VOYAGER 1", "status": "SOLAR SYSTEM", "setup": "Day 43. Voyager 1 took 49 years to get this far.", "son": 66.04, "punch": "You took 43 days.", "pon": 68.86}, {"day": 53, "t": 70.94, "t1": 77.05, "v": "4.76 light-years", "cmp": "THE NEAREST STAR", "status": "GALACTIC", "setup": "Day 53. The nearest star system has full bars.", "son": 71.29, "punch": "Someone there is watching your Netflix too.", "pon": 74.03}, {"day": 72, "t": 77.05, "t1": 82.5, "v": "2.5 million light-years", "cmp": "ANDROMEDA", "status": "GALACTIC", "setup": "Day 72. Andromeda connects.", "son": 77.4, "punch": "Your 'hi' takes 2.5 million years. Left on read.", "pon": 79.38}, {"day": 87, "t": 82.5, "t1": 86.55, "v": "82 billion light-years", "cmp": "EVERYTHING", "status": "EVERYWHERE", "setup": "Day 87. The whole observable universe is on your Wi-Fi.", "son": 82.85, "punch": "", "pon": null}, {"day": "END", "t": 86.55, "t1": 91.82, "v": "", "cmp": "", "status": "", "setup": "And still…", "son": 86.9, "punch": "One bar in the bathroom.", "pon": 88.2}];  // generated from timeline.json (step 2)
+const STEPS = [{"day": 1, "t": 3.0, "t1": 11.0, "v": "10 m", "cmp": "A NORMAL ROUTER", "status": "HOME", "setup": "Day 1. 10 metres. A normal router.", "son": 3.35, "punch": "One bar in the bathroom.", "pon": 5.61}, {"day": 3, "t": 11.0, "t1": 20.0, "v": "40 m", "cmp": "THROUGH THE WALL", "status": "HOME", "setup": "Day 3. 40 metres. The neighbour's TV connects.", "son": 11.35, "punch": "He's been using your Netflix.", "pon": 14.09}, {"day": 5, "t": 20.0, "t1": 29.8, "v": "160 m", "cmp": "THE WHOLE STREET", "status": "STREET", "setup": "Day 5. The whole street connects.", "son": 20.35, "punch": "Nobody here has paid for internet since Tuesday.", "pon": 22.57}, {"day": 7, "t": 29.8, "t1": 36.2, "v": "640 m", "cmp": "REACHES THE SCHOOL", "status": "NEIGHBOURHOOD", "setup": "Day 7. The school next door connects.", "son": 30.15, "punch": "Exam results: up 0%. TikTok: up 4,000%.", "pon": 32.53}, {"day": 12, "t": 36.2, "t1": 46.0, "v": "20.5 km", "cmp": "HIGHER THAN PLANES", "status": "CITY", "setup": "Day 12. Planes cruise at 11 km.", "son": 36.55, "punch": "Flight 302 is now buffering over your house.", "pon": 38.69}, {"day": 15, "t": 46.0, "t1": 53.8, "v": "164 km", "cmp": "THREE CITIES", "status": "CITY", "setup": "Day 15. Three cities run on your Wi-Fi.", "son": 46.35, "punch": "You've stopped paying rent. They pay you now.", "pon": 48.81}, {"day": 20, "t": 53.8, "t1": 66.4, "v": "5,243 km", "cmp": "COAST TO COAST", "status": "COUNTRY", "setup": "Day 20. Coast to coast.", "son": 54.15, "punch": "Your internet provider calls.", "pon": 55.97}, {"day": 23, "t": 66.4, "t1": 72.4, "v": "41,943 km", "cmp": "PAST THE SATELLITES", "status": "PLANET", "setup": "Day 23. Past the GPS satellites.", "son": 66.75, "punch": "Every map app now says 'Turn left at his house.'", "pon": 68.93}, {"day": 27, "t": 72.4, "t1": 76.04, "v": "671,089 km", "cmp": "THE MOON HAS FULL BARS", "status": "PLANET", "setup": "Day 27. The Moon now has full bars.", "son": 72.75, "punch": "", "pon": null}, {"day": 36, "t": 76.04, "t1": 81.44, "v": "344 million km", "cmp": "MARS", "status": "SOLAR SYSTEM", "setup": "Day 36. Mars connects.", "son": 76.39, "punch": "Ping: 25 minutes. The rover still blames lag.", "pon": 78.17}, {"day": 53, "t": 81.44, "t1": 87.64, "v": "4.76 light-years", "cmp": "THE NEAREST STAR", "status": "GALACTIC", "setup": "Day 53. The nearest star system has full bars.", "son": 81.79, "punch": "Someone there is watching your Netflix too.", "pon": 84.53}, {"day": 72, "t": 87.64, "t1": 95.84, "v": "2.5 million light-years", "cmp": "ANDROMEDA", "status": "GALACTIC", "setup": "Day 72. Andromeda connects.", "son": 87.99, "punch": "Your 'hi' takes 2.5 million years.", "pon": 89.97}, {"day": 87, "t": 95.84, "t1": 99.84, "v": "82 billion light-years", "cmp": "EVERYTHING", "status": "EVERYWHERE", "setup": "Day 87. The whole observable universe is on your Wi-Fi.", "son": 96.19, "punch": "", "pon": null}, {"day": "END", "t": 99.84, "t1": 111.04, "v": "", "cmp": "", "status": "", "setup": "And still…", "son": 100.19, "punch": "One bar in the bathroom.", "pon": 101.49}];  // generated from timeline.json (step 2)
 const TITLE = { t0: 0.15, t1: 2.95 };
 const TL = Object.fromEntries(STEPS.map(s => [s.day, s]));   // TL[12].t etc.
 
@@ -159,7 +159,7 @@ function pose(P, p = {}) {
   P.spine.rotation.set(p.spineX || 0, p.spineY || 0, p.spineZ || 0); P.neck.rotation.set(p.headX || 0, p.headY || 0, p.headZ || 0);
   P.hips.position.y = 0.92 + (p.bob || 0); P.hips.rotation.set(p.hipX || 0, p.hipY || 0, p.hipZ || 0);
   const a = p.arms || [[0, 0, 0.12, 0.12], [0, 0, -0.12, 0.12]];
-  P.arms.forEach((A, i) => { A.sh.rotation.set(a[i][0], a[i][1], a[i][2]); A.el.rotation.set(-(a[i][3] || 0), 0, 0); });
+  P.arms.forEach((A, i) => { A.sh.rotation.set(a[i][0], a[i][1], -a[i][2]); A.el.rotation.set(-(a[i][3] || 0), 0, 0); });
   const l = p.legs || [[0, 0], [0, 0]];
   P.legs.forEach((L, i) => { L.thigh.rotation.set(-l[i][0], 0, l[i][2] || 0); L.knee.rotation.set(l[i][1], 0, 0); });
 }
@@ -231,7 +231,8 @@ function screenMesh(w, h, tex, o = {}) { const m = new THREE.Mesh(new THREE.Plan
 function spinner(g, cx, cy, r, O, col = '#fff') { g.save(); g.translate(cx, cy); g.rotate(O * 6); for (let i = 0; i < 10; i++) { g.globalAlpha = 0.15 + 0.85 * i / 9; g.fillStyle = col; g.beginPath(); g.arc(Math.cos(i / 10 * 6.283) * r, Math.sin(i / 10 * 6.283) * r, r * 0.17, 0, 7); g.fill(); } g.restore(); g.globalAlpha = 1; }
 function bars(g, x, y, n, s = 1, col = '#fff') { for (let i = 0; i < 4; i++) { g.globalAlpha = i < n ? 1 : 0.25; g.fillStyle = col; g.fillRect(x + i * 14 * s, y - (8 + i * 8) * s, 9 * s, (8 + i * 8) * s); } g.globalAlpha = 1; }
 function drawPhone(t, kind, O) { const g = t.g, w = t.c.width, h = t.c.height; g.fillStyle = '#0d1220'; g.fillRect(0, 0, w, h); g.fillStyle = '#fff'; g.font = '600 22px InterW, Arial'; g.textAlign = 'left'; g.fillText('9:41', 22, 34);
-  if (kind === 'onebar') { bars(g, w - 92, 36, 1, 1.1); spinner(g, w / 2, h * 0.45, 46, O); g.font = '600 26px InterW, Arial'; g.textAlign = 'center'; g.globalAlpha = 0.8; g.fillText('Loading…', w / 2, h * 0.45 + 110); g.globalAlpha = 1; }
+  if (kind === 'nobar') { bars(g, w - 92, 36, 0, 1.1); g.textAlign = 'center'; g.font = '800 34px InterW, Arial'; g.fillText('No connection', w / 2, h * 0.47); g.font = '500 22px InterW, Arial'; g.globalAlpha = 0.7; g.fillText('Move closer to your router', w / 2, h * 0.47 + 44); g.globalAlpha = 1; }
+  else if (kind === 'onebar') { bars(g, w - 92, 36, 1, 1.1); spinner(g, w / 2, h * 0.45, 46, O); g.font = '600 26px InterW, Arial'; g.textAlign = 'center'; g.globalAlpha = 0.8; g.fillText('Loading…', w / 2, h * 0.45 + 110); g.globalAlpha = 1; }
   else if (kind === 'call') { bars(g, w - 92, 36, 4, 1.1); g.textAlign = 'center'; g.font = '500 26px InterW, Arial'; g.globalAlpha = 0.7; g.fillText('incoming call', w / 2, h * 0.22); g.globalAlpha = 1; g.font = '800 40px InterW, Arial'; g.fillText('INTERNET', w / 2, h * 0.3); g.fillText('PROVIDER', w / 2, h * 0.3 + 48);
     [[w * 0.28, '#e8343c'], [w * 0.72, '#2bd96b']].forEach(([x, c]) => { g.fillStyle = c; g.beginPath(); g.arc(x, h * 0.8, 46, 0, 7); g.fill(); }); }
   else if (kind === 'voicemail') { bars(g, w - 92, 36, 4, 1.1); g.textAlign = 'center'; g.font = '800 34px InterW, Arial'; g.fillText('Voicemail', w / 2, h * 0.2); g.font = '500 24px InterW, Arial'; g.globalAlpha = 0.7; g.fillText('Internet Provider', w / 2, h * 0.2 + 40); g.globalAlpha = 1;
@@ -274,7 +275,7 @@ const S = {};
   const lamp = practical(sc, -1.55, 0.95, -2.6, 0xffb46a, { i: 4, d: 5, r: 0.1, bokeh: 0.5 }); sc.add(cyl(0.18, 0.12, 0.25, mat(0xf2e3c8, { emissive: 0xffb46a, emissiveIntensity: 0.6 }), -1.55, 1.05, -2.6, 16)); sc.add(rbox(0.5, 0.6, 0.45, mat(0x4a3424), -1.55, 0.3, -2.6));
   const toilet = grp(3.25, 0, -2.3, sc); const por = mat(0xf6f6f6, { roughness: 0.15 }); toilet.add(cyl(0.22, 0.18, 0.4, por, 0, 0.2, 0.1, 20)); toilet.add(cyl(0.3, 0.26, 0.12, por, 0, 0.44, 0.15, 24)); toilet.add(rbox(0.56, 0.6, 0.22, por, 0, 0.75, -0.18)); toilet.add(rbox(0.6, 0.05, 0.62, mat(0xe8e8e8), 0, 0.52, 0.12));
   sc.add(rbox(0.7, 0.08, 0.45, por, 4.05, 0.85, -1.1)); sc.add(rbox(0.5, 0.65, 0.04, mat(0xdfe8f0, { roughness: 0.03, metalness: 1, envMapIntensity: 1.3 }), 4.6, 1.6, -1.1)).children;
-  const bulb = practical(sc, 3.2, 3.05, -1.3, 0xffe2a8, { i: 7, d: 6, r: 0.09, haze: 1.3, hh: 2.9, ho: 0.13 }); sc.add(cyl(0.01, 0.01, 0.25, mat(0x222222), 3.2, 3.2, -1.3, 4));
+  const bulb = practical(sc, 3.2, 3.05, -1.3, 0xffe2a8, { i: 7, d: 6, r: 0.09, haze: 1.1, hh: 2.7, ho: 0.05 }); sc.add(cyl(0.01, 0.01, 0.25, mat(0x222222), 3.2, 3.2, -1.3, 4));
   const nsofa = grp(8.0, 0, -1.0, sc); nsofa.rotation.y = Math.PI / 2; nsofa.add(rbox(2.4, 0.45, 0.9, mat(0x6a3a7a, { roughness: 0.8 }), 0, 0.3, 0)); nsofa.add(rbox(2.4, 0.7, 0.25, mat(0x6a3a7a, { roughness: 0.8 }), 0, 0.75, -0.35)); [-1.1, 1.1].forEach(x => nsofa.add(rbox(0.25, 0.65, 0.9, mat(0x5a2f68), x, 0.45, 0)));
   const ntvT = screenTex(1000, 560); const ntv = screenMesh(1.4, 0.78, ntvT, { x: 11.2, y: 1.6, z: -1.0 }); ntv.rotation.y = -Math.PI / 2; sc.add(ntv); sc.add(rbox(0.05, 0.84, 1.46, mat(0x111111), 11.24, 1.6, -1.0));
   const ntvL = new THREE.PointLight(0x9fd0ff, 0, 4, 1.6); ntvL.position.set(10.4, 1.6, -1.0); sc.add(ntvL); practical(sc, 10.4, 1.1, -2.6, 0xffb46a, { i: 2.5, d: 4, r: 0.1, bokeh: 0.45 });
@@ -428,6 +429,35 @@ const S = {};
   S.alien = { sc, blob, tvT, tv };
 }
 
+// ---------------------------------------------------------------- Revision 2 props: the action beats
+{ // flat: rent envelopes, the neighbour's cushion, the router plug cable
+  const F_ = S.flat, sc = F_.sc;
+  const envT = canvasTex(128, 80, (g) => { g.fillStyle = '#f4efe2'; g.fillRect(0, 0, 128, 80); g.strokeStyle = '#c9c0aa'; g.lineWidth = 3; g.beginPath(); g.moveTo(0, 0); g.lineTo(64, 44); g.lineTo(128, 0); g.stroke(); g.fillStyle = '#E21E39'; g.fillRect(96, 10, 22, 26); g.fillStyle = '#222'; g.font = '700 16px Arial'; g.fillText('RENT', 10, 70); });
+  const envM = new THREE.MeshStandardMaterial({ map: envT, roughness: 0.8 });
+  F_.envs = [...Array(60)].map((_, i) => { const m = new THREE.Mesh(rgeo(0.32, 0.015, 0.2), envM); m.castShadow = m.receiveShadow = true; m.visible = false; sc.add(m); const r2 = rnd(i + 900); m.userData = { a: r2() * 6.283, r: 0.35 + r2() * 0.65, y: 0.02 + Math.floor(i / 6) * 0.03, rot: r2() * 3 }; return m; });
+  F_.cushion = rbox(0.5, 0.5, 0.18, mat(0xffd23f, { roughness: 0.9 })); sc.add(F_.cushion);
+  F_.plug = grp(0, 0, 0, sc); F_.plug.add(rbox(0.08, 0.05, 0.12, mat(0xf4f4f4, { roughness: 0.4 }))); const cable = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 1.4, 6), mat(0x111111)); cable.position.y = -0.7; F_.plug.add(cable);
+}
+{ // classroom: chairs, the teacher's long hair, a phone that slides to her feet
+  const C = S.cls;
+  C.chairs = C.kids.map((k, i) => { const x = -2.6 + (i % 3) * 2.6, z = -1.4 + Math.floor(i / 3) * 2.0 + 0.62; const g = grp(x, 0, z, C.sc); g.add(rbox(0.55, 0.06, 0.5, mat(0x3a7ae0, { roughness: 0.5 }), 0, 0.5, 0)); g.add(rbox(0.55, 0.55, 0.06, mat(0x3a7ae0, { roughness: 0.5 }), 0, 0.8, 0.25)); [[-0.22, -0.2], [0.22, -0.2], [-0.22, 0.2], [0.22, 0.2]].forEach(([a, b]) => g.add(rbox(0.04, 0.5, 0.04, mat(0x888888), a, 0.25, b))); return g; });
+  const hair = mat(0x3a2a1a, { roughness: 0.6 }); C.teacher.head.add(rbox(0.72, 0.7, 0.2, hair, 0, 0.32, -0.3)); C.teacher.head.add(rbox(0.72, 0.16, 0.66, hair, 0, 0.68, -0.02));
+  C.slider = phoneMesh(); C.slider.scale.setScalar(0.5); C.slider.rotation.x = -Math.PI / 2; C.slider.visible = false; C.sc.add(C.slider); drawPhone(C.slider.tex, 'onebar', 0);
+  C.board = C.sc.children.find(c => c.isMesh && c.material.isMeshBasicMaterial && c.geometry.type === 'PlaneGeometry' && c.geometry.parameters.width === 5); C.board.position.set(-1.2, 1.75, -5.05);
+}
+{ // street: a bin for the bike crash, headlights converging on his building (Day 23)
+  const s = S.street, sc = s.sc;
+  s.bin = grp(2.5, 0, 9.3, sc); s.bin.add(cyl(0.35, 0.3, 0.9, mat(0x2b8a4a, { roughness: 0.6 }), 0, 0.45, 0, 14)); s.bin.add(cyl(0.38, 0.38, 0.06, mat(0x1f6a38), 0, 0.92, 0, 14));
+  s.trash = debrisPool(sc, 14, [0xd9d0be, 0x8a6a48, 0xe8343c]);
+  const carG = rgeo(1.8, 0.7, 0.9); const cars = new THREE.InstancedMesh(carG, new THREE.MeshStandardMaterial({ color: 0x9aa3b0, roughness: 0.4, metalness: 0.5 }), 320); cars.frustumCulled = false; sc.add(cars);
+  const lightsG = new THREE.InstancedMesh(new THREE.SphereGeometry(0.16, 6, 4), new THREE.MeshBasicMaterial({ color: 0xfff2c8, toneMapped: false }), 640); lightsG.frustumCulled = false; sc.add(lightsG);
+  const r2 = rnd(77); s.carD = [...Array(320)].map((_, i) => ({ lane: i % 4, x0: -280 + r2() * 560, side: r2() < 0.5 ? -1 : 1, sp: 9 + r2() * 6, col: new THREE.Color([0xe8343c, 0x1f8fe0, 0xf4f4f4, 0x2a2a30, 0xffd23f, 0x9aa3b0][Math.floor(r2() * 6)]) }));
+  s.carD.forEach((d, i) => cars.setColorAt(i, d.col)); s.cars = cars; s.carLights = lightsG; cars.visible = lightsG.visible = false;
+}
+{ // Mars: a robot arm on the rover that slams the deck
+  const r = S.mars.rover; const arm = grp(-0.9, 0.95, 0.35, r); const m = mat(0xc9ced6, { roughness: 0.4, metalness: 0.5 }); arm.add(rbox(0.9, 0.08, 0.08, m, -0.45, 0, 0)); const fore = grp(-0.9, 0, 0, arm); fore.add(rbox(0.7, 0.07, 0.07, m, -0.35, 0, 0)); fore.add(rbox(0.16, 0.16, 0.16, mat(0x555a60), -0.75, 0, 0)); r.arm = arm; r.fore = fore;
+}
+
 // ---------------------------------------------------------------- shot system + helpers
 const cam = new THREE.PerspectiveCamera(40, W / H, 0.05, 4000);
 const shots = []; const shot = (t0, t1, scene, camA, setup, fx = {}) => shots.push({ t0, t1, scene, cam: camA, setup, ...fx });
@@ -440,113 +470,115 @@ const SIT = { bob: 0.07, legs: [[1.5, 1.45], [1.5, 1.45]] };
 const TSIT = { bob: -0.32, legs: [[1.5, 1.45], [1.5, 1.45]] };
 const tS = (d) => TL[d].t, tE = (d) => TL[d].t1;
 
-// ===== the flat (title, Day 1, Day 3, Day 15, Day 20, phone inserts, END) =====
+// ===== Revision 2 shots. The flat (title, Day 1, Day 3, Day 15, Day 20, Day 72, END) =====
 const F = S.flat;
-function flatBase(O, o = {}) { resetRig(F.hero); F.hero.root.visible = false; F.phone.visible = true; resetRig(F.neigh); F.neigh.root.visible = false; F.shades.visible = !!o.shades; F.chair.rotation.y = o.chairFlip ? Math.PI : 0; F.ring.visible = false;
-  F.leds.forEach((l, i) => l.material.emissiveIntensity = 2.5 + 2.5 * (Math.sin(O * (7 + i * 3) + i) > 0.3 ? 1 : 0));
-  F.bulb.light.intensity = o.flicker && O > 88.0 && O < 88.5 && Math.sin(O * 90) > 0 ? 0.6 : 7;
+function flatBase(O, o = {}) { resetRig(F.hero); F.hero.root.visible = false; F.phone.visible = true; resetRig(F.neigh); F.neigh.root.visible = false; F.shades.visible = !!o.shades; F.chair.rotation.y = o.chairFlip ? Math.PI : 0; F.ring.visible = false; F.envs.forEach(e => e.visible = false); F.cushion.visible = false; F.plug.visible = false;
+  const off = o.routerOff ? 1 : 0; F.leds.forEach((l, i) => { l.material.emissiveIntensity = off ? 0 : 2.5 + 2.5 * (Math.sin(O * (7 + i * 3) + i) > 0.3 ? 1 : 0); l.material.color.setHex(off ? 0x0c140e : 0x2bd96b); }); F.rLight.intensity = off ? 0 : 1.2;
+  F.bulb.light.intensity = o.flicker && Math.sin(O * 37) > 0.6 && Math.sin(O * 3.1) > 0.4 ? 1.5 : 7;
   drawPhone(F.phone.tex, o.phone || 'onebar', O); drawPhone(F.dPhone.tex, o.dphone || 'call', O); F.dPhone.rotation.z = o.buzz ? Math.sin(O * 70) * 0.06 : 0;
   if (o.tv) { drawTV(F.tvT, O); F.tvL.intensity = 4; } else { F.tvT.g.fillStyle = '#000'; F.tvT.g.fillRect(0, 0, 1000, 560); F.tvT.needsUpdate = true; F.tvL.intensity = 0; }
   const nOn = o.ntv ?? 0; if (nOn) drawTV(F.ntvT, O); else { F.ntvT.g.fillStyle = '#000'; F.ntvT.g.fillRect(0, 0, 1000, 560); F.ntvT.needsUpdate = true; } F.ntvL.intensity = nOn * 3.5;
   return F.hero; }
 const ROUTER = V([-0.6, 1.75, -2.85]);
-function onToilet(O, wave = 1) { hp(F.hero, O, [3.25, 0, -1.95], 0, { ...idle(O), ...TSIT, headX: -0.35, headY: -0.25, arms: [[0.1, 0, 0.25, 0.9], [-2.85 + 0.15 * Math.sin(O * 2.6) * wave, 0.2 * Math.sin(O * 1.9) * wave, -0.75, 0.2]] }, 'worried'); }
-const phoneCam = () => ({ pf: () => wp(F.hero.head).add(V([0.12, 0.42, 0.08])), lf: () => wp(F.phone), fov: 30 });
+const phoneUp = (O, w = 1, reach = 0) => [-2.3 - 0.35 * reach + 0.12 * Math.sin(O * 2.6) * w, 0.15 * Math.sin(O * 1.9) * w, -1.05 + 0.25 * reach, 0.25 - 0.2 * reach];
+function onToilet(O, w = 1, stand = 0) { const st = eIO(stand); hp(F.hero, O, [3.25, lerp(0, 0.56, st), lerp(-1.95, -1.85, st)], -0.25, { ...idle(O), bob: lerp(TSIT.bob, 0, st), legs: TSIT.legs.map(l => [l[0] * (1 - st), l[1] * (1 - st)]), spineX: -0.12 * st, headX: lerp(-0.35, -0.6, st), headY: 0.25,
+  arms: [[0.1 - 0.5 * st, 0, 0.35 + 0.4 * st, 0.6], phoneUp(O, w, st)] }, st > 0.5 ? 'grit' : 'worried'); }
 const deskCam = (z0 = 1.6, z1 = 1.35, t0 = 0, t1 = 1) => ({ pf: (O) => F.dPhone.localToWorld(V([0.1 - 0.12 * seg(O, t0, t1), -0.35, lerp(z0, z1, seg(O, t0, t1))])), lf: () => wp(F.dPhone), fov: 34 });
-// TITLE: macro on the router LEDs, rack focus to him on the bed
 shot(0, 3.0, 'flat', { p0: [-0.2, 1.95, -1.9], p1: [0.7, 2.25, 1.9], l0: [-0.6, 1.72, -2.88], l1: [-1.8, 1.75, -1.25], fov: 36, ease: 'io' }, (lt, O) => {
   const h = flatBase(O); hp(h, O, [-1.8, 0, -1.25], 0.75, { ...idle(O), ...SIT, headX: 0.35, arms: [[-0.7, 0, 0.3, 1.5], [-1.0, 0, -0.25, 1.45]] }, 'calm'); }, { grade: 'night', dof: (O) => O < 1.4 ? 0.6 : 0.35 });
-// DAY 1: one bar in the bathroom
-shot(tS(1), tS(1) + 2.6, 'flat', { ease: 'lin', p0: [4.35, 1.75, 1.6], p1: [4.2, 1.65, 1.0], l0: [3.2, 1.25, -1.95], fov: 44 }, (lt, O) => { flatBase(O); onToilet(O); }, { grade: 'bath' });
-shot(tS(1) + 2.6, tE(1), 'flat', deskCam(1.5, 1.2, tS(1) + 2.6, tE(1)), (lt, O) => { flatBase(O, { dphone: 'onebar' }); onToilet(O, 0.3); }, { grade: 'bath', dof: 0.6 });
-// DAY 3: the ring goes through the wall; the neighbour's TV wakes; his own TV says Peppa Pig
-const neighOn = (O) => { hp(F.neigh, O, [8.0, 0, -1.0], Math.PI / 2, { ...idle(O, 2), ...SIT, headY: 0.1 }, O > tS(3) + 0.9 ? 'smile' : 'calm', 'neigh'); };
-shot(tS(3), tS(3) + 2.9, 'flat', { ease: 'io', p0: [-0.8, 2.1, 6.4], p1: [8.2, 2.1, 6.4], l0: [-0.8, 1.5, -1.2], l1: [8.4, 1.4, -1.2], fov: 46 }, (lt, O) => {
-  const r = ringAt(F.ring, O, tS(3) + 0.15, ROUTER, 10.5, 1.8); const h = flatBase(O, { ntv: r > 8.8 || O > tS(3) + 1.6 ? 1 : 0 }); hp(h, O, [-1.95, 0, -0.95], -Math.PI / 2, { ...idle(O), ...SIT }, 'calm'); ringAt(F.ring, O, tS(3) + 0.15, ROUTER, 10.5, 1.8); neighOn(O); }, { grade: 'night' });
-shot(tS(3) + 2.9, tS(3) + 3.55, 'flat', { ease: 'lin', p0: [-1.15, 1.95, -0.45], p1: [-1.3, 1.92, -0.55], l0: [-3.8, 1.75, 0.2], fov: 38 }, (lt, O) => {
-  const h = flatBase(O, { tv: true }); hp(h, O, [-1.95, 0, -0.95], -Math.PI / 2 + 0.15, { ...idle(O), ...SIT }, 'confused'); }, { grade: 'night', dof: 0.3 });
-shot(tS(3) + 3.55, tE(3), 'flat', { ease: 'lin', p0: [-3.7, 2.25, -0.25], p1: [-3.65, 2.25, -0.45], l0: [-1.95, 2.1, -0.95], fov: 62 }, (lt, O) => {
-  const h = flatBase(O, { tv: true }); hp(h, O, [-1.95, 0, -0.95], -Math.PI / 2 + 0.15, { ...idle(O), ...SIT, headX: -0.05, arms: [[-0.6, 0, 0.4, 1.2], [-0.4, 0, -0.3, 0.8]] }, 'shock'); }, { grade: 'night', dof: 0.35 });
-
-// ===== the street at night (Day 5, Day 12) =====
-const ST_ = S.street, HWIN = V([-0.8, 7.6, -6.35]);
-function streetBase(O, r = -1) { const s = ST_; resetRig(s.hero); s.hero.root.visible = false; s.plane.visible = false; s.ring.visible = false;
-  s.blocks.forEach(b => { const d = b.pos.distanceTo(HWIN); b.wm.emissiveIntensity = r >= 0 && d < r ? 1.6 : (r < 0 && O > tS(5) + 1.5 ? 1.6 : 0.15); });
-  s.people.forEach((P, i) => { resetRig(P); const x = -9 + i * 2.1, z = i % 2 ? -4.3 : 12.3; const on = r >= 0 ? Math.abs(x) < r : O > tS(5) + 1.5; P.root.position.set(x, 0, z); P.root.rotation.y = i % 2 ? 0.2 : Math.PI - 0.2;
-    pose(P, { ...idle(O, i), headX: on ? 0.25 : 0, arms: [[0, 0, 0.13, 0.2], on ? [-1.3 + 0.05 * Math.sin(O * 2 + i), 0, -0.2, 1.3] : [0.05, 0, -0.13, 0.2]] }); P.face(on ? 'smile' : 'calm', O); P.phone.visible = on; });
-  const bx = O < tS(5) + 1.4 ? lerp(-20, -2, seg(O, tS(5), tS(5) + 1.4)) : -2; s.bike.position.set(bx, 0, 6.5); s.bike.rotation.y = 0; s.bike.rider.face('smile', O);
-  pose(s.bike.rider, { headY: 0.2, headX: O > tS(5) + 1.4 ? 0.3 : 0, arms: [[-1.2, 0, 0.2, 0.3], O > tS(5) + 1.4 ? [-1.4, 0, -0.2, 1.3] : [-1.2, 0, -0.2, 0.3]], legs: [[1.2, 1.2], [1.2, 1.2]] }); return s.hero; }
-shot(tS(5), tS(5) + 3.0, 'street', { p0: [1.6, 7.0, -3.4], p1: [9, 23, 20], l0: [-0.4, 7.2, -6.5], l1: [-2, 3, 0], fov: 50, ease: 'io' }, (lt, O) => {
-  const r = ringAt(ST_.ring, O, tS(5) + 0.1, HWIN, 70, 2.4, 0.5); streetBase(O, r); ringAt(ST_.ring, O, tS(5) + 0.1, HWIN, 70, 2.4, 0.5); }, { grade: 'night', bloom: 0.2 });
-shot(tS(5) + 3.0, tE(5), 'street', { ease: 'lin', p0: [6.5, 1.5, 7.2], p1: [4.6, 1.65, 6.4], l0: [-1, 1.7, -3.6], fov: 44 }, (lt, O) => { streetBase(O); }, { grade: 'night', dof: 0.25, bloom: 0.2 });
-// Day 12: the jet circles above his balcony; cabin; his face
-const BAL = V([0, 6.07, -5.7]);
-function planeOn(O) { const p = ST_.plane; p.visible = true; const k = seg(O, tS(12) - 0.5, tE(12) + 0.5); p.position.set(lerp(-18, 18, k), 36 + 4 * k, 26); p.rotation.set(0, 0.16, 0.22 * Math.sin(k * Math.PI)); }
-function balconyHero(O, expr) { hp(ST_.hero, O, BAL.toArray(), 0, { ...idle(O), headX: -0.55, headY: 0.25 * Math.sin(O * 0.6), arms: [[0.1, 0, 0.2, 0.3], [0.1, 0, -0.2, 0.3]] }, expr); }
-shot(tS(12), tS(12) + 3.2, 'street', { ease: 'lin', p0: [1.3, 7.3, -5.6], p1: [1.45, 7.25, -5.3], l0: [0, 34, 26], fov: 62 }, (lt, O) => { streetBase(O); planeOn(O); balconyHero(O, 'shock'); }, { grade: 'night', bloom: 0.22 });
+const T1 = tS(1);
+shot(T1, T1 + 2.8, 'flat', { ease: 'lin', p0: [4.35, 1.5, 1.4], p1: [4.2, 1.45, 0.95], l0: [3.2, 1.35, -1.95], fov: 46 }, (lt, O) => { flatBase(O); onToilet(O, 1, seg(O, T1 + 2.0, T1 + 2.8)); }, { grade: 'bath' });
+shot(T1 + 2.8, T1 + 6.6, 'flat', { ease: 'lin', p0: [4.3, 0.9, 0.7], p1: [4.15, 0.95, 0.35], l0: [3.25, 2.35, -1.85], fov: 54 }, (lt, O) => { flatBase(O); onToilet(O, 0.6, 1); }, { grade: 'bath' });
+shot(T1 + 6.6, tE(1), 'flat', deskCam(1.5, 1.2, T1 + 6.6, tE(1)), (lt, O) => { flatBase(O, { dphone: O > T1 + 7.4 ? 'nobar' : 'onebar' }); onToilet(O, 0.3, 1); }, { grade: 'bath', dof: 0.6 });
+const T3 = tS(3);
+function neighOn(O) { const awake = O > T3 + 1.6; const hug = eOut(seg(O, T3 + 2.0, T3 + 2.5)); const gig = O > tE(3) - 1.2 ? Math.abs(Math.sin(O * 14)) * 0.05 : 0;
+  hp(F.neigh, O, [8.0, 0, -1.0], Math.PI / 2, { ...idle(O, 2), ...SIT, bob: SIT.bob + gig, spineX: awake ? -0.05 : 0.25, headX: awake ? -0.05 : 0.45, headZ: awake ? 0 : 0.25, arms: [[-1.1 * hug, 0, 0.6 - 0.4 * hug, 1.7 * hug], [-1.1 * hug, 0, -0.6 + 0.4 * hug, 1.7 * hug]] }, awake ? (gig ? 'laugh' : 'smile') : 'calm', 'neigh');
+  if (!awake) F.neigh.lids.forEach(l => { l.scale.y = 1; l.position.y = 0.37; }); F.cushion.visible = true; F.cushion.position.copy(wp(F.neigh.spine)).add(V([0.38 * hug + 0.05, 0.25, 0.0])); F.cushion.rotation.set(0, Math.PI / 2, 0.1 * Math.sin(O * 3)); }
+shot(T3, T3 + 3.0, 'flat', { ease: 'io', p0: [-0.8, 2.1, 6.4], p1: [8.2, 2.1, 6.4], l0: [-0.8, 1.5, -1.2], l1: [8.4, 1.4, -1.2], fov: 46 }, (lt, O) => {
+  const r = ringAt(F.ring, O, T3 + 0.15, ROUTER, 10.5, 1.8); const h = flatBase(O, { ntv: r > 8.8 || O > T3 + 1.6 ? 1 : 0 }); hp(h, O, [-1.95, 0, -0.95], -Math.PI / 2, { ...idle(O), ...SIT }, 'calm'); ringAt(F.ring, O, T3 + 0.15, ROUTER, 10.5, 1.8); neighOn(O); }, { grade: 'night' });
+shot(T3 + 3.0, T3 + 4.2, 'flat', { ease: 'lin', p0: [-1.15, 1.95, -0.45], p1: [-1.3, 1.92, -0.55], l0: [-3.8, 1.75, 0.2], fov: 38 }, (lt, O) => { const h = flatBase(O, { tv: true }); hp(h, O, [-1.95, 0, -0.95], -Math.PI / 2 + 0.15, { ...idle(O), ...SIT }, 'confused'); }, { grade: 'night', dof: 0.3 });
+shot(T3 + 4.2, T3 + 8.0, 'flat', { ease: 'lin', p0: [-3.7, 2.25, -0.25], p1: [-3.65, 2.25, -0.5], l0: [-1.95, 2.1, -0.95], fov: 62 }, (lt, O) => { const h = flatBase(O, { tv: true, ntv: 1 }); const yell = O > T3 + 5.4;
+  hp(h, O, [-1.95, 0, -0.95], -Math.PI / 2 + 0.15, { ...idle(O), ...SIT, headY: yell ? -0.55 : 0, spineY: yell ? -0.2 : 0, arms: yell ? [[-0.5, 0, 0.3, 1.0], [-1.5 + 0.15 * Math.sin(O * 8), 0, -0.6, 0.5]] : [[-0.6, 0, 0.4, 1.2], [-0.4, 0, -0.3, 0.8]] }, yell ? 'grit' : 'shock'); }, { grade: 'night', dof: 0.35 });
+shot(T3 + 8.0, tE(3), 'flat', { ease: 'lin', p0: [9.6, 1.7, 1.6], p1: [9.4, 1.75, 1.2], l0: [8.0, 1.6, -1.0], fov: 44 }, (lt, O) => { flatBase(O, { ntv: 1 }); neighOn(O); }, { grade: 'night', dof: 0.3 });
+const ST_ = S.street, HWIN = V([-0.8, 7.6, -6.35]), BAL = V([0, 6.07, -5.2]);
+function streetBase(O, r = -1, o = {}) { const s = ST_; resetRig(s.hero); s.hero.root.visible = false; s.plane.visible = false; s.ring.visible = false; s.cars.visible = s.carLights.visible = false; s.trash.forEach(d => d.m.visible = false);
+  const lit = (d) => r >= 0 ? d < r : O > tS(5) + 1.5; s.blocks.forEach(b => { b.wm.emissiveIntensity = lit(b.pos.distanceTo(HWIN)) ? 1.6 : 0.15; });
+  s.people.forEach((P, i) => { resetRig(P); const x = -9 + i * 2.1, z = i % 2 ? -4.3 : 12.3; const on = r >= 0 ? Math.abs(x) < r : O > tS(5) + 1.5; const wave = o.wave ? eOut(seg(O, o.wave + i * 0.05, o.wave + 0.4 + i * 0.05)) : 0; P.root.position.set(x, 0, z);
+    P.root.rotation.y = lerp(i % 2 ? 0.2 : Math.PI - 0.2, Math.atan2(-x, -10 - z), wave);
+    pose(P, { ...idle(O, i), headX: on ? 0.25 - 0.6 * wave : 0, arms: [[0, 0, 0.13, 0.2], on ? [lerp(-1.3, -2.8, wave) + 0.25 * Math.sin(O * 9 + i) * wave, 0, lerp(-0.2, -0.5, wave), lerp(1.3, 0.3, wave)] : [0.05, 0, -0.13, 0.2]] }); P.face(on ? 'smile' : 'calm', O); P.phone.visible = on; });
+  return s.hero; }
+function bikeOn(O) { const s = ST_, t0 = tS(5) + 2.4, hit = tS(5) + 3.3; const k = seg(O, t0, hit); s.bike.position.set(lerp(-8, 2.0, k), 0, 9.3); s.bike.rotation.set(0, 0, O > hit ? -0.25 * Math.min(1, (O - hit) * 4) : 0);
+  const R = s.bike.rider; R.root.visible = true; const fly = O > hit ? eOut(seg(O, hit, hit + 0.5)) : 0; R.root.position.set(0.6 * fly, 0.25 + 0.4 * Math.sin(fly * Math.PI), 0); R.root.rotation.set(0, Math.PI / 2, -1.2 * fly);
+  pose(R, { headX: O < hit ? 0.5 : 0, arms: [[-1.2, 0, 0.2, 0.3], O < hit ? [-1.4, 0, -0.2, 1.3] : [-2.6, 0, -0.6, 0.3]], legs: [[1.2, 1.2], [1.2, 1.2]] }); R.face(O < hit ? 'smile' : 'shock', O); burst(s.trash, O, hit, V([2.5, 0.9, 9.3]), 2.2, 2.4); s.bin.rotation.z = O > hit ? -Math.min(1.4, (O - hit) * 5) : 0; }
+const T5 = tS(5);
+shot(T5, T5 + 3.0, 'street', { p0: [1.6, 7.0, -3.4], p1: [9, 23, 20], l0: [-0.4, 7.2, -6.5], l1: [-2, 3, 0], fov: 50, ease: 'io' }, (lt, O) => { const r = ringAt(ST_.ring, O, T5 + 0.1, HWIN, 70, 2.4, 0.5); streetBase(O, r); ringAt(ST_.ring, O, T5 + 0.1, HWIN, 70, 2.4, 0.5); bikeOn(O); }, { grade: 'night', bloom: 0.2 });
+shot(T5 + 3.0, T5 + 4.6, 'street', { ease: 'lin', p0: [5.6, 0.7, 12.4], p1: [5.2, 0.8, 12.0], l0: [1.6, 0.8, 9.3], fov: 46 }, (lt, O) => { streetBase(O); bikeOn(O); }, { grade: 'night', shakeAt: [[T5 + 3.3, 0.03]], bloom: 0.2 });
+shot(T5 + 4.6, T5 + 8.9, 'street', { ease: 'lin', p0: [1.2, 4.2, 2.6], p1: [1.0, 4.6, 1.6], l0: [0, 7.6, -5.2], fov: 46 }, (lt, O) => { streetBase(O); bikeOn(O);
+  hp(ST_.hero, O, BAL.toArray(), 0, { ...idle(O), spineX: 0.3, headX: 0.35, arms: [[-1.2, 0, 0.5, 0.4], [-2.0 + 0.3 * Math.sin(O * 7), 0, -0.9, 0.3]] }, 'grit'); }, { grade: 'night', dof: 0.25, bloom: 0.2 });
+shot(T5 + 8.9, tE(5), 'street', { ease: 'lin', p0: [3.5, 1.4, 16.5], p1: [3.0, 1.6, 15.5], l0: [-1, 3.0, -2], fov: 50 }, (lt, O) => { streetBase(O, -1, { wave: T5 + 8.9 }); }, { grade: 'night', bloom: 0.2 });
+const T12 = tS(12);
+function planeOn(O, t0, t1) { const p = ST_.plane; p.visible = true; const k = seg(O, t0, t1); p.position.set(lerp(-18, 18, k), 36 + 4 * k, 26); p.rotation.set(0, 0.16, 0.22 * Math.sin(k * Math.PI)); }
+function balconyHero(O, expr, o = {}) { hp(ST_.hero, O, BAL.toArray(), o.ry ?? 0, { ...idle(O), headX: o.headX ?? -0.55, headY: 0.25 * Math.sin(O * 0.6), arms: o.arms || [[0.1, 0, 0.2, 0.3], [0.1, 0, -0.2, 0.3]] }, expr); }
+shot(T12, T12 + 2.8, 'street', { ease: 'lin', p0: [1.3, 7.3, -5.0], p1: [1.45, 7.25, -4.7], l0: [0, 34, 26], fov: 62 }, (lt, O) => { streetBase(O); planeOn(O, T12 - 0.4, T12 + 3.2); balconyHero(O, 'shock'); }, { grade: 'night', bloom: 0.22 });
+shot(T12 + 2.8, T12 + 5.6, 'street', { ease: 'lin', p0: [0.9, 7.6, -1.0], p1: [0.75, 7.75, -1.6], l0: [0, 8.05, -5.2], fov: 46 }, (lt, O) => { streetBase(O); balconyHero(O, 'shock'); }, { grade: 'night', dof: 0.3, bloom: 0.22, shakeAt: [[T12 + 3.0, 0.02]] });
 function cabinBase(O) { const c = S.cabin; const g = c.scrT.g; g.fillStyle = '#0a1020'; g.fillRect(0, 0, 160, 110); spinner(g, 80, 50, 22, O); g.fillStyle = '#fff'; g.font = '600 13px InterW, Arial'; g.textAlign = 'center'; g.fillText('Connecting to HIS WI-FI…', 80, 98); c.scrT.needsUpdate = true;
   c.pax.forEach((P, i) => { pose(P, { ...idle(O, i), ...SIT, headX: 0.15 }); P.face(i % 3 ? 'confused' : 'worried', O); }); }
-shot(tS(12) + 3.2, tS(12) + 4.4, 'cabin', { ease: 'lin', p0: [0.0, 1.35, -9.4], p1: [0.0, 1.3, -8.8], l0: [0, 1.0, 0], fov: 56 }, (lt, O) => { cabinBase(O); }, { grade: 'cabin', dof: 0.2 });
-shot(tS(12) + 4.4, tE(12), 'street', { ease: 'lin', p0: [0.9, 7.7, -1.5], p1: [0.75, 7.8, -2.1], l0: [0, 8.05, -5.7], fov: 46 }, (lt, O) => { streetBase(O); planeOn(O); balconyHero(O, 'shock'); }, { grade: 'night', dof: 0.35, bloom: 0.22 });
+shot(T12 + 5.6, T12 + 6.8, 'cabin', { ease: 'lin', p0: [0.0, 1.95, -11.6], p1: [0.0, 1.9, -10.8], l0: [0, 1.0, 0], fov: 50 }, (lt, O) => { cabinBase(O); }, { grade: 'cabin', dof: 0.2 });
+shot(T12 + 6.8, tE(12), 'street', { ease: 'lin', p0: [1.6, 6.8, -0.2], p1: [1.3, 7.0, -1.0], l0: [0, 7.9, -5.2], fov: 50 }, (lt, O) => { streetBase(O); planeOn(O, T12 + 6.0, T12 + 10.4);
+  balconyHero(O, 'smirk', { headX: -0.25, arms: [[-0.2, 0, 0.6, 1.4], [-2.6, 0, -0.8 + 0.25 * Math.sin(O * 8), 0.3]] }); }, { grade: 'night', dof: 0.2, bloom: 0.22 });
+const T7 = tS(7);
+function classBase(O) { const c = S.cls, hide = O > T7 + 4.35; c.kids.forEach((k, i) => { resetRig(k); const x = -2.6 + (i % 3) * 2.6, z = -1.4 + Math.floor(i / 3) * 2.0 + 0.62; k.root.position.set(x, 0, z); k.root.rotation.y = Math.PI;
+    pose(k, { ...idle(O, i), bob: -0.26, legs: [[1.5, 1.45], [1.5, 1.45]], headX: hide ? -0.05 : 0.5, spineX: hide ? 0 : 0.15, arms: hide ? [[-1.0, 0, 0.25, 1.4], [-1.0, 0, -0.25, 1.4]] : [[-0.9, 0, 0.25, 1.4], [-0.5, 0, -0.2, 0.9]] }); k.face(hide ? 'calm' : 'smile', O);
+    k.phone.visible = !hide && !(i === 1 && O > T7 + 4.2); drawPhone(k.phone.tex, 'voicemail', O + i); c.glows[i].position.copy(wp(k.head)).add(V([0, 0.25, -0.45])); c.glows[i].intensity = hide ? 0 : 2.2; });
+  const turn = eIO(seg(O, T7 + 3.9, T7 + 4.3)); hp(c.teacher, O, [-1.3, 0, -4.2], lerp(Math.PI, 1.0, turn), { ...idle(O, 7), arms: [[0.05, 0, 0.14, 0.2], turn < 0.5 ? [-2.2 + 0.1 * Math.sin(O * 8), 0, -0.2, 0.6] : [-0.3, 0, -0.5, 1.6]] }, turn > 0.5 ? 'confused' : 'calm', 'teacher');
+  const sl = seg(O, T7 + 4.3, T7 + 5.3); c.slider.visible = O > T7 + 4.3; if (c.slider.visible) { c.slider.position.copy(V([0, 0.03, -0.9]).lerp(V([-1.15, 0.03, -3.75]), eOut(sl))); c.slider.rotation.set(-Math.PI / 2, 0, sl * 9); } }
+shot(T7, T7 + 3.7, 'cls', { ease: 'lin', p0: [0.5, 2.7, -4.7], p1: [0.3, 2.5, -4.1], l0: [0, 0.9, 1.4], fov: 50 }, (lt, O) => { classBase(O); }, { grade: 'class', dof: 0.2 });
+shot(T7 + 3.7, tE(7), 'cls', { ease: 'lin', p0: [4.6, 1.6, -1.6], p1: [4.3, 1.65, -2.0], l0: [-0.6, 0.95, -2.6], fov: 54 }, (lt, O) => { classBase(O); }, { grade: 'class' });
+const T15 = tS(15);
+shot(T15, tE(15), 'flat', { ease: 'lin', p0: [1.2, 1.75, 2.7], p1: [1.0, 1.8, 1.5], l0: [0.8, 1.3, -1.3], fov: 48, live: 0.6 }, (lt, O) => {
+  const h = flatBase(O, { shades: true, chairFlip: true }); F.phone.visible = false; hp(h, O, [0.8, 0, -1.45], 0, { ...idle(O), ...SIT, spineX: -0.18, headX: -0.08, headZ: 0.06, arms: [[-0.3, 0, 0.5, 0.9], [-0.3, 0, -0.5, 0.9]] }, 'smirk');
+  F.envs.forEach((e, i) => { const t0 = T15 + 0.3 + i * 0.07, k = eOut(seg(O, t0, t0 + 0.6)); e.visible = O > t0; if (!e.visible) return; const u = e.userData; const tgt = V([0.8 + Math.cos(u.a) * u.r, u.y, -1.25 + Math.sin(u.a) * u.r * 0.7]);
+    e.position.copy(V([-3.6, 0.02, 1.2 + (i % 5) * 0.2]).lerp(tgt, k)); e.rotation.set(0, u.rot + (1 - k) * 4, 0); }); }, { grade: 'night', dof: 0.4 });
 
-// ===== the classroom (Day 7) =====
-function classBase(O) { const c = S.cls, hide = O > tS(7) + 4.25; c.kids.forEach((k, i) => { resetRig(k); k.root.position.set(-2.6 + (i % 3) * 2.6, 0, -1.4 + Math.floor(i / 3) * 2.0 + 0.55); k.root.rotation.y = Math.PI;
-    pose(k, { ...idle(O, i), ...SIT, headX: hide ? -0.05 : 0.45, arms: hide ? [[-0.9, 0, 0.2, 1.4], [-0.9, 0, -0.2, 1.4]] : [[-0.9, 0, 0.25, 1.2], [-0.5, 0, -0.2, 0.9]] }); k.face(hide ? 'calm' : 'smile', O); k.phone.visible = !hide; drawPhone(k.phone.tex, 'voicemail', O + i);
-    c.glows[i].position.copy(wp(k.head)).add(V([0, -0.3, -0.3])); c.glows[i].intensity = hide ? 0 : 1.6; });
-  const turn = eIO(seg(O, tS(7) + 3.9, tS(7) + 4.25)); hp(c.teacher, O, [-2.4, 0, -4.4], lerp(Math.PI, 0.25, turn), { ...idle(O, 7), arms: [[0.05, 0, 0.14, 0.2], turn < 0.5 ? [-2.2 + 0.1 * Math.sin(O * 8), 0, -0.2, 0.6] : [0.05, 0, -0.14, 0.2]] }, turn > 0.5 ? 'confused' : 'calm', 'teacher'); }
-shot(tS(7), tS(7) + 3.3, 'cls', { ease: 'lin', p0: [0.5, 2.7, -4.7], p1: [0.3, 2.5, -4.1], l0: [0, 0.9, 1.4], fov: 50 }, (lt, O) => { classBase(O); }, { grade: 'class', dof: 0.2 });
-shot(tS(7) + 3.3, tE(7), 'cls', { ease: 'lin', p0: [4.8, 3.6, 5.2], p1: [4.2, 3.5, 4.6], l0: [-1, 1.0, -2.5], fov: 52 }, (lt, O) => { classBase(O); }, { grade: 'class' });
-
-// ===== Day 15: the router throne (pause beat, one held push-in) =====
-shot(tS(15), tE(15), 'flat', { ease: 'lin', p0: [0.95, 2.0, 2.2], p1: [0.85, 2.05, 0.95], l0: [0.8, 2.05, -1.45], fov: 40, live: 0.6 }, (lt, O) => {
-  const h = flatBase(O, { shades: true, chairFlip: true }); F.phone.visible = false; hp(h, O, [0.8, 0, -1.45], 0, { ...idle(O), ...SIT, spineX: -0.18, headX: -0.08, headZ: 0.06, arms: [[-0.3, 0, 0.5, 0.9], [-0.3, 0, -0.5, 0.9]] }, 'smirk'); }, { grade: 'night', dof: 0.45 });
-
-// ===== Day 17: the ISS connects; inside, an astronaut asks for the password =====
-const SPC = S.space, ISSDIR = V([-0.55, 0.62, -0.56]).normalize(), HOMEPT = ISSDIR.clone().multiplyScalar(30);
-function spaceBase(O) { const s = SPC; s.earth.rotation.y = 0.4 + O * 0.004; s.clouds.rotation.y = 0.4 + O * 0.006; s.ring.visible = false; s.iss.position.copy(ISSDIR.clone().multiplyScalar(32.2)); s.iss.lookAt(0, 0, 0); s.iss.rotateZ(O * 0.05);
-  s.sats.forEach((g, i) => { const a = i * 0.63 + O * 0.01, b = (i % 3 - 1) * 0.5; g.position.set(Math.cos(a) * 125 * Math.cos(b), Math.sin(b) * 125, Math.sin(a) * 125 * Math.cos(b)); g.rotation.set(O * 0.2 + i, i, 0); g.gl.scale.setScalar(2.5); }); }
-const ISS_TG = V([1, 0, 0]).cross(ISSDIR).normalize();
-shot(tS(17), tS(17) + 2.7, 'space', { ease: 'lin', pf: (O) => SPC.iss.position.clone().add(ISSDIR.clone().multiplyScalar(2.2)).add(ISS_TG.clone().multiplyScalar(9 - 1.5 * seg(O, tS(17), tS(17) + 2.7))), lf: () => SPC.iss.position.clone().add(ISS_TG.clone().multiplyScalar(-10)).add(ISSDIR.clone().multiplyScalar(-1.5)), fov: 50 }, (lt, O) => {
-  spaceBase(O); ringAt(SPC.ring, O, tS(17) + 0.3, HOMEPT, 9, 1.8, 0.5); }, { grade: 'space', bloom: 0.22 });
-shot(tS(17) + 2.7, tE(17), 'issIn', { ease: 'lin', p0: [0.7, 1.85, 1.7], p1: [0.45, 1.9, 1.0], l0: [-0.3, 1.95, -3.3], fov: 44 }, (lt, O) => { const a = S.issIn.astro; resetRig(a); const fl = Math.sin(O * 1.3) * 0.08;
-  hp(a, O, [0.75, 0.35 + fl, -2.2], 0.15, { ...idle(O, 3), spineZ: 0.1, legs: [[0.3, 0.4], [-0.1, 0.3]], arms: [[-1.3, 0, 1.1, 0.1], [-0.4, 0, -0.5, 0.9]], headY: -0.4, headX: -0.05 }, 'confused', 'astro'); a.root.rotation.z = 0.12 * Math.sin(O * 0.9); }, { grade: 'iss', dof: 0.25 });
-
-// ===== Day 20: the provider calls; he declines; the voicemail plays =====
-const T20 = tS(20);
-shot(T20, T20 + 2.5, 'flat', deskCam(1.6, 1.3, T20, T20 + 2.5), (lt, O) => { const h = flatBase(O, { dphone: O < T20 + 2.25 ? 'call' : 'voicemail', buzz: O < T20 + 2.25 }); hp(h, O, [0.8, 0, -1.4], Math.PI, { ...idle(O), ...SIT }, 'calm'); }, { grade: 'night', dof: 0.7 });
-shot(T20 + 2.5, tE(20), 'flat', { ease: 'lin', p0: [1.8, 1.8, 1.4], p1: [1.7, 1.9, 0.9], l0: [0.8, 1.85, -1.4], fov: 54 }, (lt, O) => {
-  const h = flatBase(O, { dphone: 'voicemail' }); F.phone.visible = false; hp(h, O, [0.8, 0, -1.4], 0.44, { ...idle(O), ...SIT, headX: 0.12, headY: 0.25, arms: [[-0.9, 0, 0.3, 1.5], [-0.6, 0, -0.4, 1.2]] }, 'smirk'); }, { grade: 'night', dof: 0.3 });
-
-// ===== Day 23: past the GPS satellites; every sat-nav says "turn left at his house" =====
-shot(tS(23), tS(23) + 3.1, 'car', { ease: 'lin', p0: [0.42, 1.62, 0.75], p1: [0.38, 1.56, 0.5], l0: [0.35, 1.36, -0.12], fov: 44 }, (lt, O) => { const c = S.car; c.bok.forEach((b, i) => { b.position.z = -8 - ((O * (2 + i % 3) + i * 3) % 22); });
+// ===== Day 20: the provider calls; voicemail; "Tell them to turn it off and on again." — he pulls the plug, the continent blacks out =====
+const SPC = S.space, ISSDIR = V([-0.55, 0.62, -0.56]).normalize();
+function spaceBase(O, o = {}) { const s = SPC; s.earth.rotation.y = 0.4 + O * 0.004; s.clouds.rotation.y = 0.4 + O * 0.006; s.ring.visible = false; s.iss.position.copy(ISSDIR.clone().multiplyScalar(32.2)); s.iss.lookAt(0, 0, 0);
+  s.earth.material.emissiveIntensity = o.lights ?? 1.4; s.sats.forEach((g, i) => { const a = i * 0.63 + O * 0.01, b = (i % 3 - 1) * 0.5; g.position.set(Math.cos(a) * 125 * Math.cos(b), Math.sin(b) * 125, Math.sin(a) * 125 * Math.cos(b)); g.rotation.set(O * 0.2 + i, i, 0); g.gl.scale.setScalar(2.5); }); }
+const T20 = tS(20), UNPLUG = T20 + 10.6, REPLUG = T20 + 11.75;
+shot(T20, T20 + 2.6, 'flat', deskCam(1.6, 1.3, T20, T20 + 2.6), (lt, O) => { const h = flatBase(O, { dphone: O < T20 + 2.3 ? 'call' : 'voicemail', buzz: O < T20 + 2.3 }); hp(h, O, [0.8, 0, -1.4], Math.PI, { ...idle(O), ...SIT }, 'calm'); }, { grade: 'night', dof: 0.7 });
+shot(T20 + 2.6, UNPLUG - 0.5, 'flat', { ease: 'lin', p0: [1.8, 1.8, 1.4], p1: [1.6, 1.9, 0.6], l0: [0.8, 1.85, -1.4], fov: 54 }, (lt, O) => {
+  const h = flatBase(O, { dphone: 'voicemail' }); F.phone.visible = false; const sp = O > T20 + 8.0; hp(h, O, [0.8, 0, -1.4], 0.44, { ...idle(O), ...SIT, headX: sp ? -0.05 : 0.12, headY: sp ? 0.1 : 0.25, arms: sp ? [[-0.9, 0, 0.3, 1.5], [-1.2 + 0.1 * Math.sin(O * 5), 0, -0.5, 1.0]] : [[-0.9, 0, 0.3, 1.5], [-0.6, 0, -0.4, 1.2]] }, sp ? 'smirk' : 'calm'); }, { grade: 'night', dof: 0.3 });
+shot(UNPLUG - 0.5, UNPLUG + 0.35, 'flat', { ease: 'lin', p0: [-1.5, 2.35, -0.4], p1: [-1.25, 2.25, -1.05], l0: [-0.4, 1.7, -2.6], fov: 48 }, (lt, O) => { const h = flatBase(O, { routerOff: O > UNPLUG }); F.phone.visible = false;
+  hp(h, O, [0.25, 0, -2.15], -1.25, { ...idle(O), headY: -0.3, arms: [[0.05, 0, 0.14, 0.2], [lerp(-0.6, -1.6, eIO(seg(O, UNPLUG - 0.5, UNPLUG - 0.1))) + 0.4 * seg(O, UNPLUG - 0.1, UNPLUG + 0.1), 0.5, -0.3, 0.4]] }, 'smirk'); F.plug.visible = true; const yank = eOut(seg(O, UNPLUG - 0.05, UNPLUG + 0.2)); F.plug.position.copy(ROUTER).add(V([0.32 + 0.35 * yank, -0.02 - 0.1 * yank, 0.15 + 0.25 * yank])); F.plug.rotation.set(0.5 * Math.sin(O * 14) * yank, 0, 1.4 * yank + 0.35 * Math.sin(O * 11) * yank); }, { grade: 'night', dof: 0.15, shakeAt: [[UNPLUG, 0.035]] });
+shot(UNPLUG + 0.35, tE(20), 'space', { ease: 'lin', p0: [-30, 40, 90], p1: [-28, 38, 84], l0: [-4, 8, 0], fov: 46 }, (lt, O) => { const k = O < REPLUG ? 0 : eOut(seg(O, REPLUG, REPLUG + 0.5)); spaceBase(O, { lights: O < UNPLUG + 0.45 ? 1.4 : 1.4 * k + 0.05 }); }, { grade: 'space', bloom: 0.25 });
+const T23 = tS(23);
+shot(T23, T23 + 3.0, 'car', { ease: 'lin', p0: [0.42, 1.62, 0.75], p1: [0.38, 1.56, 0.5], l0: [0.35, 1.36, -0.12], fov: 44 }, (lt, O) => { const c = S.car; c.bok.forEach((b, i) => { b.position.z = -8 - ((O * (2 + i % 3) + i * 3) % 22); });
   pose(c.driver, { ...idle(O, 4), ...SIT, arms: [[-1.2, 0, 0.3, 0.6], [-1.2, 0, -0.3, 0.6]] }); c.driver.face('confused', O); }, { grade: 'car', dof: 0.15 });
-shot(tS(23) + 3.1, tE(23), 'space', { ease: 'lin', p0: [20, 45, 230], p1: [35, 55, 205], l0: [0, 0, 0], fov: 44 }, (lt, O) => { spaceBase(O); const r = ringAt(SPC.ring, O, tS(23) + 3.15, V([0, 0, 0]), 200, 2.0, 31);
-  SPC.sats.forEach(g => { const hit = Math.abs(g.position.length() - r) < 12; g.gl.scale.setScalar(hit ? 9 : 2.5); }); }, { grade: 'space', bloom: 0.25 });
-
-// ===== Day 27: the Moon has full bars (long shout, hard cut) =====
+function trafficOn(O) { const s = ST_, m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), m5 = new THREE.Matrix4(); s.cars.visible = s.carLights.visible = true; const k = seg(O, T23 + 3.0, tE(23));
+  s.carD.forEach((d, i) => { const lane = 2 + d.lane * 1.6, dir = d.x0 < 0 ? 1 : -1, jam = dir > 0 ? -4 - (i % 40) * 2.3 : 4 + (i % 40) * 2.3; const x = lerp(d.x0, jam, Math.min(1, k * 1.4 + (1 - Math.abs(d.x0) / 280) * 0.3));
+    m4.compose(V([x, 0.4, lane]), q.setFromEuler(new THREE.Euler(0, dir > 0 ? 0 : Math.PI, 0)), V([1, 1, 1])); s.cars.setMatrixAt(i, m4);
+    [-0.3, 0.3].forEach((dz, j) => { m5.compose(V([x + dir * 0.92, 0.45, lane + dz]), q.identity(), V([1, 1, 1])); s.carLights.setMatrixAt(i * 2 + j, m5); }); });
+  s.cars.instanceMatrix.needsUpdate = true; s.carLights.instanceMatrix.needsUpdate = true; }
+shot(T23 + 3.0, tE(23), 'street', { ease: 'lin', p0: [45, 22, 8], p1: [38, 20, 7], l0: [-5, 0, 4], fov: 50 }, (lt, O) => { streetBase(O); trafficOn(O); }, { grade: 'night', bloom: 0.3 });
 shot(tS(27), tE(27), 'space', { ease: 'lin', p0: [3, 2, -364], p1: [1.5, 1, -374], l0: [0, 0, -392], fov: 42 }, (lt, O) => { spaceBase(O); const k = seg(O, tS(27) + 0.5, tS(27) + 1.6); SPC.wifiIcon.material.opacity = 0.25 + 0.75 * eOut(k) * (0.85 + 0.15 * Math.sin(O * 6)); SPC.moon.rotation.set(0, 0, 0.05 * Math.sin(O * 0.5)); }, { grade: 'space', bloom: 0.3 });
-
-// ===== Day 36: Mars — ping 25 minutes =====
-shot(tS(36), tE(36), 'mars', { ease: 'lin', pf: (O) => S.mars.rover.position.clone().add(V([3.2 - 0.6 * seg(O, tS(36), tE(36)), 0.15, 3.4])), lf: () => S.mars.rover.position.clone().add(V([0.3, 1.5, 0.2])), fov: 42 }, (lt, O) => { const m = S.mars, k = seg(O, tS(36), tE(36));
-  m.rover.position.set(lerp(-2.5, 1.0, k), -0.2 + 0.03 * Math.sin(O * 9), 0); m.rover.head.rotation.y = 0.5 + 0.2 * Math.sin(O * 0.8); const g = m.rover.scrT.g; g.fillStyle = '#0a1020'; g.fillRect(0, 0, 160, 120); spinner(g, 80, 50, 26, O); g.fillStyle = '#fff'; g.font = '700 16px InterW, Arial'; g.textAlign = 'center'; g.fillText('PING 25 MIN', 80, 108); m.rover.scrT.needsUpdate = true;
-  m.dust.forEach((d, i) => { const a = O * 2.4 + i * 0.7, h = (i / 90) * 9, r = 0.6 + h * 0.35; d.position.set(-11 + Math.cos(a) * r, -0.8 + h, -16 + Math.sin(a) * r); d.scale.setScalar(1.2 + h * 0.3); }); }, { grade: 'mars', dof: 0.25 });
-
-// ===== Day 43: overtaking Voyager 1 =====
-shot(tS(43), tE(43), 'deep', { ease: 'lin', p0: [7, 2.5, 11], p1: [5, 3, 8], l0: [0, 0, 0], fov: 44 }, (lt, O) => { const d = S.deep; d.web.visible = false; d.andro.visible = false; d.voy.rotation.set(0.2, O * 0.05, 0.1); ringAt(d.ring, O, tS(43) + 0.6, d.sunDot.position, 140, 2.4, 70); }, { grade: 'deep', bloom: 0.25 });
-
-// ===== Day 53: the nearest star system — an alien is watching your Netflix too =====
-shot(tS(53), tS(53) + 2.6, 'alien', { ease: 'lin', p0: [2.6, 2.0, 5.2], p1: [2.2, 2.05, 4.4], l0: [-0.6, 1.4, -0.2], fov: 48 }, (lt, O) => { drawTV(S.alien.tvT, O, true); S.alien.blob.scale.set(1 + 0.03 * Math.sin(O * 3), 1 - 0.03 * Math.sin(O * 3), 1); }, { grade: 'alien', bloom: 0.2 });
-shot(tS(53) + 2.6, tE(53), 'alien', { ease: 'lin', p0: [-2.5, 1.6, -0.75], p1: [-2.25, 1.62, -0.4], l0: [1.9, 1.5, 2.4], fov: 40 }, (lt, O) => { drawTV(S.alien.tvT, O, true); S.alien.blob.scale.set(1 + 0.03 * Math.sin(O * 3), 1 - 0.03 * Math.sin(O * 3), 1); }, { grade: 'alien', dof: 0.3, bloom: 0.2 });
-
-// ===== Day 72: Andromeda — left on read =====
-shot(tS(72), tS(72) + 3.1, 'deep', { ease: 'lin', p0: [0, -8, -215], p1: [0, 3, -238], l0: [0, 0, -300], fov: 50 }, (lt, O) => { const d = S.deep; d.web.visible = false; d.andro.visible = true; d.andro.rotation.z = 0.5 + O * 0.02; }, { grade: 'deep', bloom: 0.3 });
-shot(tS(72) + 3.1, tE(72), 'flat', deskCam(1.45, 1.15, tS(72) + 3.1, tE(72)), (lt, O) => { const h = flatBase(O, { dphone: 'chat' }); hp(h, O, [0.8, 0, -1.4], Math.PI, { ...idle(O), ...SIT }, 'calm'); }, { grade: 'night', dof: 0.7 });
-
-// ===== Day 87: everything — crash pull-back through the cosmic web =====
+const T36 = tS(36);
+shot(T36, tE(36), 'mars', { ease: 'lin', pf: (O) => S.mars.rover.position.clone().add(V([3.2 - 0.6 * seg(O, T36, tE(36)), 0.15, 3.4])), lf: () => S.mars.rover.position.clone().add(V([-0.3, 1.3, 0.2])), fov: 44 }, (lt, O) => { const m = S.mars, k = seg(O, T36, T36 + 2.5);
+  m.rover.position.set(lerp(-2.5, 0.2, eOut(k)), -0.2 + 0.03 * Math.sin(O * 9) * (k < 1 ? 1 : 0), 0); m.rover.head.rotation.y = 0.5 + 0.2 * Math.sin(O * 0.8);
+  const slam = (t) => { const a = seg(O, t - 0.25, t), b = seg(O, t, t + 0.25); return a < 1 ? -0.9 * eIO(a) : -0.9 * (1 - eOut(b)); }; m.rover.arm.rotation.z = -0.3 + (O > T36 + 3.3 ? slam(T36 + 3.6) + slam(T36 + 3.95) : 0); m.rover.fore.rotation.z = -0.6;
+  const g = m.rover.scrT.g; g.fillStyle = '#0a1020'; g.fillRect(0, 0, 160, 120); spinner(g, 80, 50, 26, O); g.fillStyle = '#fff'; g.font = '700 16px InterW, Arial'; g.textAlign = 'center'; g.fillText('PING 25 MIN', 80, 108); m.rover.scrT.needsUpdate = true;
+  m.dust.forEach((d, i) => { const a = O * 2.4 + i * 0.7, h = (i / 90) * 9, r = 0.6 + h * 0.35; d.position.set(-11 + Math.cos(a) * r, -0.8 + h, -16 + Math.sin(a) * r); d.scale.setScalar(1.2 + h * 0.3); }); }, { grade: 'mars', dof: 0.25, shakeAt: [[T36 + 3.6, 0.02], [T36 + 3.95, 0.02]] });
+const T53 = tS(53); const blobGig = (O) => { const g = O > T53 + 3.2 ? Math.abs(Math.sin(O * 13)) * 0.08 : 0.03 * Math.sin(O * 3); S.alien.blob.scale.set(1 + g, 1 - g, 1); S.alien.blob.position.y = 0.55 + g * 0.6; };
+shot(T53, T53 + 2.6, 'alien', { ease: 'lin', p0: [2.6, 2.0, 5.2], p1: [2.2, 2.05, 4.4], l0: [-0.6, 1.4, -0.2], fov: 48 }, (lt, O) => { drawTV(S.alien.tvT, O, true); blobGig(O); }, { grade: 'alien', bloom: 0.2 });
+shot(T53 + 2.6, tE(53), 'alien', { ease: 'lin', p0: [-2.5, 1.6, -0.75], p1: [-2.25, 1.62, -0.4], l0: [1.9, 1.5, 2.4], fov: 40 }, (lt, O) => { drawTV(S.alien.tvT, O, true); blobGig(O); }, { grade: 'alien', dof: 0.3, bloom: 0.2 });
+const T72 = tS(72);
+shot(T72, T72 + 3.0, 'deep', { ease: 'lin', p0: [0, -8, -215], p1: [0, 3, -238], l0: [0, 0, -300], fov: 50 }, (lt, O) => { const d = S.deep; d.web.visible = false; d.andro.visible = true; d.andro.rotation.z = 0.5 + O * 0.02; }, { grade: 'deep', bloom: 0.3 });
+shot(T72 + 3.0, T72 + 4.4, 'flat', deskCam(1.45, 1.15, T72 + 3.0, T72 + 4.4), (lt, O) => { const h = flatBase(O, { dphone: 'chat' }); hp(h, O, [0.8, 0, -1.4], Math.PI, { ...idle(O), ...SIT }, 'calm'); }, { grade: 'night', dof: 0.7 });
+shot(T72 + 4.4, tE(72), 'flat', { ease: 'lin', p0: [0.4, 1.9, 1.3], p1: [0.2, 1.85, 0.8], l0: [-1.8, 1.4, -1.25], fov: 50 }, (lt, O) => { const h = flatBase(O, { phone: 'chat' }); const flop = eIO(seg(O, T72 + 7.6, T72 + 8.1));
+  hp(h, O, [-1.8, 0, -1.25], 0.75, { ...idle(O), ...SIT, spineX: -1.3 * flop, headX: 0.3 * (1 - flop), arms: [[-0.7, 0, 0.3 + 0.8 * flop, 1.5 * (1 - flop)], [-1.0 - 1.4 * flop, 0, -0.25 - 0.8 * flop, 1.45 * (1 - flop)]] }, 'worried'); }, { grade: 'night', dof: 0.3 });
 shot(tS(87), tE(87), 'deep', { ease: 'out', p0: [0, 0, -1450], p1: [120, 380, 1500], l0: [0, 0, -1600], fov: 50 }, (lt, O) => { const d = S.deep; d.web.visible = true; d.andro.visible = false; ringAt(d.ring, O, tS(87) + 0.1, V([0, 0, -1600]), 2600, 2.6, 30); }, { grade: 'deep', bloom: 0.35 });
-
-// ===== END: still one bar in the bathroom (same framing as Day 1: the loop) =====
-shot(tS('END'), DUR, 'flat', { ease: 'lin', p0: [4.35, 1.75, 1.6], p1: [4.2, 1.65, 1.0], l0: [3.2, 1.25, -1.95], fov: 44 }, (lt, O) => { flatBase(O, { flicker: true }); onToilet(O, O < tS('END') + 2.0 ? 1 : 0.2); }, { grade: 'bath' });
+const TE = tS('END');
+shot(TE, TE + 6.0, 'flat', { ease: 'lin', p0: [4.35, 1.5, 1.4], p1: [4.2, 1.45, 0.95], l0: [3.2, 1.35, -1.95], fov: 46 }, (lt, O) => { flatBase(O, { flicker: O > TE + 1.4 && O < TE + 2.0 }); onToilet(O, 0.8, 0); }, { grade: 'bath' });
+shot(TE + 6.0, DUR, 'flat', { ease: 'lin', p0: [3.85, 1.75, 0.15], p1: [3.75, 1.78, -0.25], l0: [3.25, 1.85, -1.95], fov: 44 }, (lt, O) => { flatBase(O); onToilet(O, 0.2, 0); }, { grade: 'bath', dof: 0.3 });
 function stepAt(T) { let s = null; for (const st of STEPS) if (T >= st.t) s = st; return s; }
 function spaced(g, text, x, y, sp) { let cx = x; for (const ch of text) { g.fillText(ch, cx, y); cx += g.measureText(ch).width + sp; } return cx - x; }
 const measC = mk(10, 10).getContext('2d');

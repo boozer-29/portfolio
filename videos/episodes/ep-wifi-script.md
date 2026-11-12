@@ -123,3 +123,28 @@ Kevin `eRcsJdPMOM0mtGC03ul7`, English, short. Each line reacts to or extends the
 | END | still one bar in the bathroom | "The whole universe is connected… and I can't load one video." → *hmm… bomboclat.* |
 
 8 lines, ~20 s of speech; the timeline grows from 92 s to ≈ 105 s (Day 5 gets a new window shot of him).
+
+---
+## Revision 2 — every step has an ACTION (owner: lines approved; needs matching visuals, better animation)
+Each beat = something physically happens → the range doubles → the consequence lands. Hero lines from Revision 1.
+
+- **Day 1** — He climbs onto the toilet lid, then one foot on the sink, phone stretched to the ceiling bulb. One bar flickers on… and off. HERO: "Come on… one bar. Just one more bar."
+  CAMERA: 3/4 from the bathroom corner, low, warm bulb overhead; insert on the phone: the bar blinks out.
+- **Day 3** — The ring passes through the wall. Next door the neighbour, asleep on his sofa, jolts awake as his TV switches on — Peppa Pig. He hugs a cushion, delighted. Our hero opens his TV: "Continue watching: Peppa Pig". *bomboclat?* HERO: "Who is watching Peppa Pig on MY account?!" — through the wall, the neighbour giggles and turns the volume up.
+  CAMERA: camera tracks sideways along the cutaway with the ring; then his face lit pink by the TV; then back to the neighbour hugging the cushion.
+- **Day 5** — The ring rolls down the street; windows light up one by one; people burst out onto balconies holding phones up; a kid on a bike stares at his phone and rides straight into a bin. HERO leans out of his window: "Oi! I can see your phones! That's MY Wi-Fi!" — the whole street turns and waves their phones at him.
+  CAMERA: crane up from his window; low on the bike crash; medium on him leaning out of the window, the crowd below.
+- **Day 7** — Every student has a phone under the desk, faces lit blue; the teacher writes on the board. She turns: 9 phones vanish at once; one slips and clatters across the floor to her feet.
+  CAMERA: low across the desks (chairs, legs under the desks), the board kept clear of captions; reverse on the teacher; the phone sliding to her shoe.
+- **Day 12** — A jet circles his building, banking; every cabin screen shows the same loading wheel; the plane makes a second lap. *bombo… bombo… bomboclat!* HERO (smug, waving): "Flight 302… you're welcome."
+- **Day 15** — Rent envelopes slide under his door one after another until they pile up to his knees; he reclines in the gaming chair, sunglasses on, router glowing behind him like a crown. HERO: "From today… you call me Landlord."
+- **Day 17** — The ISS: the astronaut floats up to a sticky note "PASSWORD?" and taps it; outside, the station's antenna swings to point at Earth.
+- **Day 20** — Phone buzzes "INTERNET PROVIDER", he declines, the voicemail plays. HERO: "Tell them to turn it off and on again." — he pulls the router plug: across the whole night continent the city lights black out… he plugs it back in: they flood back on.
+- **Day 23** — Sat-nav: "Turn left at his house". Aerial: hundreds of headlights in the city all turning into his street, a traffic jam outside his building.
+- **Day 27** — The Moon turns its face to camera, the Wi-Fi icon fills bar by bar. *BOMBOOOOO—* hard cut.
+- **Day 36** — Mars: the rover waits, the wheel spins, it slams its robot arm on its own deck in frustration.
+- **Day 43** — Voyager: the ring overtakes it; the probe's dish slowly turns to watch it go.
+- **Day 53** — Alien blob on the sofa watching Peppa Pig, giggling, its antenna light blinking.
+- **Day 72** — Andromeda; then the hero on his bed, phone: "hi" — Read. HERO: "Left on read… by a whole galaxy." — he flops back onto the pillow.
+- **Day 87** — Crash pull-back through the cosmic web.
+- **END** — Back on the toilet, phone up: one bar, spinning. HERO: "The whole universe is connected… and I can't load one video." → *hmm… bomboclat.*

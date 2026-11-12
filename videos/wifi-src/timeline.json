@@ -1,15 +1,23 @@
 {
  "TITLE": 3.0,
- "DUR": 92.12,
- "ISP_PAUSE": [
-  3.542,
-  0.45
- ],
+ "DUR": 111.34,
+ "PAUSES": {
+  "isp": [
+   3.542,
+   0.45
+  ]
+ },
+ "CUTS": {
+  "h15": [
+   2.85,
+   3.7
+  ]
+ },
  "steps": [
   {
    "day": 1,
    "t0": 3.0,
-   "t1": 7.87,
+   "t1": 11.0,
    "range": "10 m",
    "cmp": "A NORMAL ROUTER",
    "status": "HOME",
@@ -17,222 +25,250 @@
    "setup_on": 3.35,
    "punch": "One bar in the bathroom.",
    "punch_on": 5.61,
-   "audio": null
+   "audio": [
+    {
+     "file": "h1",
+     "at": 5.9,
+     "end": 9.74
+    }
+   ]
   },
   {
    "day": 3,
-   "t0": 7.87,
-   "t1": 13.62,
+   "t0": 11.0,
+   "t1": 20.0,
    "range": "40 m",
    "cmp": "THROUGH THE WALL",
    "status": "HOME",
    "setup": "Day 3. 40 metres. The neighbour's TV connects.",
-   "setup_on": 8.22,
+   "setup_on": 11.35,
    "punch": "He's been using your Netflix.",
-   "punch_on": 10.96,
-   "audio": {
-    "file": "sh_question",
-    "at": 11.56,
-    "end": 12.46
-   }
+   "punch_on": 14.09,
+   "audio": [
+    {
+     "file": "sh_question",
+     "at": 15.3,
+     "end": 16.2
+    },
+    {
+     "file": "h3",
+     "at": 16.4,
+     "end": 19.36
+    }
+   ]
   },
   {
    "day": 5,
-   "t0": 13.62,
-   "t1": 19.31,
+   "t0": 20.0,
+   "t1": 29.8,
    "range": "160 m",
    "cmp": "THE WHOLE STREET",
    "status": "STREET",
    "setup": "Day 5. The whole street connects.",
-   "setup_on": 13.97,
+   "setup_on": 20.35,
    "punch": "Nobody here has paid for internet since Tuesday.",
-   "punch_on": 16.19,
-   "audio": null
+   "punch_on": 22.57,
+   "audio": [
+    {
+     "file": "h5",
+     "at": 24.6,
+     "end": 29.0
+    }
+   ]
   },
   {
    "day": 7,
-   "t0": 19.31,
-   "t1": 25.1,
+   "t0": 29.8,
+   "t1": 36.2,
    "range": "640 m",
    "cmp": "REACHES THE SCHOOL",
-   "status": "STREET",
+   "status": "NEIGHBOURHOOD",
    "setup": "Day 7. The school next door connects.",
-   "setup_on": 19.66,
+   "setup_on": 30.15,
    "punch": "Exam results: up 0%. TikTok: up 4,000%.",
-   "punch_on": 22.04,
-   "audio": null
+   "punch_on": 32.53,
+   "audio": []
   },
   {
    "day": 12,
-   "t0": 25.1,
-   "t1": 31.0,
+   "t0": 36.2,
+   "t1": 46.0,
    "range": "20.5 km",
    "cmp": "HIGHER THAN PLANES",
    "status": "CITY",
    "setup": "Day 12. Planes cruise at 11 km.",
-   "setup_on": 25.45,
+   "setup_on": 36.55,
    "punch": "Flight 302 is now buffering over your house.",
-   "punch_on": 27.59,
-   "audio": {
-    "file": "sh_stutter",
-    "at": 27.79,
-    "end": 30.25
-   }
+   "punch_on": 38.69,
+   "audio": [
+    {
+     "file": "sh_stutter",
+     "at": 39.2,
+     "end": 41.66
+    },
+    {
+     "file": "h12",
+     "at": 43.0,
+     "end": 45.88
+    }
+   ]
   },
   {
    "day": 15,
-   "t0": 31.0,
-   "t1": 37.71,
+   "t0": 46.0,
+   "t1": 53.8,
    "range": "164 km",
    "cmp": "THREE CITIES",
-   "status": "COUNTRY",
+   "status": "CITY",
    "setup": "Day 15. Three cities run on your Wi-Fi.",
-   "setup_on": 31.35,
+   "setup_on": 46.35,
    "punch": "You've stopped paying rent. They pay you now.",
-   "punch_on": 33.81,
-   "audio": null
-  },
-  {
-   "day": 17,
-   "t0": 37.71,
-   "t1": 43.06,
-   "range": "655 km",
-   "cmp": "REACHES THE ISS",
-   "status": "COUNTRY",
-   "setup": "Day 17. The space station connects.",
-   "setup_on": 38.06,
-   "punch": "An astronaut asks for the password.",
-   "punch_on": 40.36,
-   "audio": null
+   "punch_on": 48.81,
+   "audio": [
+    {
+     "file": "h15",
+     "at": 49.6,
+     "end": 53.71
+    }
+   ]
   },
   {
    "day": 20,
-   "t0": 43.06,
-   "t1": 51.27,
+   "t0": 53.8,
+   "t1": 66.4,
    "range": "5,243 km",
    "cmp": "COAST TO COAST",
    "status": "COUNTRY",
    "setup": "Day 20. Coast to coast.",
-   "setup_on": 43.41,
+   "setup_on": 54.15,
    "punch": "Your internet provider calls.",
-   "punch_on": 45.23,
-   "audio": {
-    "file": "isp",
-    "at": 45.53,
-    "end": 50.62
-   }
+   "punch_on": 55.97,
+   "audio": [
+    {
+     "file": "isp",
+     "at": 56.4,
+     "end": 61.49
+    },
+    {
+     "file": "h20",
+     "at": 61.8,
+     "end": 64.36
+    }
+   ]
   },
   {
    "day": 23,
-   "t0": 51.27,
-   "t1": 56.92,
+   "t0": 66.4,
+   "t1": 72.4,
    "range": "41,943 km",
    "cmp": "PAST THE SATELLITES",
    "status": "PLANET",
    "setup": "Day 23. Past the GPS satellites.",
-   "setup_on": 51.62,
+   "setup_on": 66.75,
    "punch": "Every map app now says 'Turn left at his house.'",
-   "punch_on": 53.8,
-   "audio": null
+   "punch_on": 68.93,
+   "audio": []
   },
   {
    "day": 27,
-   "t0": 56.92,
-   "t1": 60.56,
+   "t0": 72.4,
+   "t1": 76.04,
    "range": "671,089 km",
    "cmp": "THE MOON HAS FULL BARS",
    "status": "PLANET",
    "setup": "Day 27. The Moon now has full bars.",
-   "setup_on": 57.27,
+   "setup_on": 72.75,
    "punch": "",
    "punch_on": null,
-   "audio": {
-    "file": "sh_long",
-    "at": 59.17,
-    "end": 60.56
-   }
+   "audio": [
+    {
+     "file": "sh_long",
+     "at": 74.65,
+     "end": 76.04
+    }
+   ]
   },
   {
    "day": 36,
-   "t0": 60.56,
-   "t1": 65.69,
+   "t0": 76.04,
+   "t1": 81.44,
    "range": "344 million km",
    "cmp": "MARS",
    "status": "SOLAR SYSTEM",
    "setup": "Day 36. Mars connects.",
-   "setup_on": 60.91,
+   "setup_on": 76.39,
    "punch": "Ping: 25 minutes. The rover still blames lag.",
-   "punch_on": 62.69,
-   "audio": null
-  },
-  {
-   "day": 43,
-   "t0": 65.69,
-   "t1": 70.94,
-   "range": "44 billion km",
-   "cmp": "PASSES VOYAGER 1",
-   "status": "SOLAR SYSTEM",
-   "setup": "Day 43. Voyager 1 took 49 years to get this far.",
-   "setup_on": 66.04,
-   "punch": "You took 43 days.",
-   "punch_on": 68.86,
-   "audio": null
+   "punch_on": 78.17,
+   "audio": []
   },
   {
    "day": 53,
-   "t0": 70.94,
-   "t1": 77.05,
+   "t0": 81.44,
+   "t1": 87.64,
    "range": "4.76 light-years",
    "cmp": "THE NEAREST STAR",
    "status": "GALACTIC",
    "setup": "Day 53. The nearest star system has full bars.",
-   "setup_on": 71.29,
+   "setup_on": 81.79,
    "punch": "Someone there is watching your Netflix too.",
-   "punch_on": 74.03,
-   "audio": null
+   "punch_on": 84.53,
+   "audio": []
   },
   {
    "day": 72,
-   "t0": 77.05,
-   "t1": 82.5,
+   "t0": 87.64,
+   "t1": 95.84,
    "range": "2.5 million light-years",
    "cmp": "ANDROMEDA",
    "status": "GALACTIC",
    "setup": "Day 72. Andromeda connects.",
-   "setup_on": 77.4,
-   "punch": "Your 'hi' takes 2.5 million years. Left on read.",
-   "punch_on": 79.38,
-   "audio": null
+   "setup_on": 87.99,
+   "punch": "Your 'hi' takes 2.5 million years.",
+   "punch_on": 89.97,
+   "audio": [
+    {
+     "file": "h72",
+     "at": 92.24,
+     "end": 95.2
+    }
+   ]
   },
   {
    "day": 87,
-   "t0": 82.5,
-   "t1": 86.55,
+   "t0": 95.84,
+   "t1": 99.84,
    "range": "82 billion light-years",
    "cmp": "EVERYTHING",
    "status": "EVERYWHERE",
    "setup": "Day 87. The whole observable universe is on your Wi-Fi.",
-   "setup_on": 82.85,
+   "setup_on": 96.19,
    "punch": "",
    "punch_on": null,
-   "audio": null
+   "audio": []
   },
   {
    "day": "END",
-   "t0": 86.55,
-   "t1": 91.82,
+   "t0": 99.84,
+   "t1": 111.04,
    "range": "",
    "cmp": "",
    "status": "",
    "setup": "And still\u2026",
-   "setup_on": 86.9,
+   "setup_on": 100.19,
    "punch": "One bar in the bathroom.",
-   "punch_on": 88.2,
-   "audio": {
-    "file": "sh_resigned",
-    "at": 88.7,
-    "end": 91.07
-   }
+   "punch_on": 101.49,
+   "audio": [
+    {
+     "file": "hend",
+     "at": 102.24,
+     "end": 107.76
+    },
+    {
+     "file": "sh_resigned",
+     "at": 108.24,
+     "end": 110.61
+    }
+   ]
   }
  ]
 }
