@@ -66,6 +66,9 @@ The owner wants **perfection-level quality**, stunning animation and visuals, fa
 ## 1.3c Story craft (MANDATORY)
 Before writing any episode, read `STORY_CRAFT.md` and answer its pre-writing checklist. Events alone are boring (owner's verdict on Ep 2); every episode needs a relationship ritual, a split-second moment replayed, a guilty vote, a quiet last image and one unanswered 2 AM question.
 
+## 1.3d Series arc (MANDATORY)
+`SERIES_ARC.md` holds the hidden truth and the fixed milestones for Eps 5-7 that happen in every branch. Votes change the road and who survives, never the milestones. Read it before writing any episode.
+
 ## 1.4 Workflow for any request
 **When the owner says "Episode N" (or gives a vote result):**
 1. If the previous episode's vote result is unknown, ask which option won (A or B). If it is known, start immediately.
