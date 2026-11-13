@@ -1,0 +1,544 @@
+[
+ {
+  "file": "/tmp/claude-0/-home-user-portfolio/0ea4fa88-ff69-5271-8930-c8b112a8812c/scratchpad/yams/audio/h_normal.mp3",
+  "speaker": "hero",
+  "at": 3.16,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Normal",
+    "t": 3.38,
+    "e": 3.7
+   },
+   {
+    "w": "day,",
+    "t": 3.78,
+    "e": 3.98
+   },
+   {
+    "w": "star.",
+    "t": 4.32,
+    "e": 4.66
+   }
+  ],
+  "spans": [
+   [
+    3.32,
+    4.1
+   ],
+   [
+    4.26,
+    4.78
+   ]
+  ],
+  "stt": "Normal day star."
+ },
+ {
+  "file": "/home/user/portfolio/videos/assets/audio/shouts/bomboclat_hero_A.mp3",
+  "speaker": "hero",
+  "at": 6.9,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAT!",
+    "t": 7.12
+   }
+  ],
+  "spans": [
+   [
+    7.12,
+    7.67
+   ]
+  ]
+ },
+ {
+  "file": "/tmp/claude-0/-home-user-portfolio/0ea4fa88-ff69-5271-8930-c8b112a8812c/scratchpad/yams/audio/h_jeans.mp3",
+  "speaker": "hero",
+  "at": 8.68,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Mi",
+    "t": 8.9,
+    "e": 9.0
+   },
+   {
+    "w": "jeans!",
+    "t": 9.12,
+    "e": 9.56
+   }
+  ],
+  "spans": [
+   [
+    8.84,
+    9.68
+   ]
+  ],
+  "stt": "Me jeans."
+ },
+ {
+  "file": "/home/user/portfolio/videos/assets/audio/shouts/bomboclat_hero_question.mp3",
+  "speaker": "hero",
+  "at": 10.13,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAT?!",
+    "t": 10.28
+   }
+  ],
+  "spans": [
+   [
+    10.28,
+    11.05
+   ]
+  ]
+ },
+ {
+  "file": "/tmp/claude-0/-home-user-portfolio/0ea4fa88-ff69-5271-8930-c8b112a8812c/scratchpad/yams/audio/s_wah.mp3",
+  "speaker": "stranger",
+  "at": 12.05,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Wah",
+    "t": 12.94,
+    "e": 13.2
+   },
+   {
+    "w": "gwaan",
+    "t": 13.2,
+    "e": 13.48
+   },
+   {
+    "w": "wid",
+    "t": 13.54,
+    "e": 13.66
+   },
+   {
+    "w": "yuh,",
+    "t": 13.72,
+    "e": 13.82
+   },
+   {
+    "w": "bredda?!",
+    "t": 13.92,
+    "e": 14.3
+   }
+  ],
+  "spans": [
+   [
+    12.88,
+    14.42
+   ]
+  ],
+  "stt": "Wagwan with you, brother?"
+ },
+ {
+  "file": "/tmp/claude-0/-home-user-portfolio/0ea4fa88-ff69-5271-8930-c8b112a8812c/scratchpad/yams/audio/h_push.mp3",
+  "speaker": "hero",
+  "at": 14.61,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Push,",
+    "t": 14.8,
+    "e": 14.98
+   },
+   {
+    "w": "man,",
+    "t": 15.12,
+    "e": 15.42
+   },
+   {
+    "w": "push!",
+    "t": 15.68,
+    "e": 16.12
+   }
+  ],
+  "spans": [
+   [
+    14.74,
+    16.24
+   ]
+  ],
+  "stt": "Push, man, push."
+ },
+ {
+  "file": "/home/user/portfolio/videos/assets/audio/shouts/bomboclat_hero_B.mp3",
+  "speaker": "hero",
+  "at": 17.57,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAT!",
+    "t": 17.72
+   }
+  ],
+  "spans": [
+   [
+    17.72,
+    18.69
+   ]
+  ]
+ },
+ {
+  "file": "/tmp/claude-0/-home-user-portfolio/0ea4fa88-ff69-5271-8930-c8b112a8812c/scratchpad/yams/audio/p_apt.mp3",
+  "speaker": "pigeon",
+  "at": 21.02,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Coo...",
+    "t": 21.2,
+    "e": 21.68
+   },
+   {
+    "w": "mi",
+    "t": 22.2,
+    "e": 22.3
+   },
+   {
+    "w": "new",
+    "t": 22.46,
+    "e": 22.64
+   },
+   {
+    "w": "apartment.",
+    "t": 22.7,
+    "e": 23.48
+   }
+  ],
+  "spans": [
+   [
+    21.14,
+    21.8
+   ],
+   [
+    22.14,
+    23.6
+   ]
+  ],
+  "stt": "Cool, me new apartment."
+ },
+ {
+  "file": "/home/user/portfolio/videos/assets/audio/shouts/bomboclat_hero_A.mp3",
+  "speaker": "hero",
+  "at": 23.75,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAAT!",
+    "t": 23.88
+   }
+  ],
+  "spans": [
+   [
+    23.88,
+    24.78
+   ]
+  ]
+ },
+ {
+  "file": "/home/user/portfolio/videos/assets/audio/shouts/bomboclat_hero_B.mp3",
+  "speaker": "hero",
+  "at": 30.77,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAT!",
+    "t": 30.97
+   }
+  ],
+  "spans": [
+   [
+    30.97,
+    31.87
+   ]
+  ]
+ },
+ {
+  "file": "/tmp/claude-0/-home-user-portfolio/0ea4fa88-ff69-5271-8930-c8b112a8812c/scratchpad/yams/audio/n_news.mp3",
+  "speaker": "anchor",
+  "at": 31.89,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Breaking",
+    "t": 32.02,
+    "e": 32.32
+   },
+   {
+    "w": "news.",
+    "t": 32.4,
+    "e": 32.84
+   },
+   {
+    "w": "A",
+    "t": 33.06,
+    "e": 33.1
+   },
+   {
+    "w": "local",
+    "t": 33.16,
+    "e": 33.36
+   },
+   {
+    "w": "man's",
+    "t": 33.44,
+    "e": 33.72
+   },
+   {
+    "w": "yams",
+    "t": 33.82,
+    "e": 34.22
+   },
+   {
+    "w": "are",
+    "t": 34.3,
+    "e": 34.38
+   },
+   {
+    "w": "now",
+    "t": 34.42,
+    "e": 34.54
+   },
+   {
+    "w": "blocking",
+    "t": 34.62,
+    "e": 34.96
+   },
+   {
+    "w": "traffic.",
+    "t": 35.06,
+    "e": 35.56
+   }
+  ],
+  "spans": [
+   [
+    31.96,
+    35.68
+   ]
+  ],
+  "stt": "Breaking news. A local man's yams are now blocking traffic."
+ },
+ {
+  "file": "/home/user/portfolio/videos/assets/audio/shouts/bomboclat_hero_A.mp3",
+  "speaker": "hero",
+  "at": 36.33,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAAAT!",
+    "t": 36.46
+   }
+  ],
+  "spans": [
+   [
+    36.46,
+    37.37
+   ]
+  ]
+ },
+ {
+  "file": "/tmp/claude-0/-home-user-portfolio/0ea4fa88-ff69-5271-8930-c8b112a8812c/scratchpad/yams/audio/a_houston.mp3",
+  "speaker": "astro",
+  "at": 38.62,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Houston...",
+    "t": 38.94,
+    "e": 39.34
+   },
+   {
+    "w": "they're",
+    "t": 39.78,
+    "e": 39.92
+   },
+   {
+    "w": "glossy.",
+    "t": 39.98,
+    "e": 40.44
+   }
+  ],
+  "spans": [
+   [
+    38.88,
+    39.46
+   ],
+   [
+    39.72,
+    40.56
+   ]
+  ],
+  "stt": "Houston, they're glossy."
+ },
+ {
+  "file": "/home/user/portfolio/videos/assets/audio/shouts/bomboclat_hero_B.mp3",
+  "speaker": "hero",
+  "at": 40.77,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAT!",
+    "t": 40.91
+   }
+  ],
+  "spans": [
+   [
+    40.91,
+    41.89
+   ]
+  ]
+ },
+ {
+  "file": "/tmp/claude-0/-home-user-portfolio/0ea4fa88-ff69-5271-8930-c8b112a8812c/scratchpad/yams/audio/h_mean3.mp3",
+  "speaker": "hero",
+  "at": 43.16,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Mi",
+    "t": 43.34,
+    "e": 43.44
+   },
+   {
+    "w": "neva",
+    "t": 43.56,
+    "e": 43.82
+   },
+   {
+    "w": "mean",
+    "t": 43.9,
+    "e": 44.12
+   },
+   {
+    "w": "it!",
+    "t": 44.18,
+    "e": 44.36
+   }
+  ],
+  "spans": [
+   [
+    43.28,
+    44.48
+   ]
+  ],
+  "stt": "Me never mean it."
+ },
+ {
+  "file": "/home/user/portfolio/videos/assets/audio/shouts/bomboclat_hero_A.mp3",
+  "speaker": "hero",
+  "at": 45.73,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAAAT!",
+    "t": 45.86
+   }
+  ],
+  "spans": [
+   [
+    45.86,
+    46.66
+   ]
+  ]
+ },
+ {
+  "file": "/tmp/claude-0/-home-user-portfolio/0ea4fa88-ff69-5271-8930-c8b112a8812c/scratchpad/yams/audio/h_wallpaper.mp3",
+  "speaker": "hero",
+  "at": 48.74,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Wait...",
+    "t": 49.02,
+    "e": 49.22
+   },
+   {
+    "w": "mi",
+    "t": 49.74,
+    "e": 49.84
+   },
+   {
+    "w": "a",
+    "t": 49.86,
+    "e": 49.96
+   },
+   {
+    "w": "di",
+    "t": 49.96,
+    "e": 50.02
+   },
+   {
+    "w": "wallpaper",
+    "t": 50.06,
+    "e": 50.5
+   },
+   {
+    "w": "now?",
+    "t": 50.56,
+    "e": 50.64
+   }
+  ],
+  "spans": [
+   [
+    48.96,
+    49.34
+   ],
+   [
+    49.68,
+    50.76
+   ]
+  ],
+  "stt": "Wait, me have the wallpaper now."
+ },
+ {
+  "file": "/tmp/claude-0/-home-user-portfolio/0ea4fa88-ff69-5271-8930-c8b112a8812c/scratchpad/yams/audio/sun_nice.mp3",
+  "speaker": "sun",
+  "at": 51.55,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Nice...",
+    "t": 51.74,
+    "e": 52.3
+   },
+   {
+    "w": "wallpaper.",
+    "t": 52.9,
+    "e": 53.66
+   }
+  ],
+  "spans": [
+   [
+    51.68,
+    52.42
+   ],
+   [
+    52.84,
+    53.78
+   ]
+  ],
+  "stt": "Nice wallpaper."
+ },
+ {
+  "file": "/home/user/portfolio/videos/assets/audio/shouts/bomboclat_hero_question.mp3",
+  "speaker": "hero",
+  "at": 54.61,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAT?!",
+    "t": 54.84
+   }
+  ],
+  "spans": [
+   [
+    54.84,
+    55.38
+   ]
+  ]
+ }
+]

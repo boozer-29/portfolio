@@ -1,0 +1,10 @@
+node_modules/
+*.wav
+frames/
+final/
+prev/
+test/
+t*/
+final_check.mp3
+mix_stt.json
+captions_per_frame.json
