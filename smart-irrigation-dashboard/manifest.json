@@ -1,0 +1,9 @@
+{
+  "name": "Smart Irrigation Dashboard",
+  "short_name": "Irrigation",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f6f3ea",
+  "theme_color": "#1f5130",
+  "description": "Tells a smallholder farmer when to water, even when sensor data is noisy or missing."
+}

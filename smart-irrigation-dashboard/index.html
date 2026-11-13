@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1f5130">
+  <meta name="description" content="Smart Irrigation Decision Dashboard: tells a smallholder farmer when to water, even when sensor data is noisy or missing.">
+  <title>Smart Irrigation Dashboard</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;800&family=Noto+Sans+Kannada:wght@400;600;800&family=Noto+Sans+Devanagari:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a class="skip" href="#hero">Skip to today's advice</a>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5C9 7 5.5 10.5 5.5 14.5a6.5 6.5 0 0 0 13 0C18.5 10.5 15 7 12 2.5z"/><path d="M12 19v-5M12 15.5c-1.6 0-2.8-1.2-2.8-2.8M12 14.5c1.6 0 2.8-1.2 2.8-2.8"/></svg></span>
+      <div>
+        <h1 data-t="appTitle">Smart Irrigation</h1>
+        <p class="meta"><span data-t="farm">My field</span> · <span id="updated"></span></p>
+      </div>
+    </div>
+    <nav class="lang" aria-label="Language">
+      <button type="button" data-lang="en" lang="en">English</button>
+      <button type="button" data-lang="kn" lang="kn">ಕನ್ನಡ</button>
+      <button type="button" data-lang="hi" lang="hi">हिंदी</button>
+    </nav>
+  </header>
+
+  <div id="offline" class="offline" role="status" hidden>
+    <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8.5a15 15 0 0 1 5-3M22 8.5a15 15 0 0 0-8-3.3M5.5 12a10 10 0 0 1 3-1.8M18.5 12a10 10 0 0 0-2.5-1.6M9 15.5a4.5 4.5 0 0 1 6 0"/><path d="M3 3l18 18"/></svg>
+    <span data-t="offlineBanner"></span>
+  </div>
+
+  <main class="layout">
+    <!-- 1. THE ANSWER: one decision, big, with confidence -->
+    <section id="hero" class="hero" aria-live="polite" tabindex="-1">
+      <div class="hero-main">
+        <div id="heroIcon" class="hero-icon"></div>
+        <div>
+          <h2 id="heroTitle"></h2>
+          <div id="heroSub"></div>
+        </div>
+      </div>
+      <div id="conf" class="conf"></div>
+      <div class="hero-actions">
+        <button type="button" id="listen" class="btn btn-listen"></button>
+        <button type="button" id="watered" class="btn btn-done">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l4.5 4.5 10.5-11"/></svg>
+          <span data-t="iWatered"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- 2. WHY: reasons as icon chips -->
+    <section class="card why" aria-labelledby="whyH">
+      <h2 id="whyH" data-t="why"></h2>
+      <ul id="whyList" class="chips"></ul>
+    </section>
+
+    <!-- 3. FEEL THE SOIL: human fallback when sensors fail -->
+    <section id="feel" class="card feel" aria-labelledby="feelH">
+      <h2 id="feelH" data-t="feelTitle"></h2>
+      <p class="help" data-t="feelHelp"></p>
+      <div id="feelBtns" class="feel-btns"></div>
+      <button type="button" id="feelClear" class="link-btn" hidden></button>
+    </section>
+
+    <!-- 4. SOIL GAUGE with uncertainty band -->
+    <section class="card soil" aria-labelledby="soilH">
+      <h2 id="soilH" data-t="soilTitle"></h2>
+      <div class="soil-row">
+        <div id="plant" class="plant"></div>
+        <div class="soil-info">
+          <p id="soilWord" class="soil-word"></p>
+          <p id="soilRange" class="num soil-range"></p>
+        </div>
+      </div>
+      <div id="gauge"></div>
+      <p class="legend-mini"><span class="sw band-sw"></span><span data-t="legendBand"></span></p>
+    </section>
+
+    <!-- 5. WEATHER -->
+    <section class="card weather" aria-labelledby="wH">
+      <h2 id="wH" data-t="weatherTitle"></h2>
+      <div id="weatherDays" class="days"></div>
+    </section>
+
+    <!-- 6. SENSOR HEALTH -->
+    <section class="card sensors" aria-labelledby="sH">
+      <h2 id="sH" data-t="sensorsTitle"></h2>
+      <ul id="sensorList" class="sensor-list"></ul>
+    </section>
+
+    <!-- 7. HISTORY -->
+    <section class="card history" aria-labelledby="hH">
+      <h2 id="hH" data-t="historyTitle"></h2>
+      <div id="chart" class="chart-wrap"></div>
+      <ul class="legend">
+        <li><span class="sw line-sw"></span><span data-t="legendLine"></span></li>
+        <li><span class="sw band-sw"></span><span data-t="legendBand"></span></li>
+        <li><span class="sw gap-sw"></span><span data-t="legendGap"></span></li>
+      </ul>
+    </section>
+
+    <!-- 8. LOG -->
+    <section class="card log" aria-labelledby="lH">
+      <h2 id="lH" data-t="logTitle"></h2>
+      <ul id="logList" class="log-list"></ul>
+    </section>
+
+    <!-- 9. SETTINGS -->
+    <section class="card settings" aria-labelledby="cH">
+      <h2 id="cH" data-t="crop"></h2>
+      <div id="cropBtns" class="crop-btns"></div>
+      <label class="switch">
+        <input type="checkbox" id="numbersToggle">
+        <span class="track" aria-hidden="true"></span>
+        <span data-t="showNumbers"></span>
+      </label>
+    </section>
+  </main>
+
+  <footer class="demo">
+    <h2 data-t="demoTitle"></h2>
+    <div id="demoBtns" class="demo-btns"></div>
+    <p class="foot">Prototype for a UI/UX course project · Data is simulated · <a href="docs/DESIGN.md">Design documentation</a></p>
+  </footer>
+
+  <div id="toast" class="toast" role="status" hidden></div>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/icons.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/engine.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
