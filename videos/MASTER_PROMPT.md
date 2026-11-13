@@ -61,6 +61,11 @@ loudest with the next shot — the swelling "BOMBOOOOO" is the joke. Trim each t
 4. Shout captions get their own card (bigger, pop-in, slight shake) and match the variant heard.
 5. In-world props carry text too (news lower-thirds, billboards, phone alerts). No channel watermark.
 
+**Safe area (owner, Nov 2026 — the left text got cut in full-screen):** keep ALL text inside 1080×1920 safe margins:
+left ≥ 90 px, right ≥ 140 px (Instagram's like/comment/share buttons), top ≥ 250 px, bottom ≥ 380 px (caption + username bar).
+Stat block, diary captions and dialogue captions all start at `SAFE_L = 90` and wrap at `W − SAFE_L − SAFE_R` (see `wifi-src/part_d.js`).
+Never place text at x = 30 again.
+
 ## 4. Look — the quality bar (it must never look like AI slop)
 Match the references in `REFERENCE_ANALYSIS.md` (items 11–15):
 - **Cinematic lighting:** motivated practical lights (lamps, neon, screens, a glowing tip), strong rim/back light, warm key vs cool fill, night scenes with

@@ -579,15 +579,16 @@ shot(tS(87), tE(87), 'deep', { ease: 'out', p0: [0, 0, -1450], p1: [120, 380, 15
 const TE = tS('END');
 shot(TE, TE + 6.0, 'flat', { ease: 'lin', p0: [4.35, 1.5, 1.4], p1: [4.2, 1.45, 0.95], l0: [3.2, 1.35, -1.95], fov: 46 }, (lt, O) => { flatBase(O, { flicker: O > TE + 1.4 && O < TE + 2.0 }); onToilet(O, 0.8, 0); }, { grade: 'bath' });
 shot(TE + 6.0, DUR, 'flat', { ease: 'lin', p0: [3.85, 1.75, 0.15], p1: [3.75, 1.78, -0.25], l0: [3.25, 1.85, -1.95], fov: 44 }, (lt, O) => { flatBase(O); onToilet(O, 0.2, 0); }, { grade: 'bath', dof: 0.3 });
+const SAFE_L = 90, SAFE_R = 140;   // safe area: full-screen players crop the edges, Instagram's buttons cover the right side
 function stepAt(T) { let s = null; for (const st of STEPS) if (T >= st.t) s = st; return s; }
 function spaced(g, text, x, y, sp) { let cx = x; for (const ch of text) { g.fillText(ch, cx, y); cx += g.measureText(ch).width + sp; } return cx - x; }
 const measC = mk(10, 10).getContext('2d');
 function drawStat(T, sh) {
-  const s = stepAt(T); if (!s || sh.hideStat || s.day === 'END') return; const g = ctx, x = 30; g.save();
+  const s = stepAt(T); if (!s || sh.hideStat || s.day === 'END') return; const g = ctx, x = SAFE_L; g.save();
   g.shadowColor = 'rgba(0,0,0,0.55)'; g.shadowBlur = 14; g.shadowOffsetY = 2; g.fillStyle = '#fff'; g.textAlign = 'left';
   g.font = '600 30px InterW'; spaced(g, 'WI-FI RANGE', x, 288, 4.5);
   const dt = (T - s.t) * 30; const sc = dt < 5 ? (dt < 2.5 ? 1 + 0.06 * dt / 2.5 : 1.06 - 0.06 * (dt - 2.5) / 2.5) : 1;
-  g.save(); g.translate(x, 412); g.scale(sc, sc); let nf = 128; g.font = `500 ${nf}px Lora`; while (g.measureText(s.v).width > W * 0.9 && nf > 60) { nf -= 4; g.font = `500 ${nf}px Lora`; } g.fillText(s.v, 0, 0); g.restore();
+  g.save(); g.translate(x, 412); g.scale(sc, sc); let nf = 128; g.font = `500 ${nf}px Lora`; while (g.measureText(s.v).width > W - SAFE_L - SAFE_R && nf > 60) { nf -= 4; g.font = `500 ${nf}px Lora`; } g.fillText(s.v, 0, 0); g.restore();
   g.font = '600 27px InterW'; spaced(g, s.cmp, x, 462, 3.6);
   g.font = '600 25px InterW'; g.globalAlpha = 0.9; spaced(g, 'DAY ' + s.day, x, 502, 3.2); g.globalAlpha = 1;
   g.shadowBlur = 0; g.shadowOffsetY = 0; g.font = '700 25px InterW'; measC.font = '700 25px InterW'; const tw = spaced(measC, '×2 EVERY DAY', 0, 0, 2.5);
@@ -627,9 +628,9 @@ function drawLower(O) {   // in-world news lower third (prop text)
   g.fillStyle = 'rgba(255,255,255,0.95)'; g.fillRect(290, y, 750, 70); g.fillStyle = '#0b1a3a'; g.font = '700 36px InterW'; spaced(g, 'CITY MOWS LOCAL MAN\u2019S HAIR', 316, y + 48, 2.5);
   g.fillStyle = '#0b1a3a'; g.fillRect(40, y + 70, 1000, 40); g.fillStyle = '#fff'; g.font = '600 24px InterW'; spaced(g, 'EXPERTS CONFIRM: IT SAYS HELP', 62, y + 98, 2); g.restore(); }
 function wrapLines(g, text, maxW) { const out = []; let cur = ''; for (const w of text.split(' ')) { const t = cur ? cur + ' ' + w : w; if (g.measureText(t).width > maxW && cur) { out.push(cur); cur = w; } else cur = t; } if (cur) out.push(cur); return out; }
-function drawDiary(O, sh) { const s = stepAt(O); if (!s || sh.hideDiary) return; const g = ctx, x = 30; let y = s.day === 'END' ? 330 : 640; g.save(); g.textAlign = 'left'; g.font = 'italic 400 46px Lora';
+function drawDiary(O, sh) { const s = stepAt(O); if (!s || sh.hideDiary) return; const g = ctx, x = SAFE_L; let y = s.day === 'END' ? 330 : 640; g.save(); g.textAlign = 'left'; g.font = 'italic 400 46px Lora';
   g.shadowColor = 'rgba(0,0,0,0.7)'; g.shadowBlur = 16; g.shadowOffsetY = 2; g.fillStyle = '#fff';
-  for (const [txt, on] of [[s.setup, s.son], [s.punch, s.pon]]) { if (!txt || on == null || O < on - 0.02) continue; g.globalAlpha = eOut(clamp((O - on) / 0.22)); for (const ln of wrapLines(g, txt, W * 0.86)) { g.fillText(ln, x, y); y += 56; } y += 10; }
+  for (const [txt, on] of [[s.setup, s.son], [s.punch, s.pon]]) { if (!txt || on == null || O < on - 0.02) continue; g.globalAlpha = eOut(clamp((O - on) / 0.22)); for (const ln of wrapLines(g, txt, W - SAFE_L - SAFE_R)) { g.fillText(ln, x, y); y += 56; } y += 10; }
   g.restore(); }
 const GRAIN = [0, 1, 2, 3].map(i => { const c = mk(270, 480), g = c.getContext('2d'), d = g.createImageData(270, 480), r2 = rnd(i + 3); for (let k = 0; k < d.data.length; k += 4) { const v = 128 + (r2() - 0.5) * 120; d.data[k] = d.data[k + 1] = d.data[k + 2] = v; d.data[k + 3] = 255; } g.putImageData(d, 0, 0); return c; });
 function drawGrain(O) { ctx.save(); ctx.globalCompositeOperation = 'overlay'; ctx.globalAlpha = 0.07; ctx.drawImage(GRAIN[Math.floor(O * 30) % 4], 0, 0, W, H); ctx.restore(); }
