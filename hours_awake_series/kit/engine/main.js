@@ -19,5 +19,5 @@ function frame(t){
   const r2=mul(Math.floor(t*24)+99);ctx.globalAlpha=.06;for(let i=0;i<240;i++){ctx.fillStyle=r2()>.5?'#fff':'#000';ctx.fillRect(r2()*W,r2()*H,1.2,1.2)}ctx.globalAlpha=1;
   const hg=ctx.createLinearGradient(0,0,0,260);hg.addColorStop(0,'rgba(3,5,12,.7)');hg.addColorStop(.7,'rgba(3,5,12,.4)');hg.addColorStop(1,'rgba(3,5,12,0)');ctx.fillStyle=hg;ctx.fillRect(0,0,W,260);
   {const hp_=ctx.createRadialGradient(140,165,40,140,165,260);hp_.addColorStop(0,'rgba(3,5,12,.5)');hp_.addColorStop(1,'rgba(3,5,12,0)');ctx.fillStyle=hp_;ctx.fillRect(0,0,420,330)} // soft plate so the HUD reads on busy frames
-  pills(t,sh);captions(t,sh);hud(t)}
+  pills(t,sh);captions(t,sh);if(!(CU.nohud&&sh&&CU.nohud.includes(sh.n)))hud(t)}
 window.renderAt=function(t){frame(t)};
