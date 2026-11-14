@@ -31,3 +31,9 @@ npm i -g playwright && npx playwright install chromium      # (skip if Playwrigh
 - Holding things: `hand:'grip'` draws the fingers BEHIND the object, then draw the object, then `thumbOver(grips[i],...)` puts the thumb IN FRONT.
 - First person: `fpArm(shoulder,wrist,{...})`; contacts: `fpReach(shoulder,tip,{...})` places a fingertip exactly (error > 3 px = QA flag).
 - QA flags: elbow folded, elbow above shoulder (unless raise), unreachable target, stretched limb, arms crossing, missed contact.
+
+## Added in EP4 recheck / EP5
+- HUD: `CU.part` draws a PART n pill (top right); `CU.nohud` lists shots without HUD (test cards only).
+- audio.py voice chain: compressor + look-ahead limiter (no tanh); final = fixed gain + 4x-oversampled true-peak limiter (-14 LUFS, TP <= -1.3).
+- faster-whisper download blocked? run with `HF_HUB_DISABLE_XET=1`.
+- rig6: back-of-hood dome, beanie raised above the eyes, backwards-R spacing in crayon().

@@ -24,6 +24,7 @@ if(t>=nb.t&&t-nb.t<2.2){ctx.globalAlpha=1-pr(t-nb.t,1.6,2.2);ctx.fillStyle=LIME;
 if(t>=CU.survivors_t&&t-CU.survivors_t<1.4){ctx.globalAlpha=1-pr(t-CU.survivors_t,1,1.4);ctx.fillStyle=LIME;ctx.fillText('+',X+150,194);ctx.globalAlpha=1}
 if(t>=CU.rescue){ctx.globalAlpha=eio(pr(t-CU.rescue,0,.3));ctx.fillStyle=AMB;ctx.font='600 13px "JetBrains Mono"';ctx.fillText((CU.rescue6&&t>=CU.rescue6)?'RESCUE IN 6 DAYS':'RESCUE IN 7 DAYS',X,232);ctx.globalAlpha=1}
 if(CU.votetag&&t>=CU.votetag[0]&&t<CU.votetag[1]){const a=clamp((t-CU.votetag[0])/.2)*(1-pr(t,CU.votetag[1]-.35,CU.votetag[1]));ctx.globalAlpha=a;ctx.fillStyle=LIME;ctx.beginPath();ctx.roundRect(X,244,172,24,12);ctx.fill();ctx.fillStyle='#0A0D16';ctx.font='900 12px Montserrat';ctx.letterSpacing='1px';ctx.textAlign='left';ctx.fillText(CU.votetag[2],X+12,261);ctx.globalAlpha=1}
+if(CU.part){ctx.font='900 13px Montserrat';ctx.letterSpacing='2px';const tx='PART '+CU.part,w=ctx.measureText(tx).width+28;ctx.fillStyle='rgba(10,13,22,.75)';ctx.beginPath();ctx.roundRect(507-w,92,w,28,14);ctx.fill();ctx.strokeStyle=LIME;ctx.lineWidth=1.5;ctx.stroke();ctx.fillStyle=LIME;ctx.textAlign='center';ctx.fillText(tx,507-w/2,111);ctx.textAlign='left'}
 ctx.restore()}
 function captions(t,sh){if(!sh||CU.nocap.includes(sh.n))return;const ch=TL.chunks.find(c=>t>=c.s&&t<c.e);if(!ch)return;
 const el=(t-ch.s)/0.2;const sc=lerp(.85,1,eob(clamp(el)));const y=CU.cap_y[sh.n]||690;

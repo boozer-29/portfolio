@@ -95,67 +95,43 @@ def stat(dur,g=1):
 def clank(g=1,f=420):
     n=int(.6*SR);tt=t_(n);return (np.sin(2*np.pi*f*tt)+.6*np.sin(2*np.pi*f*2.71*tt)+.3*np.sin(2*np.pi*f*4.1*tt))*np.exp(-tt/.12)*g
 # (no UI pop on every caption change)
-NEWPLACE={'roof_stamp','ladder_down','ladder_up','ollie_memory','eyes_close','let_pass','down1','b1_plate','open_eyes','stood_up','in_arms','vote'}
-for s in shots:
-    if s['n'] in NEWPLACE: add(sfx,whoosh(.35,1,False),s['s']-.3,.02); add(sfx,boom(1,.5),s['s'],.04)
-for name,a,b in C['pills']: add(sfx,thud(1),a-.06,.16); add(sfx,pop(),a-.06,.06)
-# red-eyelid sections: heartbeat, muffled
+NEWPLACE={'vote_stamp','dawn','file_pan','photo','mark','stands','follow_door','vote'}
+for s_ in shots:
+    if s_['n'] in NEWPLACE: add(sfx,whoosh(.35,1,False),s_['s']-.3,.015)
 def hb(a,b,bpm=64,g=.42):
     tt=a
     while tt<b: add(sfx,thump(55),tt,g); add(sfx,thump(48),tt+.22,g*.7); tt+=60/bpm
-hb(.5,SS('roof_stamp')-.1,62,.3); hb(SS('rule1_red'),SS('let_pass'),66,.24); hb(SS('b1_plate'),SS('open_eyes'),72,.2)
-for tt in np.arange(.6,SS('roof_stamp'),2.6): add(sfx,breath(1.1),tt,.05)
-for tt in (SS('breath_neck')+.15,SS('breath_neck')+1.0): add(sfx,lp(breath(.8),900),tt,.07)
-add(bed,humsig(SS('roof_stamp'))*.06,0,1)
-# roof: wind, stamps, walkie
-wind=lp(rng.standard_normal(N),260)*(0.5+0.5*np.sin(2*np.pi*.11*t+1)); wind=lp(wind,180); wind*=.03/np.abs(wind).max()
-amb+=wind*np.interp(t,[0,SS('roof_stamp')-.05,SS('roof_stamp'),SS('ollie_memory'),SS('ollie_memory')+.3,N/SR],[0,0,1,1,0,0])
-for tt in C['stampT']: add(sfx,thud(1),tt,.3); add(sfx,boom(1,.7),tt,.12)
-def btn():
-    n=int(.05*SR);tt=t_(n);return lp(bp(rng.standard_normal(n),900,3500)*np.exp(-tt/.008),4000)*1.2+np.sin(2*np.pi*180*tt)*np.exp(-tt/.02)*.5
-for tt in C['tapsYou']: add(sfx,btn(),tt,.22); add(sfx,stat(.12),tt+.03,.05)
-for tt in C['tapsBack']: add(sfx,stat(.08),tt,.14); add(sfx,ping(2100,1)*.5,tt,.06)
-add(sfx,stat(1.3,.6),C['tapsBack'][0],.05)
-lt=LN['c1']['s']; add(sfx,whoosh(.4,1,True),lt-.1,.14); add(sfx,thud(1),lt+.35,.22)
-add(sfx,thud(1),LN['c2']['s']+.05,.3); add(sfx,lp(rng.standard_normal(int(.25*SR)),1500)*np.exp(-t_(int(.25*SR))/.08),LN['c2']['s']+.05,.15)
-add(sfx,lp(rng.standard_normal(int(.6*SR)),5000)*np.sin(np.linspace(0,np.pi,int(.6*SR)))*.5,SS('maya_note')+.1,.06)
-add(sfx,lp(rng.standard_normal(int(.5*SR)),2500)*np.sin(np.linspace(0,np.pi,int(.5*SR)))*.5,SS('dj_phones')+.2,.05)
-# ladder: rung clanks going down, the crowd's hum below; the ladder scrapes up out of reach
-for tt in C['ladderGrabs']: add(sfx,clank(1,380+rng.uniform(-30,30)),tt,.06); add(sfx,thud(1),tt,.08)
-n=int(1.2*SR); add(sfx,bp(rng.standard_normal(n),600,3000)*np.sin(np.linspace(0,np.pi,n))*.5,WD['d2'][5][1]-.2,.08); add(sfx,clank(1,300),WD['d2'][6][1]+.35,.08)
-hh=humsig(EE('ladder_up')-SS('ladder_down')); add(bed,hh*.1,SS('ladder_down'),1)
-# eyes close: inhale then the world goes muffled; jolt awake after the sag
-add(sfx,breath(1.0),SS('eyes_close')+.2,.1)
-e4=LN['e4']['s']; add(sfx,breath(.5),e4+1.0,.22); add(sfx,hit(1),e4+1.02,.18)
-add(sfx,lp(rng.standard_normal(int(.4*SR)),1800)*np.sin(np.linspace(0,np.pi,int(.4*SR))),WD['f1'][1][1],.08)
-# your breathing rises on the NOISE meter, then stops
-for i,tt in enumerate(np.arange(LN['f3']['s']+.6,LN['f4']['s']+.3,.75)): add(sfx,breath(.6),tt,.05+.03*i)
-for tt in np.arange(SS('let_pass'),EE('down2'),.42): add(sfx,thud(1),tt,.08)
-add(sfx,boom(1,.6),SS('down1'),.1); add(sfx,boom(1,.6),SS('down2'),.12)
-n=int(1.6*SR); add(sfx,bp(rng.standard_normal(n),2500,7000)*np.sin(np.linspace(0,np.pi,n))**.5*.4,LN['g4']['s']+.3,.04)
-# warmth: his hand, three taps
-add(bed,pad(EE('taps_red')-SS('small_hand')+.4)*.13,SS('small_hand'),1)
-for tt in C['tapsOllie']: add(sfx,ov(thump(120)*2,ping(1500,1)*.25),tt,.16)
-# the clinic: eyes open, EEG beeps, crayon, hum of the ring
-add(sfx,whoosh(.6,1,True),SS('open_eyes'),.08)
-for tt in np.arange(SS('open_eyes')+.4,SS('until_answer'),1.4): add(sfx,lp(ping(740,1),2000)*.4,tt,.012)
-for k in range(5): add(sfx,hp(bp(rng.standard_normal(int(.3*SR)),1500,6000),1200)*np.sin(np.linspace(0,np.pi,int(.3*SR)))*.5,SS('note_came')+.3+k*.35,.04)
-hr=humsig(EE('until_answer')-SS('stood_up')+.5); add(bed,hr*np.linspace(.3,1,len(hr))*.2,SS('stood_up'),1)
-ua=LN['i5']['s']; add(sfx,stat(.3,1),ua-.08,.12); add(sfx,hit(1),ua-.04,.16); add(sfx,boom(1,1.0),ua-.04,.09)
-# fifty-four hours: warm pad, a slow heartbeat; two taps, then nothing
-add(bed,pad(EE('eyes_closing')-SS('in_arms')+.3,fs=(98,147,196,247))*.15,SS('in_arms'),1)
-hb(SS('in_arms'),EE('eyes_closing'),58,.2)
-for tt in C['lastTaps']: add(sfx,ov(thump(120)*2,ping(1500,1)*.25),tt,.22)
-# they kneel: one huge soft thud, then the whole building
-kt=C['kneelT']; add(sfx,boom(1,2.2),kt,.22); add(sfx,thud(1),kt,.2)
-for k in range(8): add(sfx,thud(1),kt+.15+k*.1,.05*(1-k/8))
-add(bed,humsig(EE('kneel_all')-kt)*.16,kt,1)
+# basement room tone + the low hum of three thousand kneeling (they hum while he sleeps)
+room=lp(rng.standard_normal(N),180);room*=.02/np.abs(room).max();amb+=room
+hm=humsig(EE('tear'));add(bed,hm*np.interp(t_(len(hm)),[0,3,EE('tear')],[0,.11,.13]),0,1)
+# hook text cards: a soft thud each, before the word, never on top of it
+for tt in C['hookT']: add(sfx,thud(1),tt-.05,.1)
+for tt in C['stampT']: add(sfx,thud(1),tt-.08,.14)
+# your slow heartbeat through the night, his breathing on your chest
+hb(SS('face_sleep'),EE('finger'),56,.16)
+for tt in np.arange(SS('face_sleep'),SS('night_face')+1.2,2.2): add(sfx,lp(breath(1.0),1200),tt,.035)
+add(sfx,lp(rng.standard_normal(int(.3*SR)),900)*np.sin(np.linspace(0,np.pi,int(.3*SR))),SS('night_face')+.8,.05)   # he shifts (cloth)
+for tt in C['tapsEcho']: add(sfx,lp(ov(thump(120)*2,ping(1500,1)*.25),2500),tt,.07)       # faint echoes of the old taps
+# dawn: eyelids, a cold air tone; the file: paper; the stamp just BEFORE the whisper
+add(bed,pad(EE('maya_photo')-SS('dawn'),fs=(146.8,220,293.7))*.07,SS('dawn'),1)
+for tt in (SS('file_pan')+.1,SS('photo')+.05): add(sfx,hp(bp(rng.standard_normal(int(.4*SR)),900,5000),600)*np.sin(np.linspace(0,np.pi,int(.4*SR))),tt,.05)
+add(sfx,thud(1),C['s0T']-.12,.16)
+gl=C['glowT'];n=int(.9*SR);add(sfx,np.sin(2*np.pi*880*t_(n))*np.sin(np.pi*t_(n)/.9)*.5+np.sin(2*np.pi*1320*t_(n))*np.sin(np.pi*t_(n)/.9)*.25,gl,.03)   # the mark glows
+add(sfx,boom(1,.8),C['mayaT']-.02,.08)
+# crayon scratch under the writing (quieter than the whisper), the tear
+W3=C['W']['e3']
+for k in range(9): add(sfx,hp(bp(rng.standard_normal(int(.12*SR)),2000,7000),1500)*np.sin(np.linspace(0,np.pi,int(.12*SR))),W3[0][1]-.15+k*.14,.02)
+add(sfx,ping(2600,1)*.3,C['tearT'][0]+.6,.025)
+# he stands: the hum swells; they rise (heard, never seen); shuffling out the door
+add(sfx,lp(rng.standard_normal(int(1.2*SR)),300)*np.sin(np.linspace(0,np.pi,int(1.2*SR))),SS('follow_top')-.05,.12)
+for tt in np.arange(SS('follow_top')+.2,SS('vote')+1.5,.31): add(sfx,thud(1),tt,.03)
 vt=C['vote_t']
-for tt in vt[1:3]: add(sfx,whoosh(.35,1,True),tt-.2,.08); add(sfx,thud(1),tt,.22)
-for k in (.7,1.0,1.3): add(sfx,ov(thump(120)*2,ping(1500,1)*.25),C['cta_t']+k,.1)
+for tt in vt[1:3]: add(sfx,whoosh(.35,1,True),tt-.2,.06); add(sfx,thud(1),tt-.05,.16)
+for k in (.6,.9,1.2): add(sfx,ov(thump(120)*2,ping(1500,1)*.25),C['cta_t']+k,.08)
+add(bed,pad(EE('vote')-vt[3],fs=(98,147,196,247))*.12,vt[3],1)
 f1_=36.7*(1+0.003*np.sin(2*np.pi*.07*t)); drone=np.sin(2*np.pi*np.cumsum(f1_)/SR)+.6*np.sin(2*np.pi*np.cumsum(55*(1+.004*np.sin(2*np.pi*.13*t)))/SR)
 drone=lp(drone*(0.7+0.3*np.sin(2*np.pi*t/9)),150)*.09/np.abs(drone).max()
-drone*=np.interp(t,[0,SS('small_hand'),SS('small_hand')+.5,EE('taps_red'),SS('open_eyes'),SS('in_arms'),SS('in_arms')+.4,EE('eyes_closing'),EE('eyes_closing')+.3,N/SR],[1,1,.3,.3,1,1,.2,.2,1,1])
+drone*=np.interp(t,[0,SS('face_sleep'),SS('face_sleep')+.4,SS('dawn'),SS('dawn')+.5,EE('follow_door'),SS('vote'),N/SR],[.6,.6,.3,.3,1,1,.5,.5])
 bedmix=hp(amb+drone*.7+bed,45)*duck
 gate=np.ones(N)
 for a,b in C['drops']: gate[int(a*SR):int(b*SR)]=0

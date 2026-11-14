@@ -55,3 +55,10 @@
 - Continuity of physical contact across cuts (asleep in your arms -> you stay with him).
 - Hats/brims must not cover eyes; back views must never look like a face.
 - Audio: never tanh-clip the narration. Compressor + look-ahead limiter on the voice; final = fixed gain + true-peak limiter (4x oversampled), not one-pass dynamic loudnorm.
+
+## EP5 lessons
+- Top-down close-ups: captions land on faces easily; set cap_y per shot after checking the frame (face_sleep).
+- A reveal must not be visible before its word: cover it (folder flap over the photo until "is Maya").
+- Writing hands: lift the hand away after the last letter so the words read.
+- Leading subject in a crowd: leave an aisle so he is never hidden (doorway shot).
+- Whisper lines: measure voice vs effects/bed per line (EP5: whispers 17-30 dB above everything else).

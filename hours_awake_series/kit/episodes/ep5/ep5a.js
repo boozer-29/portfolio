@@ -18,12 +18,12 @@ function lyingHug(x,y,s,o={}){ctx.save();ctx.translate(x,y);ctx.scale(s,s);const
   oblob(0,-62,27,22,shade(K.must,-.12),2.6/s*1.6);                      // hood around your head
   oblob(0,-60,19,20,K.skin,2.6/s*1.6);ctx.fillStyle='#4a3020';ctx.beginPath();ctx.ellipse(0,-72,19,10,0,Math.PI,0);ctx.fill();
   ctx.strokeStyle=OLc;ctx.lineWidth=1.6;ctx.lineCap='round';for(const sd of[-1,1]){ctx.beginPath();ctx.arc(sd*7,-58,3.6,.25,Math.PI-.25);ctx.stroke()}ctx.beginPath();ctx.moveTo(-3,-48);ctx.lineTo(3,-48);ctx.stroke();
-  // Ollie: legs down your legs, body on your chest, head on your upper chest turned to his right (cheek down)
+  if(!o.noOllie){// Ollie: legs down your legs, body on your chest, head on your upper chest turned to his right (cheek down)
   for(const sd of[-1,1]){tube([[sd*6,20],[sd*8,66]],11,'#2f4a7a',2.6/s*1.6);oblob(sd*8,70,6,8,'#1d2230',2.6/s*1.6)}
   orr(-20,-26+br,40,52,16,K.red,2.6/s*1.6);
-  sleepHeadTop(4,-30+br,1,o.tear||0);
+  sleepHeadTop(4,-30+br,1,o.tear||0);}
   // your arms come from your shoulders round his back; hands flat on his back (back of the hand up, fingers toward the middle)
-  for(const sd of[-1,1]){tube([[sd*30,-30],[sd*36,-6],[sd*16,6]],12,K.must,2.6/s*1.6);drawHand(sd*14,6,sd<0?-.15:Math.PI+.15,.55,'back',K.skin,2.6/s*1.6,{thumbToward:[0,-40]})}
+  for(const sd of[-1,1]){if(o.noOllie){tube([[sd*30,-30],[sd*38,10],[sd*30,40]],12,K.must,2.6/s*1.6);drawHand(sd*30,40,Math.PI/2,.55,'relax',K.skin,2.6/s*1.6,{thumbToward:[0,40]});continue}tube([[sd*30,-30],[sd*36,-6],[sd*16,6]],12,K.must,2.6/s*1.6);drawHand(sd*14,6,sd<0?-.15:Math.PI+.15,.55,'back',K.skin,2.6/s*1.6,{thumbToward:[0,-40]})}
   ctx.restore()}
 // Ollie's head seen from above, cheek down on your chest, face turned toward camera-right: beanie, one closed eye, mouth
 function sleepHeadTop(x,y,k,tear){ctx.save();ctx.translate(x,y);ctx.rotate(-.35);ctx.scale(k,k);oblob(0,0,15,14,K.skinO,2.2);
@@ -43,14 +43,14 @@ function subjectFile(x,y,s,o={}){ctx.save();ctx.translate(x,y);ctx.rotate(o.rot?
   ctx.fillStyle='rgba(0,0,0,.35)';ctx.fillRect(-88,-58,184,128);orr(-92,-70,70,16,4,'#d9b56d',2);orr(-92,-62,184,124,5,'#d9b56d',2);
   orr(-80,-52,100,108,2,'#f4f1e6',1.2);ctx.fillStyle='#555';for(let i=0;i<9;i++)ctx.fillRect(-72,-38+i*9,i%3==2?50:80,1.6);
   ctx.font='700 7px "JetBrains Mono"';ctx.fillStyle='#333';ctx.fillText('NAME:',-72,-43);ctx.fillStyle=o.nameCol||'#1b1e29';ctx.fillRect(-48,-48,56,7);    // your name line (see sheet: redacted strip by default)
-  if(o.stamp!==false){ctx.save();ctx.translate(-30,30);ctx.rotate(-.18);ctx.strokeStyle='rgba(201,40,40,.9)';ctx.lineWidth=2.4;ctx.strokeRect(-36,-11,72,22);ctx.font='22px "Bebas Neue"';ctx.fillStyle='rgba(201,40,40,.92)';ctx.textAlign='center';ctx.fillText('SUBJECT 0',0,8);ctx.restore()}
+  if(o.stamp!==false){const sk=o.stampK??1;ctx.save();ctx.translate(-30,30);ctx.rotate(-.18);ctx.scale(sk,sk);ctx.strokeStyle='rgba(201,40,40,.9)';ctx.lineWidth=2.4;ctx.strokeRect(-36,-11,72,22);ctx.font='22px "Bebas Neue"';ctx.fillStyle='rgba(201,40,40,.92)';ctx.textAlign='center';ctx.fillText('SUBJECT 0',0,8);ctx.restore()}
   // polaroid, paper-clipped top right
   ctx.save();ctx.translate(52,-6);ctx.rotate(.08);orr(-34,-42,68,80,2,'#fbfaf4',1.6);ctx.save();ctx.beginPath();ctx.rect(-28,-36,56,58);ctx.clip();photoScene();ctx.restore();ctx.strokeStyle='#8a8f99';ctx.lineWidth=2.2;ctx.beginPath();ctx.moveTo(-6,-48);ctx.lineTo(-6,-30);ctx.arc(-2,-30,4,Math.PI,0,true);ctx.lineTo(2,-44);ctx.stroke();ctx.restore();
   ctx.restore()}
 // inside the photo (sepia): you at six (yellow hoodie, bandage behind the ear) holding a young nurse's hand (Maya, teal scrubs)
 function photoScene(){vgr(-36,22,'#e9dcc0','#c9b48e');
-  fig('maya',8,24,.36,{eyes:'open',mouth:'smile',look:-1,idle:false,shadow:false,o:1.6,arms:[{to:[-26,-86],pole:[-10,-120]},{}]});
-  fig('you',-12,24,.36,{c:{kid:true},eyes:'open',mouth:'line',idle:false,shadow:false,o:1.6,arms:[{},{to:[24,-62],pole:[20,-88],hand:'relax'}],headExtra:(hy,hr,oo)=>{orr(hr*.75,hy-3,6,8,2,'#fff',oo*.6)}});
+  fig('maya',8,21,.3,{eyes:'open',mouth:'smile',look:-1,idle:false,shadow:false,o:1.4,arms:[{to:[-26,-86],pole:[-10,-120]},{}]});
+  fig('you',-11,21,.3,{c:{kid:true},eyes:'open',mouth:'line',idle:false,shadow:false,o:1.4,arms:[{},{to:[22,-60],pole:[20,-88],hand:'relax'}],headExtra:(hy,hr,oo)=>{orr(hr*.75,hy-3,6,8,2,'#fff',oo*.6)}});
   ctx.fillStyle='rgba(150,110,60,.28)';ctx.fillRect(-30,-38,60,62)}
 // ---- back of your head, hood pushed down: fingertips behind your right ear; the mark under them glows green
 function earMark(x,y,s,glow){ctx.save();ctx.translate(x,y);ctx.scale(s,s);
