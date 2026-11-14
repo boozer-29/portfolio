@@ -37,3 +37,6 @@ Every episode spends 8-15 s making viewers love at least one character through s
 Searches on short-form horror craft mostly returned blogs and reviews, not studies. The consistent themes were implication over explanation, a strong ending that leaves unease or an unanswered question, and moral dilemmas that withhold resolution so the question stays with the viewer. The rules above combine those themes with standard screenwriting practice. They are craft judgment, not proven data. Real proof is your retention graphs and comments.
 
 Fact check: "microsleeps last a fraction of a second up to ~30 s" appears mostly in secondary/popular sources; sleep research uses 5/10/30-second scoring thresholds rather than a hard 30 s maximum. Safe on-screen wording: "MICROSLEEP: SECONDS LONG. YOU WON'T KNOW IT HAPPENED."
+
+## 5. Voice reacts like the viewer (owner rule, from Ep 6)
+The narrator isn't an ASMR storyteller. At every twist, ask: how would the viewer react if this happened to them? Confused, disbelieving, panicked, angry, pleading? Write that reaction into the line and the tag (see CLAUDE.md PART 5, section 3b). Whispers only when silence is life or death.

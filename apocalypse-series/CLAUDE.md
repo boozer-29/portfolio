@@ -484,6 +484,15 @@ Tags can be combined: `[whispering][darkly]`, `[low, restrained voice]`.
 9. **Don't over-tag.** About 2-4 tags per beat. If a line sounds odd, delete tags rather than adding more.
 10. **Narrator secret (Series 1):** the narrator is secretly the virus. Make it **a little too gentle**: use `[softly]` or `[warm]` on lines like "Stay with me" and "Choose. I'll stay with you." Never explain why.
 
+### 3b. Owner rule (from Ep 6): react, don't whisper
+The narration was too ASMR: too many `[whispers]`/`[softly]`. From Ep 6 the narrator **reacts the way the viewer would** at each moment, like someone living it:
+- A shocking discovery is read **confused or in disbelief**, not whispered. E.g. `[confused] Subject... zero? [short pause] [disbelief] That's... my name.` instead of `[whispering] Subject zero.`
+- Use reaction tags: `[confused]` `[disbelief]` `[shocked]` `[panicked]` `[breathless]` `[voice breaking]` `[angry]` `[pleading]` `[nervous laugh]` `[gasps]` `[stammering]` `[short breaths]`.
+- Questions and broken sentences are good: "Wait... that's Maya?" "No. No, no, no."
+- Keep whispers for real danger only (when they're close and a sound would kill you): at most 1-2 whispered lines per episode.
+- Normal speaking volume is the default. Energy must swing: calm → confused → panicked → quiet → shocked.
+- Test each reaction tag once on the voice before relying on it; if ElevenLabs ignores one, swap to a close synonym from this list.
+
 ### 4. Emotional arc for every episode
 | Stage | Mood tags | Delivery |
 |---|---|---|
