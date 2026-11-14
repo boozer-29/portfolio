@@ -9,26 +9,70 @@ function floorTop(t,warm=1,cold=0){vgr(-600,1600,'#33352f','#20211c');ctx.stroke
   const g=ctx.createRadialGradient(CX,CY,20,CX,CY,520);g.addColorStop(0,`rgba(255,200,130,${.38*warm})`);g.addColorStop(1,'rgba(255,200,130,0)');ctx.fillStyle=g;ctx.fillRect(-600,-600,1500,1800);
   if(cold>0){ctx.fillStyle=`rgba(140,170,210,${.16*cold})`;ctx.fillRect(-600,-700,1500,2400)}}
 function overheadCam(z,fx,fy,rot=0){ctx.translate(270,500);ctx.rotate(rot);ctx.scale(z,z);ctx.translate(-fx,-fy)}
-// ============ 1-2. hook: close on him asleep on your chest, then rise to the whole kneeling ring
-function hookZ(t){return t<2.4?lerp(3.3,1.25,EZ.io(t/2.4)):lerp(1.25,.6,EZ.o3(pr(t,2.4,5.3)))}
-SC.hook1=SC.hook2=(t,u,d)=>{QA_SHOT='hook';const z=hookZ(t);const f=pr(t,0,3.5);ctx.save();overheadCam(z,lerp(CX+4,CX,f),lerp(CY-34,CY+10,f),lerp(-.05,.04,pr(t,0,5.3)));floorTop(t,1);ringKneel();lyingHug(CX,CY,1.05);ctx.restore();
-  vig(.4);stamp('THEY KNEEL TO HIM.',t,CU.hookT[0],300,'#F4F4EF',48);stamp('AS LONG AS HE SLEEPS.',t,CU.hookT[1],362,K.red,44)};
+// ============ 1-2. HOOK (EP4 characters + cinematic light). One bulb swinging on its cord. You kneel on the floor with Ollie
+// asleep in your lap (his back against your chest, head under your chin, dino in his hands); your arms wrapped round his tummy.
+// Around you, in the dark, rings of Sleepers kneel with bowed heads (never moving). Shot 2 pulls up and back to thousands.
+function lapHold(t,x,y,s,o={}){const br=Math.sin(t*2*Math.PI/4.2)*.8;
+  fig('you',x,y,s,{kneel:true,eyes:o.eyes||'half',brow:'worry',mouth:o.mouth||'line',tilt:10+Math.sin(t*.8)*1.5,look:1,arms:[{none:true},{none:true}],neck:neckPhones});
+  // Ollie in your lap, asleep, head tilted onto your chest
+  if(o.noOllie){for(const sd of[-1,1]){const S=[x+sd*15.8*s,y-97*s],T=[x+sd*22*s,y-50*s];const r=ikPole(S,T,30*s,27*s,[x+sd*40*s,y-80*s]);tube([S,r.E,r.T],11*s,K.must,2.6);drawHand(r.T[0],r.T[1],Math.atan2(r.T[1]-r.E[1],r.T[0]-r.E[0]),.95*s,'relax',K.skin,2.6,{thumbToward:[x,y]})}return}
+  const ox=x+9*s,oy=y+2*s;fig('ollie',ox,oy,s,{kneel:true,eyes:'closed',mouth:'line',tilt:-18+(o.shift||0),idle:false,shadow:false,bob:br*.6,
+    arms:[{to:[-7,-44],pole:[-26,-50],hand:'relax',thumbToward:[0,-60]},{to:[9,-44],pole:[26,-50],hand:'relax',thumbToward:[0,-60]}],
+    propFront:(A,g)=>{ctx.save();ctx.translate(1,-46);oblob(0,0,9,5,'#3FA34D',g.oo);oblob(7,-5,4.2,4,'#3FA34D',g.oo);ctx.fillStyle=OLc;ctx.fillRect(8,-6,1.4,1.4);ctx.restore()}});
+  // your arms round his tummy (in front of him), elbows out, one hand over the other
+  for(const sd of[-1,1]){const S=[x+sd*15.8*s,y-97*s+br*.3*s],T=[x+9*s+sd*5*s,y-50*s];const r=ikPole(S,T,30*s,27*s,[x+sd*40*s,y-70*s]);tube([S,r.E,r.T],11*s,K.must,2.6);
+    drawHand(r.T[0],r.T[1],Math.atan2(r.T[1]-r.E[1],r.T[0]-r.E[0]),.95*s,'relax',K.skin,2.6,{thumbToward:[x,y-120*s]})}}
+function kneelSpr(seed,sd){return sprite('k6'+(seed%8)+sd,110,150,()=>fig('sleeper',0,0,.62,{kneel:true,eyes:'closed',tilt:sd*16,lean:sd*6,c:slpC(seed%8),shadow:false,o:2.4,arms:[{to:[-20,-46]},{to:[20,-46]}]}),2.2)}
+function kneelSprB(seed,sd){return sprite('kb'+(seed%8)+sd,110,150,()=>fig('sleeper',0,0,.62,{kneel:true,back:true,tilt:sd*8,c:slpC(seed%8),shadow:false,o:2.4}),2.2)}
+const HR1=(()=>{const P=[];let k=0;for(const [R,n] of[[175,11],[245,14],[320,17],[400,21]]){for(let i=0;i<n;i++){k++;const a=i/n*Math.PI*2+R*.017+(hash(k)-.5)*.14;if(R<330&&Math.sin(a)>.6)continue;P.push({a,R:R+(hash(k+5)-.5)*16,k})}}return P})();
+function bulbAt(t){return Math.sin(t*1.25)}
+SC.hook1=(t,u,d)=>{QA_SHOT='hook1';const p=u/d;const sw=bulbAt(t);const cm={x:lerp(-6,-16,EZ.io(p)),y:lerp(70,58,EZ.io(p)),z:lerp(1.45,1.6,EZ.io(p))};const Lx=270+sw*22,Ly=250,C=[270,640],E=.38;
+  const layer=(par,fn)=>{ctx.save();ctx.translate(270,560);const z=Math.pow(cm.z,par);ctx.scale(z,z);ctx.translate(-270-cm.x*par,-560-cm.y*par);fn();ctx.restore()};
+  layer(.4,()=>{vgr(0,440,'#1f2329','#171a1f');for(let x=-20;x<580;x+=62){orr(x,262,46,150,4,'#20242a',0)}ctx.fillStyle='#2b2f36';ctx.fillRect(-40,430,640,10);
+    ctx.save();ctx.globalAlpha=.16;for(let i=0;i<3;i++){const fx=((t*8+i*190)%760)-110;const g=ctx.createRadialGradient(fx,430,10,fx,430,220);g.addColorStop(0,'rgba(140,170,210,1)');g.addColorStop(1,'rgba(140,170,210,0)');ctx.fillStyle=g;ctx.fillRect(fx-220,310,440,240)}ctx.restore()});
+  const pts=HR1.map(o=>({x:C[0]+Math.cos(o.a)*o.R*1.08,y:C[1]+Math.sin(o.a)*o.R*E,o})).sort((a,b)=>a.y-b.y);const sc=y=>lerp(.75,1.25,(y-520)/300);
+  const shad=(x,y,w)=>{ctx.fillStyle='rgba(0,0,0,.38)';ctx.beginPath();ctx.ellipse(x+(x-Lx)*.15,y+2,w,w*.24,0,0,7);ctx.fill()};
+  const kn=(q)=>{const sd=q.x<C[0]?-1:1;const spr=q.y<C[1]?kneelSpr(q.o.k,-sd):kneelSprB(q.o.k,sd);shad(q.x,q.y,22*sc(q.y));blit(spr,q.x,q.y,sc(q.y))};
+  layer(.8,()=>{vgr(440,1000,'#2a2925','#141412');ctx.strokeStyle='rgba(255,255,255,.03)';ctx.lineWidth=1;for(let i=-14;i<=14;i++){ctx.beginPath();ctx.moveTo(270+i*22,440);ctx.lineTo(270+i*120,1000);ctx.stroke()}for(const q of pts)if(q.y<C[1]-10)kn(q)});
+  layer(1,()=>{shad(272,C[1]+2,70);lapHold(t,270,C[1],1.0)});
+  layer(1.12,()=>{for(const q of pts)if(q.y>=C[1]-10)kn(q)});
+  layer(1,()=>{ctx.strokeStyle='#0c0d10';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(270,-60);ctx.lineTo(Lx,Ly-14);ctx.stroke();ctx.save();ctx.translate(Lx,Ly);ctx.rotate(-sw*.09);ctx.fillStyle='#3a3d44';ctx.beginPath();ctx.moveTo(-17,-14);ctx.lineTo(17,-14);ctx.lineTo(25,0);ctx.lineTo(-25,0);ctx.closePath();ctx.fill();ctx.strokeStyle=OLc;ctx.lineWidth=2;ctx.stroke();ctx.restore()});
+  ctx.save();ctx.translate(270,560);ctx.scale(cm.z,cm.z);ctx.translate(-270-cm.x,-560-cm.y);const fl=1-.06*(Math.sin(t*23)>0&&Math.sin(t*3.1)>.6?1:0);
+  lightPass('rgb(26,29,40)',[{x:Lx+(C[0]-Lx)*.1,y:C[1]-30,r:300,c:`rgba(255,205,140,${fl})`,k:.34,sy:.6},{x:Lx,y:480,r:420,c:'rgba(255,190,120,.45)',k:.3},{x:Lx,y:Ly+4,r:110,c:'rgba(255,230,180,1)',k:.2}]);
+  ctx.fillStyle='#fff6dc';ctx.beginPath();ctx.arc(Lx,Ly+4,6,0,7);ctx.fill();glow(Lx,Ly+4,70,'#ffd9a0',.9*fl);beamCone(Lx,Ly+2,Lx-150+sw*30,Lx+150+sw*30,700,'255,214,150',.18*fl);motes(t,Lx-130,Lx+130,260,700,80,9,'255,225,180');ctx.restore();
+  ctx.fillStyle='rgba(4,5,8,.35)';ctx.fillRect(0,860,W,100);vig(.6,150);stampT('THEY KNEEL TO HIM.',t,CU.hookT[0],330,'#F4F4EF',50)};
+const HR2=(()=>{const P=[];let k=0;for(let R=200;R<2300;R+=42){const n=Math.floor(2*Math.PI*R/42);for(let i=0;i<n;i++){k++;if(hash(k+11)<.04)continue;const a=i/n*Math.PI*2+R*.011+(hash(k)-.5)*.05;if(R<430&&Math.sin(a)>.55)continue;const rr=R+(hash(k+3)-.5)*12;P.push({X:Math.cos(a)*rr,Y:Math.sin(a)*rr,a,k})}}return P.sort((p,q)=>p.Y-q.Y)})();
+function standSpr(seed){return sprite('st'+(seed%8),110,190,()=>fig('sleeper',0,0,.62,{back:true,tilt:((seed%5)-2)*3,c:slpC(seed%8),shadow:false,o:2.4}),2.2)}
+// high-angle view of the clinic floor: you (+Ollie) at the centre, rings of Sleepers. o: {z,E,cy,stand,lightsOn(t),warm,door,ollieAt}
+function crowdHigh(t,o){const z=o.z,E=o.E,cx=270,cy=o.cy;const Lx=bulbAt(t)*18;const P=(X,Y)=>[cx+X*z,cy+Y*E*z];vgr(0,H,'#1a1b19','#121310');
+  ctx.save();ctx.strokeStyle='rgba(255,255,255,.035)';ctx.lineWidth=1;for(let i=-40;i<=40;i++){const a=P(i*60,-2600),b=P(i*60,2600);ctx.beginPath();ctx.moveTo(...a);ctx.lineTo(...b);ctx.stroke();const c=P(-2600,i*60),e=P(2600,i*60);ctx.beginPath();ctx.moveTo(...c);ctx.lineTo(...e);ctx.stroke()}ctx.restore();
+  let done=false;const subj=()=>{const [x,y]=P(0,0);ctx.fillStyle='rgba(0,0,0,.38)';ctx.beginPath();ctx.ellipse(x,y+2,62*z,15*z,0,0,7);ctx.fill();lapHold(t,x,y,z*.95,{noOllie:o.stand,eyes:o.stand?'half':undefined})};
+  for(const q of HR2){if(!done&&q.Y>0){subj();done=true}let X=q.X,Y=q.Y;if(o.stand){X+=(hash(q.k+21)-.5)*30;Y-=160}const [x,y]=P(X,Y);if(x<-60||x>600||y<-30||y>1180)continue;const sd=q.X<0?-1:1;
+    const spr=o.stand?standSpr(q.k):(q.Y<0?kneelSpr(q.k,-sd):kneelSprB(q.k,sd));ctx.fillStyle='rgba(0,0,0,.3)';ctx.beginPath();ctx.ellipse(x,y+1,20*z,5*z,0,0,7);ctx.fill();blit(spr,x,y,z)}
+  if(!done)subj();
+  if(o.door){const [dx,dy]=P(0,-1400);ctx.fillStyle='#0b0f14';ctx.fillRect(dx-70*z,dy-230*z,140*z,230*z);ctx.save();ctx.globalCompositeOperation='lighter';ctx.fillStyle='rgba(190,215,240,.55)';ctx.fillRect(dx-60*z,dy-220*z,120*z,220*z);ctx.restore()}
+  if(o.ollieAt){const [x,y]=P(0,-1330);fig('ollie',x,y,z*1.0,{back:true,shadow:false})}
+  const [lx,ly]=P(Lx,-10);const Ls=[{x:lx,y:ly,r:380*z+90,c:`rgba(255,205,140,${o.warm??1})`,k:.36,sy:E+.2}];
+  const k=o.lightsOn?o.lightsOn(t):[];[-1600,-1050,-520,520,1050,1600].forEach((ry,i)=>{if(k[i]>0)for(const rx of[-1300,-650,0,650,1300]){const [x,y]=P(rx,ry);Ls.push({x,y,r:420*z+80,c:`rgba(175,205,240,${k[i]})`,k:.42,sy:E+.15})}});
+  if(o.door){const [dx,dy]=P(0,-1400);Ls.push({x:dx,y:dy+200*z,r:900*z+100,c:'rgba(180,205,235,.95)',k:.3,sy:E+.2})}
+  lightPass(o.amb||'rgb(15,16,22)',Ls);if(!o.stand)glow(lx,ly-70*z,90*z+30,'#ffd9a0',.35);motes(t,0,W,150,900,40,21,'255,225,180')}
+SC.hook2=(t,u,d)=>{QA_SHOT='hook2';const kt=CU.hookT[1];const q=EZ.io(pr(t,2.4,5.25));const on=i=>{const t0=kt+.04+i*.07;return t>t0?(t<t0+.14?(Math.sin((t-t0)*95)>0?.9:.12):1):0};
+  crowdHigh(t,{z:lerp(1.7,.48,q),E:lerp(.48,.64,q),cy:lerp(600,620,q),lightsOn:t=>[0,1,2,3,4,5].map(on)});vig(.5,170);
+  stampT('THEY KNEEL TO HIM.',t,-1,330,'#F4F4EF',50);stampT('AS LONG AS HE SLEEPS.',t,kt,392,K.red,44)};
 // ============ 3. the vote result over a low look across the kneeling ring
 SC.vote_stamp=(t,u,d)=>{QA_SHOT='vote_stamp';const p=u/d;ctx.save();zoomAt(270,620,lerp(1.02,1.1,EZ.io(p)));clinicRoom(t,.9,true);
   for(let i=0;i<9;i++){const x=20+i*62;fig('sleeper',x,612+((i*7)%3)*6,1.0,{kneel:true,eyes:'closed',tilt:(x<270?16:-16),lean:x<270?9:-9,c:slpC(i+2),shadow:false,arms:[{to:[-20,-46]},{to:[20,-46]}]})}
   for(let i=0;i<5;i++){const x=10+i*130;fig('sleeper',x,900,2.0,{back:true,kneel:true,tilt:(x<270?-5:5),c:slpC(i+20),shadow:false})}ctx.restore();
-  ctx.fillStyle='rgba(8,10,16,.35)';ctx.fillRect(0,0,W,H);vig(.45);stamp('MOST OF YOU CHOSE A',t,CU.stampT[0],318,K.lime,52);stamp('YOU LET HIM SLEEP.',t,CU.stampT[1],380,'#F4F4EF',40)};
+  vig(.45)};
 // ============ 4. close: his sleeping face on your chest
-SC.face_sleep=(t,u,d)=>{QA_SHOT='face_sleep';const p=u/d;ctx.save();overheadCam(lerp(5.2,5.6,EZ.io(p)),CX+6,CY-24,-.08);floorTop(t,1.2);ringKneel();lyingHug(CX,CY,1.05);ctx.restore();vig(.5)};
+SC.face_sleep=(t,u,d)=>{QA_SHOT='face_sleep';const p=u/d;vgr(0,H,'#1c1b17','#0f0e0b');ctx.save();zoomAt(270,520,lerp(1,1.07,EZ.io(p)));lapHold(t,240,835,4.2,{});ctx.restore();
+  lightPass('rgb(30,30,40)',[{x:300+bulbAt(t)*40,y:120,r:900,c:'rgba(255,205,140,1)',k:.3},{x:270,y:620,r:520,c:'rgba(255,190,130,.5)',k:.3}]);motes(t,0,W,0,700,30,5,'255,225,180');vig(.5)};
 // ============ 5. they'll never hurt him: warm, the ring around you, slow turn
-SC.ring_warm=(t,u,d)=>{QA_SHOT='ring_warm';const p=u/d;ctx.save();overheadCam(lerp(1.05,.98,p),CX,CY,lerp(.1,.16,p));floorTop(t,1.5);ringKneel();lyingHug(CX,CY,1.05);ctx.restore();ctx.fillStyle='rgba(255,170,80,.12)';ctx.fillRect(0,0,W,H);vig(.45)};
+SC.ring_warm=(t,u,d)=>{QA_SHOT='ring_warm';const p=u/d;crowdHigh(t,{z:lerp(1.0,.9,EZ.io(p)),E:.56,cy:610,warm:1.15});ctx.fillStyle='rgba(255,170,80,.08)';ctx.fillRect(0,0,W,H);vig(.45)};
 // ============ 6. all night, eyes shut: your face (from above), he shifts, you stop breathing
-SC.night_face=(t,u,d)=>{QA_SHOT='night_face';const s0=CU.shots.find(x=>x.n==='night_face').s;const p=u/d;vgr(0,H,'#262620','#15150f');
-  ctx.save();zoomAt(270,520,lerp(1,1.06,EZ.io(p)));oblob(270,980,330,300,K.must,2.8);
-  figHead('you',270,420,5.6,{eyes:'closed',mouth:'line',brow:'worry',arms:[{none:true},{none:true}],idle:false,shadow:false});
-  const shift=EZ.io(pr(t,s0+.8,s0+1.2));sleepHeadTop(275+shift*8,840-shift*6,5.2+shift*.2,0);
-  const held=t>s0+1.3;if(!held){for(let i=0;i<2;i++){const ph=((t-s0)*1.1+i*.5)%1;ctx.strokeStyle=`rgba(230,230,255,${.35*(1-ph)})`;ctx.lineWidth=3;ctx.beginPath();ctx.arc(270,560+ph*40,20+ph*30,.3,Math.PI-.3);ctx.stroke()}}
-  ctx.restore();ctx.fillStyle='rgba(10,20,55,.32)';ctx.fillRect(0,0,W,H);vig(.5)};
+SC.night_face=(t,u,d)=>{QA_SHOT='night_face';const s0=CU.shots.find(x=>x.n==='night_face').s;const p=u/d;const shift=EZ.io(pr(t,s0+.8,s0+1.2))*6;vgr(0,H,'#14151c','#0b0c10');
+  ctx.save();zoomAt(270,520,lerp(1,1.05,EZ.io(p)));lapHold(t,240,835,4.2,{eyes:'closed',shift});const held=t>s0+1.3;if(!held){for(let i=0;i<2;i++){const ph=((t-s0)*1.1+i*.5)%1;ctx.strokeStyle=`rgba(230,230,255,${.35*(1-ph)})`;ctx.lineWidth=3;ctx.beginPath();ctx.arc(300,350+ph*30,16+ph*24,-.3,Math.PI*.6);ctx.stroke()}}ctx.restore();
+  lightPass('rgb(18,22,40)',[{x:140,y:60,r:820,c:'rgba(255,200,140,.55)',k:.3},{x:420,y:900,r:500,c:'rgba(110,140,200,.25)',k:.3}]);vig(.55)};
 // ============ 7-8. his finger lifts for a third tap... and never comes down. Two faint echoes of the first taps.
 SC.finger=(t,u,d)=>{QA_SHOT='finger';const p=u/d;vgr(0,H,shade(K.must,-.35),shade(K.must,-.5));ctx.strokeStyle=shade(K.must,-.6);ctx.lineWidth=4;for(let i=0;i<5;i++){ctx.beginPath();ctx.moveTo(-20,200+i*170);ctx.bezierCurveTo(150,160+i*170,350,260+i*170,560,210+i*170);ctx.stroke()}
   ctx.save();zoomAt(300,560,lerp(1,1.12,EZ.io(p)));const br=Math.sin(t*1.3)*4;
@@ -83,9 +127,7 @@ SC.stands=(t,u,d)=>{QA_SHOT='stands';const up=EZ.io(pr(t,CU.standT,CU.standT+1.1
   for(let i=0;i<9;i++){const x=20+i*62;if(Math.abs(x-270)<70)continue;fig('sleeper',x,622,1.05,{kneel:true,eyes:'closed',tilt:(x<270?16:-16),lean:x<270?9:-9,c:slpC(i+40),shadow:false,arms:[{to:[-20,-46]},{to:[20,-46]}]})}
   fig('ollie',270,lerp(1260,925,up),2.75,{eyes:'closed',mouth:'line',tilt:lerp(10,2,up),arms:[{},{}]});ctx.restore();vig(.5)};
 // ============ 20. every one of them follows him: from above they are now STANDING, facing the door; he is at the door
-SC.follow_top=(t,u,d)=>{QA_SHOT='follow_top';const p=u/d;ctx.save();overheadCam(lerp(.62,.66,p),CX,CY-405,0);floorTop(t,.8,.6);
-  orr(CX-70,CY-760,140,60,6,'#0b0f14',3);ctx.save();ctx.globalCompositeOperation='lighter';const g=ctx.createRadialGradient(CX,CY-730,10,CX,CY-700,240);g.addColorStop(0,'rgba(190,215,240,.5)');g.addColorStop(1,'rgba(190,215,240,0)');ctx.fillStyle=g;ctx.fillRect(CX-260,CY-960,520,520);ctx.restore();
-  lyingHug(CX,CY,1.05,{noOllie:true});ringStand();topDown(CX,CY-650,1.0,K.red,'#b83236',0,{arms:true});ctx.restore();vig(.45)};
+SC.follow_top=(t,u,d)=>{QA_SHOT='follow_top';const p=u/d;crowdHigh(t,{z:lerp(.42,.46,EZ.io(p)),E:.62,cy:740,stand:true,door:true,ollieAt:true,warm:.45,amb:'rgb(20,23,32)'});vig(.45)};
 // ============ 21. ...to the door: from behind, he stands in the doorway, the line of them behind him (backs to us)
 SC.follow_door=(t,u,d)=>{QA_SHOT='follow_door';const p=u/d;ctx.save();zoomAt(270,520,lerp(1,1.08,EZ.io(p)));vgr(0,H,'#1c2628','#121819');
   ctx.fillStyle='#0b0f14';ctx.fillRect(196,330,148,300);ctx.save();ctx.globalCompositeOperation='lighter';const g=ctx.createLinearGradient(0,330,0,630);g.addColorStop(0,'rgba(190,215,240,.55)');g.addColorStop(1,'rgba(190,215,240,.15)');ctx.fillStyle=g;ctx.fillRect(204,338,132,292);ctx.restore();ctx.strokeStyle=OLc;ctx.lineWidth=4;ctx.strokeRect(196,330,148,300);
@@ -114,3 +156,23 @@ SC.vote=(t,u,d)=>{QA_SHOT='vote';const t0=CU.vote_t;vgr(0,H,'#0c1020','#07090f')
 SC.cta=(t,u,d)=>{rect(0,0,W,H,'#000');const a=EZ.io(pr(t,CU.cta_t,CU.cta_t+8/30));ctx.globalAlpha=a;ctx.textAlign='center';ctx.font='96px "Bebas Neue"';ctx.letterSpacing='3px';ctx.fillStyle='#fff';ctx.fillText('FOLLOW FOR',270,470);ctx.fillStyle=K.lime;ctx.font='150px "Bebas Neue"';ctx.fillText('HOUR 60',270,590);
   ctx.font='700 15px Montserrat';ctx.letterSpacing='2px';ctx.fillStyle='#F4F4EF';ctx.fillText('NEW HERE? START AT PART 1 (PINNED)',270,660);ctx.globalAlpha=1;ctx.letterSpacing='0px';
   for(const k of[0,.5,1]){const q=(u-.5-k*.3);if(q>0&&q<.9){ctx.strokeStyle=`rgba(255,255,255,${.25*(1-q/.9)})`;ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(270,520,60+q*300,0,7);ctx.stroke()}}};
+
+// ============ cinematic light for the remaining shots: one source each (screen coordinates), dust where the light is
+const SHOTLIGHT={
+ vote_stamp:{post:t=>{stamp('MOST OF YOU CHOSE A',t,CU.stampT[0],318,K.lime,52);stamp('YOU LET HIM SLEEP.',t,CU.stampT[1],380,'#F4F4EF',40)},amb:'rgb(24,26,36)',L:t=>[{x:270+bulbAt(t)*30,y:640,r:420,c:'rgba(255,205,140,1)',k:.34,sy:.6},{x:270,y:250,r:300,c:'rgba(255,220,170,.8)',k:.2}],m:[120,420,300,700]},
+ finger:{amb:'rgb(30,30,42)',L:t=>[{x:430,y:250,r:700,c:'rgba(255,200,140,.95)',k:.32}],m:null},
+ dawn:{amb:'rgb(22,26,36)',L:t=>[{x:430,y:520,r:420,c:'rgba(180,205,240,1)',k:.35},{x:420,y:80,r:260,c:'rgba(200,220,245,.9)',k:.25}],m:[300,540,80,680]},
+ file_pan:{amb:'rgb(40,44,58)',L:t=>[{x:380,y:300,r:720,c:'rgba(205,222,245,1)',k:.35}],m:[0,540,0,960]},
+ stamp_s0:{amb:'rgb(40,44,58)',L:t=>[{x:380,y:300,r:720,c:'rgba(205,222,245,1)',k:.35}],m:[0,540,0,960]},
+ photo:{amb:'rgb(40,44,58)',L:t=>[{x:330,y:380,r:640,c:'rgba(215,228,245,1)',k:.4}],m:[0,540,100,900]},
+ maya_photo:{amb:'rgb(40,44,58)',L:t=>[{x:330,y:380,r:640,c:'rgba(215,228,245,1)',k:.4}],m:[0,540,100,900]},
+ mark:{amb:'rgb(24,28,38)',L:t=>[{x:470,y:420,r:520,c:'rgba(190,212,240,1)',k:.35}],m:null},
+ hand_moves:{amb:'rgb(30,32,42)',L:t=>[{x:330,y:470,r:560,c:'rgba(200,218,242,1)',k:.4}],m:[100,500,250,800]},
+ crayon_close:{amb:'rgb(30,32,42)',L:t=>[{x:330,y:470,r:560,c:'rgba(200,218,242,1)',k:.4}],m:[100,500,250,800]},
+ writes:{amb:'rgb(30,32,42)',L:t=>[{x:300,y:520,r:600,c:'rgba(205,222,245,1)',k:.42}],m:[100,500,250,800]},
+ tear:{amb:'rgb(52,46,44)',L:t=>[{x:330,y:420,r:620,c:'rgba(235,225,215,1)',k:.4}],m:null},
+ stands:{amb:'rgb(22,26,36)',L:t=>[{x:270,y:300,r:520,c:'rgba(185,208,240,1)',k:.35},{x:270,y:760,r:360,c:'rgba(185,208,240,.6)',k:.3}],m:[120,420,200,800]},
+ follow_door:{amb:'rgb(18,22,30)',L:t=>[{x:270,y:470,r:560,c:'rgba(190,215,245,1)',k:.3}],m:[160,380,320,900]},
+ empty_cot:{amb:'rgb(26,28,38)',L:t=>[{x:330,y:470,r:480,c:'rgba(195,215,240,1)',k:.38}],m:[150,500,300,700]},
+};
+for(const [n,cfg] of Object.entries(SHOTLIGHT)){const f=SC[n];SC[n]=(t,u,d,sh)=>{f(t,u,d,sh);ctx.save();ctx.setTransform(2,0,0,2,0,0);lightPass(cfg.amb,cfg.L(t));if(cfg.m)motes(t,cfg.m[0],cfg.m[1],cfg.m[2],cfg.m[3],45,n.length,'235,235,245');if(cfg.post)cfg.post(t);ctx.restore()}}
