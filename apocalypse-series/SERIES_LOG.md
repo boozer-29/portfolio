@@ -12,7 +12,8 @@ Source of truth for what has aired and what won. Update after every vote.
 | 1 | The Note (v2) | `hours-awake/ep1/` | Posted | A The roof / B The basement | **A: THE ROOF** |
 | 2 | Thirty Seconds (v2 continuous cut, 85 s) | `hours-awake/ep2/` | Posted | A Save yourself (cross the plank) / B Save Ollie (go down to the basement) | **A: SAVE YOURSELF** |
 | 3 | Backwards (v2) | `hours-awake/ep3/` | Posted | A Hand it over (silence Ollie, keep the group alive) / B Tap back (go down alone for Ollie) | **B: TAP BACK (91%)** |
-| 4 | Eyes Shut | `hours-awake/ep4/` | Narration ready for ElevenLabs | A Let him sleep (they'll never hurt him; he's theirs) / B Wake him (he's yours, and they hunt you both) | (unknown, ask before Ep 5) |
+| 4 | Eyes Shut | `hours-awake/ep4/` | Posted (7 YT / 233 IG views) | A Let him sleep (they'll never hurt him; he's theirs) / B Wake him (he's yours, and they hunt you both) | **A: LET HIM SLEEP** |
+| 5 | Lullaby | `hours-awake/ep5/` | Narration ready for ElevenLabs (~62 s, built for cold viewers) | A Stay (city safe, Maya has answers) / B Follow him (eyes shut, into the march) | (unknown, ask before Ep 6) |
 
 Not posted / reserve ideas: Ep 1 v3 "The Last Seat" (`ep1/v3_unposted/`), Ep 2 "Autopilot" (`ep2/unused_autopilot/`, written for the v3 branch).
 

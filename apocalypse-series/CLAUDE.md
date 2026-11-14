@@ -69,6 +69,9 @@ Before writing any episode, read `STORY_CRAFT.md` and answer its pre-writing che
 ## 1.3d Series arc (MANDATORY)
 `SERIES_ARC.md` holds the hidden truth and the fixed milestones for Eps 5-7 that happen in every branch. Votes change the road and who survives, never the milestones. Read it before writing any episode.
 
+## 1.3e Built for strangers (from Ep 5, after Ep 4 got 7 YT / 233 IG views)
+Read `GROWTH_NOTES.md`. The first 3 s of every episode must make sense to someone who has never seen the series. The "Imagine..." line describes the previous episode's final moment in self-explanatory words; the "Most of you chose X" line and HUD tag move to about 4 s. Length 55-65 s while the account is small (this overrides the 85 s default in rule 11 until retention data says otherwise). Show "PART n" in the HUD.
+
 ## 1.4 Workflow for any request
 **When the owner says "Episode N" (or gives a vote result):**
 1. If the previous episode's vote result is unknown, ask which option won (A or B). If it is known, start immediately.
