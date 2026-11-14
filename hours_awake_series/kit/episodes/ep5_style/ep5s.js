@@ -41,35 +41,50 @@ function lieTopThin(t,x,y,s){const Y=TF.you,O=TF.ollie;const br=Math.sin(t*1.6)*
   limb([[-2,6],[-3,26]],4,O.bot);limb([[2,6],[3,26]],4,O.bot);ctx.fillStyle=O.top;ctx.beginPath();ctx.ellipse(0,0+br,8,10,0,0,7);ctx.fill();ctx.fillStyle=O.beanie;ctx.beginPath();ctx.arc(0,-11+br,5.2,0,7);ctx.fill();ctx.fillStyle='#ff9a9a';ctx.beginPath();ctx.arc(0,-15+br,1.8,0,7);ctx.fill();
   limb([[-10,-12],[-12,0],[-5,2]],3.6,Y.top);limb([[10,-12],[12,0],[5,2]],3.6,Y.top);ctx.restore()}
 function stampT(txt,t,t0,y,col,size){const q=t-t0;if(q<0)return;const k=EZ.ob(clamp(q/.18));ctx.save();ctx.translate(270,y);ctx.scale(k,k);ctx.font=`${size}px "Bebas Neue"`;ctx.letterSpacing='2px';ctx.textAlign='center';ctx.shadowColor='rgba(0,0,0,.8)';ctx.shadowBlur=16;ctx.shadowOffsetY=4;ctx.fillStyle=col;ctx.fillText(txt,0,0);ctx.restore()}
-// ============ SHOT 1 (0-2.4): the basement clinic at floor level. One bulb. You hold him asleep in the only pool of light;
-// around you, in the dark, a ring of kneeling figures, heads bowed, lit only at their edges.
-const RING1=(()=>{const P=[];let k=0;for(const [R,n] of[[170,11],[240,14],[316,17]]){for(let i=0;i<n;i++){k++;const a=i/n*Math.PI*2+R*.013+(hash(k)-.5)*.12;P.push({a,R:R+(hash(k+5)-.5)*14,k})}}return P})();
-SC.s_wide=(t,u,d)=>{const p=u/d;ctx.save();zoomAt(270,560,lerp(1.0,1.1,EZ.io(p)));
-  vgr(0,410,'#24272d','#1b1d22');vgr(410,H,'#2a2823','#121210');ctx.strokeStyle='rgba(255,255,255,.035)';ctx.lineWidth=1;for(let i=-14;i<=14;i++){ctx.beginPath();ctx.moveTo(270+i*20,410);ctx.lineTo(270+i*110,980);ctx.stroke()}for(let y=430;y<980;y+=(y-380)*.18){ctx.beginPath();ctx.moveTo(-50,y);ctx.lineTo(590,y);ctx.stroke()}
-  for(let x=10;x<W;x+=58){ctx.fillStyle='#1f2227';ctx.fillRect(x,250,40,150)}
-  const C=[270,610],E=.42;const pts=RING1.map(o=>({x:C[0]+Math.cos(o.a)*o.R*1.05,y:C[1]+Math.sin(o.a)*o.R*E,o})).sort((a,b)=>a.y-b.y);
-  const sc=y=>lerp(.95,1.6,(y-470)/330);const draw=(q,front)=>{const side=Math.abs(Math.cos(q.o.a))>.45;kneelThin(q.x,q.y,sc(q.y),q.o.k,side?'side':front?'front':'back',Math.cos(q.o.a)>0?-1:1)};
-  for(const q of pts)if(q.y<C[1]-14)draw(q,true);
-  ctx.fillStyle='#d8d4c8';ctx.fillRect(150,548,190,12);ctx.fillStyle='#8a8f99';ctx.fillRect(150,560,190,6);limb([[156,566],[156,612]],3.5,'#5a5f6a');limb([[334,566],[334,612]],3.5,'#5a5f6a');
-  sitHold(t,236,622,2.6);
-  for(const q of pts)if(q.y>=C[1]-14)draw(q,false);
-  limb([[270,-40],[270,232]],2,'#0c0d10');ctx.fillStyle='#3a3d44';ctx.beginPath();ctx.moveTo(254,232);ctx.lineTo(286,232);ctx.lineTo(296,246);ctx.lineTo(244,246);ctx.closePath();ctx.fill();
-  lightPass('rgb(22,24,33)',[{x:262,y:610,r:330,c:'rgba(255,205,140,1)',k:.32,sy:.6},{x:270,y:500,r:430,c:'rgba(255,190,120,.45)',k:.3},{x:270,y:248,r:110,c:'rgba(255,230,180,1)',k:.2}]);
-  ctx.fillStyle='#fff6dc';ctx.beginPath();ctx.arc(270,249,6,0,7);ctx.fill();glow(270,249,60,'#ffd9a0',.9);
-  beamCone(270,248,130,410,660,'255,214,150',.2);motes(t,150,390,250,660,70,9,'255,225,180');
-  ctx.save();ctx.filter='blur(5px)';kneelThin(30,1020,4.6,3,'back');kneelThin(530,1040,5.0,6,'back');ctx.restore();ctx.fillStyle='rgba(5,6,9,.45)';ctx.fillRect(0,840,W,120);
-  ctx.restore();vig(.6,150);stampT('THEY KNEEL TO HIM.',t,CU.hookT[0],330,'#F4F4EF',50)};
-// ============ SHOT 2 (2.4-5.45): straight down from the ceiling. The bulb's pool shows the first rings;
-// on "kneel" the old ceiling tubes flicker on, row by row, and the dark fills with thousands more.
-const RING2=(()=>{const P=[];let k=0;for(let R=70;R<1100;R+=19){const n=Math.floor(2*Math.PI*R/17);for(let i=0;i<n;i++){k++;const a=i/n*Math.PI*2+hash(k)*.05+R*.02;if(hash(k+11)>.06)P.push([Math.cos(a)*R+(hash(k+3)-.5)*7,Math.sin(a)*R*1.08+(hash(k+4)-.5)*7,k])}}return P})();
-SC.s_top=(t,u,d)=>{const p=u/d;const kt=CU.hookT[1];const z=lerp(1.9,.62,EZ.io(pr(t,2.4,5.2)));ctx.save();ctx.translate(270,520);ctx.rotate(lerp(-.08,.03,p));ctx.scale(z,z);
-  ctx.fillStyle='#2a2925';ctx.fillRect(-1400,-1400,2800,2800);ctx.strokeStyle='rgba(255,255,255,.035)';ctx.lineWidth=1.2;for(let i=-30;i<=30;i++){ctx.beginPath();ctx.moveTo(i*46,-1400);ctx.lineTo(i*46,1400);ctx.stroke();ctx.beginPath();ctx.moveTo(-1400,i*46);ctx.lineTo(1400,i*46);ctx.stroke()}
-  for(const [x,y,k] of RING2)kneelTopThin(x,y,1.0,k,0,0);
-  lieTopThin(t,0,0,1.15);
-  // lights: the bulb pool; then the tubes come on in rows (with a flicker) after "kneel"
-  const L=[{x:0,y:0,r:150,c:'rgba(255,205,140,1)',k:.4}];const rows=[-760,-500,-250,250,500,760];
-  rows.forEach((ry,i)=>{const t0=kt+.05+i*.09;const on=t>t0?(t<t0+.12?(Math.sin((t-t0)*90)>0?.85:.15):1):0;if(on>0)for(const rx of[-520,-260,0,260,520])L.push({x:rx,y:ry,r:210,c:`rgba(170,200,235,${.75*on})`,k:.35})});
-  lightPass('rgb(12,13,18)',L);
-  glow(0,0,90,'#ffd9a0',.35);ctx.restore();vig(.55,160);
+
+// ============ SHOT 1 (0-2.4): the basement clinic, one bulb swinging slowly on its cord. You sit against the cot, Ollie asleep
+// in your lap. A ring of Sleepers kneels around you in the dark, heads bowed; the swinging light slides over them.
+// 5 layers with parallax: far wall (.4) -> far ring (.75) -> you + Ollie (1) -> near ring backs (1.15) -> foreground heads (1.5)
+const R1=(()=>{const P=[];let k=0;for(const [R,n] of[[180,10],[250,13],[330,16]]){for(let i=0;i<n;i++){k++;const a=i/n*Math.PI*2+R*.017+(hash(k)-.5)*.14;P.push({a,R:R+(hash(k+5)-.5)*16,k})}}return P})();
+function lamp1(t){return{x:270+Math.sin(t*1.25)*22,y:250}}
+SC.s_wide=(t,u,d)=>{const p=u/d;const cm={x:lerp(-10,-22,EZ.io(p)),y:lerp(58,46,EZ.io(p)),z:lerp(1.42,1.56,EZ.io(p))};const Lp=lamp1(t);const C=[262,630],E=.4;
+  const layer=(par,fn)=>{ctx.save();ctx.translate(270,560);const z=Math.pow(cm.z,par);ctx.scale(z,z);ctx.translate(-270-cm.x*par,-560-cm.y*par);fn();ctx.restore()};
+  layer(.4,()=>{vgr(0,430,'#1f2329','#171a1f');for(let x=-20;x<580;x+=62){bev(RR(x,250,46,150,4),'#20242a',{hl:2,sh:2,line:false})}ctx.fillStyle='#2b2f36';ctx.fillRect(-40,420,640,10);
+    ctx.save();ctx.globalAlpha=.16;for(let i=0;i<3;i++){const fx=((t*8+i*190)%760)-110;const g=ctx.createRadialGradient(fx,420,10,fx,420,220);g.addColorStop(0,'rgba(140,170,210,1)');g.addColorStop(1,'rgba(140,170,210,0)');ctx.fillStyle=g;ctx.fillRect(fx-220,300,440,240)}ctx.restore()});   // cold fog far away
+  const pts=R1.filter(o=>!(Math.sin(o.a)>.75)).map(o=>({x:C[0]+Math.cos(o.a)*o.R*1.05,y:C[1]+Math.sin(o.a)*o.R*E,o})).sort((a,b)=>a.y-b.y);
+  const sc=y=>lerp(.62,1.05,(y-500)/300);const kn=(q,front)=>{const side=Math.abs(Math.cos(q.o.a))>.5;slpKneel(q.x,q.y,sc(q.y),q.o.k,side?'side':front?'front':'back',Math.cos(q.o.a)>0?-1:1)};
+  const shadow=(x,y,w)=>{const dx=(x-Lp.x)*.18;ctx.fillStyle='rgba(0,0,0,.35)';ctx.beginPath();ctx.ellipse(x+dx,y+2,w,w*.22,0,0,7);ctx.fill()};
+  layer(.75,()=>{vgr(430,1000,'#2a2925','#141412');ctx.strokeStyle='rgba(255,255,255,.03)';ctx.lineWidth=1;for(let i=-14;i<=14;i++){ctx.beginPath();ctx.moveTo(270+i*22,430);ctx.lineTo(270+i*120,1000);ctx.stroke()}
+    for(const q of pts)if(q.y<C[1]-20){shadow(q.x,q.y,24*sc(q.y));kn(q,true)}});
+  layer(1,()=>{bev(RR(140,560,200,12,3),'#d6d2c6',{hl:2,sh:2});ctx.fillStyle='#8a8f99';ctx.fillRect(140,572,200,6);for(const x of[146,334])slab([x,578],[x,628],5,'#59607a',{line:false});   // the cot behind you
+    shadow(272,632,70);youHoldOllie(t,206,632,1.15,{nod:Math.sin(t*.9)*.03})});
+  layer(1.15,()=>{for(const q of pts)if(q.y>=C[1]-20){shadow(q.x,q.y,26*sc(q.y));kn(q,false)}});
+  // the bulb (swinging) + cord
+  layer(1,()=>{ctx.strokeStyle='#0c0d10';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(270,-60);ctx.lineTo(Lp.x,Lp.y-14);ctx.stroke();ctx.save();ctx.translate(Lp.x,Lp.y);ctx.rotate(-(Lp.x-270)*.004);bev(()=>{ctx.beginPath();ctx.moveTo(-17,-14);ctx.lineTo(17,-14);ctx.lineTo(25,0);ctx.lineTo(-25,0);ctx.closePath()},'#3a3d44',{hl:1.5,sh:1.5});ctx.restore()});
+  // light: warm pool that follows the bulb + faint cold ambient
+  ctx.save();ctx.translate(270,560);ctx.scale(cm.z,cm.z);ctx.translate(-270-cm.x,-560-cm.y);
+  const fl=1-.05*Math.max(0,Math.sin(t*23))*(Math.sin(t*3.1)>.6?1:0);
+  lightPass('rgb(24,27,38)',[{x:Lp.x+(C[0]-Lp.x)*.1,y:C[1],r:300,c:`rgba(255,205,140,${fl})`,k:.34,sy:.55},{x:Lp.x,y:470,r:420,c:'rgba(255,190,120,.45)',k:.3},{x:Lp.x,y:Lp.y+4,r:110,c:'rgba(255,230,180,1)',k:.2}]);
+  ctx.fillStyle='#fff6dc';ctx.beginPath();ctx.arc(Lp.x,Lp.y+4,6,0,7);ctx.fill();glow(Lp.x,Lp.y+4,70,'#ffd9a0',.9*fl);
+  beamCone(Lp.x,Lp.y+2,Lp.x-150+(Lp.x-270)*1.4,Lp.x+150+(Lp.x-270)*1.4,700,'255,214,150',.18*fl);motes(t,Lp.x-130,Lp.x+130,260,700,80,9,'255,225,180');ctx.restore();
+  ctx.fillStyle='rgba(4,5,8,.35)';ctx.fillRect(0,850,W,110);vig(.6,150);stampT('THEY KNEEL TO HIM.',t,CU.hookT[0],330,'#F4F4EF',50)};
+// ============ SHOT 2 (2.4-5.45): high angle above the cot. Close on Ollie asleep in your lap, then the camera pulls up and
+// back: ring after ring of kneeling Sleepers, thousands; on "kneel" the old ceiling lights flicker on across the room.
+// (Sleepers are sprites of the same block figure as shot 1, cached per view/colour, so thousands stay sharp and fast.)
+const KSP={};function kneelSprite(view,dir,seed){const key=view+dir+(seed%6);if(KSP[key])return KSP[key];const c=document.createElement('canvas');c.width=180;c.height=300;const sv=ctx;ctx=c.getContext('2d');ctx.scale(2,2);ctx.translate(45,140);slpKneel(0,0,1,seed%6,view,dir);ctx=sv;return KSP[key]=c}
+const R3=(()=>{const P=[];let k=0;for(let R=200;R<2200;R+=40){const n=Math.floor(2*Math.PI*R/40);for(let i=0;i<n;i++){k++;if(hash(k+11)<.04)continue;const a=i/n*Math.PI*2+R*.011+(hash(k)-.5)*.05;if(R<420&&Math.sin(a)>.55)continue;const rr=R+(hash(k+3)-.5)*12;P.push({X:Math.cos(a)*rr,Y:Math.sin(a)*rr,a,k})}}return P.sort((p,q)=>p.Y-q.Y)})();
+SC.s_top=(t,u,d)=>{const kt=CU.hookT[1];const q=EZ.io(pr(t,2.4,5.3));const z=lerp(1.75,.5,q),E=lerp(.5,.66,q),cx=270,cy=lerp(560,600,q);const Lx=Math.sin(t*1.25)*18;
+  const P=(X,Y)=>[cx+X*z,cy+Y*E*z];vgr(0,H,'#1a1b19','#121310');
+  ctx.save();ctx.strokeStyle='rgba(255,255,255,.035)';ctx.lineWidth=1;for(let i=-40;i<=40;i++){const a=P(i*60,-2600),b=P(i*60,2600);ctx.beginPath();ctx.moveTo(...a);ctx.lineTo(...b);ctx.stroke();const c=P(-2600,i*60),e=P(2600,i*60);ctx.beginPath();ctx.moveTo(...c);ctx.lineTo(...e);ctx.stroke()}ctx.restore();
+  const fs=z*1.0;let drawnSubj=false;
+  const subj=()=>{const [x,y]=P(0,0);ctx.fillStyle='rgba(0,0,0,.35)';ctx.beginPath();ctx.ellipse(x+10*z,y,70*z,16*z,0,0,7);ctx.fill();bev(RR(x-100*z,y-70*z,200*z,12*z,3*z),'#d6d2c6',{hl:2,sh:2});youHoldOllie(t,x-40*z,y,fs,{nod:Math.sin(t*.9)*.03})};
+  for(const o of R3){if(!drawnSubj&&o.Y>0){subj();drawnSubj=true}const [x,y]=P(o.X,o.Y);if(x<-60||x>600||y<-40||y>1100)continue;const side=Math.abs(Math.cos(o.a))>.5;const view=side?'side':(o.Y<0?'front':'back');const dir=Math.cos(o.a)>0?-1:1;
+    const sc=fs*.95;ctx.fillStyle='rgba(0,0,0,.3)';ctx.beginPath();ctx.ellipse(x,y+1,22*sc,6*sc,0,0,7);ctx.fill();ctx.drawImage(kneelSprite(view,side?dir:1,o.k),x-45*sc,y-140*sc,90*sc,150*sc)}
+  if(!drawnSubj)subj();
+  const [lx,ly]=P(Lx,-10);const Ls=[{x:lx,y:ly,r:380*z+90,c:'rgba(255,205,140,1)',k:.36,sy:E+.2}];
+  const on=i=>{const t0=kt+.04+i*.07;return t>t0?(t<t0+.14?(Math.sin((t-t0)*95)>0?.9:.12):1):0};
+  [-1600,-1050,-520,520,1050,1600].forEach((ry,i)=>{const k=on(i);if(k>0)for(const rx of[-1300,-650,0,650,1300]){const [x,y]=P(rx,ry);Ls.push({x,y,r:420*z+80,c:`rgba(175,205,240,${k})`,k:.42,sy:E+.15})}});
+  lightPass('rgb(14,15,21)',Ls);glow(lx,ly-60*z,90*z+30,'#ffd9a0',.35);
+  motes(t,0,W,150,900,40,21,'255,225,180');vig(.5,170);
   stampT('THEY KNEEL TO HIM.',t,-1,330,'#F4F4EF',50);stampT('AS LONG AS HE SLEEPS.',t,kt,392,K.red,44)};
 function zoomAt(cx,cy,z){ctx.translate(cx,cy);ctx.scale(z,z);ctx.translate(-cx,-cy)}
