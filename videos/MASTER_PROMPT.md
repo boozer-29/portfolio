@@ -321,3 +321,31 @@ Each item below is a bug that actually happened. Avoid it while building; tick i
 - **The project lives in iCloud Drive (Desktop).** With the disk full, macOS evicted `.git` files (`ls -lO` shows `dataless`; reading them times out) and
   iCloud won't restore dot-folders. Git breaks ("not a git repository"). Fix used: a fresh `git clone --depth 1 -b <branch>` outside Desktop, copy
   the episode in, commit and push. Keep ≥ 5 GB free so macOS doesn't evict files.
+
+### 9.12 Owner rule: no repeats between episodes (Nov 2026)
+- **Nothing from an earlier video comes back.** The drip v1 recycled the rizz reel (pigeons, news anchor, astronaut, a cosmic body
+  offering a gift and getting a smug no) and the Wi-Fi shout set word for word. Before writing a script, list every setting, side
+  character, gag, shout delivery, style break, stat display and ending type already used (all `episodes/*.md` + `rizz-reel-src/dialogue.json`)
+  and use none of them. Reuse only the tech (rig, compositor, mixer, QA).
+- **Already used, banned:** bedroom/mirror openers, Mum at the door, loop-back endings, pigeons, news studio/anchor, ISS/astronaut,
+  Moon, Saturn/rings/planets/Sun, galaxy/universe finales, crowd rings with hearts, barbershop, B&W strobe flex montage,
+  "visible from space" tiers, the confused/stutter/long/resigned shout set, a side character saying the last BOMBOCLAT.
+- **Each episode needs its own style break(s)** (the rizz B&W montage is the bar) and a twist ending nobody saw coming.
+
+### 9.13 Learned on Drip v2 (Nov 2026, the rethink)
+- **Reference build is now `drip2-src`.** New per-episode tricks there: a diegetic stat (a swinging paper price tag whose old prices get scribbled out),
+  style-break shots (`letterbox`, `sketch`, `cctv` + `fps: 12` on a shot), a flattened rig as a living shadow, and a music bed processed per scene
+  (through-the-wall low-pass, cut out, tape-stop, tinny CCTV speaker, silence) instead of one flat bed.
+- **`mat()` is cached by colour:** mutating a material's colour changes every mesh that shares that hex. Give anything that changes colour mid-episode
+  (the hero's jacket, the bouncer's jacket at the end, a mannequin) its own unique hex, and give separate props a different hex from it.
+- **`sc.add(x)` returns the scene,** so `sc.add(rbox(...)).visible = false` hides the whole scene.
+- **Scaled side characters reach higher:** a bouncer at scale 1.28 with shoulder x −1.2 put his hand on the hero's face. Compute hand height
+  (shoulder height − cos(x)·arm length) before posing a "hand on chest".
+- **Over-the-shoulder shots** put the camera inside the near character's head unless it sits ≥ 2.5 units behind them; check both characters' faces.
+- **Crowds that gather round the hero** (gallery visitors) must stand behind and beside him, never in the front half, or the push-in hits a body.
+- **A tag on a raised forearm hangs upside-down:** flip the card (`rotation.z = π`) for inserts where the forearm is up. In-world prop text (the £40 tag)
+  only reads in a dedicated insert shot.
+- **Pencil-sketch filter:** edges = image minus itself shifted 2 px (`difference`), then `grayscale brightness(5) invert` (not `contrast()`, which
+  washes small differences to white), multiplied over paper.
+- **Low-fps CCTV shots repeat frames** and fail the duplicate-frame check: add per-frame video noise (grain at 0.5 overlay) to those shots.
+- **Hard cuts to silence click:** fade the bed over 30 ms before zeroing it.
