@@ -1,7 +1,7 @@
 # MASTER PROMPT — Polygram "What if…?" reels (three.js + Playwright edition)
 
 Paste this whole file into a Claude Code session on the Mac, in the repo `boozer-29/portfolio`, branch `claude/cool-bardeen-010lrr`.
-Newest reference implementation: `videos/afro-src/` (rig v2 + afro, props, scenes, shots, mixer, Whisper helper). Older: `videos/mums-cooking-src/`.
+Newest reference implementation: `videos/drip-src/` (copied from `wifi-src`: rig v2 with the arm fix, safe-area text, Reflector mirrors, a drip-kit accessory system). Older: `wifi-src/`, `afro-src/`, `mums-cooking-src/`.
 **Read `videos/REFERENCE_ANALYSIS.md` first** — the owner's reference reels, broken down beat by beat. It is the quality and comedy bar.
 
 ---
@@ -282,3 +282,42 @@ Each item below is a bug that actually happened. Avoid it while building; tick i
 - Inserting a pause: cut only at true silence (≤ −45 dB). If two words run together (no silence), regenerate with the beat written into the line.
 - Turned characters: after a turn, check the final yaw faces the camera (the teacher ended up back-to-camera).
 - **Camera paths through bodies/props:** a push-in that passes through a character or a chair gives frames of solid colour (and mpdecimate flags them as duplicates). Check both ends AND the middle of every camera move against the characters and furniture near it.
+
+### 9.11 Learned on the Drip episode (Nov 2026)
+- **Check the ElevenLabs key first** (`curl -H "xi-api-key: …" https://api.elevenlabs.io/v1/user/subscription`). The Keychain key had gone invalid (401
+  "Invalid API key"). The owner makes a new key and saves it with `security add-generic-password -U -a "$USER" -s elevenlabs -w` (paste it at both prompts).
+- `/usr/bin/python3` has no numpy. Run the mixer/shout/QA scripts with `/opt/homebrew/bin/python3`, and call sub-scripts with `sys.executable`, not `'python3'`.
+- `render.js test` used `path.join(ROOT, TDIR)`, so an absolute `TDIR` wrote into `<src>/private/tmp/…`. Fixed with `path.resolve` (drip-src).
+- **Portrait framing too tight was the #1 test-frame bug** (10+ shots in the first pass: giant heads, a face under the stat block, a leg filling the frame).
+  At fov 44 a full body needs the camera ≈ 5+ units away, waist-up ≈ 3.5–4, a face close-up ≈ 2.2–2.8. Compute the distance before placing the camera.
+- **Where the subject lands in frame:** aiming the camera *above* the face pushes the subject down, clear of the stat block and diary (top ≈ 35 %).
+- **Crowds near the camera:** photographers placed on the camera's line at the runway end filled the frame with solid blue/black. Keep extras off the
+  camera line, and send walking characters (models stepping off the runway) to targets on the flanks, never on the camera→hero line.
+- **Rows of seats (bus, cinema):** 1.5-high seat backs hide the seats and props from a low camera. Shoot from above (y ≈ 2.5) and hide the rows between camera and subject.
+- **Crossed arms:** shoulder x −1.1 with elbow 1.75 lifts a forearm to the face. Use `[[-0.55, 0, -0.22, 1.55], [-0.6, 0, 0.22, 1.5]]` (arm 0: −z = inward).
+- **Big hand props (umbrellas):** parented to a forearm they inherit the arm's rotation and point out of frame. Place them in world space from `wp(hand)` each frame.
+- **Accessories on small characters** (the pigeons' chains) ended up inside the body box: put them in front of the chest (z ≥ front face + 0.02) and check in a close-up.
+- **Tracking a walking character:** a camera lerping p0→p1 at a fixed speed falls behind; use `pf`/`lf` functions that follow the character's position.
+- **Mirrors (`Reflector`):** filmed from behind the subject you get a back-of-head blob. Film the mirror from the side, so the subject and the reflection both read.
+- **Big moving props must not cross a talking face:** Saturn's rings slid in front of its own face. End such moves out of the camera→face line (the rings end as a hoop around the hero).
+- **QA scripts copied from an older episode** had a hard-coded frame count (1656) and the old line list. `qa_final.py` now reads the frame count from `timeline.json`;
+  update its line list and `capcheck.js`'s frame count per episode.
+- **In-world text in a background** (a bus destination sign) landed inside the stat block. Remove text props that can fall in the top 35 %.
+- **Check the punchline word in the final mix, not just the isolated take.** Scribe heard "mi already have a ring" in the raw take but "…already having"
+  in the mix (Kevin's accent runs "have a ring" together). Fix: regenerate with a beat before the key word (`have a... ring.`), drop the music under the
+  punchline (`SIL` covers the whole line), then Scribe the mix again. Lengthen the step in `timeline.py` if the new take is longer.
+- **QA line checks must match whole words:** `'ring' in transcript` passed on "hove*ring*". `qa_final.py` now matches word-bounded phrases.
+- **Shouts need ≥ 10 dB over the bed:** the swelling scream sat ~9 dB above the music. The mixer now ducks the bed a further 4 dB under every shout.
+- **Held scream vowels:** Scribe gives one short word ("Bombo.") for a 2 s "BOMBOOOO—", so the caption checker flagged the rest as unheard.
+  `verify_captions.py` accepts shout frames only where the voice stem is clearly audible (≥ 10 dB above the bed).
+- **Disk space:** the Mac filled up during the encode (154 MB free, "No space left on device"). Check `df -h ~` before the final render;
+  2,800 frames ≈ 0.8 GB + a 100 MB MP4. Old episodes' `frames*` folders (git-ignored) are the big items — ask the owner before deleting them.
+- **After re-timing captions, re-render only the frames that change:** delete the frames inside every old and new dialogue span (±0.4 s) and after any
+  timeline change, then rerun `render.js all` (it skips frames that exist).
+- **Captions must respect the safe area too:** spoken and shout captions were centred on W/2 at 82–84 % width, so they poked into the 140 px right
+  margin, and the long stutter shout ("BOMBO… BOMBO… BOMBOCLAAAT!") ran off the left edge (font floor 60 px). `part_d.js` now centres captions in the
+  safe box (`CAP_X`, `CAP_W = W − SAFE_L − SAFE_R`) and lets the font shrink to 36–40 px. Check the longest caption in a test frame.
+- **GitHub rejects files over 100 MB:** the CRF 17 final was 105 MB. Encode the committed 1080p at CRF 18, maxrate 8.5M (≈ 90 MB for 94 s) and re-run QA on that file.
+- **The project lives in iCloud Drive (Desktop).** With the disk full, macOS evicted `.git` files (`ls -lO` shows `dataless`; reading them times out) and
+  iCloud won't restore dot-folders. Git breaks ("not a git repository"). Fix used: a fresh `git clone --depth 1 -b <branch>` outside Desktop, copy
+  the episode in, commit and push. Keep ≥ 5 GB free so macOS doesn't evict files.
