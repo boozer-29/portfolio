@@ -1,0 +1,38 @@
+{
+ "sh_question": [
+  [
+   "BOMBOCLAAT?",
+   0.0
+  ]
+ ],
+ "sh_long": [
+  [
+   "BOMBOOOOOOOOO\u2014",
+   0.0
+  ]
+ ],
+ "sh_stutter": [
+  [
+   "BOMBO\u2026",
+   0.0
+  ],
+  [
+   "BOMBO\u2026",
+   1.0
+  ],
+  [
+   "BOMBOCLAAAT!",
+   2.16
+  ]
+ ],
+ "sh_resigned": [
+  [
+   "hmm\u2026",
+   0.0
+  ],
+  [
+   "bomboclaat.",
+   1.37
+  ]
+ ]
+}
