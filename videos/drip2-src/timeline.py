@@ -17,7 +17,7 @@ STEPS = [  # day, value, comparison, status(unused in v2), setup, punch, [(cue, 
  (22, '£84 million', '≈ A SUPERYACHT', '', 'Day 22. He stops to tie his shoe in a gallery.', "They won't let him leave.", [('sh_whisper', 4.4)], 7.4),
  (27, '£2.7 billion', '≈ A FOOTBALL CLUB', '', 'Day 27. He pays for crisps with one button.', 'His change comes in a wheelbarrow.', [], 6.0),
  (30, '£21.5 billion', '≈ A SMALL COUNTRY', '', 'Day 30. All of London copies his look.', "Only the £40 jacket. It's all they can afford.", [], 6.2),
- ('END', '£42.9 billion', 'STILL NOT ON THE LIST', '', 'Day 31. Back at the club.', '', [('b2', 1.6), ('sh_squeak', 4.4)], 6.0),
+ ('END', '£42.9 billion', 'STILL NOT ON THE LIST', '', 'Day 31. Back at the club.', '', [('b2', 1.6), ('sh_squeak', 4.2)], 6.4),
 ]
 TITLE = 3.0; t = TITLE; out = []
 for day, rng, cmp, status, setup, punch, cues, length in STEPS:

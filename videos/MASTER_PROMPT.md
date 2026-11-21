@@ -349,3 +349,12 @@ Each item below is a bug that actually happened. Avoid it while building; tick i
   washes small differences to white), multiplied over paper.
 - **Low-fps CCTV shots repeat frames** and fail the duplicate-frame check: add per-frame video noise (grain at 0.5 overlay) to those shots.
 - **Hard cuts to silence click:** fade the bed over 30 ms before zeroing it.
+
+### 9.14 Owner feedback on Drip v2 (Nov 2026)
+- **BOMBOCLATs must be Kevin's own voice and funny.** The pitch-shifted "voice crack" (asetrate ×1.3) and the whisper both sounded like another person.
+  Generate voiced takes with comedic delivery tags (outraged, dragged-out, stunned-slow), never pitch-shift or whisper; check the take's median pitch
+  matches his spoken lines (≈ 125–210 Hz). Reverb/echo is fine when it is the gag.
+- **The doubling subject must transform completely each step.** "Drip" = a whole new outfit per day (jacket, trousers, shoes, hat, extras), not gold
+  added to the same clothes. `drip2-src/part_b.js` has `OUTFITS` (per day) + `WM` (wardrobe materials); the hero's outfit follows `stepAt(O)`.
+- **Playwright's browser cache can vanish** (`~/Library/Caches/ms-playwright` cleared): `render.js`/`capcheck.js` now fall back to the installed
+  Chrome (`CHROME` env or `/Applications/Google Chrome 2.app`) instead of downloading a new browser.

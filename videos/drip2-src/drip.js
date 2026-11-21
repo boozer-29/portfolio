@@ -4,12 +4,12 @@ import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.j
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { Reflector } from 'three/addons/objects/Reflector.js';
 
-const W = 1080, H = 1920; export const DUR = 86.9;
+const W = 1080, H = 1920; export const DUR = 87.3;
 let DIALOGUE = [];
 function spanHit(c, O) { for (const [a, b] of c.spans) if (O >= a - 0.02 && O < b + 0.03) return true; return false; }
 
 // ---------------------------------------------------------------- story steps (one doubling each)
-const STEPS = [{"day": 1, "t": 3.0, "t1": 10.8, "v": "£40", "cmp": "A CHARITY-SHOP JACKET", "status": "", "setup": "Day 1. A £40 jacket from a charity shop.", "son": 3.35, "punch": "The bouncer has questions.", "pon": 5.85}, {"day": 3, "t": 10.8, "t1": 17.8, "v": "£160", "cmp": "NEW WHITE TRAINERS", "status": "", "setup": "Day 3. New white trainers.", "son": 11.15, "punch": "His shadow starts walking like a model.", "pon": 13.09}, {"day": 5, "t": 17.8, "t1": 26.4, "v": "£640", "cmp": "≈ A DESIGNER JACKET", "status": "", "setup": "Day 5. A trip to the zoo.", "son": 18.15, "punch": "The peacock retires.", "pon": 20.05}, {"day": 8, "t": 26.4, "t1": 32.4, "v": "£5,120", "cmp": "≈ A GOLD CHAIN", "status": "", "setup": "Day 8. He walks past a clothes shop.", "son": 26.75, "punch": "The mannequins notice.", "pon": 29.09}, {"day": 10, "t": 32.4, "t1": 38.8, "v": "£20,480", "cmp": "≈ A NEW CAR", "status": "", "setup": "In 2019, a pair of trainers sold for $437,500.", "son": 32.75, "punch": "Now a man in white gloves ties his laces.", "pon": 35.49}, {"day": 12, "t": 38.8, "t1": 45.8, "v": "£81,920", "cmp": "≈ TWO YEARS' WAGES", "status": "", "setup": "Day 12. It starts to rain.", "son": 39.15, "punch": "The rain goes round him.", "pon": 41.09}, {"day": 15, "t": 45.8, "t1": 54.0, "v": "£655,360", "cmp": "≈ TWO HOUSES", "status": "", "setup": "Day 15. He's arrested for stopping traffic.", "son": 46.15, "punch": "The judge has one question.", "pon": 48.77}, {"day": 18, "t": 54.0, "t1": 61.0, "v": "£5.2 million", "cmp": "≈ A PRIVATE JET", "status": "", "setup": "Day 18. Two men try to rob him.", "son": 54.35, "punch": "They tip him instead.", "pon": 56.49}, {"day": 22, "t": 61.0, "t1": 68.4, "v": "£84 million", "cmp": "≈ A SUPERYACHT", "status": "", "setup": "Day 22. He stops to tie his shoe in a gallery.", "son": 61.35, "punch": "They won't let him leave.", "pon": 64.09}, {"day": 27, "t": 68.4, "t1": 74.4, "v": "£2.7 billion", "cmp": "≈ A FOOTBALL CLUB", "status": "", "setup": "Day 27. He pays for crisps with one button.", "son": 68.75, "punch": "His change comes in a wheelbarrow.", "pon": 71.37}, {"day": 30, "t": 74.4, "t1": 80.6, "v": "£21.5 billion", "cmp": "≈ A SMALL COUNTRY", "status": "", "setup": "Day 30. All of London copies his look.", "son": 74.75, "punch": "Only the £40 jacket. It's all they can afford.", "pon": 77.17}, {"day": "END", "t": 80.6, "t1": 86.6, "v": "£42.9 billion", "cmp": "STILL NOT ON THE LIST", "status": "", "setup": "Day 31. Back at the club.", "son": 80.95, "punch": "", "pon": null}];  // generated from timeline.json (step 2)
+const STEPS = [{"day": 1, "t": 3.0, "t1": 10.8, "v": "£40", "cmp": "A CHARITY-SHOP JACKET", "status": "", "setup": "Day 1. A £40 jacket from a charity shop.", "son": 3.35, "punch": "The bouncer has questions.", "pon": 5.85}, {"day": 3, "t": 10.8, "t1": 17.8, "v": "£160", "cmp": "NEW WHITE TRAINERS", "status": "", "setup": "Day 3. New white trainers.", "son": 11.15, "punch": "His shadow starts walking like a model.", "pon": 13.09}, {"day": 5, "t": 17.8, "t1": 26.4, "v": "£640", "cmp": "≈ A DESIGNER JACKET", "status": "", "setup": "Day 5. A trip to the zoo.", "son": 18.15, "punch": "The peacock retires.", "pon": 20.05}, {"day": 8, "t": 26.4, "t1": 32.4, "v": "£5,120", "cmp": "≈ A GOLD CHAIN", "status": "", "setup": "Day 8. He walks past a clothes shop.", "son": 26.75, "punch": "The mannequins notice.", "pon": 29.09}, {"day": 10, "t": 32.4, "t1": 38.8, "v": "£20,480", "cmp": "≈ A NEW CAR", "status": "", "setup": "In 2019, a pair of trainers sold for $437,500.", "son": 32.75, "punch": "Now a man in white gloves ties his laces.", "pon": 35.49}, {"day": 12, "t": 38.8, "t1": 45.8, "v": "£81,920", "cmp": "≈ TWO YEARS' WAGES", "status": "", "setup": "Day 12. It starts to rain.", "son": 39.15, "punch": "The rain goes round him.", "pon": 41.09}, {"day": 15, "t": 45.8, "t1": 54.0, "v": "£655,360", "cmp": "≈ TWO HOUSES", "status": "", "setup": "Day 15. He's arrested for stopping traffic.", "son": 46.15, "punch": "The judge has one question.", "pon": 48.77}, {"day": 18, "t": 54.0, "t1": 61.0, "v": "£5.2 million", "cmp": "≈ A PRIVATE JET", "status": "", "setup": "Day 18. Two men try to rob him.", "son": 54.35, "punch": "They tip him instead.", "pon": 56.49}, {"day": 22, "t": 61.0, "t1": 68.4, "v": "£84 million", "cmp": "≈ A SUPERYACHT", "status": "", "setup": "Day 22. He stops to tie his shoe in a gallery.", "son": 61.35, "punch": "They won't let him leave.", "pon": 64.09}, {"day": 27, "t": 68.4, "t1": 74.4, "v": "£2.7 billion", "cmp": "≈ A FOOTBALL CLUB", "status": "", "setup": "Day 27. He pays for crisps with one button.", "son": 68.75, "punch": "His change comes in a wheelbarrow.", "pon": 71.37}, {"day": 30, "t": 74.4, "t1": 80.6, "v": "£21.5 billion", "cmp": "≈ A SMALL COUNTRY", "status": "", "setup": "Day 30. All of London copies his look.", "son": 74.75, "punch": "Only the £40 jacket. It's all they can afford.", "pon": 77.17}, {"day": "END", "t": 80.6, "t1": 87.0, "v": "£42.9 billion", "cmp": "STILL NOT ON THE LIST", "status": "", "setup": "Day 31. Back at the club.", "son": 80.95, "punch": "", "pon": null}];  // generated from timeline.json (step 2)
 const TITLE = { t0: 0.15, t1: 2.95 };
 const TL = Object.fromEntries(STEPS.map(s => [s.day, s]));   // TL[12].t etc.
 
@@ -273,28 +273,68 @@ function jacketBits(P, tag = true) {   // the £40 charity-shop look: elbow patc
   const b = grp(0, 0, 0, P.spine); b.add(rbox(0.2, 0.16, 0.02, mat(0x5a4632, { roughness: 1 }), -0.22, 0.52, 0.245)); b.add(rbox(0.14, 0.12, 0.02, mat(0x4a5a3a, { roughness: 1 }), 0.25, 0.25, 0.245));
   b.add(rbox(0.12, 0.4, 0.025, mat(0x6e5236, { roughness: 0.9 }), -0.12, 0.56, 0.24)); b.add(rbox(0.12, 0.4, 0.025, mat(0x6e5236, { roughness: 0.9 }), 0.12, 0.56, 0.24));
   if (tag) { const t = tagMesh(); t.position.set(0.13, -0.3, 0.02); P.arms[1].el.add(t); P.tag = t; } return b; }
+// ---- the hero's wardrobe: a complete new outfit every doubling (jacket, trousers, shoes, hat, extras), keyed by the current day
+const cosmosTex = canvasTex(256, 256, (g, w, h) => { const gr = g.createLinearGradient(0, 0, w, h); gr.addColorStop(0, '#1a0b3a'); gr.addColorStop(0.5, '#3a1470'); gr.addColorStop(1, '#0b1a4a'); g.fillStyle = gr; g.fillRect(0, 0, w, h); const r2 = rnd(4); for (let i = 0; i < 140; i++) { g.fillStyle = `rgba(255,255,255,${0.4 + r2() * 0.6})`; g.beginPath(); g.arc(r2() * w, r2() * h, r2() * 1.8 + 0.4, 0, 7); g.fill(); } for (let i = 0; i < 5; i++) { const x = r2() * w, y = r2() * h, rg = g.createRadialGradient(x, y, 0, x, y, 40); rg.addColorStop(0, 'rgba(255,120,220,0.35)'); rg.addColorStop(1, 'rgba(255,120,220,0)'); g.fillStyle = rg; g.fillRect(0, 0, w, h); } });
+const WM = {   // wardrobe materials (unique keys, so nothing else in a scene shares them)
+  cord: mat(0x8a6a4a, { roughness: 0.92 }), jeans: mat(0x4a5d8d, { roughness: 0.75 }), scruff: mat(0x3a2e27, { roughness: 0.8 }),
+  track: new THREE.MeshPhysicalMaterial({ color: 0x2a5bd7, roughness: 0.45, sheen: 0.8, sheenColor: new THREE.Color(0x9fc0ff) }), white: mat(0xfafafb, { roughness: 0.3 }),
+  camel: mat(0xc49a5b, { roughness: 0.8 }), cream: mat(0xe6dcc5, { roughness: 0.8 }), loafer: mat(0x5a3a23, { roughness: 0.2, metalness: 0.1 }),
+  leather: mat(0x16161b, { roughness: 0.2, metalness: 0.15, envMapIntensity: 1.4 }), blackj: mat(0x1b1b20, { roughness: 0.7 }),
+  puffer: mat(0xd42a36, { roughness: 0.22, envMapIntensity: 1.3 }), cargo: mat(0x5a5a39, { roughness: 0.85 }),
+  velvet: new THREE.MeshPhysicalMaterial({ color: 0x5a1030, roughness: 0.6, sheen: 1, sheenColor: new THREE.Color(0xff6aa0) }), blacks: mat(0x0d0d0e, { roughness: 0.15, metalness: 0.2 }),
+  fur: mat(0xf2ede5, { roughness: 1 }), tux: mat(0x111119, { roughness: 0.35 }), silver: mat(0xd0d4dd, { roughness: 0.18, metalness: 1, envMapIntensity: 1.6 }),
+  cape: new THREE.MeshPhysicalMaterial({ color: 0x8a0f1a, roughness: 0.55, sheen: 1, sheenColor: new THREE.Color(0xff8090) }),
+  cosmos: new THREE.MeshStandardMaterial({ map: cosmosTex, emissiveMap: cosmosTex, emissive: 0xffffff, emissiveIntensity: 0.7, roughness: 0.4, metalness: 0.3 }),
+  gold: GOLD, diam: DIAM };
+const OUTFITS = {   // jacket, trousers, shoes, hat, extras: the drip, day by day
+  1: { j: 'cord', p: 'jeans', s: 'scruff', lap: 'cord', shirt: 0xefe7d4, patches: 1, tag: 1 },
+  3: { j: 'track', p: 'track', s: 'white', lap: 'track', shirt: 0xffffff, stripes: 1, hat: 'cap' },
+  5: { j: 'camel', p: 'cream', s: 'loafer', lap: 'camel', shirt: 0x222222, coat: 1, hat: 'bucket' },
+  8: { j: 'leather', p: 'blackj', s: 'white', lap: 'leather', shirt: 0xffffff, chain: 1 },
+  10: { j: 'puffer', p: 'cargo', s: 'white', lap: 'puffer', shirt: 0x111111, chain: 1, hat: 'beanie' },
+  12: { j: 'velvet', p: 'velvet', s: 'blacks', lap: 'gold', btn: 'gold', shirt: 0x111111, chain: 1, watch: 1 },
+  15: { j: 'fur', p: 'cream', s: 'white', lap: 'fur', shirt: 0x111111, collar: 1, coat: 1, chain: 1, watch: 1, spark: 0.5 },
+  18: { j: 'tux', p: 'tux', s: 'blacks', lap: 'diam', btn: 'diam', shirt: 0xffffff, hat: 'top', chain: 1, watch: 1, spark: 0.6 },
+  22: { j: 'gold', p: 'gold', s: 'gold', lap: 'tux', btn: 'diam', shirt: 0x111111, chain: 1, watch: 1, spark: 1, glow: 0.6 },
+  27: { j: 'diam', p: 'silver', s: 'diam', lap: 'gold', btn: 'gold', shirt: 0x111111, cape: 'cape', hat: 'crown', chain: 1, watch: 1, spark: 1, glow: 0.8 },
+  30: { j: 'cosmos', p: 'cosmos', s: 'cosmos', lap: 'gold', btn: 'diam', shirt: 0x111111, cape: 'cosmos', chain: 1, watch: 1, spark: 1, glow: 1.4 },
+};
+OUTFITS.END = OUTFITS[30];
 function makeHero() {
-  const P = makeRig({ hood: 0x8a6a49, hoodD: 0x6e5236, noHood: true }); const K = {}; P.kit = K;
-  K.fab = mat(0x8a6a49, { roughness: 0.75 }); K.lapM = mat(0x6e5236, { roughness: 0.9 });
-  K.lapels = [-1, 1].map(sx => { const l = rbox(0.13, 0.42, 0.025, K.lapM, sx * 0.13, 0.55, 0.24); l.rotation.z = sx * 0.22; P.spine.add(l); return l; });
-  K.shirt = rbox(0.13, 0.38, 0.02, mat(0xefe7d4, { roughness: 0.8 }), 0, 0.57, 0.233); P.spine.add(K.shirt);
+  const P = makeRig({ hood: 0x8a6a49, hoodD: 0x6e5236, pants: 0x4a5d8c, noHood: true }); const K = {}; P.kit = K;
+  const fab = mat(0x8a6a49, { roughness: 0.75 }), pm = mat(0x4a5d8c, { roughness: 0.7 }); K.jm = []; K.pm = [];
+  P.root.traverse(m => { if (m.material === fab) K.jm.push(m); if (m.material === pm) K.pm.push(m); });
+  K.lapels = [-1, 1].map(sx => { const l = rbox(0.13, 0.42, 0.025, WM.cord, sx * 0.13, 0.55, 0.24); l.rotation.z = sx * 0.22; P.spine.add(l); return l; });
+  K.shirt = rbox(0.13, 0.38, 0.02, new THREE.MeshStandardMaterial({ color: 0xefe7d4, roughness: 0.8 }), 0, 0.57, 0.233); P.spine.add(K.shirt);
   K.btnM = mat(0x4a3220, { roughness: 0.5 }); K.btns = [0.4, 0.27, 0.14].map(y => { const b = cyl(0.028, 0.028, 0.02, K.btnM, 0.07, y, 0.243, 12); b.rotation.x = Math.PI / 2; P.spine.add(b); return b; });
   K.patches = [rbox(0.2, 0.16, 0.02, mat(0x5a4632, { roughness: 1 }), -0.22, 0.25, 0.245), rbox(0.14, 0.12, 0.02, mat(0x4a5a3a, { roughness: 1 }), 0.25, 0.5, 0.245)]; K.patches.forEach(p => P.spine.add(p));
   K.tag = tagMesh(); K.tag.position.set(0.13, -0.3, 0.02); P.arms[1].el.add(K.tag);
-  K.shoes = P.legs.map((L, i) => { const g = grp(0, -0.42, 0.05, L.knee); g.add(rbox(0.33, 0.15, 0.47, mat(0xfafafa, { roughness: 0.3 }))); g.add(rbox(0.34, 0.05, 0.48, mat(0xe9e9e9, { roughness: 0.5 }), 0, -0.06, 0)); g.add(rbox(0.02, 0.05, 0.24, mat(0xd4a640, { roughness: 0.3, metalness: 0.8 }), (i ? 1 : -1) * 0.17, 0.01, 0.02));
+  K.stripes = [...P.arms.map((A, i) => { const sx = i ? 1 : -1; return [rbox(0.03, 0.36, 0.05, WM.white, sx * 0.115, -0.19, 0), rbox(0.03, 0.3, 0.05, WM.white, sx * 0.11, -0.16, 0)].map((b, k) => { (k ? A.el : A.sh).add(b); return b; }); }), ...P.legs.map((L, i) => { const sx = i ? 1 : -1; return [rbox(0.03, 0.42, 0.05, WM.white, sx * 0.145, -0.21, 0), rbox(0.03, 0.38, 0.05, WM.white, sx * 0.135, -0.19, 0)].map((b, k) => { (k ? L.knee : L.thigh).add(b); return b; }); })].flat();
+  K.coat = rbox(0.82, 0.62, 0.5, WM.camel, 0, -0.36, 0); P.hips.add(K.coat);
+  K.collar = new THREE.Mesh(new THREE.TorusGeometry(0.33, 0.11, 10, 24), WM.fur); K.collar.rotation.x = Math.PI / 2; K.collar.position.set(0, 0.76, 0); K.collar.scale.set(1.15, 0.8, 1); P.spine.add(K.collar);
+  K.cape = rbox(0.86, 1.5, 0.05, WM.cape, 0, 0.0, -0.27); P.spine.add(K.cape);
+  K.shoes = P.legs.map((L, i) => { const g = grp(0, -0.42, 0.05, L.knee); g.main = rbox(0.33, 0.15, 0.47, WM.white); g.add(g.main); g.add(rbox(0.34, 0.05, 0.48, mat(0xe9e9e9, { roughness: 0.5 }), 0, -0.06, 0)); g.add(rbox(0.02, 0.05, 0.24, mat(0xd4a640, { roughness: 0.3, metalness: 0.8 }), (i ? 1 : -1) * 0.17, 0.01, 0.02));
     g.laces = [-1, 1].map(s => { const l = cyl(0.009, 0.009, 0.3, mat(0xffffff), s * 0.05, -0.05, 0.2, 5); l.rotation.z = s * 0.15; g.add(l); return l; });
     g.bow = grp(0, 0.09, 0.08, g); [-1, 1].forEach(s => { const lp = new THREE.Mesh(new THREE.TorusGeometry(0.045, 0.008, 5, 12), mat(0xffffff)); lp.position.x = s * 0.05; lp.rotation.y = Math.PI / 2 + s * 0.4; g.bow.add(lp); }); return g; });
+  const H = (y) => grp(0, y, -0.01, P.head); K.hats = {
+    cap: (() => { const g = H(0.8); g.add(cyl(0.37, 0.37, 0.16, mat(0xf4f4f6, { roughness: 0.6 }), 0, 0, 0, 24)); g.add(rbox(0.42, 0.04, 0.3, mat(0xf4f4f6, { roughness: 0.6 }), 0, -0.06, -0.42)); return g; })(),
+    bucket: (() => { const g = H(0.84); g.add(cyl(0.36, 0.4, 0.24, mat(0xe7d9b9, { roughness: 0.85 }), 0, 0, 0, 24)); g.add(cyl(0.53, 0.55, 0.035, mat(0xe0d0ad, { roughness: 0.85 }), 0, -0.11, 0, 28)); return g; })(),
+    beanie: (() => { const g = H(0.84); g.add(rbox(0.74, 0.3, 0.68, mat(0x1a1a1f, { roughness: 0.95 }))); g.add(rbox(0.76, 0.1, 0.7, mat(0x2a2a30, { roughness: 0.95 }), 0, -0.12, 0)); return g; })(),
+    top: (() => { const g = H(0.97); g.add(cyl(0.3, 0.3, 0.5, WM.tux, 0, 0, 0, 24)); g.add(cyl(0.5, 0.5, 0.04, WM.tux, 0, -0.24, 0, 28)); g.add(cyl(0.305, 0.305, 0.08, mat(0xf2f2f2), 0, -0.17, 0, 24)); return g; })(),
+    crown: (() => { const g = H(0.86); g.add(cyl(0.36, 0.36, 0.16, GOLD, 0, 0, 0, 24)); for (let k = 0; k < 8; k++) { const a = k / 8 * Math.PI * 2; g.add(cone(0.07, 0.2, GOLD, Math.sin(a) * 0.33, 0.17, Math.cos(a) * 0.33, 8)); const d = new THREE.Mesh(new THREE.OctahedronGeometry(0.045, 0), DIAM); d.position.set(Math.sin(a) * 0.37, 0.0, Math.cos(a) * 0.37); g.add(d); } return g; })() };
   K.chain = makeChain(); K.chain.position.set(0, 0.7, 0.27); P.spine.add(K.chain);
   K.watch = grp(0, -0.3, 0, P.arms[0].el); { const w = new THREE.Mesh(new THREE.TorusGeometry(0.125, 0.03, 8, 24), GOLD); w.rotation.x = Math.PI / 2; K.watch.add(w); const f = cyl(0.06, 0.06, 0.03, DIAM, 0.12, 0, 0, 12); f.rotation.z = Math.PI / 2; K.watch.add(f); }
   K.sparks = [[0, 0.32, 0.33, P.spine], [0.18, 0.55, 0.3, P.spine], [-0.2, 0.5, 0.3, P.spine], [0.3, 0.9, 0.2, P.head], [-0.33, 0.78, 0.25, P.head]].map(([x, y, z, par], i) => { const s = sparkle(0.35); s.position.set(x, y, z); par.add(s); s.ph = i * 1.7; return s; });
   K.glow = new THREE.PointLight(0xffc96a, 0, 3, 1.6); K.glow.position.set(0, 0.45, 0.8); P.spine.add(K.glow);
-  K.set = (lvl, O, o = {}) => { const rich = lvl >= 2;
-    K.fab.color.setHex(rich ? 0x1d1530 : 0x8a6a49); K.fab.roughness = rich ? 0.55 : 0.85; K.lapels.forEach(l => l.material = rich ? GOLD : K.lapM); K.btns.forEach(b => b.material = rich ? GOLD : K.btnM); K.shirt.material.color.setHex(rich ? 0x111111 : 0xefe7d4);
-    K.patches.forEach(p => p.visible = !rich); K.tag.visible = lvl === 0 || !!o.tag; K.tag.rotation.z = 0.25 * Math.sin(O * 3.1); K.tag.rotation.x = 0.15 * Math.sin(O * 2.3);
-    K.shoes.forEach(s => { s.visible = lvl >= 1; s.laces.forEach(l => l.visible = !!o.untied); s.bow.visible = !o.untied && lvl >= 1; });
-    K.chain.visible = lvl >= 3; K.watch.visible = lvl >= 4;
-    const sp = lvl >= 4 ? (lvl >= 5 ? 1 : 0.6) * (o.spark ?? 1) : 0; K.sparks.forEach(s => { const tw = Math.pow(Math.max(0, Math.sin(O * 2.6 + s.ph)), 6); s.visible = sp > 0; s.material.opacity = sp * (0.25 + 0.75 * tw); s.scale.setScalar(0.18 + 0.5 * tw); });
-    K.chain.scale.setScalar(lvl >= 4 ? 1.12 : 1); K.glow.intensity = (lvl >= 5 ? 2.2 : lvl >= 4 ? 0.9 : 0) * (o.glow ?? 1); };
+  K.set = (lvl, O, o = {}) => { const st = stepAt(O); const f = OUTFITS[st ? st.day : 1];
+    K.jm.forEach(m => m.material = WM[f.j]); K.pm.forEach(m => m.material = WM[f.p]); K.lapels.forEach(l => l.material = WM[f.lap]); K.btns.forEach(b => b.material = f.btn ? WM[f.btn] : K.btnM); K.shirt.material.color.setHex(f.shirt);
+    K.patches.forEach(p => p.visible = !!f.patches); K.tag.visible = !!f.tag || !!o.tag; K.tag.rotation.z = 0.25 * Math.sin(O * 3.1); K.tag.rotation.x = 0.15 * Math.sin(O * 2.3);
+    K.stripes.forEach(b => b.visible = !!f.stripes); K.coat.visible = !!f.coat; K.coat.material = WM[f.j]; K.collar.visible = !!f.collar; K.cape.visible = !!f.cape; if (f.cape) K.cape.material = WM[f.cape];
+    for (const [k, h] of Object.entries(K.hats)) h.visible = f.hat === k;
+    K.shoes.forEach(s => { s.main.material = WM[f.s]; s.laces.forEach(l => l.visible = !!o.untied); s.bow.visible = !o.untied && f.s === 'white'; });
+    K.chain.visible = !!f.chain; K.watch.visible = !!f.watch;
+    const sp = (f.spark || 0) * (o.spark ?? 1); K.sparks.forEach(s => { const tw = Math.pow(Math.max(0, Math.sin(O * 2.6 + s.ph)), 6); s.visible = sp > 0; s.material.opacity = sp * (0.25 + 0.75 * tw); s.scale.setScalar(0.18 + 0.5 * tw); });
+    K.glow.intensity = 2.2 * (f.glow || 0) * (o.glow ?? 1); };
   return P;
 }
 function makeBouncer() { const P = makeRig({ hood: 0x111115, hoodD: 0x111115, pants: 0x18181c, skin: 0x5a3826, hair: 0x111111, hairStyle: 'none', noHood: true, shoe: 0x0a0a0a });
@@ -685,7 +725,7 @@ shot(TE + 1.5, TE + 2.85, 'club', { ease: 'lin', p0: [-2.8, 2.5, 2.6], p1: [-2.6
 shot(TE + 2.85, TE + 4.1, 'club', { ease: 'lin', pf: () => wp(CL.bouncer.tag.children[1]).add(V([-0.9, 0.25, 0.9])), lf: () => wp(CL.bouncer.tag.children[1]).add(V([0, 0.25, 0])), fov: 40 }, (lt, O) => { endBase(O); heroAt(CL, O, [HX - 0.06, 0, HZ], Math.PI / 2, { ...idle(O) }, 'smirk'); const tap = Math.max(0, Math.sin((O - TE - 3.0) * 9));
   bouncerAt(O, { ...idle(O, 2), headX: 0.08, arms: [[-0.95, 0, -0.62, 1.2 + 0.12 * tap], [-0.95, 0.3, -0.25, 1.3]] }, 'calm'); CL.bouncer.tag.rotation.set(0, -0.6, 0.1 * tap); CL.bouncer.tag.children[1].rotation.z = Math.PI; }, { grade: 'club', live: 0.4 });
 shot(TE + 4.1, DUR + 0.1, 'club', { ease: 'lin', p0: [0.75, 2.1, 0.95], p1: [0.68, 2.12, 0.75], l0: [HX, 2.1, HZ], fov: 44 }, (lt, O) => { endBase(O); const dn = Math.sin(seg(O, TE + 4.15, TE + 4.35) * Math.PI);
-  heroAt(CL, O, [HX - 0.06, 0, HZ], Math.PI / 2 - 0.9, { ...idle(O), headX: 0.4 * dn }, O > TE + 4.4 ? 'shock' : 'worried'); bouncerAt(O, { ...idle(O, 2) }, 'calm'); CL.bouncer.tag.visible = false; }, { grade: 'club', dof: 0.3, dark: (O) => O > TE + 5.55 ? 1 : 0 });
+  heroAt(CL, O, [HX - 0.06, 0, HZ], Math.PI / 2 - 0.9, { ...idle(O), headX: 0.4 * dn }, O > TE + 4.4 ? 'shock' : 'worried'); bouncerAt(O, { ...idle(O, 2) }, 'calm'); CL.bouncer.tag.visible = false; }, { grade: 'club', dof: 0.3, dark: (O) => O > TE + 6.12 ? 1 : 0 });
 const SAFE_L = 90, SAFE_R = 140, CAP_W = W - SAFE_L - SAFE_R, CAP_X = SAFE_L + CAP_W / 2;   // safe area: full-screen players crop the edges, Instagram's buttons cover the right side
 function stepAt(T) { let s = null; for (const st of STEPS) if (T >= st.t) s = st; return s; }
 function spaced(g, text, x, y, sp) { let cx = x; for (const ch of text) { g.fillText(ch, cx, y); cx += g.measureText(ch).width + sp; } return cx - x; }

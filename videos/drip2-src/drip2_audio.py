@@ -43,7 +43,7 @@ for s in TLJ['steps']:
     f = a['file']
     if f.startswith('sh_'):
         x = edge(load(f"{VA}/{f}.wav", '' if f == 'sh_whisper' else 'acompressor=threshold=-24dB:ratio=4:attack=4:release=90:makeup=1'), 0.008, 0.03)
-        on = onset(x); at = a['at'] - on; e = env_db(x); act = e > e.max() - 30; hop = int(0.01 * SR); sp_ = np.concatenate([x[k * hop:(k + 1) * hop] for k in np.where(act)[0]]); g = (-19.0 if f == 'sh_whisper' else -15.0) - db(sp_); x *= 10 ** (min(g, -1.5 - 20 * np.log10(np.abs(x).max() + 1e-12)) / 20)
+        on = onset(x); at = a['at'] - on; e = env_db(x); act = e > e.max() - 30; hop = int(0.01 * SR); sp_ = np.concatenate([x[k * hop:(k + 1) * hop] for k in np.where(act)[0]]); g = (-17.0 if f == 'sh_whisper' else -15.0) - db(sp_); x *= 10 ** (min(g, -1.5 - 20 * np.log10(np.abs(x).max() + 1e-12)) / 20)
         words = [{'w': w, 't': round(a['at'] + dt, 3)} for w, dt in SHOUT_WORDS[f]]; spk, kind = 'hero', 'shout'
     elif f == 'h5c':   # pre-trimmed wav, word times from shouts.py
         x = edge(load(f'{VA}/h5c.wav', 'acompressor=threshold=-26dB:ratio=2.5:attack=6:release=120:makeup=1'), 0.01, 0.03); at = a['at']; x *= 10 ** ((-18.0 - db(x[np.abs(x).max(1) > 0.01])) / 20)

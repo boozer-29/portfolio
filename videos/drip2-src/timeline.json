@@ -1,6 +1,6 @@
 {
  "TITLE": 3.0,
- "DUR": 86.9,
+ "DUR": 87.3,
  "PAUSES": {},
  "CUTS": {},
  "steps": [
@@ -185,7 +185,7 @@
     {
      "file": "sh_whisper",
      "at": 65.4,
-     "end": 67.75
+     "end": 68.0
     }
    ]
   },
@@ -218,7 +218,7 @@
   {
    "day": "END",
    "t0": 80.6,
-   "t1": 86.6,
+   "t1": 87.0,
    "value": "\u00a342.9 billion",
    "cmp": "STILL NOT ON THE LIST",
    "status": "",
@@ -234,8 +234,8 @@
     },
     {
      "file": "sh_squeak",
-     "at": 85.0,
-     "end": 86.11
+     "at": 84.8,
+     "end": 86.68
     }
    ]
   }

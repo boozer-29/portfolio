@@ -14,8 +14,10 @@ LINES = {   # Drip v2 (script approved 2026-11-17). Kevin = hero; bouncer = Oliv
  'h8': ('eRcsJdPMOM0mtGC03ul7', "[nervous whisper, backing away slowly] Mi nah like dis."),
  'h12': ('eRcsJdPMOM0mtGC03ul7', "[unbothered, smug, cool] Rain cyaan touch di fit."),
  'h15': ('eRcsJdPMOM0mtGC03ul7', "[proud, dramatic, slow] Guilty... of being too fresh."),
- 'kw': ('eRcsJdPMOM0mtGC03ul7', "[whispering under his breath, stunned] bomboclaat."),
- 'ksq': ('eRcsJdPMOM0mtGC03ul7', "[voice cracking into a high-pitched squeak, disbelief] Bomboclaat?"),
+ 'kga': ('eRcsJdPMOM0mtGC03ul7', "[stunned, slowly, low and quiet, not whispering] Bombo... claat."),
+ 'kgb': ('eRcsJdPMOM0mtGC03ul7', "[frozen, slowly realising he is an exhibit, quiet] Bomboclaat..."),
+ 'kea': ('eRcsJdPMOM0mtGC03ul7', "[stunned disbelief, starts slow then explodes] Bombo... BOMBOCLAAAAT?!"),
+ 'keb': ('eRcsJdPMOM0mtGC03ul7', "[outraged, comedic, dragging it out] BOMBOCLAAAAAAT?!"),
 }
 KEY = os.environ.get('ELEVENLABS_API_KEY', 'dummy')
 only = sys.argv[1:] or list(LINES)

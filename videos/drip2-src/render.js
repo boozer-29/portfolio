@@ -1,5 +1,8 @@
 // usage: node render.js test 1.0 5.0 ...   |  node render.js all <start> <end> <outdir>
 const { chromium } = require('playwright');
+// shortcut: uses the installed Chrome when Playwright's own browser cache is missing; run `npx playwright install` to go back to the bundled one
+const CHROME = process.env.CHROME || (require('fs').existsSync('/Applications/Google Chrome 2.app') ? '/Applications/Google Chrome 2.app/Contents/MacOS/Google Chrome' : undefined);
+
 const http = require('http'); const fs = require('fs'); const path = require('path');
 const ROOT = __dirname;
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.woff2': 'font/woff2', '.json': 'application/json' };
@@ -7,7 +10,7 @@ const srv = http.createServer((q, r) => { const f = path.join(ROOT, decodeURICom
 (async () => {
   await new Promise(res => srv.listen(0, res)); const port = srv.address().port;
   const GPU = process.env.GPU === '1';   // GPU=1 -> use the Mac's Metal GPU (fast); default -> software renderer (slow, works anywhere)
-  const b = await chromium.launch({ args: GPU ? ['--use-gl=angle', '--use-angle=metal', '--ignore-gpu-blocklist', '--enable-gpu-rasterization'] : ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
+  const b = await chromium.launch({ executablePath: CHROME, args: GPU ? ['--use-gl=angle', '--use-angle=metal', '--ignore-gpu-blocklist', '--enable-gpu-rasterization'] : ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
   const p = await b.newPage({ viewport: { width: 1080, height: 1920 } });
   p.on('console', m => { if (m.type() === 'error') console.log('ERR', m.text()); }); p.on('pageerror', e => console.log('PAGEERR', e.message));
   await p.goto(`http://localhost:${port}/index.html?s=${process.env.RSCALE || 1}`); await p.waitForFunction('window.READY === true', null, { timeout: 60000 });
