@@ -6,18 +6,18 @@ read = lambda s: 0.9 + 0.04 * len(s)
 PAUSES = {}
 CUTS = {}
 STEPS = [  # day, value, comparison, status(unused in v2), setup, punch, [(cue, rel_t)], length
- (1, '£40', 'A CHARITY-SHOP JACKET', '', 'Day 1. A £40 jacket from a charity shop.', 'The bouncer has questions.', [('b1', 1.2), ('h1', 5.6)], 7.8),
+ (1, '£40', 'A CHARITY-SHOP JACKET', '', 'Day 1. A £40 jacket from a charity shop.', 'The bouncer has questions.', [('b1', 1.2), ('h1', 5.6), ('q1', 7.25)], 10.0),
  (3, '£160', 'NEW WHITE TRAINERS', '', 'Day 3. New white trainers.', 'His shadow starts walking like a model.', [('h3', 4.0)], 7.0),
- (5, '£640', '≈ A DESIGNER JACKET', '', 'Day 5. A trip to the zoo.', 'The peacock retires.', [('narr', 0.6), ('h5c', 6.8)], 8.6),
+ (5, '£640', '≈ A DESIGNER JACKET', '', 'Day 5. A trip to the zoo.', 'The peacock retires.', [('narr', 0.6), ('h5c', 6.8), ('kid', 8.0)], 10.6),
  (8, '£5,120', '≈ A GOLD CHAIN', '', 'Day 8. He walks past a clothes shop.', 'The mannequins notice.', [('h8', 4.0)], 6.0),
- (10, '£20,480', '≈ A NEW CAR', '', 'In 2019, a pair of trainers sold for $437,500.', 'Now a man in white gloves ties his laces.', [], 6.4),
+ (10, '£20,480', '≈ A NEW CAR', '', 'In 2019, a pair of trainers sold for $437,500.', 'Now a man in white gloves ties his laces.', [('g1', 4.0)], 7.4),
  (12, '£81,920', "≈ TWO YEARS' WAGES", '', 'Day 12. It starts to rain.', 'The rain goes round him.', [('h12', 5.0)], 7.0),
  (15, '£655,360', '≈ TWO HOUSES', '', "Day 15. He's arrested for stopping traffic.", 'The judge has one question.', [('judge1', 1.0), ('h15', 2.4), ('judge2', 5.4)], 8.2),
- (18, '£5.2 million', '≈ A PRIVATE JET', '', 'Day 18. Two men try to rob him.', 'They tip him instead.', [('mugger', 3.6)], 7.0),
- (22, '£84 million', '≈ A SUPERYACHT', '', 'Day 22. He stops to tie his shoe in a gallery.', "They won't let him leave.", [('sh_whisper', 4.4)], 7.4),
- (27, '£2.7 billion', '≈ A FOOTBALL CLUB', '', 'Day 27. He pays for crisps with one button.', 'His change comes in a wheelbarrow.', [], 6.0),
- (30, '£21.5 billion', '≈ A SMALL COUNTRY', '', 'Day 30. All of London copies his look.', "Only the £40 jacket. It's all they can afford.", [], 6.2),
- ('END', '£42.9 billion', 'STILL NOT ON THE LIST', '', 'Day 31. Back at the club.', '', [('b2', 1.6), ('sh_squeak', 4.2)], 6.4),
+ (18, '£5.2 million', '≈ A PRIVATE JET', '', 'Day 18. Two men try to rob him.', 'They tip him instead.', [('m1', 1.6), ('mugger', 4.15)], 7.3),
+ (22, '£84 million', '≈ A SUPERYACHT', '', 'Day 22. He stops to tie his shoe in a gallery.', "They won't let him leave.", [('v1', 1.5), ('sh_whisper', 4.4)], 7.4),
+ (27, '£2.7 billion', '≈ A FOOTBALL CLUB', '', 'Day 27. He pays for crisps with one button.', 'His change comes in a wheelbarrow.', [('k1', 2.6)], 6.3),
+ (30, '£21.5 billion', '≈ A SMALL COUNTRY', '', 'Day 30. All of London copies his look.', "Only the £40 jacket. It's all they can afford.", [('p1', 0.6), ('p2', 3.4)], 6.2),
+ ('END', '£42.9 billion', 'STILL NOT ON THE LIST', '', 'Day 31. Back at the club.', '', [('e1', 0.3), ('b2', 4.4), ('sh_squeak', 6.65)], 8.9),
 ]
 TITLE = 3.0; t = TITLE; out = []
 for day, rng, cmp, status, setup, punch, cues, length in STEPS:

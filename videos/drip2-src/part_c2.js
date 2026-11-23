@@ -26,19 +26,24 @@ shot(T15, T15 + 2.3, 'court', { ease: 'lin', p0: [1.7, 1.9, 1.4], p1: [1.55, 1.9
 shot(T15 + 2.3, T15 + 5.3, 'court', { ease: 'lin', p0: [0.7, 2.75, -1.2], p1: [0.85, 2.75, -0.8], l0: [DPOS[0], 2.65, DPOS[2]], fov: 40 }, (lt, O) => { const h = courtBase(O); hp(h, O, DPOS, DRY, proud(O), O > T15 + 3.2 ? 'smirk' : 'calm'); }, { grade: 'court', sketch: true });
 shot(T15 + 5.3, tE(15), 'court', { ease: 'io', p0: [0.55, 2.6, 0.9], p1: [0.4, 2.85, -0.4], l0: [0, 2.85, -3.0], fov: 42 }, (lt, O) => { const h = courtBase(O); hp(h, O, DPOS, DRY, proud(O), 'smirk'); }, { grade: 'court', sketch: true, shakeAt: [[GAVEL, 0.01]] });
 // ===== Day 18: CCTV in the alley =====
-const AL = S.alley, T18 = tS(18); const JUMP = T18 + 3.0;
-const MG = [{ from: [-1.65, -1.2], to: [-0.85, -0.55] }, { from: [1.7, -3.0], to: [0.9, -2.0] }];
+const AL = S.alley, T18 = tS(18); const LUNGE = T18 + 1.3, FLASH = T18 + 3.5, GIVE = T18 + 4.2, LEAVE = T18 + 4.9;
+const MG = [{ from: [-1.65, -1.2], to: [-0.62, -1.0] }, { from: [1.7, -3.0], to: [0.62, -1.75] }];
 function alleyBase(O) { const a = AL; resetRig(a.hero); a.hero.kit.set(4, O); a.muggers.forEach(P => { resetRig(P); P.wallet.visible = false; }); return a.hero; }
-const CCTV = { ease: 'lin', p0: [1.85, 4.7, 4.9], l0: [-0.1, 0.8, -2.4], fov: 74 };
-shot(T18, JUMP, 'alley', CCTV, (lt, O) => { const h = alleyBase(O); const hz = lerp(-6.5, -1.3, eOut(seg(O, T18, T18 + 1.8)));
-  hp(h, O, [0, 0, hz], 0, O < T18 + 1.8 ? walk(O, 7.5, 1) : { ...idle(O) }, O > T18 + 2.0 ? 'worried' : 'calm'); AL.hb.position.set(0, 0.012, hz);
-  AL.muggers.forEach((P, i) => { const k = eOut(seg(O, T18 + 1.3, T18 + 2.0)); const m = MG[i]; const x = lerp(m.from[0], m.to[0], k), z = lerp(m.from[1], m.to[1], k);
-    hp(P, O, [x, 0, z], Math.atan2(0 - x, hz - z), k < 1 ? walk(O, 7, 0.8) : { ...idle(O, i), headX: 0.4 * Math.sin(seg(O, T18 + 2.0, JUMP) * Math.PI * 1.5) }, 'calm', 'mugger'); P.blob.position.set(x, 0.012, z); }); }, { grade: 'cctv', cctv: true, fps: 12, live: 0 });
-shot(JUMP, tE(18), 'alley', CCTV, (lt, O) => { const h = alleyBase(O); const fan = Math.sin(O * 5);
-  hp(h, O, [0, 0, -1.3], 0, { ...idle(O), arms: [[-0.7, 0, 0.45, 0.9 + 0.1 * fan], [-0.7, 0, -0.45, 0.9 - 0.1 * fan]] }, 'smirk'); AL.hb.position.set(0, 0.012, -1.3);
-  [0, 1].forEach(i => { const w = wp(h.arms[i].el).add(V([0, -0.45, 0.06])); const wl = AL.muggers[i].wallet; wl.visible = true; wl.position.copy(w); wl.rotation.set(0.3, 0, 0.2 * fan); });
-  AL.muggers.forEach((P, i) => { const z = lerp(-2.2 - i * 0.6, -8.5, seg(O, JUMP, JUMP + 4.0)), x = (i ? 0.7 : -0.7); const c = Math.sin(O * 16 + i) * 0.5 + 0.5;
-    hp(P, O, [x, 0, z], Math.PI, { ...walk(O, 6.5, 0.7), arms: [[-1.1, 0, -0.25 + 0.18 * c, 0.7], [-1.1, 0, 0.25 - 0.18 * c, 0.7]] }, 'smile', 'mugger'); P.blob.position.set(x, 0.012, z); }); }, { grade: 'cctv', cctv: true, fps: 12, live: 0 });
+const CCTV = { ease: 'lin', p0: [1.6, 3.9, 2.9], l0: [-0.05, 1.0, -1.6], fov: 64 };
+shot(T18, tE(18), 'alley', CCTV, (lt, O) => { const h = alleyBase(O); const hz = lerp(-6.5, -1.3, eOut(seg(O, T18, T18 + 1.5))); const fl = seg(O, FLASH, FLASH + 0.5);
+  const heroP = O < T18 + 1.5 ? walk(O, 7.5, 1) : O < FLASH ? { ...idle(O), spineX: -0.12, arms: [[-0.4, 0, 0.5, 0.6], [-0.4, 0, -0.5, 0.6]] } : O < LEAVE ? { ...idle(O), spineX: -0.08, arms: [[-0.25, 0, 1.1 * eOut(fl), 0.25], [-0.25, 0, -1.1 * eOut(fl), 0.25]] } : { ...idle(O), arms: [[-0.7, 0, 0.45, 0.9 + 0.1 * Math.sin(O * 5)], [-0.7, 0, -0.45, 0.9 - 0.1 * Math.sin(O * 5)]] };
+  hp(h, O, [0, 0, hz], 0, heroP, O < LUNGE + 0.3 ? 'calm' : O < FLASH ? 'worried' : 'smirk'); AL.hb.position.set(0, 0.012, hz); h.kit.sparks.forEach(s => { if (O > FLASH && O < FLASH + 1.0) { s.visible = true; s.material.opacity = 1; s.scale.setScalar(0.9); } });
+  AL.muggers.forEach((P, i) => { const m = MG[i]; let x, z, ry, p, ex = 'grit';
+    if (O < LEAVE) { const k = eOut(seg(O, LUNGE, LUNGE + 0.45)); x = lerp(m.from[0], m.to[0], k); z = lerp(m.from[1], m.to[1], k); ry = Math.atan2(0 - x, hz - z);
+      if (k < 1) p = walk(O, 11, 1.1);
+      else if (O < FLASH) p = { ...idle(O, i), spineX: 0.15, arms: i ? [[-1.3, 0, 0.12, 0.2], [-1.35, 0, -0.1, 0.25 + 0.1 * Math.sin(O * 10)]] : [[-1.25, 0.25, -0.15, 0.55], [-0.3, 0, -0.2, 0.3]] };   // 0 grabs his lapel, 1 holds a hand out: "Wallet. Now."
+      else if (O < GIVE) { p = { ...idle(O, i), spineX: -0.3 * eOut(fl), headX: -0.2 + 0.45 * Math.sin(seg(O, FLASH + 0.3, GIVE) * Math.PI * 2), arms: [[-2.2, 0, 0.5, 0.3], [-2.2, 0, -0.5, 0.3]] }; ex = 'shock'; }   // recoil from the flash, look him up and down
+      else { const g = eIO(seg(O, GIVE, GIVE + 0.5)); p = { ...idle(O, i), spineX: 0.2 * g, arms: [[-0.3, 0, 0.12, 0.2], [-0.3 - 1.0 * g, 0, -0.12, 0.3]] }; ex = 'smile';   // hand over their own wallets
+        const w = P.wallet; w.visible = true; w.position.copy(g < 1 ? wp(P.arms[1].el).add(V([0, -0.45, 0])).lerp(wp(h.arms[i].el).add(V([0, -0.45, 0.06])), eIO(seg(O, GIVE + 0.3, GIVE + 0.7))) : wp(h.arms[i].el).add(V([0, -0.45, 0.06]))); w.rotation.set(0.3, 0, 0); } }
+    else { const k = seg(O, LEAVE, LEAVE + 2.6); x = (i ? 0.7 : -0.7); z = lerp(m.to[1], -8.5, k); ry = Math.PI; const c = Math.sin(O * 16 + i) * 0.5 + 0.5;
+      p = { ...walk(O, 6.5, 0.7), arms: [[-1.1, 0, -0.25 + 0.18 * c, 0.7], [-1.1, 0, 0.25 - 0.18 * c, 0.7]] }; ex = 'smile';
+      const w = P.wallet; w.visible = true; w.position.copy(wp(h.arms[i].el).add(V([0, -0.45, 0.06]))); w.rotation.set(0.3, 0, 0.2 * Math.sin(O * 5)); }
+    hp(P, O, [x, 0, z], ry, p, ex, 'mugger'); P.blob.position.set(x, 0.012, z); }); }, { grade: 'cctv', cctv: true, fps: 12, live: 0, flash: FLASH, fa: [0.8, 0.45, 0.15] });
 // ===== Day 22: the gallery =====
 const GL = S.gallery, T22 = tS(22); const PP = [[-1.15, 1.1], [1.15, 1.1], [1.15, -1.1], [-1.15, -1.1]];
 function galleryBase(O) { const g = GL; resetRig(g.hero); g.hero.kit.set(5, O, { glow: 0.6 }); hp(g.hero, O, [0, 0, 0], 0, { ...KNEEL, spineX: 0.3, headX: 0.25, arms: [[-0.6, 0.15, -0.05, 0.35], [-0.6, -0.15, 0.05, 0.35]] }, 'calm');
@@ -78,14 +83,14 @@ function lapseBase(O) { const a = (O - T30) * 0.9; const h = plazaBase(O, { cs: 
 shot(T30, T30 + 3.2, 'plaza', { ease: 'io', p0: [1.5, 9.5, 12.5], p1: [1.2, 8.2, 10.8], l0: [-1.2, 0.8, -4.5], fov: 50 }, (lt, O) => { lapseBase(O); }, { grade: 'lapse', mblur: 3 });
 shot(T30 + 3.2, tE(30), 'plaza', { ease: 'lin', p0: [-0.6, 2.7, -5.2], p1: [-0.9, 2.7, -5.8], l0: [-3.4, 3.0, -11.6], fov: 50 }, (lt, O) => { lapseBase(O); }, { grade: 'lapse', mblur: 2 });
 // ===== END: back at the club; the £40 jacket is the dress code =====
-const TE = tS('END'); const STOPE = TE + 1.0;
-const heroE = (O) => [lerp(2.6, HX, eOut(seg(O, TE, STOPE - 0.1))), 0, lerp(2.4, HZ, eOut(seg(O, TE, STOPE - 0.1)))];
-function endBase(O) { const h = clubBase(O, { lvl: 5, brown: true, lookAt: heroE(O).filter((_, i) => i !== 1), kit: { glow: 1.6 } }); return h; }
-shot(TE, TE + 1.5, 'club', { ease: 'lin', p0: [1.2, 3.3, 7.6], p1: [1.0, 3.2, 7.0], l0: [-1.4, 1.5, -1.2], fov: 50 }, (lt, O) => { endBase(O); const p = heroE(O); const k = eOut(seg(O, STOPE - 0.25, STOPE));
-  heroAt(CL, O, p, O < STOPE - 0.1 ? Math.atan2(HX - 2.6, HZ - 2.4) : Math.PI / 2, O < STOPE - 0.1 ? walk(O, 7.5, 1) : { ...idle(O), spineX: -0.1 * k }, 'smirk'); bouncerAt(O, { ...idle(O, 2), ...STOPARM(k) }, 'calm'); }, { grade: 'club' });
-shot(TE + 1.5, TE + 2.85, 'club', { ease: 'lin', p0: [-2.8, 2.5, 2.6], p1: [-2.65, 2.5, 2.35], l0: [BX, 2.5, HZ], fov: 44 }, (lt, O) => { endBase(O); heroAt(CL, O, [HX - 0.06, 0, HZ], Math.PI / 2, { ...idle(O) }, 'smirk');
+const TE = tS('END'); const STOPE = TE + 2.4, SQK = TE + 6.65;
+const heroE = (O) => [lerp(2.6, HX, eIO(seg(O, TE, STOPE - 0.1))), 0, lerp(2.4, HZ, eIO(seg(O, TE, STOPE - 0.1)))];
+function endBase(O) { const h = clubBase(O, { lvl: 5, brown: true, lookAt: heroE(O).filter((_, i) => i !== 1), q0: O < TE + 4.2, kit: { glow: 1.6 } }); return h; }
+shot(TE, TE + 3.2, 'club', { ease: 'lin', p0: [1.2, 3.3, 7.6], p1: [0.9, 3.15, 6.6], l0: [-1.4, 1.5, -1.2], fov: 50 }, (lt, O) => { endBase(O); const p = heroE(O); const k = eOut(seg(O, STOPE - 0.25, STOPE));
+  heroAt(CL, O, p, O < STOPE - 0.1 ? Math.atan2(HX - 2.6, HZ - 2.4) : Math.PI / 2, O < STOPE - 0.1 ? walk(O, 8.5, 1) : { ...idle(O), spineX: -0.1 * k }, 'smirk'); bouncerAt(O, { ...idle(O, 2), ...STOPARM(k) }, 'calm'); }, { grade: 'club' });
+shot(TE + 3.2, TE + 5.2, 'club', { ease: 'lin', p0: [-2.8, 2.5, 2.6], p1: [-2.6, 2.5, 2.3], l0: [BX, 2.5, HZ], fov: 44 }, (lt, O) => { endBase(O); heroAt(CL, O, [HX - 0.06, 0, HZ], Math.PI / 2, { ...idle(O) }, 'smirk');
   bouncerAt(O, { ...idle(O, 2), headX: 0.08, arms: [[-0.55, 0, -0.22, 1.55], [-0.6, 0, 0.22, 1.5]] }, 'calm'); }, { grade: 'club', dof: 0.3 });
-shot(TE + 2.85, TE + 4.1, 'club', { ease: 'lin', pf: () => wp(CL.bouncer.tag.children[1]).add(V([-0.9, 0.25, 0.9])), lf: () => wp(CL.bouncer.tag.children[1]).add(V([0, 0.25, 0])), fov: 40 }, (lt, O) => { endBase(O); heroAt(CL, O, [HX - 0.06, 0, HZ], Math.PI / 2, { ...idle(O) }, 'smirk'); const tap = Math.max(0, Math.sin((O - TE - 3.0) * 9));
+shot(TE + 5.2, TE + 6.5, 'club', { ease: 'lin', pf: () => wp(CL.bouncer.tag.children[1]).add(V([-0.9, 0.25, 0.9])), lf: () => wp(CL.bouncer.tag.children[1]).add(V([0, 0.25, 0])), fov: 40 }, (lt, O) => { endBase(O); heroAt(CL, O, [HX - 0.06, 0, HZ], Math.PI / 2, { ...idle(O) }, 'smirk'); const tap = Math.max(0, Math.sin((O - TE - 5.4) * 9));
   bouncerAt(O, { ...idle(O, 2), headX: 0.08, arms: [[-0.95, 0, -0.62, 1.2 + 0.12 * tap], [-0.95, 0.3, -0.25, 1.3]] }, 'calm'); CL.bouncer.tag.rotation.set(0, -0.6, 0.1 * tap); CL.bouncer.tag.children[1].rotation.z = Math.PI; }, { grade: 'club', live: 0.4 });
-shot(TE + 4.1, DUR + 0.1, 'club', { ease: 'lin', p0: [0.75, 2.1, 0.95], p1: [0.68, 2.12, 0.75], l0: [HX, 2.1, HZ], fov: 44 }, (lt, O) => { endBase(O); const dn = Math.sin(seg(O, TE + 4.15, TE + 4.35) * Math.PI);
-  heroAt(CL, O, [HX - 0.06, 0, HZ], Math.PI / 2 - 0.9, { ...idle(O), headX: 0.4 * dn }, O > TE + 4.4 ? 'shock' : 'worried'); bouncerAt(O, { ...idle(O, 2) }, 'calm'); CL.bouncer.tag.visible = false; }, { grade: 'club', dof: 0.3, dark: (O) => O > TE + 6.12 ? 1 : 0 });
+shot(TE + 6.5, DUR + 0.1, 'club', { ease: 'lin', p0: [0.75, 2.1, 0.95], p1: [0.68, 2.12, 0.75], l0: [HX, 2.1, HZ], fov: 44 }, (lt, O) => { endBase(O); const dn = Math.sin(seg(O, TE + 6.5, TE + 6.65) * Math.PI);
+  heroAt(CL, O, [HX - 0.06, 0, HZ], Math.PI / 2 - 0.9, { ...idle(O), headX: 0.4 * dn }, O > SQK ? 'shock' : 'worried'); bouncerAt(O, { ...idle(O, 2) }, 'calm'); CL.bouncer.tag.visible = false; }, { grade: 'club', dof: 0.3, dark: (O) => O > TE + 8.55 ? 1 : 0 });

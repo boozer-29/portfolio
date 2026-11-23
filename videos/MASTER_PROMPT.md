@@ -358,3 +358,13 @@ Each item below is a bug that actually happened. Avoid it while building; tick i
   added to the same clothes. `drip2-src/part_b.js` has `OUTFITS` (per day) + `WM` (wardrobe materials); the hero's outfit follows `stepAt(O)`.
 - **Playwright's browser cache can vanish** (`~/Library/Caches/ms-playwright` cleared): `render.js`/`capcheck.js` now fall back to the installed
   Chrome (`CHROME` env or `/Applications/Google Chrome 2.app`) instead of downloading a new browser.
+
+### 9.15 Owner feedback on Drip v2, round 2 (Nov 2026)
+- **Music never drops out.** Cutting the bed (zoo), tape-stopping into silence (bullet time) and silencing it for a whisper all read as random cuts.
+  Crossfade between versions of the same continuous bed (through-the-wall, muffled, tinny) and dip it; the only silence is under the final punchline.
+- **No dead air: background voices everywhere.** Every day gets a voice: extras reacting (queue, kid, guard's earpiece, gallery visitor, shopkeeper,
+  passers-by), each captioned with a speaker label, plus a crowd-ambience bed per location (`gen_sfx.py`, ElevenLabs sound generation, levelled in the mixer).
+- **Walking must cover ground.** A gait over a short slide reads as walking on the spot: speed ≈ gait (walk(O, 10) ≈ 2.4 u/s), and walk *through* the frame.
+- **Kneeling helpers go in front, never overlapping:** the guard tying laces sat inside the hero's legs. Put him facing the shoe from the front and shoot from the side.
+- **Actions must read:** "two men try to rob him" needs the grab and the demand ("Oi. Wallet. Now."), then the twist (flash, recoil, they hand over their own wallets).
+- **CCTV shots:** a high wide fov-74 camera made the people tiny and dark; use fov ≈ 64 from ~4 m and add a fill light over the action.

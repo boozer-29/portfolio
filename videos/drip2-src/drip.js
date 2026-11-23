@@ -4,12 +4,12 @@ import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.j
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { Reflector } from 'three/addons/objects/Reflector.js';
 
-const W = 1080, H = 1920; export const DUR = 87.3;
+const W = 1080, H = 1920; export const DUR = 95.6;
 let DIALOGUE = [];
 function spanHit(c, O) { for (const [a, b] of c.spans) if (O >= a - 0.02 && O < b + 0.03) return true; return false; }
 
 // ---------------------------------------------------------------- story steps (one doubling each)
-const STEPS = [{"day": 1, "t": 3.0, "t1": 10.8, "v": "£40", "cmp": "A CHARITY-SHOP JACKET", "status": "", "setup": "Day 1. A £40 jacket from a charity shop.", "son": 3.35, "punch": "The bouncer has questions.", "pon": 5.85}, {"day": 3, "t": 10.8, "t1": 17.8, "v": "£160", "cmp": "NEW WHITE TRAINERS", "status": "", "setup": "Day 3. New white trainers.", "son": 11.15, "punch": "His shadow starts walking like a model.", "pon": 13.09}, {"day": 5, "t": 17.8, "t1": 26.4, "v": "£640", "cmp": "≈ A DESIGNER JACKET", "status": "", "setup": "Day 5. A trip to the zoo.", "son": 18.15, "punch": "The peacock retires.", "pon": 20.05}, {"day": 8, "t": 26.4, "t1": 32.4, "v": "£5,120", "cmp": "≈ A GOLD CHAIN", "status": "", "setup": "Day 8. He walks past a clothes shop.", "son": 26.75, "punch": "The mannequins notice.", "pon": 29.09}, {"day": 10, "t": 32.4, "t1": 38.8, "v": "£20,480", "cmp": "≈ A NEW CAR", "status": "", "setup": "In 2019, a pair of trainers sold for $437,500.", "son": 32.75, "punch": "Now a man in white gloves ties his laces.", "pon": 35.49}, {"day": 12, "t": 38.8, "t1": 45.8, "v": "£81,920", "cmp": "≈ TWO YEARS' WAGES", "status": "", "setup": "Day 12. It starts to rain.", "son": 39.15, "punch": "The rain goes round him.", "pon": 41.09}, {"day": 15, "t": 45.8, "t1": 54.0, "v": "£655,360", "cmp": "≈ TWO HOUSES", "status": "", "setup": "Day 15. He's arrested for stopping traffic.", "son": 46.15, "punch": "The judge has one question.", "pon": 48.77}, {"day": 18, "t": 54.0, "t1": 61.0, "v": "£5.2 million", "cmp": "≈ A PRIVATE JET", "status": "", "setup": "Day 18. Two men try to rob him.", "son": 54.35, "punch": "They tip him instead.", "pon": 56.49}, {"day": 22, "t": 61.0, "t1": 68.4, "v": "£84 million", "cmp": "≈ A SUPERYACHT", "status": "", "setup": "Day 22. He stops to tie his shoe in a gallery.", "son": 61.35, "punch": "They won't let him leave.", "pon": 64.09}, {"day": 27, "t": 68.4, "t1": 74.4, "v": "£2.7 billion", "cmp": "≈ A FOOTBALL CLUB", "status": "", "setup": "Day 27. He pays for crisps with one button.", "son": 68.75, "punch": "His change comes in a wheelbarrow.", "pon": 71.37}, {"day": 30, "t": 74.4, "t1": 80.6, "v": "£21.5 billion", "cmp": "≈ A SMALL COUNTRY", "status": "", "setup": "Day 30. All of London copies his look.", "son": 74.75, "punch": "Only the £40 jacket. It's all they can afford.", "pon": 77.17}, {"day": "END", "t": 80.6, "t1": 87.0, "v": "£42.9 billion", "cmp": "STILL NOT ON THE LIST", "status": "", "setup": "Day 31. Back at the club.", "son": 80.95, "punch": "", "pon": null}];  // generated from timeline.json (step 2)
+const STEPS = [{"day": 1, "t": 3.0, "t1": 13.0, "v": "£40", "cmp": "A CHARITY-SHOP JACKET", "status": "", "setup": "Day 1. A £40 jacket from a charity shop.", "son": 3.35, "punch": "The bouncer has questions.", "pon": 5.85}, {"day": 3, "t": 13.0, "t1": 20.0, "v": "£160", "cmp": "NEW WHITE TRAINERS", "status": "", "setup": "Day 3. New white trainers.", "son": 13.35, "punch": "His shadow starts walking like a model.", "pon": 15.29}, {"day": 5, "t": 20.0, "t1": 30.6, "v": "£640", "cmp": "≈ A DESIGNER JACKET", "status": "", "setup": "Day 5. A trip to the zoo.", "son": 20.35, "punch": "The peacock retires.", "pon": 22.25}, {"day": 8, "t": 30.6, "t1": 36.6, "v": "£5,120", "cmp": "≈ A GOLD CHAIN", "status": "", "setup": "Day 8. He walks past a clothes shop.", "son": 30.95, "punch": "The mannequins notice.", "pon": 33.29}, {"day": 10, "t": 36.6, "t1": 44.0, "v": "£20,480", "cmp": "≈ A NEW CAR", "status": "", "setup": "In 2019, a pair of trainers sold for $437,500.", "son": 36.95, "punch": "Now a man in white gloves ties his laces.", "pon": 39.69}, {"day": 12, "t": 44.0, "t1": 51.0, "v": "£81,920", "cmp": "≈ TWO YEARS' WAGES", "status": "", "setup": "Day 12. It starts to rain.", "son": 44.35, "punch": "The rain goes round him.", "pon": 46.29}, {"day": 15, "t": 51.0, "t1": 59.2, "v": "£655,360", "cmp": "≈ TWO HOUSES", "status": "", "setup": "Day 15. He's arrested for stopping traffic.", "son": 51.35, "punch": "The judge has one question.", "pon": 53.97}, {"day": 18, "t": 59.2, "t1": 66.5, "v": "£5.2 million", "cmp": "≈ A PRIVATE JET", "status": "", "setup": "Day 18. Two men try to rob him.", "son": 59.55, "punch": "They tip him instead.", "pon": 61.69}, {"day": 22, "t": 66.5, "t1": 73.9, "v": "£84 million", "cmp": "≈ A SUPERYACHT", "status": "", "setup": "Day 22. He stops to tie his shoe in a gallery.", "son": 66.85, "punch": "They won't let him leave.", "pon": 69.59}, {"day": 27, "t": 73.9, "t1": 80.2, "v": "£2.7 billion", "cmp": "≈ A FOOTBALL CLUB", "status": "", "setup": "Day 27. He pays for crisps with one button.", "son": 74.25, "punch": "His change comes in a wheelbarrow.", "pon": 76.87}, {"day": 30, "t": 80.2, "t1": 86.4, "v": "£21.5 billion", "cmp": "≈ A SMALL COUNTRY", "status": "", "setup": "Day 30. All of London copies his look.", "son": 80.55, "punch": "Only the £40 jacket. It's all they can afford.", "pon": 82.97}, {"day": "END", "t": 86.4, "t1": 95.3, "v": "£42.9 billion", "cmp": "STILL NOT ON THE LIST", "status": "", "setup": "Day 31. Back at the club.", "son": 86.75, "punch": "", "pon": null}];  // generated from timeline.json (step 2)
 const TITLE = { t0: 0.15, t1: 2.95 };
 const TL = Object.fromEntries(STEPS.map(s => [s.day, s]));   // TL[12].t etc.
 
@@ -425,7 +425,8 @@ function crowdSet(sc, n, brown, place) { return [...Array(n)].map((_, i) => { co
   sc.add(rbox(3.2, 0.06, 1.8, mat(0xc9b48a, { roughness: 0.95 }), 0.6, 0.03, -0.4));
   const peacock = makePeacock(); peacock.position.set(0.7, 0, -0.4); sc.add(peacock); blob(sc, 1.5).position.set(0.7, 0.012, -0.4);
   const hero = makeHero(); sc.add(hero.root); const hb = blob(sc);
-  S.zoo = { sc, hero, hb, peacock, bushes, rustle: bushes[0] };
+  const kid = npc(5); kid.root.scale.setScalar(0.62); sc.add(kid.root); kid.root.visible = false;
+  S.zoo = { sc, hero, hb, peacock, bushes, rustle: bushes[0], kid };
 }
 { // ---- the shop window: three mannequins inside, the street outside at night (Day 8)
   const sc = new THREE.Scene(); sc.background = new THREE.Color(0x070910);
@@ -495,7 +496,7 @@ function crowdSet(sc, n, brown, place) { return [...Array(n)].map((_, i) => { co
   const bt = brickTex(0x4a3a34, '#1e1a18', 6, 3); [-2.4, 2.4].forEach(x => sc.add(rbox(0.4, 9, 40, new THREE.MeshStandardMaterial({ map: bt, roughness: 0.9 }), x, 4.5, -6)));
   const binC = [[-1.7, -0.8, 0x2a5a3a], [-1.7, 0.1, 0x2a3a5a], [1.75, -2.3, 0x3a3a3a]]; binC.forEach(([x, z, c]) => { sc.add(rbox(0.7, 1.1, 0.75, mat(c, { roughness: 0.6 }), x, 0.55, z)); sc.add(rbox(0.76, 0.08, 0.8, mat(c, { roughness: 0.6 }), x, 1.13, z)); });
   sc.add(rbox(1.0, 1.3, 2.2, mat(0x3a5a4a, { roughness: 0.7, metalness: 0.4 }), 1.65, 0.65, -6));
-  sc.add(rbox(0.1, 2.4, 1.1, mat(0x3a1a14, { roughness: 0.7 }), 2.18, 1.2, 1.4)); [[-2.15, 3.5, -1, 0xffd6a0], [2.15, 3.2, -8, 0xffd6a0]].forEach(([x, y, z, c]) => practical(sc, x, y, z, c, { i: 30, d: 10, r: 0.12 }));
+  sc.add(rbox(0.1, 2.4, 1.1, mat(0x3a1a14, { roughness: 0.7 }), 2.18, 1.2, 1.4)); [[-2.15, 3.5, -1, 0xffd6a0], [2.15, 3.2, -8, 0xffd6a0]].forEach(([x, y, z, c]) => practical(sc, x, y, z, c, { i: 45, d: 12, r: 0.12 })); practical(sc, 0.3, 3.4, 0.6, 0xe8f0ff, { i: 22, d: 9, r: 0.05 });
   [-2.15, 2.15].forEach(x => sc.add(cyl(0.05, 0.05, 9, mat(0x2a2a2a, { roughness: 0.4, metalness: 0.6 }), x, 4.5, -3.5, 8)));
   const hero = makeHero(); sc.add(hero.root); const hb = blob(sc);
   const muggers = [0, 1].map(i => { const P = makeMugger(i); sc.add(P.root); P.blob = blob(sc, 1.2); sc.add(P.wallet); return P; });
@@ -559,17 +560,18 @@ const TSIT = { bob: -0.32, legs: [[1.5, 1.45], [1.5, 1.45]] };
 const tS = (d) => TL[d].t, tE = (d) => TL[d].t1;
 // ===== The club (title, Day 1) =====
 const CL = S.club; const HX = -0.45, HZ = -1.45, BX = 0.55;
+// o.q0: the first person in the queue is the one talking/laughing
 function clubBase(O, o = {}) { const c = CL; resetRig(c.hero); c.hero.root.visible = false; c.hb.visible = false; c.hero.kit.set(o.lvl ?? 0, O, o.kit || {}); resetRig(c.bouncer); c.bouncer.root.scale.setScalar(1.28); c.bouncer.setBrown(!!o.brown); c.bouncer.tag.children[1].rotation.z = 0;
   [...c.queue, ...c.bq].forEach(P => { resetRig(P); P.root.visible = false; P.blob.visible = false; });
   const Q = o.brown ? c.bq : c.queue; Q.forEach((P, i) => { const x = -1.6 - i * 0.92, z = -1.45 + ((i * 37) % 5 - 2) * 0.05; const look = o.lookAt ? Math.atan2(o.lookAt[0] - x, o.lookAt[1] - z) : Math.PI / 2 + ((i * 13) % 3 - 1) * 0.2;
-    hp(P, O, [x, 0, z], look, { ...idle(O, i * 1.3), headX: i % 3 === 0 && !o.lookAt ? 0.35 : 0 }, o.lookAt ? (i % 2 ? 'shock' : 'confused') : (i % 3 === 0 ? 'calm' : 'smile'), 'npc'); P.blob.visible = true; P.blob.position.set(x, 0.012, z); });
+    hp(P, O, [x, 0, z], look, { ...idle(O, i * 1.3), headX: i % 3 === 0 && !o.lookAt ? 0.35 : 0 }, i === 0 && o.q0 ? 'laugh' : o.lookAt ? (i % 2 ? 'shock' : 'confused') : (i % 3 === 0 ? 'calm' : 'smile'), i === 0 ? 'queue' : 'npc'); P.blob.visible = true; P.blob.position.set(x, 0.012, z); });
   c.inner.intensity = 9 + Math.sin(O * 7.3) * 2 + Math.sin(O * 13) * 1.2; return c.hero; }
 function heroAt(c, O, pos, ry, p, expr) { hp(c.hero, O, pos, ry, p, expr); c.hb.visible = true; c.hb.position.set(pos[0], 0.012, pos[2]); }
 const STOPARM = (k) => ({ arms: [[0, 0, 0.12, 0.12], [lerp(0, -0.85, k), lerp(0, 0.35, k), lerp(-0.12, -0.05, k), lerp(0.12, 0.35, k)]] });
 function bouncerAt(O, p, expr, ry = -Math.PI / 2) { hp(CL.bouncer, O, [BX, 0, HZ], ry, p, expr, 'bouncer'); }
 const SLAP = 1.7;
 shot(0, 3.0, 'club', { ease: 'io', p0: [0.6, 1.0, 5.6], p1: [0.5, 1.05, 5.0], l0: [-0.1, 1.75, -1.45], fov: 46 }, (lt, O) => { clubBase(O, { lvl: 0 }); const k = eOut(seg(O, SLAP - 0.25, SLAP)); const wk = O < 1.45;
-  heroAt(CL, O, [lerp(-1.3, HX, eOut(seg(O, 0, 1.45))) - 0.06 * k, 0, HZ], Math.PI / 2, wk ? walk(O, 7.5, 0.8) : { ...idle(O), spineX: -0.1 * k }, O > SLAP ? 'shock' : 'smile');
+  const wk0 = eIO(seg(O, 0, 1.45)); heroAt(CL, O, wk ? [lerp(1.6, HX, wk0), 0, lerp(1.9, HZ, wk0)] : [HX - 0.06 * k, 0, HZ], wk ? Math.atan2(HX - 1.6, HZ - 1.9) + (O > 1.2 ? (Math.PI / 2 - Math.atan2(HX - 1.6, HZ - 1.9)) * seg(O, 1.2, 1.45) : 0) : Math.PI / 2, wk ? walk(O, 10, 1) : { ...idle(O), spineX: -0.1 * k }, O > SLAP ? 'shock' : 'smile');
   bouncerAt(O, { ...idle(O, 2), ...STOPARM(k), headX: 0.12 }, 'calm'); }, { grade: 'club', shakeAt: [[SLAP, 0.012]] });
 const T1 = tS(1);
 shot(T1, T1 + 2.6, 'club', { ease: 'lin', p0: [3.3, 3.4, 2.3], p1: [3.15, 3.35, 2.05], l0: [HX, 2.05, HZ], fov: 40 }, (lt, O) => { clubBase(O, { lvl: 0 });
@@ -577,9 +579,12 @@ shot(T1, T1 + 2.6, 'club', { ease: 'lin', p0: [3.3, 3.4, 2.3], p1: [3.15, 3.35, 
 shot(T1 + 2.6, T1 + 5.4, 'club', { ease: 'lin', p0: [-2.7, 1.9, 1.3], p1: [-2.5, 1.95, 1.1], l0: [BX - 0.1, 3.05, HZ], fov: 46 }, (lt, O) => { clubBase(O, { lvl: 0 });
   heroAt(CL, O, [HX - 0.06, 0, HZ], Math.PI / 2, { ...idle(O) }, 'confused'); const down = Math.sin(seg(O, T1 + 2.7, T1 + 4.2) * Math.PI); const tilt = eIO(seg(O, T1 + 4.4, T1 + 4.9));
   bouncerAt(O, { ...idle(O, 2), headX: 0.45 * down - 0.05, headZ: 0.2 * tilt, arms: [[-0.55, 0, -0.22, 1.55], [-0.6, 0, 0.22, 1.5]] }, tilt > 0.5 ? 'confused' : 'calm'); }, { grade: 'club', dof: 0.35 });
-shot(T1 + 5.4, tE(1), 'club', { ease: 'lin', p0: [-0.2, 1.95, 2.7], p1: [-0.2, 1.95, 2.4], l0: [HX, 1.95, HZ], fov: 44 }, (lt, O) => { clubBase(O, { lvl: 0 }); const fl = eOut(seg(O, T1 + 6.2, T1 + 6.6));
+shot(T1 + 5.4, T1 + 7.15, 'club', { ease: 'lin', p0: [-0.2, 1.95, 2.7], p1: [-0.2, 1.95, 2.4], l0: [HX, 1.95, HZ], fov: 44 }, (lt, O) => { clubBase(O, { lvl: 0 }); const fl = eOut(seg(O, T1 + 6.2, T1 + 6.6));
   heroAt(CL, O, [HX - 0.06, 0, HZ], 0.5, { ...idle(O), arms: [[lerp(-0.45, -0.25, fl), 0, lerp(0.3, 1.05, fl), lerp(1.25, 0.3, fl)], [lerp(-0.45, -0.25, fl), 0, lerp(-0.3, -1.05, fl), lerp(1.25, 0.3, fl)]], spineX: -0.05, headZ: 0.08 * fl }, 'grit');
   bouncerAt(O, { ...idle(O, 2), arms: [[-0.55, 0, -0.22, 1.55], [-0.6, 0, 0.22, 1.5]], headX: 0.1 }, 'calm'); }, { grade: 'club', dof: 0.3 });
+shot(T1 + 7.15, tE(1), 'club', { ease: 'lin', p0: [-0.05, 2.15, 0.85], p1: [-0.15, 2.15, 0.6], l0: [-1.6, 2.2, HZ], fov: 44 }, (lt, O) => { clubBase(O, { lvl: 0, q0: true });
+  heroAt(CL, O, [HX - 0.06, 0, HZ], 0.5, { ...idle(O), arms: [[-0.2, 0, 0.15, 0.3], [-0.2, 0, -0.15, 0.3]] }, 'worried'); bouncerAt(O, { ...idle(O, 2), ...CROSS }, 'calm');
+  const q = CL.queue[0]; pose(q, { ...idle(O), spineX: 0.12 + 0.05 * Math.sin(O * 18), arms: [[-0.6, 0, -0.35, 1.4], [-0.9, 0.3, -0.6, 0.3]] }); q.root.rotation.y = 0.6; }, { grade: 'club', dof: 0.3 });
 // ===== The wall (Day 3): his shadow struts =====
 const WL = S.wall, T3 = tS(3); const STOP3 = T3 + 3.4;
 const hx3 = (O) => lerp(-3.6, 0.0, seg(O, T3, STOP3));
@@ -599,7 +604,7 @@ shot(T3 + 3.6, tE(3), 'wall', { ease: 'lin', p0: [0.75, 1.8, 6.0], p1: [0.8, 1.8
 // ===== The zoo (Day 5): nature documentary =====
 const ZO = S.zoo, T5 = tS(5); const PK = [0.7, 0, -0.4], ZH = [-1.6, 0, -4.6];
 const FOLD = T5 + 4.6, OFF = T5 + 5.3;
-function zooBase(O) { resetRig(ZO.hero); ZO.hero.kit.set(2, O); const pc = ZO.peacock; const open = eOut(seg(O, T5 + 0.9, T5 + 1.9)) * (1 - eIO(seg(O, FOLD, FOLD + 0.6)));
+function zooBase(O) { ZO.kid.root.visible = false; resetRig(ZO.hero); ZO.hero.kit.set(2, O); const pc = ZO.peacock; const open = eOut(seg(O, T5 + 0.9, T5 + 1.9)) * (1 - eIO(seg(O, FOLD, FOLD + 0.6)));
   pc.setTail(open); pc.userData.fe.forEach((p, i) => p.rotation.z += 0.02 * Math.sin(O * 31 + i) * open); const look = seg(O, T5 + 3.6, T5 + 4.1); const leave = seg(O, OFF, OFF + 1.4);
   pc.rotation.y = lerp(0.15, -2.4, eIO(look)) * (1 - leave) + lerp(-2.4, 1.6, eIO(seg(O, OFF - 0.2, OFF + 0.3))) * leave; pc.position.set(lerp(PK[0], 2.9, eIO(leave)), Math.abs(Math.sin(O * 9)) * 0.03 * (leave > 0 && leave < 1), lerp(PK[2], -1.3, eIO(leave))); pc.scale.setScalar(lerp(1, 0.55, eIO(seg(O, OFF + 0.8, OFF + 1.4))));
   pc.userData.neck.rotation.set(0.25 + 0.15 * Math.sin(O * 2), 0, 0); pc.userData.head.rotation.set(-0.15, Math.sin(O * 1.3) * 0.3, 0);
@@ -607,8 +612,11 @@ function zooBase(O) { resetRig(ZO.hero); ZO.hero.kit.set(2, O); const pc = ZO.pe
   hp(ZO.hero, O, ZH, 0, { ...idle(O), hipZ: 0.12, spineZ: -0.06, headX: -0.08, arms: [[-0.2, 0, 0.62, 1.85], [-0.15, 0, -0.35, 0.3]] }, 'smirk'); ZO.hb.position.set(ZH[0], 0.012, ZH[2]); return ZO.hero; }
 shot(T5, T5 + 3.8, 'zoo', { ease: 'lin', p0: [0.25, 1.15, 9.6], p1: [0.3, 1.15, 9.2], l0: [0.7, 1.3, -0.4], fov: 26 }, (lt, O) => { zooBase(O); }, { grade: 'doc', dof: 0.55, letterbox: true, live: 0.6 });
 shot(T5 + 3.8, T5 + 6.2, 'zoo', { ease: 'lin', p0: [3.0, 1.2, 4.6], p1: [2.8, 1.25, 4.3], l0: [-0.3, 1.6, -2.4], fov: 30 }, (lt, O) => { zooBase(O); }, { grade: 'doc', letterbox: true, live: 0.6 });
-shot(T5 + 6.2, tE(5), 'zoo', { ease: 'lin', p0: [-0.9, 2.0, 4.4], p1: [-0.95, 2.0, 4.0], l0: [ZH[0], 2.0, ZH[2]], fov: 25 }, (lt, O) => { zooBase(O); const w = Math.sin(seg(O, T5 + 6.8, T5 + 7.8) * Math.PI);
+shot(T5 + 6.2, T5 + 7.9, 'zoo', { ease: 'lin', p0: [-0.9, 2.0, 4.4], p1: [-0.95, 2.0, 4.0], l0: [ZH[0], 2.0, ZH[2]], fov: 25 }, (lt, O) => { zooBase(O); const w = Math.sin(seg(O, T5 + 6.8, T5 + 7.8) * Math.PI);
   hp(ZO.hero, O, ZH, 0, { ...idle(O), headY: 0.45, headX: 0.08, arms: [[-0.15, 0, 0.3, 0.3], [-0.3 - 0.4 * w, 0, -0.45 - 0.25 * w, 0.9]] }, 'worried'); }, { grade: 'doc', dof: 0.45, letterbox: true, live: 0.6 });
+shot(T5 + 7.9, tE(5), 'zoo', { ease: 'lin', p0: [0.9, 1.6, 4.2], p1: [0.8, 1.6, 3.9], l0: [-0.8, 1.45, -4.4], fov: 30 }, (lt, O) => { zooBase(O); const K = ZO.kid; resetRig(K); K.root.scale.setScalar(0.62);
+  hp(K, O, [-0.25, 0, -4.2], 0.5, { ...idle(O, 4), bob: Math.abs(Math.sin(O * 9)) * 0.03, arms: [[0, 0, 0.12, 0.15], [-1.5, 0.2, -0.3, 0.1]] }, 'shock', 'kid');
+  hp(ZO.hero, O, ZH, 0.35, { ...idle(O), headY: -0.3, arms: [[-0.15, 0, 0.3, 0.3], [-0.15, 0, -0.3, 0.3]] }, 'worried'); }, { grade: 'doc', dof: 0.35, letterbox: true, live: 0.6 });
 // ===== The shop window (Day 8): the mannequins notice =====
 const WN = S.window, T8 = tS(8); const TURN8 = T8 + 2.1, DROP8 = T8 + 3.5;
 function winBase(O, heroPos) { resetRig(WN.hero); WN.hero.kit.set(3, O); WN.hb.position.set(heroPos[0], 0.012, heroPos[2]);
@@ -620,20 +628,20 @@ const HB8 = (O) => [2.6, 0, lerp(3.4, 4.3, eIO(seg(O, T8 + 3.6, T8 + 5.5)))];
 shot(T8 + 2.9, tE(8), 'window', { ease: 'lin', p0: [1.9, 1.75, -1.5], p1: [1.9, 1.8, -1.2], l0: [2.6, 2.05, 3.8], fov: 50 }, (lt, O) => { const p = HB8(O); winBase(O, p); const back = seg(O, T8 + 3.6, T8 + 5.5);
   hp(WN.hero, O, p, Math.PI - 0.15, back > 0 && back < 1 ? { ...walk(O, 6, 0.4), spineX: -0.12 } : { ...idle(O), spineX: -0.1, arms: [[-0.4, 0, 0.35, 0.8], [-0.4, 0, -0.35, 0.8]] }, 'worried'); }, { grade: 'shop', dof: 0.25 });
 // ===== The plaza (Day 10): a man in white gloves ties his laces =====
-const PZ = S.plaza, T10 = tS(10); const TIED = T10 + 4.95, RISE = T10 + 5.2;
+const PZ = S.plaza, T10 = tS(10); const TIED = T10 + 3.2, RISE = T10 + 3.4;
 function plazaBase(O, o = {}) { const p = PZ; resetRig(p.hero); p.hero.root.visible = false; p.hb.visible = false; resetRig(p.guard); p.guard.root.visible = false; p.gb.visible = false; p.rain.visible = false; p.steam.forEach(s => s.visible = false); p.cs.visible = !!o.cs;
   p.crowd.forEach(P => { resetRig(P); P.root.visible = false; P.blob.visible = false; }); const dusk = o.dusk ?? 0;
   p.key.intensity = lerp(2.2, 0.35, dusk); p.key.color.setHex(dusk ? 0x9fb0d8 : 0xfff0d8); p.hemi.intensity = lerp(0.75, 0.45, dusk); p.sc.environmentIntensity = lerp(0.5, 0.25, dusk); p.sky.material.color.setHex(dusk ? 0x4a5a80 : 0xffffff);
   p.lamps.forEach(l => { l.light.intensity = dusk * 12; l.children[0].material = mat(0xffc27a, { emissive: 0xffc27a, emissiveIntensity: dusk ? 3 : 0.2 }); }); p.paveM.roughness = lerp(0.6, 0.12, dusk); p.paveM.metalness = lerp(0.05, 0.25, dusk);
   if (o.sun) { p.key.position.copy(V(o.sun)); } else p.key.position.set(12, 18, 14); p.hero.kit.set(o.lvl ?? 3, O, o.kit || {}); return p.hero; }
-const GPOS = [-1.0, 0, 0.32];
+const GPOS = [-0.2, 0, 1.12];
 function guardAt(O) { const G = PZ.guard; const up = eIO(seg(O, RISE, RISE + 0.7)); const tie = O < TIED ? Math.sin(O * 14) : 0;
   const kneel = { ...KNEEL, spineX: 0.55, headX: 0.35, arms: [[-0.75 + 0.08 * tie, 0.2, -0.1, 0.5], [-0.75 - 0.08 * tie, -0.2, 0.1, 0.5]] };
   const stand = { ...idle(O, 3), arms: [[0, 0, 0.12, 0.15], [-0.25, 0, -2.3, 2.3]], headZ: 0.1 };
   const p = up > 0 ? { bob: lerp(-0.42, 0, up), spineX: lerp(0.55, 0.02, up), headX: lerp(0.35, 0, up), legs: [[lerp(1.5, 0, up), lerp(1.6, 0, up)], [lerp(0.05, 0, up), lerp(1.5, 0, up)]], arms: up > 0.6 ? stand.arms : kneel.arms } : kneel;
-  hp(G, O, GPOS, lerp(Math.PI / 2, 0.5, up), p, 'calm', 'guard'); G.glasses.visible = true; PZ.gb.visible = true; PZ.gb.position.set(GPOS[0], 0.012, GPOS[2]); }
-shot(T10, T10 + 3.2, 'plaza', { ease: 'lin', p0: [2.3, 0.95, 2.7], p1: [2.1, 0.9, 2.45], l0: [-0.5, 0.65, 0.2], fov: 44 }, (lt, O) => { const h = plazaBase(O, { kit: { untied: O < TIED } }); hp(h, O, [0, 0, 0], 0, { ...idle(O), headX: 0.3 }, 'smirk'); PZ.hb.visible = true; PZ.hb.position.set(0, 0.012, 0); guardAt(O); }, { grade: 'plaza' });
-shot(T10 + 3.2, tE(10), 'plaza', { ease: 'io', p0: [1.5, 0.7, 2.0], p1: [1.6, 2.0, 3.5], l0: [-0.3, 0.35, 0.3], l1: [-0.05, 1.9, 0], fov: 44 }, (lt, O) => { const h = plazaBase(O, { kit: { untied: O < TIED } }); const look = seg(O, T10 + 5.6, T10 + 6.0);
+  const gp = [lerp(GPOS[0], -1.25, up), 0, lerp(GPOS[2], 0.9, up)]; hp(G, O, gp, lerp(Math.PI, 0.6, up), p, 'calm', 'guard'); G.glasses.visible = true; PZ.gb.visible = true; PZ.gb.position.set(gp[0], 0.012, gp[2]); }
+shot(T10, T10 + 3.3, 'plaza', { ease: 'lin', p0: [4.0, 1.5, 1.7], p1: [3.7, 1.45, 1.6], l0: [-0.2, 0.85, 0.6], fov: 40 }, (lt, O) => { const h = plazaBase(O, { kit: { untied: O < TIED } }); hp(h, O, [0, 0, 0], 0, { ...idle(O), headX: 0.3 }, 'smirk'); PZ.hb.visible = true; PZ.hb.position.set(0, 0.012, 0); guardAt(O); }, { grade: 'plaza' });
+shot(T10 + 3.3, tE(10), 'plaza', { ease: 'io', p0: [1.7, 0.8, 2.6], p1: [1.8, 2.0, 3.8], l0: [-0.3, 0.35, 0.3], l1: [-0.05, 1.9, 0], fov: 44 }, (lt, O) => { const h = plazaBase(O, { kit: { untied: O < TIED } }); const look = seg(O, T10 + 5.6, T10 + 6.0);
   hp(h, O, [0, 0, 0], 0.15, { ...idle(O), headX: lerp(0.32, 0, look), arms: [[0, 0, 0.12, 0.15], [-0.85, 0, -0.32, 1.25]] }, look > 0.5 ? 'smirk' : 'calm'); PZ.hb.visible = true; PZ.hb.position.set(0, 0.012, 0); guardAt(O); }, { grade: 'plaza' });
 // ===== Day 12: bullet time in the rain =====
 const T12 = tS(12); const F0 = T12 + 1.2, F1 = T12 + 4.4, SIZZ = T12 + 3.6;
@@ -663,19 +671,24 @@ shot(T15, T15 + 2.3, 'court', { ease: 'lin', p0: [1.7, 1.9, 1.4], p1: [1.55, 1.9
 shot(T15 + 2.3, T15 + 5.3, 'court', { ease: 'lin', p0: [0.7, 2.75, -1.2], p1: [0.85, 2.75, -0.8], l0: [DPOS[0], 2.65, DPOS[2]], fov: 40 }, (lt, O) => { const h = courtBase(O); hp(h, O, DPOS, DRY, proud(O), O > T15 + 3.2 ? 'smirk' : 'calm'); }, { grade: 'court', sketch: true });
 shot(T15 + 5.3, tE(15), 'court', { ease: 'io', p0: [0.55, 2.6, 0.9], p1: [0.4, 2.85, -0.4], l0: [0, 2.85, -3.0], fov: 42 }, (lt, O) => { const h = courtBase(O); hp(h, O, DPOS, DRY, proud(O), 'smirk'); }, { grade: 'court', sketch: true, shakeAt: [[GAVEL, 0.01]] });
 // ===== Day 18: CCTV in the alley =====
-const AL = S.alley, T18 = tS(18); const JUMP = T18 + 3.0;
-const MG = [{ from: [-1.65, -1.2], to: [-0.85, -0.55] }, { from: [1.7, -3.0], to: [0.9, -2.0] }];
+const AL = S.alley, T18 = tS(18); const LUNGE = T18 + 1.3, FLASH = T18 + 3.5, GIVE = T18 + 4.2, LEAVE = T18 + 4.9;
+const MG = [{ from: [-1.65, -1.2], to: [-0.62, -1.0] }, { from: [1.7, -3.0], to: [0.62, -1.75] }];
 function alleyBase(O) { const a = AL; resetRig(a.hero); a.hero.kit.set(4, O); a.muggers.forEach(P => { resetRig(P); P.wallet.visible = false; }); return a.hero; }
-const CCTV = { ease: 'lin', p0: [1.85, 4.7, 4.9], l0: [-0.1, 0.8, -2.4], fov: 74 };
-shot(T18, JUMP, 'alley', CCTV, (lt, O) => { const h = alleyBase(O); const hz = lerp(-6.5, -1.3, eOut(seg(O, T18, T18 + 1.8)));
-  hp(h, O, [0, 0, hz], 0, O < T18 + 1.8 ? walk(O, 7.5, 1) : { ...idle(O) }, O > T18 + 2.0 ? 'worried' : 'calm'); AL.hb.position.set(0, 0.012, hz);
-  AL.muggers.forEach((P, i) => { const k = eOut(seg(O, T18 + 1.3, T18 + 2.0)); const m = MG[i]; const x = lerp(m.from[0], m.to[0], k), z = lerp(m.from[1], m.to[1], k);
-    hp(P, O, [x, 0, z], Math.atan2(0 - x, hz - z), k < 1 ? walk(O, 7, 0.8) : { ...idle(O, i), headX: 0.4 * Math.sin(seg(O, T18 + 2.0, JUMP) * Math.PI * 1.5) }, 'calm', 'mugger'); P.blob.position.set(x, 0.012, z); }); }, { grade: 'cctv', cctv: true, fps: 12, live: 0 });
-shot(JUMP, tE(18), 'alley', CCTV, (lt, O) => { const h = alleyBase(O); const fan = Math.sin(O * 5);
-  hp(h, O, [0, 0, -1.3], 0, { ...idle(O), arms: [[-0.7, 0, 0.45, 0.9 + 0.1 * fan], [-0.7, 0, -0.45, 0.9 - 0.1 * fan]] }, 'smirk'); AL.hb.position.set(0, 0.012, -1.3);
-  [0, 1].forEach(i => { const w = wp(h.arms[i].el).add(V([0, -0.45, 0.06])); const wl = AL.muggers[i].wallet; wl.visible = true; wl.position.copy(w); wl.rotation.set(0.3, 0, 0.2 * fan); });
-  AL.muggers.forEach((P, i) => { const z = lerp(-2.2 - i * 0.6, -8.5, seg(O, JUMP, JUMP + 4.0)), x = (i ? 0.7 : -0.7); const c = Math.sin(O * 16 + i) * 0.5 + 0.5;
-    hp(P, O, [x, 0, z], Math.PI, { ...walk(O, 6.5, 0.7), arms: [[-1.1, 0, -0.25 + 0.18 * c, 0.7], [-1.1, 0, 0.25 - 0.18 * c, 0.7]] }, 'smile', 'mugger'); P.blob.position.set(x, 0.012, z); }); }, { grade: 'cctv', cctv: true, fps: 12, live: 0 });
+const CCTV = { ease: 'lin', p0: [1.6, 3.9, 2.9], l0: [-0.05, 1.0, -1.6], fov: 64 };
+shot(T18, tE(18), 'alley', CCTV, (lt, O) => { const h = alleyBase(O); const hz = lerp(-6.5, -1.3, eOut(seg(O, T18, T18 + 1.5))); const fl = seg(O, FLASH, FLASH + 0.5);
+  const heroP = O < T18 + 1.5 ? walk(O, 7.5, 1) : O < FLASH ? { ...idle(O), spineX: -0.12, arms: [[-0.4, 0, 0.5, 0.6], [-0.4, 0, -0.5, 0.6]] } : O < LEAVE ? { ...idle(O), spineX: -0.08, arms: [[-0.25, 0, 1.1 * eOut(fl), 0.25], [-0.25, 0, -1.1 * eOut(fl), 0.25]] } : { ...idle(O), arms: [[-0.7, 0, 0.45, 0.9 + 0.1 * Math.sin(O * 5)], [-0.7, 0, -0.45, 0.9 - 0.1 * Math.sin(O * 5)]] };
+  hp(h, O, [0, 0, hz], 0, heroP, O < LUNGE + 0.3 ? 'calm' : O < FLASH ? 'worried' : 'smirk'); AL.hb.position.set(0, 0.012, hz); h.kit.sparks.forEach(s => { if (O > FLASH && O < FLASH + 1.0) { s.visible = true; s.material.opacity = 1; s.scale.setScalar(0.9); } });
+  AL.muggers.forEach((P, i) => { const m = MG[i]; let x, z, ry, p, ex = 'grit';
+    if (O < LEAVE) { const k = eOut(seg(O, LUNGE, LUNGE + 0.45)); x = lerp(m.from[0], m.to[0], k); z = lerp(m.from[1], m.to[1], k); ry = Math.atan2(0 - x, hz - z);
+      if (k < 1) p = walk(O, 11, 1.1);
+      else if (O < FLASH) p = { ...idle(O, i), spineX: 0.15, arms: i ? [[-1.3, 0, 0.12, 0.2], [-1.35, 0, -0.1, 0.25 + 0.1 * Math.sin(O * 10)]] : [[-1.25, 0.25, -0.15, 0.55], [-0.3, 0, -0.2, 0.3]] };   // 0 grabs his lapel, 1 holds a hand out: "Wallet. Now."
+      else if (O < GIVE) { p = { ...idle(O, i), spineX: -0.3 * eOut(fl), headX: -0.2 + 0.45 * Math.sin(seg(O, FLASH + 0.3, GIVE) * Math.PI * 2), arms: [[-2.2, 0, 0.5, 0.3], [-2.2, 0, -0.5, 0.3]] }; ex = 'shock'; }   // recoil from the flash, look him up and down
+      else { const g = eIO(seg(O, GIVE, GIVE + 0.5)); p = { ...idle(O, i), spineX: 0.2 * g, arms: [[-0.3, 0, 0.12, 0.2], [-0.3 - 1.0 * g, 0, -0.12, 0.3]] }; ex = 'smile';   // hand over their own wallets
+        const w = P.wallet; w.visible = true; w.position.copy(g < 1 ? wp(P.arms[1].el).add(V([0, -0.45, 0])).lerp(wp(h.arms[i].el).add(V([0, -0.45, 0.06])), eIO(seg(O, GIVE + 0.3, GIVE + 0.7))) : wp(h.arms[i].el).add(V([0, -0.45, 0.06]))); w.rotation.set(0.3, 0, 0); } }
+    else { const k = seg(O, LEAVE, LEAVE + 2.6); x = (i ? 0.7 : -0.7); z = lerp(m.to[1], -8.5, k); ry = Math.PI; const c = Math.sin(O * 16 + i) * 0.5 + 0.5;
+      p = { ...walk(O, 6.5, 0.7), arms: [[-1.1, 0, -0.25 + 0.18 * c, 0.7], [-1.1, 0, 0.25 - 0.18 * c, 0.7]] }; ex = 'smile';
+      const w = P.wallet; w.visible = true; w.position.copy(wp(h.arms[i].el).add(V([0, -0.45, 0.06]))); w.rotation.set(0.3, 0, 0.2 * Math.sin(O * 5)); }
+    hp(P, O, [x, 0, z], ry, p, ex, 'mugger'); P.blob.position.set(x, 0.012, z); }); }, { grade: 'cctv', cctv: true, fps: 12, live: 0, flash: FLASH, fa: [0.8, 0.45, 0.15] });
 // ===== Day 22: the gallery =====
 const GL = S.gallery, T22 = tS(22); const PP = [[-1.15, 1.1], [1.15, 1.1], [1.15, -1.1], [-1.15, -1.1]];
 function galleryBase(O) { const g = GL; resetRig(g.hero); g.hero.kit.set(5, O, { glow: 0.6 }); hp(g.hero, O, [0, 0, 0], 0, { ...KNEEL, spineX: 0.3, headX: 0.25, arms: [[-0.6, 0.15, -0.05, 0.35], [-0.6, -0.15, 0.05, 0.35]] }, 'calm');
@@ -715,17 +728,17 @@ function lapseBase(O) { const a = (O - T30) * 0.9; const h = plazaBase(O, { cs: 
 shot(T30, T30 + 3.2, 'plaza', { ease: 'io', p0: [1.5, 9.5, 12.5], p1: [1.2, 8.2, 10.8], l0: [-1.2, 0.8, -4.5], fov: 50 }, (lt, O) => { lapseBase(O); }, { grade: 'lapse', mblur: 3 });
 shot(T30 + 3.2, tE(30), 'plaza', { ease: 'lin', p0: [-0.6, 2.7, -5.2], p1: [-0.9, 2.7, -5.8], l0: [-3.4, 3.0, -11.6], fov: 50 }, (lt, O) => { lapseBase(O); }, { grade: 'lapse', mblur: 2 });
 // ===== END: back at the club; the £40 jacket is the dress code =====
-const TE = tS('END'); const STOPE = TE + 1.0;
-const heroE = (O) => [lerp(2.6, HX, eOut(seg(O, TE, STOPE - 0.1))), 0, lerp(2.4, HZ, eOut(seg(O, TE, STOPE - 0.1)))];
-function endBase(O) { const h = clubBase(O, { lvl: 5, brown: true, lookAt: heroE(O).filter((_, i) => i !== 1), kit: { glow: 1.6 } }); return h; }
-shot(TE, TE + 1.5, 'club', { ease: 'lin', p0: [1.2, 3.3, 7.6], p1: [1.0, 3.2, 7.0], l0: [-1.4, 1.5, -1.2], fov: 50 }, (lt, O) => { endBase(O); const p = heroE(O); const k = eOut(seg(O, STOPE - 0.25, STOPE));
-  heroAt(CL, O, p, O < STOPE - 0.1 ? Math.atan2(HX - 2.6, HZ - 2.4) : Math.PI / 2, O < STOPE - 0.1 ? walk(O, 7.5, 1) : { ...idle(O), spineX: -0.1 * k }, 'smirk'); bouncerAt(O, { ...idle(O, 2), ...STOPARM(k) }, 'calm'); }, { grade: 'club' });
-shot(TE + 1.5, TE + 2.85, 'club', { ease: 'lin', p0: [-2.8, 2.5, 2.6], p1: [-2.65, 2.5, 2.35], l0: [BX, 2.5, HZ], fov: 44 }, (lt, O) => { endBase(O); heroAt(CL, O, [HX - 0.06, 0, HZ], Math.PI / 2, { ...idle(O) }, 'smirk');
+const TE = tS('END'); const STOPE = TE + 2.4, SQK = TE + 6.65;
+const heroE = (O) => [lerp(2.6, HX, eIO(seg(O, TE, STOPE - 0.1))), 0, lerp(2.4, HZ, eIO(seg(O, TE, STOPE - 0.1)))];
+function endBase(O) { const h = clubBase(O, { lvl: 5, brown: true, lookAt: heroE(O).filter((_, i) => i !== 1), q0: O < TE + 4.2, kit: { glow: 1.6 } }); return h; }
+shot(TE, TE + 3.2, 'club', { ease: 'lin', p0: [1.2, 3.3, 7.6], p1: [0.9, 3.15, 6.6], l0: [-1.4, 1.5, -1.2], fov: 50 }, (lt, O) => { endBase(O); const p = heroE(O); const k = eOut(seg(O, STOPE - 0.25, STOPE));
+  heroAt(CL, O, p, O < STOPE - 0.1 ? Math.atan2(HX - 2.6, HZ - 2.4) : Math.PI / 2, O < STOPE - 0.1 ? walk(O, 8.5, 1) : { ...idle(O), spineX: -0.1 * k }, 'smirk'); bouncerAt(O, { ...idle(O, 2), ...STOPARM(k) }, 'calm'); }, { grade: 'club' });
+shot(TE + 3.2, TE + 5.2, 'club', { ease: 'lin', p0: [-2.8, 2.5, 2.6], p1: [-2.6, 2.5, 2.3], l0: [BX, 2.5, HZ], fov: 44 }, (lt, O) => { endBase(O); heroAt(CL, O, [HX - 0.06, 0, HZ], Math.PI / 2, { ...idle(O) }, 'smirk');
   bouncerAt(O, { ...idle(O, 2), headX: 0.08, arms: [[-0.55, 0, -0.22, 1.55], [-0.6, 0, 0.22, 1.5]] }, 'calm'); }, { grade: 'club', dof: 0.3 });
-shot(TE + 2.85, TE + 4.1, 'club', { ease: 'lin', pf: () => wp(CL.bouncer.tag.children[1]).add(V([-0.9, 0.25, 0.9])), lf: () => wp(CL.bouncer.tag.children[1]).add(V([0, 0.25, 0])), fov: 40 }, (lt, O) => { endBase(O); heroAt(CL, O, [HX - 0.06, 0, HZ], Math.PI / 2, { ...idle(O) }, 'smirk'); const tap = Math.max(0, Math.sin((O - TE - 3.0) * 9));
+shot(TE + 5.2, TE + 6.5, 'club', { ease: 'lin', pf: () => wp(CL.bouncer.tag.children[1]).add(V([-0.9, 0.25, 0.9])), lf: () => wp(CL.bouncer.tag.children[1]).add(V([0, 0.25, 0])), fov: 40 }, (lt, O) => { endBase(O); heroAt(CL, O, [HX - 0.06, 0, HZ], Math.PI / 2, { ...idle(O) }, 'smirk'); const tap = Math.max(0, Math.sin((O - TE - 5.4) * 9));
   bouncerAt(O, { ...idle(O, 2), headX: 0.08, arms: [[-0.95, 0, -0.62, 1.2 + 0.12 * tap], [-0.95, 0.3, -0.25, 1.3]] }, 'calm'); CL.bouncer.tag.rotation.set(0, -0.6, 0.1 * tap); CL.bouncer.tag.children[1].rotation.z = Math.PI; }, { grade: 'club', live: 0.4 });
-shot(TE + 4.1, DUR + 0.1, 'club', { ease: 'lin', p0: [0.75, 2.1, 0.95], p1: [0.68, 2.12, 0.75], l0: [HX, 2.1, HZ], fov: 44 }, (lt, O) => { endBase(O); const dn = Math.sin(seg(O, TE + 4.15, TE + 4.35) * Math.PI);
-  heroAt(CL, O, [HX - 0.06, 0, HZ], Math.PI / 2 - 0.9, { ...idle(O), headX: 0.4 * dn }, O > TE + 4.4 ? 'shock' : 'worried'); bouncerAt(O, { ...idle(O, 2) }, 'calm'); CL.bouncer.tag.visible = false; }, { grade: 'club', dof: 0.3, dark: (O) => O > TE + 6.12 ? 1 : 0 });
+shot(TE + 6.5, DUR + 0.1, 'club', { ease: 'lin', p0: [0.75, 2.1, 0.95], p1: [0.68, 2.12, 0.75], l0: [HX, 2.1, HZ], fov: 44 }, (lt, O) => { endBase(O); const dn = Math.sin(seg(O, TE + 6.5, TE + 6.65) * Math.PI);
+  heroAt(CL, O, [HX - 0.06, 0, HZ], Math.PI / 2 - 0.9, { ...idle(O), headX: 0.4 * dn }, O > SQK ? 'shock' : 'worried'); bouncerAt(O, { ...idle(O, 2) }, 'calm'); CL.bouncer.tag.visible = false; }, { grade: 'club', dof: 0.3, dark: (O) => O > TE + 8.55 ? 1 : 0 });
 const SAFE_L = 90, SAFE_R = 140, CAP_W = W - SAFE_L - SAFE_R, CAP_X = SAFE_L + CAP_W / 2;   // safe area: full-screen players crop the edges, Instagram's buttons cover the right side
 function stepAt(T) { let s = null; for (const st of STEPS) if (T >= st.t) s = st; return s; }
 function spaced(g, text, x, y, sp) { let cx = x; for (const ch of text) { g.fillText(ch, cx, y); cx += g.measureText(ch).width + sp; } return cx - x; }
@@ -769,7 +782,7 @@ function drawCaptions(O) {
     g.shadowColor = 'rgba(0,0,0,0.45)'; g.shadowBlur = 20; strokeText(g, txt, 0, 0, 16); g.restore(); return; }
   const shown = captionChunk(c, O); if (!shown) { g.restore(); return; }
   let fs = 78; g.font = `800 ${fs}px Montserrat`; while (g.measureText(shown).width > CAP_W && fs > 40) { fs -= 3; g.font = `800 ${fs}px Montserrat`; }
-  const nm = { hero: null, bouncer: 'BOUNCER', narrator: 'NARRATOR', judge: 'JUDGE', mugger: 'MUGGER' }[c.speaker];
+  const nm = { hero: null, bouncer: 'BOUNCER', narrator: 'NARRATOR', judge: 'JUDGE', mugger: 'MUGGER', queue: 'QUEUE', kid: 'KID', guard: 'GUARD', visitor: 'VISITOR', shopkeeper: 'SHOPKEEPER', passer: 'PASSER-BY' }[c.speaker];
   strokeText(g, shown, CAP_X, H * 0.72, 12); if (nm) { g.font = '700 30px InterW'; g.globalAlpha = 0.85; strokeText(g, nm, CAP_X, H * 0.72 - fs - 8, 6); }
   g.restore();
 }
@@ -813,7 +826,7 @@ const GRADES = {
   rain: { f: 'saturate(0.9) contrast(1.12) brightness(1.0)', tint: 'rgba(70,100,170,0.18)', mode: 'soft-light', vig: 0.45 },
   freeze: { f: 'saturate(0.45) contrast(1.2) brightness(1.04)', tint: 'rgba(120,170,255,0.22)', mode: 'soft-light', vig: 0.5 },
   court: { f: 'grayscale(1) contrast(1.5) brightness(1.3)', tint: null, vig: 0.2 },
-  cctv: { f: 'grayscale(1) contrast(1.3) brightness(1.6)', tint: 'rgba(60,255,110,0.55)', mode: 'multiply', vig: 0.65 },
+  cctv: { f: 'grayscale(1) contrast(1.25) brightness(2.0)', tint: 'rgba(60,255,110,0.55)', mode: 'multiply', vig: 0.65 },
   gallery: { f: 'saturate(1.05) contrast(1.05) brightness(1.02)', tint: null, vig: 0.22 },
   corner: { f: 'saturate(1.12) contrast(1.06) brightness(1.03)', tint: 'rgba(200,255,220,0.06)', mode: 'soft-light', vig: 0.35 },
   lapse: { f: 'saturate(1.15) contrast(1.08) brightness(1.03)', tint: 'rgba(255,190,120,0.1)', mode: 'soft-light', vig: 0.35 },

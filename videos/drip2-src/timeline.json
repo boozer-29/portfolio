@@ -1,13 +1,13 @@
 {
  "TITLE": 3.0,
- "DUR": 87.3,
+ "DUR": 95.6,
  "PAUSES": {},
  "CUTS": {},
  "steps": [
   {
    "day": 1,
    "t0": 3.0,
-   "t1": 10.8,
+   "t1": 13.0,
    "value": "\u00a340",
    "cmp": "A CHARITY-SHOP JACKET",
    "status": "",
@@ -25,217 +25,265 @@
      "file": "h1",
      "at": 8.6,
      "end": 10.04
+    },
+    {
+     "file": "q1",
+     "at": 10.25,
+     "end": 12.81
     }
    ]
   },
   {
    "day": 3,
-   "t0": 10.8,
-   "t1": 17.8,
+   "t0": 13.0,
+   "t1": 20.0,
    "value": "\u00a3160",
    "cmp": "NEW WHITE TRAINERS",
    "status": "",
    "setup": "Day 3. New white trainers.",
-   "setup_on": 11.15,
+   "setup_on": 13.35,
    "punch": "His shadow starts walking like a model.",
-   "punch_on": 13.09,
+   "punch_on": 15.29,
    "audio": [
     {
      "file": "h3",
-     "at": 14.8,
-     "end": 17.44
+     "at": 17.0,
+     "end": 19.64
     }
    ]
   },
   {
    "day": 5,
-   "t0": 17.8,
-   "t1": 26.4,
+   "t0": 20.0,
+   "t1": 30.6,
    "value": "\u00a3640",
    "cmp": "\u2248 A DESIGNER JACKET",
    "status": "",
    "setup": "Day 5. A trip to the zoo.",
-   "setup_on": 18.15,
+   "setup_on": 20.35,
    "punch": "The peacock retires.",
-   "punch_on": 20.05,
+   "punch_on": 22.25,
    "audio": [
     {
      "file": "narr",
-     "at": 18.4,
-     "end": 24.08
+     "at": 20.6,
+     "end": 26.28
     },
     {
      "file": "h5c",
-     "at": 24.6,
-     "end": 25.6
+     "at": 26.8,
+     "end": 27.8
+    },
+    {
+     "file": "kid",
+     "at": 28.0,
+     "end": 30.48
     }
    ]
   },
   {
    "day": 8,
-   "t0": 26.4,
-   "t1": 32.4,
+   "t0": 30.6,
+   "t1": 36.6,
    "value": "\u00a35,120",
    "cmp": "\u2248 A GOLD CHAIN",
    "status": "",
    "setup": "Day 8. He walks past a clothes shop.",
-   "setup_on": 26.75,
+   "setup_on": 30.95,
    "punch": "The mannequins notice.",
-   "punch_on": 29.09,
+   "punch_on": 33.29,
    "audio": [
     {
      "file": "h8",
-     "at": 30.4,
-     "end": 31.92
+     "at": 34.6,
+     "end": 36.12
     }
    ]
   },
   {
    "day": 10,
-   "t0": 32.4,
-   "t1": 38.8,
+   "t0": 36.6,
+   "t1": 44.0,
    "value": "\u00a320,480",
    "cmp": "\u2248 A NEW CAR",
    "status": "",
    "setup": "In 2019, a pair of trainers sold for $437,500.",
-   "setup_on": 32.75,
+   "setup_on": 36.95,
    "punch": "Now a man in white gloves ties his laces.",
-   "punch_on": 35.49,
-   "audio": []
+   "punch_on": 39.69,
+   "audio": [
+    {
+     "file": "g1",
+     "at": 40.6,
+     "end": 43.72
+    }
+   ]
   },
   {
    "day": 12,
-   "t0": 38.8,
-   "t1": 45.8,
+   "t0": 44.0,
+   "t1": 51.0,
    "value": "\u00a381,920",
    "cmp": "\u2248 TWO YEARS' WAGES",
    "status": "",
    "setup": "Day 12. It starts to rain.",
-   "setup_on": 39.15,
+   "setup_on": 44.35,
    "punch": "The rain goes round him.",
-   "punch_on": 41.09,
+   "punch_on": 46.29,
    "audio": [
     {
      "file": "h12",
-     "at": 43.8,
-     "end": 45.16
+     "at": 49.0,
+     "end": 50.36
     }
    ]
   },
   {
    "day": 15,
-   "t0": 45.8,
-   "t1": 54.0,
+   "t0": 51.0,
+   "t1": 59.2,
    "value": "\u00a3655,360",
    "cmp": "\u2248 TWO HOUSES",
    "status": "",
    "setup": "Day 15. He's arrested for stopping traffic.",
-   "setup_on": 46.15,
+   "setup_on": 51.35,
    "punch": "The judge has one question.",
-   "punch_on": 48.77,
+   "punch_on": 53.97,
    "audio": [
     {
      "file": "judge1",
-     "at": 46.8,
-     "end": 47.92
+     "at": 52.0,
+     "end": 53.12
     },
     {
      "file": "h15",
-     "at": 48.2,
-     "end": 50.76
+     "at": 53.4,
+     "end": 55.96
     },
     {
      "file": "judge2",
-     "at": 51.2,
-     "end": 53.92
+     "at": 56.4,
+     "end": 59.12
     }
    ]
   },
   {
    "day": 18,
-   "t0": 54.0,
-   "t1": 61.0,
+   "t0": 59.2,
+   "t1": 66.5,
    "value": "\u00a35.2 million",
    "cmp": "\u2248 A PRIVATE JET",
    "status": "",
    "setup": "Day 18. Two men try to rob him.",
-   "setup_on": 54.35,
+   "setup_on": 59.55,
    "punch": "They tip him instead.",
-   "punch_on": 56.49,
+   "punch_on": 61.69,
    "audio": [
     {
+     "file": "m1",
+     "at": 60.8,
+     "end": 63.12
+    },
+    {
      "file": "mugger",
-     "at": 57.6,
-     "end": 60.48
+     "at": 63.35,
+     "end": 66.23
     }
    ]
   },
   {
    "day": 22,
-   "t0": 61.0,
-   "t1": 68.4,
+   "t0": 66.5,
+   "t1": 73.9,
    "value": "\u00a384 million",
    "cmp": "\u2248 A SUPERYACHT",
    "status": "",
    "setup": "Day 22. He stops to tie his shoe in a gallery.",
-   "setup_on": 61.35,
+   "setup_on": 66.85,
    "punch": "They won't let him leave.",
-   "punch_on": 64.09,
+   "punch_on": 69.59,
    "audio": [
     {
+     "file": "v1",
+     "at": 68.0,
+     "end": 70.4
+    },
+    {
      "file": "sh_whisper",
-     "at": 65.4,
-     "end": 68.0
+     "at": 70.9,
+     "end": 73.5
     }
    ]
   },
   {
    "day": 27,
-   "t0": 68.4,
-   "t1": 74.4,
+   "t0": 73.9,
+   "t1": 80.2,
    "value": "\u00a32.7 billion",
    "cmp": "\u2248 A FOOTBALL CLUB",
    "status": "",
    "setup": "Day 27. He pays for crisps with one button.",
-   "setup_on": 68.75,
+   "setup_on": 74.25,
    "punch": "His change comes in a wheelbarrow.",
-   "punch_on": 71.37,
-   "audio": []
+   "punch_on": 76.87,
+   "audio": [
+    {
+     "file": "k1",
+     "at": 76.5,
+     "end": 79.94
+    }
+   ]
   },
   {
    "day": 30,
-   "t0": 74.4,
-   "t1": 80.6,
+   "t0": 80.2,
+   "t1": 86.4,
    "value": "\u00a321.5 billion",
    "cmp": "\u2248 A SMALL COUNTRY",
    "status": "",
    "setup": "Day 30. All of London copies his look.",
-   "setup_on": 74.75,
+   "setup_on": 80.55,
    "punch": "Only the \u00a340 jacket. It's all they can afford.",
-   "punch_on": 77.17,
-   "audio": []
+   "punch_on": 82.97,
+   "audio": [
+    {
+     "file": "p1",
+     "at": 80.8,
+     "end": 82.08
+    },
+    {
+     "file": "p2",
+     "at": 83.6,
+     "end": 86.08
+    }
+   ]
   },
   {
    "day": "END",
-   "t0": 80.6,
-   "t1": 87.0,
+   "t0": 86.4,
+   "t1": 95.3,
    "value": "\u00a342.9 billion",
    "cmp": "STILL NOT ON THE LIST",
    "status": "",
    "setup": "Day 31. Back at the club.",
-   "setup_on": 80.95,
+   "setup_on": 86.75,
    "punch": "",
    "punch_on": null,
    "audio": [
     {
+     "file": "e1",
+     "at": 86.7,
+     "end": 90.54
+    },
+    {
      "file": "b2",
-     "at": 82.2,
-     "end": 84.2
+     "at": 90.8,
+     "end": 92.8
     },
     {
      "file": "sh_squeak",
-     "at": 84.8,
-     "end": 86.68
+     "at": 93.05,
+     "end": 94.93
     }
    ]
   }

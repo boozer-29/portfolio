@@ -54,7 +54,8 @@ function crowdSet(sc, n, brown, place) { return [...Array(n)].map((_, i) => { co
   sc.add(rbox(3.2, 0.06, 1.8, mat(0xc9b48a, { roughness: 0.95 }), 0.6, 0.03, -0.4));
   const peacock = makePeacock(); peacock.position.set(0.7, 0, -0.4); sc.add(peacock); blob(sc, 1.5).position.set(0.7, 0.012, -0.4);
   const hero = makeHero(); sc.add(hero.root); const hb = blob(sc);
-  S.zoo = { sc, hero, hb, peacock, bushes, rustle: bushes[0] };
+  const kid = npc(5); kid.root.scale.setScalar(0.62); sc.add(kid.root); kid.root.visible = false;
+  S.zoo = { sc, hero, hb, peacock, bushes, rustle: bushes[0], kid };
 }
 { // ---- the shop window: three mannequins inside, the street outside at night (Day 8)
   const sc = new THREE.Scene(); sc.background = new THREE.Color(0x070910);

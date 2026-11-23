@@ -1,4 +1,4 @@
-# Drip v2 mix: Espresso bed processed per scene (through-the-wall, cut, tape-stop, CCTV-tinny, silence), synth SFX per gag, Kevin + bouncer/narrator/judge/mugger -> mix.wav + dialogue.json
+# Drip v2 mix: Espresso bed, continuous, processed per scene (through-the-wall, muffled, CCTV-tinny), crowd ambience + background voices, synth SFX per gag -> mix.wav + dialogue.json
 import json, os, subprocess, numpy as np
 D = os.path.dirname(os.path.abspath(__file__)); VA = os.path.join(D, 'audio'); REPO = os.path.join(D, '..', 'assets', 'audio')
 TLJ = json.load(open(os.path.join(D, 'timeline.json'))); SR = 44100; DUR = TLJ['DUR']; N = int(DUR * SR)
@@ -36,8 +36,8 @@ def words_of(js, off):
 SHOUT_WORDS = json.load(open(os.path.join(VA, 'shout_words.json')))   # word reveal offsets of each shout (from shouts.py)
 voice = np.zeros((N, 2), np.float32); dry = []; DLG = []
 PAUSES = TLJ['PAUSES']
-SPK = {'b1': 'bouncer', 'b2': 'bouncer', 'narr': 'narrator', 'judge1': 'judge', 'judge2': 'judge', 'mugger': 'mugger'}
-FX = {'judge1': 'aecho=0.8:0.6:45:0.18,', 'judge2': 'aecho=0.8:0.6:45:0.12,', 'mugger': 'highpass=f=320,lowpass=f=3400,'}   # judge: courtroom room; mugger: heard through the CCTV mic
+SPK = {'b1': 'bouncer', 'b2': 'bouncer', 'narr': 'narrator', 'judge1': 'judge', 'judge2': 'judge', 'mugger': 'mugger', 'm1': 'mugger', 'q1': 'queue', 'e1': 'queue', 'kid': 'kid', 'g1': 'guard', 'v1': 'visitor', 'k1': 'shopkeeper', 'p1': 'passer', 'p2': 'passer'}
+FX = {'judge1': 'aecho=0.8:0.6:45:0.18,', 'judge2': 'aecho=0.8:0.6:45:0.12,', 'mugger': 'highpass=f=320,lowpass=f=3400,', 'm1': 'highpass=f=320,lowpass=f=3400,'}   # judge: courtroom room; mugger: heard through the CCTV mic
 for s in TLJ['steps']:
   for a in s['audio']:
     f = a['file']
@@ -72,16 +72,17 @@ wall = load(ESP, f'atrim=7.0:{7.0 + DUR + 1},asetpts=PTS-STARTPTS,lowpass=f=420,
 tinny = load(ESP, f'atrim=7.0:{7.0 + DUR + 1},asetpts=PTS-STARTPTS,highpass=f=500,lowpass=f=2600,volume=-3dB')[:N]; tinny[:] = tinny.mean(1, keepdims=True)   # CCTV speaker
 T = lambda d: TS[d]['t0']
 T1, T3, T5, T8, T10, T12, T15, T18, T22, T27, T30, TE = [T(d) for d in (1, 3, 5, 8, 10, 12, 15, 18, 22, 27, 30, 'END')]
-FREEZE = (T12 + 1.2, T12 + 4.4)   # bullet time: tape-stop into silence, snaps back on the unfreeze
+FREEZE = (T12 + 1.2, T12 + 4.4)   # bullet time: the bed goes muffled (never silent), opens up on the unfreeze
+SQ = TE + 6.55   # the only silence in the episode: under the final "BOMBOCLAAAAAT?!" and the cut to black
+soft = load(ESP, f'atrim=7.0:{7.0 + DUR + 1},asetpts=PTS-STARTPTS,lowpass=f=900,lowpass=f=900,volume=1dB')[:N]   # zoo, freeze, gallery hush
 def gate(segs, fade=0.25):   # 0/1 envelope over [t0, t1) segments with linear fades
     g = np.zeros(N, np.float32); t = np.arange(N) / SR
     for a_, b_ in segs: g = np.maximum(g, np.clip(np.minimum((t - a_) / fade + 1, (b_ - t) / fade + 1), 0, 1))
     return g[:, None]
-music = raw * gate([(T3, T5), (T8, FREEZE[0]), (FREEZE[1], T18), (T22, T22 + 3.5), (T27, TE)], 0.12) \
-      + wall[:N] * gate([(0, T3), (TE, TE + 4.15)], 0.12) + tinny[:N] * gate([(T18, T22)], 0.08)
-music[int(T15 * SR):int(T18 * SR)] *= 0.55   # courtroom: quieter
-i0 = int(FREEZE[0] * SR); n = int(0.55 * SR); rate = np.linspace(1, 0, n) ** 1.3; pos = i0 + np.cumsum(rate).astype(int)   # tape stop
-music[i0:i0 + n] = raw[pos] * np.linspace(1, 0.2, n)[:, None]; music[i0 + n:int(FREEZE[1] * SR)] = 0
+music = raw * gate([(T3, T5), (T8, FREEZE[0]), (FREEZE[1], T18), (T22, T22 + 3.6), (T22 + 7.2, TE)], 0.2) \
+      + wall[:N] * gate([(0, T3), (TE, SQ)], 0.2) + tinny[:N] * gate([(T18, T22)], 0.15) \
+      + soft[:N] * (gate([(T5, T8), (FREEZE[0], FREEZE[1])], 0.2) * 0.85 + gate([(T22 + 3.6, T22 + 7.2)], 0.2) * 0.5)   # continuous: every scene hands over to the next version with a crossfade
+music[int(T15 * SR):int(T18 * SR)] *= 0.6   # courtroom: quieter
 music *= 0.3
 rng = np.random.default_rng(7)
 def bp(x, lo, hi): X = np.fft.rfft(x); f = np.fft.rfftfreq(len(x), 1 / SR); X[(f < lo) | (f > hi)] = 0; return np.fft.irfft(X, len(x))
@@ -115,7 +116,7 @@ def steps(t0, t1, dt=0.27, g=-4, f=step):
     t = t0
     while t < t1: place(sfx, f(), t, g); t += dt
 # title / Day 1: crowd murmur outside the club, hand slaps his chest
-place(sfx, noise(T3 - 0.2, 150, 1800, 0.03, 0.6, 0.6), 0.0); steps(0.3, 1.5, 0.3, -6); place(sfx, thud(110, 0.08, 0.9), 1.7)
+steps(0.05, 1.5, 0.22, -6); place(sfx, thud(110, 0.08, 0.9), 1.7)
 # Day 3: his steps vs the shadow's heels; whoosh on the spin; record scratch when he stops
 steps(T3 + 0.2, T3 + 3.4, 0.3, -6); steps(T3 + 0.9, T3 + 2.6, 0.26, -6, heel); place(sfx, swish(0.45), T3 + 2.7, -2); place(sfx, lib('scratch'), T3 + 3.4, -8)
 # Day 5: zoo birds, the tail folding, the bush rustle
@@ -125,9 +126,9 @@ place(sfx, noise(8.4, 400, 3000, 0.015, 1.0, 0.6), T5); place(sfx, swish(0.7, 30
 for k in range(3): place(sfx, creak(0.55, 140 + 25 * k), T8 + 2.1, -4)
 place(sfx, noise(0.35, 200, 2500, 0.08, 0.01, 0.2), T8 + 3.5)
 # Day 10: radio squelch, bomb-defusal beeps while he ties the lace, final click + "all clear" squelch
-place(sfx, noise(0.25, 1200, 3200, 0.07, 0.005, 0.1), T10 + 1.0)
-for k in range(9): place(sfx, beep(2100 + 30 * k), T10 + 1.6 + k * 0.36, -2)
-place(sfx, ding(2600, 0.06, 0.15), T10 + 4.95); place(sfx, noise(0.25, 1200, 3200, 0.07, 0.005, 0.1), T10 + 5.4)
+place(sfx, noise(0.25, 1200, 3200, 0.07, 0.005, 0.1), T10 + 0.8)
+for k in range(6): place(sfx, beep(2100 + 30 * k), T10 + 1.2 + k * 0.36, -2)
+place(sfx, ding(2600, 0.06, 0.15), T10 + 3.2); place(sfx, noise(0.25, 1200, 3200, 0.07, 0.005, 0.1), T10 + 3.85)
 # Day 12: rain; freeze (rain stops dead, a high ring), orbit whoosh, sizzle, snap back
 place(sfx, noise(FREEZE[0] - T12, 2000, 8000, 0.05, 0.4, 0.01), T12); place(sfx, noise(T15 - FREEZE[1], 2000, 8000, 0.05, 0.01, 0.4), FREEZE[1])
 place(sfx, st(np.sin(2 * np.pi * 4200 * np.arange(int(3.2 * SR)) / SR) * 0.006), FREEZE[0]); place(sfx, swish(2.6, 300, 1500), FREEZE[0] + 0.3, -4)
@@ -137,7 +138,8 @@ for k in range(5): place(sfx, scribble(0.35), T15 + 0.6 + k * 1.5, -8)
 place(sfx, wood(), T15 + 7.6, 0); place(sfx, thud(140, 0.05, 0.8), T15 + 7.6)
 # Day 18: CCTV hum + hiss, footsteps, the muggers clapping
 place(sfx, st(np.sin(2 * np.pi * 50 * np.arange(int(7 * SR)) / SR) * 0.012) + noise(7.0, 3000, 9000, 0.012, 0.1, 0.1), T18); steps(T18 + 0.4, T18 + 2.0, 0.32, -6)
-place(sfx, clap(), T18 + 3.6, -6)
+place(sfx, noise(0.35, 300, 3000, 0.09, 0.01, 0.2), T18 + 1.8); place(sfx, swish(0.4, 600, 5000), T18 + 1.35, -4); place(sfx, ding(3200, 0.5, 0.25), T18 + 3.5); place(sfx, ding(4100, 0.5, 0.2), T18 + 3.55); place(sfx, swish(0.6, 4000, 800), T18 + 3.5, -2)
+place(sfx, clap(36, 2.4), T18 + 4.85, -6)   # grab, flash, wallets, applause
 # Day 22: gallery room tone, echoing steps, the rope stand clunk
 place(sfx, noise(7.4, 80, 900, 0.012, 0.5, 0.5), T22); steps(T22 + 0.2, T22 + 1.2, 0.4, -6); place(sfx, thud(300, 0.06, 0.6), T22 + 2.0); place(sfx, thud(300, 0.06, 0.5), T22 + 2.5)
 # Day 27: shop bell, button clink, wheelbarrow squeak, two till dings
@@ -146,11 +148,16 @@ place(sfx, creak(1.6, 230), T27 + 2.6, -2); place(sfx, ding(2100, 0.12), T27 + 4
 # Day 30: time-lapse rush of crowd
 place(sfx, noise(6.0, 200, 2500, 0.05, 0.5, 0.8), T30); place(sfx, swish(1.2, 500, 3000), T30 + 0.2, -6)
 # END: crowd outside, the hand on his chest, tag tap
-place(sfx, noise(4.2, 150, 1800, 0.03, 0.4, 0.05), TE); place(sfx, thud(110, 0.08, 0.9), TE + 1.0); place(sfx, noise(0.06, 2000, 6000, 0.1, 0.002, 0.03), TE + 3.0)
+steps(TE + 0.1, TE + 2.3, 0.24, -6); place(sfx, thud(110, 0.08, 0.9), TE + 2.4); place(sfx, noise(0.06, 2000, 6000, 0.1, 0.002, 0.03), TE + 5.4)
+# crowd ambience beds (ElevenLabs sound generation, gen_sfx.py), each levelled to the same loudness
+def walla(name, t0, dur, gdb):
+    w = load(f'{VA}/{name}.mp3'); w = w / (np.sqrt(np.mean(w ** 2)) + 1e-9) * 10 ** (-28 / 20); t = 0.0
+    while dur - t > 1.0: seg_ = edge(w[:int(min(len(w), (dur - t) * SR))].copy(), 0.4, 0.4); place(sfx, seg_, t0 + t, gdb); t += len(w) / SR - 0.4   # loop with 0.4 s crossfades
+walla('walla_club', 0.0, T3 + 0.3, -2); walla('walla_club', TE, SQ - TE, -2); walla('walla_gallery', T22, T27 - T22, 0); walla('walla_street', T30, TE - T30 + 0.3, 0); walla('walla_court', T15 + 4.98, 3.0, 0)
 sfx *= 0.8
 
 bg = music + sfx
-_c = int((TE + 4.15) * SR); bg[_c - 1323:_c] *= np.linspace(1, 0, 1323)[:, None]; bg[_c:] = 0   # silence (30 ms fade, no click) for the squeak and the cut to black
+_c = int(SQ * SR); bg[_c - 1323:_c] *= np.linspace(1, 0, 1323)[:, None]; bg[_c:] = 0   # silence (30 ms fade, no click) for the squeak and the cut to black
 
 # ---------------- dynamic duck: background ~7 dB under the local voice, -3..-16 dB
 H = int(0.01 * SR); ve = env_db(voice); be = env_db(bg); n = min(len(ve), len(be)); ve, be = ve[:n], be[:n]

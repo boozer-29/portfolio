@@ -45,7 +45,7 @@
   const bt = brickTex(0x4a3a34, '#1e1a18', 6, 3); [-2.4, 2.4].forEach(x => sc.add(rbox(0.4, 9, 40, new THREE.MeshStandardMaterial({ map: bt, roughness: 0.9 }), x, 4.5, -6)));
   const binC = [[-1.7, -0.8, 0x2a5a3a], [-1.7, 0.1, 0x2a3a5a], [1.75, -2.3, 0x3a3a3a]]; binC.forEach(([x, z, c]) => { sc.add(rbox(0.7, 1.1, 0.75, mat(c, { roughness: 0.6 }), x, 0.55, z)); sc.add(rbox(0.76, 0.08, 0.8, mat(c, { roughness: 0.6 }), x, 1.13, z)); });
   sc.add(rbox(1.0, 1.3, 2.2, mat(0x3a5a4a, { roughness: 0.7, metalness: 0.4 }), 1.65, 0.65, -6));
-  sc.add(rbox(0.1, 2.4, 1.1, mat(0x3a1a14, { roughness: 0.7 }), 2.18, 1.2, 1.4)); [[-2.15, 3.5, -1, 0xffd6a0], [2.15, 3.2, -8, 0xffd6a0]].forEach(([x, y, z, c]) => practical(sc, x, y, z, c, { i: 30, d: 10, r: 0.12 }));
+  sc.add(rbox(0.1, 2.4, 1.1, mat(0x3a1a14, { roughness: 0.7 }), 2.18, 1.2, 1.4)); [[-2.15, 3.5, -1, 0xffd6a0], [2.15, 3.2, -8, 0xffd6a0]].forEach(([x, y, z, c]) => practical(sc, x, y, z, c, { i: 45, d: 12, r: 0.12 })); practical(sc, 0.3, 3.4, 0.6, 0xe8f0ff, { i: 22, d: 9, r: 0.05 });
   [-2.15, 2.15].forEach(x => sc.add(cyl(0.05, 0.05, 9, mat(0x2a2a2a, { roughness: 0.4, metalness: 0.6 }), x, 4.5, -3.5, 8)));
   const hero = makeHero(); sc.add(hero.root); const hb = blob(sc);
   const muggers = [0, 1].map(i => { const P = makeMugger(i); sc.add(P.root); P.blob = blob(sc, 1.2); sc.add(P.wallet); return P; });

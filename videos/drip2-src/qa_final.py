@@ -33,7 +33,7 @@ eb = subprocess.run(['ffmpeg', '-hide_banner', '-i', MP4, '-vn', '-af', 'ebur128
 I = float(eb.split('Integrated loudness:')[1].split('I:')[1].split('LUFS')[0]); TP = float(eb.split('True peak:')[1].split('Peak:')[1].split('dBFS')[0])
 check('loudness -14 LUFS (+-1)', abs(I + 14) <= 1, f'{I} LUFS'); check('true peak <= -0.5 dBTP', TP <= -0.5, f'{TP} dBTP')
 m = au.mean(1); sr = 44100; D = json.load(open('dialogue.json'))
-edits = [c['at'] for c in D] + [0.0, 3.0, 84.75]
+edits = [c['at'] for c in D] + [0.0, 3.0, 92.95]
 clicks = []
 for t in edits:
     i = int(t * sr)
@@ -48,7 +48,7 @@ subprocess.run('curl -sS -H "xi-api-key: ' + os.environ.get('ELEVENLABS_API_KEY'
 txt = json.load(open('mix_stt.json'))['text']; print('   transcript of the MP4:', txt)
 shouts = sum(('ombo' in w['text'].lower() or 'omba' in w['text'].lower() or 'bomb' in w['text'].lower() or 'umbo' in w['text'].lower() or 'claa' in w['text'].lower() or 'clat' in w['text'].lower()) for w in json.load(open('mix_stt.json'))['words'] if w['type'] == 'word')
 check('both BOMBOCLATs heard', shouts >= 2, shouts)
-for line in ['not tonight', 'curtain', 'vintage', 'teach', 'peacock', 'competition', 'sorry', 'touch', 'plead', 'guilty', 'too fresh', 'jacket from', 'respect', 'dress code']:
+for line in ['not tonight', 'curtain', 'vintage', 'teach', 'peacock', 'competition', 'sorry', 'touch', 'plead', 'guilty', 'too fresh', 'jacket from', 'respect', 'dress code', 'babes', 'mummy', 'laces secure', 'wallet', 'exhibition', 'watch', 'jacket guy', 'quid']:
     check(f'line heard: "{line}"', f' {line.lower()}' in ' ' + txt.lower().replace('.', ' ').replace(',', ' '))
 r = subprocess.run([sys.executable, 'verify_captions.py'], capture_output=True, text=True).stdout; print('  ', r.strip().replace('\n', '\n   '))
 check('captions: 0 errors (no text without voice, no voice without text, none late)', 'ERRORS: 0' in r)

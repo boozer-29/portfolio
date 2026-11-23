@@ -18,6 +18,16 @@ LINES = {   # Drip v2 (script approved 2026-11-17). Kevin = hero; bouncer = Oliv
  'kgb': ('eRcsJdPMOM0mtGC03ul7', "[frozen, slowly realising he is an exhibit, quiet] Bomboclaat..."),
  'kea': ('eRcsJdPMOM0mtGC03ul7', "[stunned disbelief, starts slow then explodes] Bombo... BOMBOCLAAAAT?!"),
  'keb': ('eRcsJdPMOM0mtGC03ul7', "[outraged, comedic, dragging it out] BOMBOCLAAAAAAT?!"),
+ # background voices (owner: "there must be proper background voices"): queue woman = Lily, kid = Jessica, guard = Chris, gallery visitor = Rae, shopkeeper = Will, passers-by = Liam / Charlie
+ 'q1': ('pFZP5JQG7iQjIQuC4Bku', "[laughing, to her friend] It IS a curtain, babes."),
+ 'kid': ('cgSgspJ2msm6clMCkdW9', "[excited little kid, pointing] Mummy! The peacock's sad!"),
+ 'g1': ('iP95p4xoKVk53GoZ742B', "[serious, into his earpiece] Laces secure. Repeat, laces secure."),
+ 'm1': ('N2lVS1w4EtoT3dr4eOWO', "[threatening, London accent] Oi. Wallet. Now."),
+ 'v1': ('WQfV3AbwBvtoJeK7QJz3', "[whispering, awed] Is he... part of the exhibition?"),
+ 'k1': ('bIHbv24MWmeRgasZH58o', "[stunned, polite] Your change, sir... and my watch."),
+ 'p1': ('TX3LPaxmHKxFdv7VOQHJ', "[excited, pointing] It's the jacket guy!"),
+ 'p2': ('IKne3meq5aSn9XLyUdCD', "[proud] Got mine for forty quid, mate!"),
+ 'e1': ('pFZP5JQG7iQjIQuC4Bku', "[gasping] Wait... is that Curtain Guy?"),
 }
 KEY = os.environ.get('ELEVENLABS_API_KEY', 'dummy')
 only = sys.argv[1:] or list(LINES)

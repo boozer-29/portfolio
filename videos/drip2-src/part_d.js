@@ -41,7 +41,7 @@ function drawCaptions(O) {
     g.shadowColor = 'rgba(0,0,0,0.45)'; g.shadowBlur = 20; strokeText(g, txt, 0, 0, 16); g.restore(); return; }
   const shown = captionChunk(c, O); if (!shown) { g.restore(); return; }
   let fs = 78; g.font = `800 ${fs}px Montserrat`; while (g.measureText(shown).width > CAP_W && fs > 40) { fs -= 3; g.font = `800 ${fs}px Montserrat`; }
-  const nm = { hero: null, bouncer: 'BOUNCER', narrator: 'NARRATOR', judge: 'JUDGE', mugger: 'MUGGER' }[c.speaker];
+  const nm = { hero: null, bouncer: 'BOUNCER', narrator: 'NARRATOR', judge: 'JUDGE', mugger: 'MUGGER', queue: 'QUEUE', kid: 'KID', guard: 'GUARD', visitor: 'VISITOR', shopkeeper: 'SHOPKEEPER', passer: 'PASSER-BY' }[c.speaker];
   strokeText(g, shown, CAP_X, H * 0.72, 12); if (nm) { g.font = '700 30px InterW'; g.globalAlpha = 0.85; strokeText(g, nm, CAP_X, H * 0.72 - fs - 8, 6); }
   g.restore();
 }
@@ -85,7 +85,7 @@ const GRADES = {
   rain: { f: 'saturate(0.9) contrast(1.12) brightness(1.0)', tint: 'rgba(70,100,170,0.18)', mode: 'soft-light', vig: 0.45 },
   freeze: { f: 'saturate(0.45) contrast(1.2) brightness(1.04)', tint: 'rgba(120,170,255,0.22)', mode: 'soft-light', vig: 0.5 },
   court: { f: 'grayscale(1) contrast(1.5) brightness(1.3)', tint: null, vig: 0.2 },
-  cctv: { f: 'grayscale(1) contrast(1.3) brightness(1.6)', tint: 'rgba(60,255,110,0.55)', mode: 'multiply', vig: 0.65 },
+  cctv: { f: 'grayscale(1) contrast(1.25) brightness(2.0)', tint: 'rgba(60,255,110,0.55)', mode: 'multiply', vig: 0.65 },
   gallery: { f: 'saturate(1.05) contrast(1.05) brightness(1.02)', tint: null, vig: 0.22 },
   corner: { f: 'saturate(1.12) contrast(1.06) brightness(1.03)', tint: 'rgba(200,255,220,0.06)', mode: 'soft-light', vig: 0.35 },
   lapse: { f: 'saturate(1.15) contrast(1.08) brightness(1.03)', tint: 'rgba(255,190,120,0.1)', mode: 'soft-light', vig: 0.35 },
