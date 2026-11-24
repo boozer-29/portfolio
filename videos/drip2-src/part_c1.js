@@ -74,12 +74,13 @@ function plazaBase(O, o = {}) { const p = PZ; resetRig(p.hero); p.hero.root.visi
   p.key.intensity = lerp(2.2, 0.35, dusk); p.key.color.setHex(dusk ? 0x9fb0d8 : 0xfff0d8); p.hemi.intensity = lerp(0.75, 0.45, dusk); p.sc.environmentIntensity = lerp(0.5, 0.25, dusk); p.sky.material.color.setHex(dusk ? 0x4a5a80 : 0xffffff);
   p.lamps.forEach(l => { l.light.intensity = dusk * 12; l.children[0].material = mat(0xffc27a, { emissive: 0xffc27a, emissiveIntensity: dusk ? 3 : 0.2 }); }); p.paveM.roughness = lerp(0.6, 0.12, dusk); p.paveM.metalness = lerp(0.05, 0.25, dusk);
   if (o.sun) { p.key.position.copy(V(o.sun)); } else p.key.position.set(12, 18, 14); p.hero.kit.set(o.lvl ?? 3, O, o.kit || {}); return p.hero; }
-const GPOS = [-0.2, 0, 1.12];
+const GPOS = [-0.2, 0, 1.42];   // far enough back that his head stays clear of the hero's puffer
 function guardAt(O) { const G = PZ.guard; const up = eIO(seg(O, RISE, RISE + 0.7)); const tie = O < TIED ? Math.sin(O * 14) : 0;
-  const kneel = { ...KNEEL, spineX: 0.55, headX: 0.35, arms: [[-0.75 + 0.08 * tie, 0.2, -0.1, 0.5], [-0.75 - 0.08 * tie, -0.2, 0.1, 0.5]] };
+  const kneel = { ...KNEEL, spineX: 0.32, headX: 0.55, arms: [[-1.05 + 0.08 * tie, 0.2, -0.1, 0.35], [-1.05 - 0.08 * tie, -0.2, 0.1, 0.35]] };
   const stand = { ...idle(O, 3), arms: [[0, 0, 0.12, 0.15], [-0.25, 0, -2.3, 2.3]], headZ: 0.1 };
-  const p = up > 0 ? { bob: lerp(-0.42, 0, up), spineX: lerp(0.55, 0.02, up), headX: lerp(0.35, 0, up), legs: [[lerp(1.5, 0, up), lerp(1.6, 0, up)], [lerp(0.05, 0, up), lerp(1.5, 0, up)]], arms: up > 0.6 ? stand.arms : kneel.arms } : kneel;
+  const p = up > 0 ? { bob: lerp(-0.42, 0, up), spineX: lerp(0.32, 0.02, up), headX: lerp(0.55, 0, up), legs: [[lerp(1.5, 0, up), lerp(1.6, 0, up)], [lerp(0.05, 0, up), lerp(1.5, 0, up)]], arms: up > 0.6 ? stand.arms : kneel.arms } : kneel;
   const gp = [lerp(GPOS[0], -1.25, up), 0, lerp(GPOS[2], 0.9, up)]; hp(G, O, gp, lerp(Math.PI, 0.6, up), p, 'calm', 'guard'); G.glasses.visible = true; PZ.gb.visible = true; PZ.gb.position.set(gp[0], 0.012, gp[2]); }
-shot(T10, T10 + 3.3, 'plaza', { ease: 'lin', p0: [4.0, 1.5, 1.7], p1: [3.7, 1.45, 1.6], l0: [-0.2, 0.85, 0.6], fov: 40 }, (lt, O) => { const h = plazaBase(O, { kit: { untied: O < TIED } }); hp(h, O, [0, 0, 0], 0, { ...idle(O), headX: 0.3 }, 'smirk'); PZ.hb.visible = true; PZ.hb.position.set(0, 0.012, 0); guardAt(O); }, { grade: 'plaza' });
+// he presents the untied foot so the guard can reach it from a distance
+shot(T10, T10 + 3.3, 'plaza', { ease: 'lin', p0: [4.0, 1.5, 1.7], p1: [3.7, 1.45, 1.6], l0: [-0.2, 0.85, 0.6], fov: 40 }, (lt, O) => { const h = plazaBase(O, { kit: { untied: O < TIED } }); const ft = 1 - eIO(seg(O, TIED, TIED + 0.1)); hp(h, O, [0, 0, 0], 0, { ...idle(O), headX: 0.3, legs: [[0.42 * ft, 0.12 * ft], [0, 0]] }, 'smirk'); PZ.hb.visible = true; PZ.hb.position.set(0, 0.012, 0); guardAt(O); }, { grade: 'plaza' });
 shot(T10 + 3.3, tE(10), 'plaza', { ease: 'io', p0: [1.7, 0.8, 2.6], p1: [1.8, 2.0, 3.8], l0: [-0.3, 0.35, 0.3], l1: [-0.05, 1.9, 0], fov: 44 }, (lt, O) => { const h = plazaBase(O, { kit: { untied: O < TIED } }); const look = seg(O, T10 + 5.6, T10 + 6.0);
   hp(h, O, [0, 0, 0], 0.15, { ...idle(O), headX: lerp(0.32, 0, look), arms: [[0, 0, 0.12, 0.15], [-0.85, 0, -0.32, 1.25]] }, look > 0.5 ? 'smirk' : 'calm'); PZ.hb.visible = true; PZ.hb.position.set(0, 0.012, 0); guardAt(O); }, { grade: 'plaza' });

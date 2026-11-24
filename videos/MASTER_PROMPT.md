@@ -368,3 +368,9 @@ Each item below is a bug that actually happened. Avoid it while building; tick i
 - **Kneeling helpers go in front, never overlapping:** the guard tying laces sat inside the hero's legs. Put him facing the shoe from the front and shoot from the side.
 - **Actions must read:** "two men try to rob him" needs the grab and the demand ("Oi. Wallet. Now."), then the twist (flash, recoil, they hand over their own wallets).
 - **CCTV shots:** a high wide fov-74 camera made the people tiny and dark; use fov ≈ 64 from ~4 m and add a fill light over the action.
+
+### 9.16 Owner feedback on Drip v2, round 3: bodies passing through each other (Nov 2026)
+- **No interpenetration, checked from every camera.** Fix 9.15 put the guard in front but his forward lean drove his head into the hero's puffer. The muggers stood ~0.7 m from the hero, so their torsos sank into his.
+  Rule: keep ≥ 1.1 m between two characters' centres (more with bulky outfits); a kneeling helper leans ≤ 0.35 and the *hero brings the foot to him*. Exit paths go round the hero in side lanes, never straight through his spot.
+- **Test-frame every contact beat** (grab, hand-over, tie, rise, walk-off) at full size, not only the shot's start frame.
+- **Comments go on their own line.** A `//` comment pasted mid-line in a part file silently cut off the rest of the shot (twice now); then `export` errors appear in the bundle. Run `build.sh` after every part edit, because the page loads `drip.js`, not the parts.

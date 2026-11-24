@@ -27,7 +27,7 @@ shot(T15 + 2.3, T15 + 5.3, 'court', { ease: 'lin', p0: [0.7, 2.75, -1.2], p1: [0
 shot(T15 + 5.3, tE(15), 'court', { ease: 'io', p0: [0.55, 2.6, 0.9], p1: [0.4, 2.85, -0.4], l0: [0, 2.85, -3.0], fov: 42 }, (lt, O) => { const h = courtBase(O); hp(h, O, DPOS, DRY, proud(O), 'smirk'); }, { grade: 'court', sketch: true, shakeAt: [[GAVEL, 0.01]] });
 // ===== Day 18: CCTV in the alley =====
 const AL = S.alley, T18 = tS(18); const LUNGE = T18 + 1.3, FLASH = T18 + 3.5, GIVE = T18 + 4.2, LEAVE = T18 + 4.9;
-const MG = [{ from: [-1.65, -1.2], to: [-0.62, -1.0] }, { from: [1.7, -3.0], to: [0.62, -1.75] }];
+const MG = [{ from: [-1.65, -1.2], to: [-0.85, -0.6], lane: -1.0 }, { from: [1.7, -3.0], to: [0.85, -2.0], lane: 1.05 }];   // ~1.1 m from the hero so nobody clips; lanes clear his arms when they leave
 function alleyBase(O) { const a = AL; resetRig(a.hero); a.hero.kit.set(4, O); a.muggers.forEach(P => { resetRig(P); P.wallet.visible = false; }); return a.hero; }
 const CCTV = { ease: 'lin', p0: [1.6, 3.9, 2.9], l0: [-0.05, 1.0, -1.6], fov: 64 };
 shot(T18, tE(18), 'alley', CCTV, (lt, O) => { const h = alleyBase(O); const hz = lerp(-6.5, -1.3, eOut(seg(O, T18, T18 + 1.5))); const fl = seg(O, FLASH, FLASH + 0.5);
@@ -36,11 +36,11 @@ shot(T18, tE(18), 'alley', CCTV, (lt, O) => { const h = alleyBase(O); const hz =
   AL.muggers.forEach((P, i) => { const m = MG[i]; let x, z, ry, p, ex = 'grit';
     if (O < LEAVE) { const k = eOut(seg(O, LUNGE, LUNGE + 0.45)); x = lerp(m.from[0], m.to[0], k); z = lerp(m.from[1], m.to[1], k); ry = Math.atan2(0 - x, hz - z);
       if (k < 1) p = walk(O, 11, 1.1);
-      else if (O < FLASH) p = { ...idle(O, i), spineX: 0.15, arms: i ? [[-1.3, 0, 0.12, 0.2], [-1.35, 0, -0.1, 0.25 + 0.1 * Math.sin(O * 10)]] : [[-1.25, 0.25, -0.15, 0.55], [-0.3, 0, -0.2, 0.3]] };   // 0 grabs his lapel, 1 holds a hand out: "Wallet. Now."
+      else if (O < FLASH) p = { ...idle(O, i), spineX: 0.3, arms: i ? [[-1.3, 0, 0.12, 0.2], [-1.35, 0, -0.1, 0.25 + 0.1 * Math.sin(O * 10)]] : [[-1.25, 0.25, -0.15, 0.55], [-0.3, 0, -0.2, 0.3]] };   // 0 grabs his lapel, 1 holds a hand out: "Wallet. Now."
       else if (O < GIVE) { p = { ...idle(O, i), spineX: -0.3 * eOut(fl), headX: -0.2 + 0.45 * Math.sin(seg(O, FLASH + 0.3, GIVE) * Math.PI * 2), arms: [[-2.2, 0, 0.5, 0.3], [-2.2, 0, -0.5, 0.3]] }; ex = 'shock'; }   // recoil from the flash, look him up and down
       else { const g = eIO(seg(O, GIVE, GIVE + 0.5)); p = { ...idle(O, i), spineX: 0.2 * g, arms: [[-0.3, 0, 0.12, 0.2], [-0.3 - 1.0 * g, 0, -0.12, 0.3]] }; ex = 'smile';   // hand over their own wallets
         const w = P.wallet; w.visible = true; w.position.copy(g < 1 ? wp(P.arms[1].el).add(V([0, -0.45, 0])).lerp(wp(h.arms[i].el).add(V([0, -0.45, 0.06])), eIO(seg(O, GIVE + 0.3, GIVE + 0.7))) : wp(h.arms[i].el).add(V([0, -0.45, 0.06]))); w.rotation.set(0.3, 0, 0); } }
-    else { const k = seg(O, LEAVE, LEAVE + 2.6); x = (i ? 0.7 : -0.7); z = lerp(m.to[1], -8.5, k); ry = Math.PI; const c = Math.sin(O * 16 + i) * 0.5 + 0.5;
+    else { const k = seg(O, LEAVE, LEAVE + 2.6); x = lerp(m.to[0], m.lane, eOut(Math.min(1, k * 4))); z = lerp(m.to[1], -8.5, k); ry = Math.PI; const c = Math.sin(O * 16 + i) * 0.5 + 0.5;
       p = { ...walk(O, 6.5, 0.7), arms: [[-1.1, 0, -0.25 + 0.18 * c, 0.7], [-1.1, 0, 0.25 - 0.18 * c, 0.7]] }; ex = 'smile';
       const w = P.wallet; w.visible = true; w.position.copy(wp(h.arms[i].el).add(V([0, -0.45, 0.06]))); w.rotation.set(0.3, 0, 0.2 * Math.sin(O * 5)); }
     hp(P, O, [x, 0, z], ry, p, ex, 'mugger'); P.blob.position.set(x, 0.012, z); }); }, { grade: 'cctv', cctv: true, fps: 12, live: 0, flash: FLASH, fa: [0.8, 0.45, 0.15] });
