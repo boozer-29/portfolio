@@ -408,3 +408,37 @@ Each item below is a bug that actually happened. Avoid it while building; tick i
   Re-render only the frames whose caption text changed (compare `captions_per_frame.json` before and after).
 - **Static inserts count as duplicate frames:** a fully drawn blueprint held for 0.3 s failed mpdecimate. Keep something moving (drifting grid, moving pen).
 - **Don't put an SFX click exactly on a cue start:** the click check reads it as an edit click.
+
+### 9.18 Owner feedback on Laziness: "no background music at all" (Nov 2026)
+- **The music must be clearly audible the whole video; it's what gives viewers the dopamine.** The laziness bed was a quiet lo-fi track at ×0.3 gain,
+  low-passed to 700 Hz for long stretches (title, pause beat, golf, blackout) and ducked ~7 dB under near-constant voices. Its stem measured
+  −22.7 LUFS against the voice stem's −17.4, so on a phone it read as silence.
+  Rule: an energetic full-band track (owner library: `tiki_tiki`, `aura`, …), never muffled for more than ~2 s, ducked only 5–6 dB under lines,
+  full level between lines. QA: the music stem is within ~6 dB (LUFS) of the voice stem, and every 3 s window without a voice has the music ≥ −24 LUFS.
+- **Every joke must read from the picture alone** (most viewers watch with no sound and don't read English). Each script beat gets a `READ:` line
+  (what a viewer understands with the sound off). Show cause and effect inside one frame, and give every prop that carries the joke (a ticket, a phone amount, cards) its own macro insert.
+
+### 9.19 Luck episode: build mistakes (Nov 2026)
+- **Cameras too close, again** (about 25 shots in the first test pass). With the stat widget + diary covering the top ~35 %, a waist-up shot at fov 40
+  needs the camera ≥ 3.5 units from the subject, a face ≥ 2.3, a full body ≈ 3 units at fov 60–66. Compute it before typing coordinates.
+- **Cameras inside things render as a flat colour or black:** inside the baker (placed for a later shot of the same set), outside a wall (z 8.6 past
+  the wall at 8.2), right behind a pedestrian-signal box, through a bystander's head. Check each camera against every character and prop in that scene,
+  including ones positioned for other shots of the same set.
+- **A prop falling at a seated character's feet can't be filmed** (thighs and the table hide it from every angle). Restage: he stands, and the whole fall,
+  hand to shoe, happens inside one full-body frame; then a macro of the result.
+- **"Standing on its edge" doesn't read top-down** (a standing coin seen from above looks like a flat coin). Swoop the camera low and to the side.
+- **The hero faced away for his biggest reaction** (buried in teddies, facing the machine). After the event, turn him to the camera.
+- **Particles (confetti) spawned between the camera and the face.** Spawn them behind the subject, never on the camera side.
+- **Crowds placed outside the frame do nothing.** Put instanced crowds where the camera looks, and give the "everyone copies him" setup its own shot.
+- **A 16:10 TV in portrait:** at fov 40 the frame is ≈ 0.41 × distance wide, so a 2.5-unit TV needs the camera ≥ 6 units away to show the whole screen.
+- **In-world text on a counter is seen from both sides:** use a tent card (two planes back to back) so it reads from behind the counter too.
+- **Full-band level checks break with bass-heavy music (AURA):** SNR, the caption verifier and the shout-span builder now measure the speech band
+  (300 Hz–4 kHz, +6 dB). Shout caption spans merge gaps ≤ 0.4 s, or the caption flickers in 8 pieces.
+- **Kevin's "pence" is heard as "pins"** (Scribe too). "Sixty-four... pennies." is unambiguous.
+- **Voices:** only 8 unused ElevenLabs voices were left on the account, and this episode used all of them. Before the next episode the owner
+  needs to add new voices from the Voice Library (no new characters can be cast otherwise).
+- **Choppy shouts (a laugh) can't hold one caption:** the verifier flags every silent gap. `fix_spans.py` now builds shout spans frame by frame with the
+  verifier's own test (same window, speech band) and drops runs < 0.2 s; a span's end must not reach the next silent frame.
+- **A camera that eases to a stop ('io'/'out') at the end of a held insert gave 1 duplicate frame** (the coin-on-edge swoop). Use `ease: 'lin'` on held shots.
+- **`capcheck.js` with software GL timed out loading the page;** it now uses the Metal GPU. Its mini server types files by URL ending, so never add `?query` to its URL.
+- **Don't chain patch → render → encode → QA in one command:** one failed patch assert left the frames rendered from stale captions. Run and check each step.

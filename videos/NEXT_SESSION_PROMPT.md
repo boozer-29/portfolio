@@ -7,11 +7,11 @@ You are continuing my Instagram series of low-poly 3D comedy reels ("What if you
   1. `videos/MASTER_PROMPT.md`: all the rules.
      - Section 8b: the step-by-step workflow.
      - Section 8c: why reels go viral (the Drizzle "HUSS" study).
-     - Section 9: every mistake made so far. Don't repeat any of them; 9.17 is the newest.
+     - Section 9: every mistake made so far. Don't repeat any of them; 9.19 is the newest (9.18 = music must be clearly audible, every joke must read with the sound off).
   2. `videos/REFERENCE_ANALYSIS.md`: the comedy and quality bar.
   3. `videos/episodes/ep-laziness-script.md`: the latest approved script.
   4. Every other `videos/episodes/*.md`, plus `videos/rizz-reel-src/dialogue.json`, so you know what's already used.
-- **Template: `videos/laziness-src/`**, the latest approved episode. Copy it for a new episode. Its parts:
+- **Template: `videos/luck-src/`**, the latest episode (mixer `luck_audio.py`, slot-machine widget in `part_d.js`; older template: `laziness-src`). Copy it for a new episode. Its parts:
   - `part_a`: the rig and faces.
   - `part_b*`: characters, sets and props.
   - `part_c*`: the shots.
@@ -25,7 +25,8 @@ You are continuing my Instagram series of low-poly 3D comedy reels ("What if you
   - Whisper: `whisper-cli` with the model at `~/.cache/whisper/ggml-base.en.bin`.
   - If Playwright's Chromium fails, use `/Applications/Google Chrome 2.app`.
 - **ElevenLabs:** the key is in the macOS Keychain: `export ELEVENLABS_API_KEY=$(security find-generic-password -a "$USER" -s elevenlabs -w)`.
-  - About 18.6k of 32.8k credits are left until 9 Dec 2026; an episode costs about 3k.
+  - About 16.5k of 32.8k credits are left until 9 Dec 2026; the luck episode cost about 2.1k.
+  - All voices on the account are now used: add new ones from the Voice Library before casting the next episode.
   - Generate each line once, check it with Whisper, and regenerate only what's wrong.
 - **Rendering:** use `GPU=1`, one process at a time (8 GB RAM), and `caffeinate -dimsu` for long renders.
 
@@ -40,6 +41,12 @@ You are continuing my Instagram series of low-poly 3D comedy reels ("What if you
     - The London blackout.
     - The yawned and split BOMBOCLATs.
   - The aura idea is also done.
+  - The luck episode used:
+    - Marcus the smug neighbour, the bakery and the last sausage roll ("Unlucky, mate.").
+    - The coin-flip TING insert and the slot-machine widget.
+    - A windy bridge, a rush-hour junction, a seaside claw machine, a racecourse, a launderette, a casino, a pub, a nationwide queue.
+    - TV-racing and 1990s VHS lottery-draw breaks.
+    - The laughing and choir-sung BOMBOCLATs; a meteorite on a car; the 31-million-way jackpot ending.
 - **The hero speaks:** Kevin `eRcsJdPMOM0mtGC03ul7`, 5–8 real lines. BOMBOCLATs are in his own natural voice (no pitch shift or whisper), only where funny, and delivered differently every time.
 - **Every doubling shows a visible event:** a whole new look, an action or gag, never just growth plus a caption.
 - **No dead air:** the music never cuts mid-video, and every scene has background voices and crowd ambience.
