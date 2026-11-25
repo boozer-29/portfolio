@@ -139,6 +139,19 @@ Light every scene on purpose, dress the sets, animate every consequence.
 faces hidden, bad framing, off-screen events, duplicate frames, audio/caption problems, code bugs. Fix them, and once all are found,
 add each one to section 9 so it never happens again.
 
+## 8c. Why reels go viral: the Drizzle "HUSS" study (owner's request, Nov 2026)
+@thedrizzleshow (Roblox story reels, 33k followers) usually gets 40k–300k views. One reel hit **21.7M views / 2.6M likes / 10.5k comments** in a week, then two quick variants hit 9.1M and 7.4M.
+The reel (91 s): "In this town, everybody is out partying. Except me." He works in a burger shop, training to wrap burgers faster and faster. Every wrap is a top-down POV of his hands plus a grunt: "HUSS!". Gag: he wraps the manager's tie. Ending: at midnight the whole party comes in hungry, and his pointless skill saves the night.
+What made it spread, and what we take from it (the lessons, never the content):
+1. **One signature sound per episode**: short, physical, easy to copy in any language, tied to the core action and repeated as the rhythm of the edit. Nearly every comment just types it back ("HUSS HUSS HUSS"); comments are the algorithm. Invent a new one each episode; never reuse HUSS or our old sounds.
+2. **First-person, relatable hook in the first second**: "Everybody is X. Except me." The hero narrates his own life (he is the underdog, not a narrator talking about him).
+3. **Mock-epic seriousness about something tiny**: stopwatches, training montages and intense faces for wrapping a burger. The bigger the effort, the smaller the thing should be.
+4. **A recurring satisfying POV insert** (the same framing each time), cut on the sound, so the montage has a beat.
+5. **One quotable absurd line**, which viewers quote back in the comments ("The cat is fine. The cat is warm."). Write one on purpose, said deadpan.
+6. **Captions readable with no English**: one big centred word at a time, so the global audience (most comments were Hindi, Arabic or Spanish) can follow it.
+7. **A payoff that flips the premise**: the boring grind becomes the thing that saves everyone.
+8. **Strike while it's hot**: they posted a mirrored sequel ("…Including me", POV 2) and a variant within two days, and both went viral. When one of ours pops, post a twist variant fast.
+
 ## 9. Bug checklist — read before building, re-check before every preview
 Every finished episode uses the three.js + Playwright pipeline (`videos/mums-cooking-src/`, `videos/afro-src/`), not Blender (section 0).
 Each item below is a bug that actually happened. Avoid it while building; tick it off before sending a preview.
@@ -374,3 +387,24 @@ Each item below is a bug that actually happened. Avoid it while building; tick i
   Rule: keep ≥ 1.1 m between two characters' centres (more with bulky outfits); a kneeling helper leans ≤ 0.35 and the *hero brings the foot to him*. Exit paths go round the hero in side lanes, never straight through his spot.
 - **Test-frame every contact beat** (grab, hand-over, tie, rise, walk-off) at full size, not only the shot's start frame.
 - **Comments go on their own line.** A `//` comment pasted mid-line in a part file silently cut off the rest of the shot (twice now); then `export` errors appear in the bundle. Run `build.sh` after every part edit, because the page loads `drip.js`, not the parts.
+
+### 9.17 Laziness episode: build mistakes (Nov 2026)
+- **Frame from the rig's real geometry, not a guess.** The hero is ~2.2 units tall. His head centre is 2.19 up from the feet, and on his back he spans 2.5 units. My first cameras were 1–2 units from faces, so every shot was a crop.
+  Compute the head/target position first; for a waist-up shot at fov 40 keep ~2.5–3.5 units away.
+  `laziness-src/dbg.js` renders any time from a free camera (`node dbg.js out.jpg T "px,py,pz" "lx,ly,lz" fov`): look at the set from outside before framing shots.
+- **Portrait is narrow** (horizontal half-FOV ≈ 0.56 × vertical). Two things far apart sideways never fit. Line them up in depth instead (camera looks down the room: machine far, catcher near).
+- **`parent.add(child)` returns the parent.** `g.add(mesh).rotation.x = …` rotates the whole group. Use `T(parent, child)`, which returns the child.
+- **Lying characters:** use a quaternion (`Q(-π/2, π/2, 0)` on the back, `Q(π/2, -π/2, 0)` face-down, head toward -x) and slerp between them for a roll.
+  On his back, `arms[0]` is the arm on the front edge: use it for anything he reaches with.
+- **Check every camera against the props** (the coffee table hid two shots: the camera was inside or under it).
+- **Regex replacements must match whole numbers** (`0\.[3-6]` turned `0.45` into `0.155`).
+- **eleven_v3 audio tags may render as silence** (`[yawns]` left a 0.7 s hole). Generate the sound as its own Kevin take and splice it in.
+  Verify it with Scribe `tag_audio_events=true` (it reports `[yawns]`/`[sighs]`).
+- **Tools:** numpy and PIL live in `/opt/homebrew/bin/python3` (the default `python3` has neither). `build.sh` checks the bundle as an ES module (copy to `.mjs`, then `node --check`).
+- **Short accented lines get misheard:** Kevin's one-word "Night." came back from Scribe as "Nine." Give one-word lines a second word ("Night, night.").
+  Re-check any new take is voiced (median pitch ≈ 125–210 Hz), not whispered.
+- **Caption QA:** `fix_spans.py` retimes captions to Scribe of the final mix. It must not grab the next cue's first word (cap each window at the next cue).
+  Shout spans come from the voice stem only, so silent gaps inside a shout stay uncaptioned.
+  Re-render only the frames whose caption text changed (compare `captions_per_frame.json` before and after).
+- **Static inserts count as duplicate frames:** a fully drawn blueprint held for 0.3 s failed mpdecimate. Keep something moving (drifting grid, moving pen).
+- **Don't put an SFX click exactly on a cue start:** the click check reads it as an edit click.
