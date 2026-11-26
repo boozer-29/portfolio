@@ -12,7 +12,14 @@ SFX = {'amb_bakery': ('small British bakery on a rainy morning, rain on the wind
        'amb_laundrette': ('a quiet launderette at night, washing machines humming and spinning, a fluorescent light buzzing', 7),
        'amb_casino': ('a busy glamorous casino, chips clattering, a roulette wheel, people murmuring and gasping in amazement', 7),
        'meteor': ('a meteorite screaming down from the sky and smashing into a car, huge impact, metal crunching, glass shattering, debris raining down', 4),
-       'amb_pub': ('a packed British pub watching TV, crowd murmuring, then the whole pub erupting in a huge cheer', 7)}
+       'amb_pub': ('a packed British pub watching TV, crowd murmuring, then the whole pub erupting in a huge cheer', 7),
+       'car_alarm_die': ('a car alarm starts a wee-woo siren then dies pathetically, winding down and spluttering out', 3),
+       'fish_flop': ('a wet fish flopping and slapping on a leather car seat, several wet slaps', 3),
+       'crowd_sigh': ('a whole pub crowd sighing in disappointment at exactly the same time, a long deflated aww', 3),
+       'coin_cascade': ('casino slot machines paying out, hundreds of metal coins pouring into trays and spilling onto carpet', 4),
+       'horn_stuck': ('a car horn stuck blaring continuously in a city street', 4),
+       'chip_spill': ('tall stacks of plastic casino chips toppling and clattering across a felt table', 2),
+       'faint_thud': ('a man fainting and falling backwards onto a tiled floor, a soft heavy thud', 2)}
 for k, (txt, d) in SFX.items():
     if os.path.exists(f'audio/{k}.mp3'): print('skip', k); continue
     r = subprocess.run(['curl', '-sS', '-H', 'xi-api-key: ' + KEY, '-H', 'Content-Type: application/json', '-d', json.dumps({'text': txt, 'duration_seconds': d, 'prompt_influence': 0.5}), 'https://api.elevenlabs.io/v1/sound-generation', '-o', f'audio/{k}.mp3', '-w', '%{http_code}'], capture_output=True, text=True)

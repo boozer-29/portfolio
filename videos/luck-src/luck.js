@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { Reflector } from 'three/addons/objects/Reflector.js';
+import { OBB } from 'three/addons/math/OBB.js';
 
 const W = 1080, H = 1920; export const DUR = 102.3;
 let DIALOGUE = [];
@@ -349,6 +350,9 @@ const manTex = (green) => ctex(128, 128, (g, w, h) => { g.fillStyle = '#0b0b0b';
 const MAN_R = new THREE.MeshBasicMaterial({ map: manTex(false), toneMapped: false }), MAN_G = new THREE.MeshBasicMaterial({ map: manTex(true), toneMapped: false });
 function makeSignal() { const g = grp(); g.add(cyl(0.06, 0.06, 2.8, mat(0x2a2d33, { metalness: 0.5, roughness: 0.4 }), 0, 1.4, 0, 10)); g.add(rbox(0.42, 0.46, 0.3, mat(0x1d1f24), 0, 2.6, 0.12));
   g.face = new THREE.Mesh(new THREE.PlaneGeometry(0.34, 0.34), MAN_R); g.face.position.set(0, 2.6, 0.28); g.add(g.face); g.glow = new THREE.PointLight(0x3dff7a, 0, 2.5, 2); g.glow.position.set(0, 2.6, 0.6); g.add(g.glow);
+  const bx = grp(0, 1.15, 0.1, g); bx.add(rbox(0.24, 0.34, 0.12, mat(0xffd21f, { roughness: 0.5 }))); const btnM = new THREE.MeshStandardMaterial({ color: 0x232323, roughness: 0.4, emissive: 0x3dff7a, emissiveIntensity: 0 }); const btn = cyl(0.05, 0.05, 0.05, btnM, 0, -0.05, 0.075, 16); btn.rotation.x = Math.PI / 2; bx.add(btn);
+  const wait = new THREE.Mesh(new THREE.PlaneGeometry(0.16, 0.06), new THREE.MeshBasicMaterial({ map: signTex('WAIT', '#3a0a0a', '#ff4a3a', 128, 48, '800 34px InterW, Arial'), toneMapped: false })); wait.position.set(0, 0.1, 0.062); bx.add(wait);
+  g.press = (k, lit = 0) => { btn.position.z = 0.075 - 0.03 * k; btnM.emissiveIntensity = 2.5 * lit; wait.material.color.setScalar(lit > 0.5 ? 0.25 : 1); };   // the push button (presses itself on Day 3)
   g.setGreen = (on) => { g.face.material = on ? MAN_G : MAN_R; g.glow.color.setHex(on ? 0x3dff7a : 0xff3b2f); g.glow.intensity = on ? 2.2 : 0.8; }; return g; }
 function makeCar(col, o = {}) { const g = grp(); const b = mat(col, { roughness: 0.25, metalness: 0.35, envMapIntensity: 1.2 });
   g.add(rbox(1.9, 0.6, 4.0, b, 0, 0.6, 0)); if (!o.open) g.add(rbox(1.66, 0.55, 2.0, mat(0x9fb8d0, { roughness: 0.05, metalness: 0.5, envMapIntensity: 1.5 }), 0, 1.15, -0.2));
@@ -407,15 +411,16 @@ function drawWinPhone(k, O) { const g = phoneTex.g, w = 320, h = 640; g.fillStyl
   g.fillStyle = '#1f8fe0'; rr(g, 60, 520, w - 120, 64, 32); g.fill(); g.fillStyle = '#fff'; g.font = '700 24px InterW, Arial'; g.fillText('CLAIM PRIZE', w / 2, 560); phoneTex.needsUpdate = true; }
 function makeWinPhone() { const g = grp(); g.add(rbox(0.5, 1.0, 0.05, mat(0x15171c, { roughness: 0.3, metalness: 0.5 }))); g.add(screenMesh(0.46, 0.92, phoneTex, { z: 0.028 })); return g; }
 // instanced crowd: simple standing people (bodies + heads), per-instance colours; update bobs/turns them
-function crowdInst(sc, pts, o = {}) {
+function crowdInst(sc, pts0, o = {}) {
+  const pts = []; for (const p of pts0) if (pts.every(q => Math.hypot(q[0] - p[0], q[2] - p[2]) >= (o.min ?? 0.75) || Math.abs(q[1] - p[1]) > 0.5)) pts.push(p);   // people keep their distance (no two bodies in one spot)
   const n = pts.length; const body = new THREE.InstancedMesh(rgeo(0.62, 1.15, 0.4), new THREE.MeshStandardMaterial({ roughness: 0.75 }), n), head = new THREE.InstancedMesh(rgeo(0.46, 0.46, 0.42), new THREE.MeshStandardMaterial({ roughness: 0.55 }), n), legs = new THREE.InstancedMesh(rgeo(0.56, 0.75, 0.34), new THREE.MeshStandardMaterial({ roughness: 0.75 }), n);
   const r = rnd(o.seed || 5), skins = [0xe7b289, 0xd9a67e, 0x8a5a3c, 0xc8946c, 0x6b4128, 0xf0c09a], tops = [0xd7262e, 0x1f4fd6, 0x2bb673, 0xe8a317, 0x9b59d6, 0x333333, 0xf2f2f2, 0x20a0a0, 0xff8c5a, 0x8a6a49], bots = [0x2d3a63, 0x2b2b2b, 0x4b3a2a, 0x3b4a6b, 0x5a5a39];
   const D = pts.map((p, i) => ({ p, s: (o.s || 1) * (0.9 + r() * 0.2), ph: r() * 10, ry: p[3] ?? (o.ry || 0) }));
   D.forEach((d, i) => { body.setColorAt(i, new THREE.Color(tops[Math.floor(r() * tops.length)])); head.setColorAt(i, new THREE.Color(skins[Math.floor(r() * skins.length)])); legs.setColorAt(i, new THREE.Color(bots[Math.floor(r() * bots.length)])); });
   [body, head, legs].forEach(m => { m.castShadow = true; m.receiveShadow = true; m.frustumCulled = false; sc.add(m); });
   const mt = new THREE.Matrix4(), q = new THREE.Quaternion(), e = new THREE.Euler();
-  const upd = (O, f = {}) => { D.forEach((d, i) => { const vis = f.count == null || i < f.count; const s = vis ? d.s : 0.0001; const bob = Math.abs(Math.sin(O * (f.jump ? 9 : 2) + d.ph)) * (f.jump ? 0.35 : 0.03) * s; const ry = d.ry + Math.sin(O * 0.7 + d.ph) * 0.15;
-      e.set(0, ry, f.cheer ? Math.sin(O * 7 + d.ph) * 0.08 : 0); q.setFromEuler(e); const x = d.p[0], y = d.p[1] + bob, z = d.p[2];
+  const upd = (O, f = {}) => { D.forEach((d, i) => { const vis = f.count == null || i < f.count; d.vis = vis; const s = vis ? d.s : 0.0001; const bob = Math.abs(Math.sin(O * (f.jump ? 9 : 2) + d.ph)) * (f.jump ? 0.35 : 0.03) * s; const ry = d.ry + Math.sin(O * 0.7 + d.ph) * 0.15, sg = f.sigh || 0;   // sigh: everyone slumps forward at once
+      e.order = 'YXZ'; e.set(0.22 * sg, ry, f.cheer ? Math.sin(O * 7 + d.ph) * 0.08 : 0); q.setFromEuler(e); const x = d.p[0], y = d.p[1] + bob - 0.06 * sg, z = d.p[2];
       mt.compose(V([x, y + 0.38 * s, z]), q, V([s, s, s])); legs.setMatrixAt(i, mt); mt.compose(V([x, y + 1.3 * s, z]), q, V([s, s, s])); body.setMatrixAt(i, mt); mt.compose(V([x, y + 2.15 * s, z]), q, V([s, s, s])); head.setMatrixAt(i, mt); });
     [body, head, legs].forEach(m => { m.instanceMatrix.needsUpdate = true; }); };
   upd(0); return { upd, D };
@@ -459,8 +464,8 @@ function npcs(sc, list) { return list.map(([i, o]) => { const P = npc(i, o || {}
   const glass = new THREE.Mesh(rgeo(2.6, 0.62, 0.95), GLASS); glass.position.set(-1.45, 1.44, 0); sc.add(glass); sc.add(rbox(2.62, 0.05, 0.97, mat(0xd9d4cc, { metalness: 0.6, roughness: 0.3 }), -1.45, 1.76, 0));
   for (let k = 0; k < 6; k++) { const p = ball(0.13, mat([0xd9953f, 0xe0b25a, 0xc06a30][k % 3], { roughness: 0.6 }), -2.5 + k * 0.4, 1.24, (k % 2) * 0.2 - 0.1, undefined, 12); p.scale.set(1.3, 0.7, 1); sc.add(p); }
   const till = grp(2.7, 1.13, -0.1, sc); till.add(rbox(0.6, 0.3, 0.5, mat(0x2a2a30))); T(till, rbox(0.5, 0.32, 0.05, mat(0x1a1d24, { emissive: 0x3fd0a0, emissiveIntensity: 0.4 }), 0, 0.33, 0)).rotation.x = -0.3;
-  const doily = cyl(0.3, 0.3, 0.01, mat(0xffffff, { roughness: 0.9 }), 0.9, 1.135, 0.25, 24); sc.add(doily);
-  const roll = makeSausageRoll(1.1); roll.position.set(0.9, 1.25, 0.25); sc.add(roll);
+  const doily = cyl(0.3, 0.3, 0.01, mat(0xffffff, { roughness: 0.9 }), 0.45, 1.135, 0.25, 24); sc.add(doily);
+  const roll = makeSausageRoll(1.1); roll.position.set(0.55, 1.25, 0.25); sc.add(roll);
   const price = makePriceCard('64p', 'SAUSAGE ROLL'); price.position.set(0.25, 1.38, 0.47); price.rotation.x = -0.2; sc.add(price);
   // pendant lamps
   const lamps = [-3.4, 0.6, 4.0].map(x => { const l = practical(sc, x, 3.75, 0.6, 0xffcf8a, { i: 9, d: 9, r: 0.14, bokeh: 0.9 }); sc.add(cyl(0.01, 0.01, 1.2, mat(0x222222), x, 4.4, 0.6, 6)); sc.add(cone(0.32, 0.3, mat(0x2a3a2a, { roughness: 0.5 }), x, 3.92, 0.6, 18)); return l; });
@@ -468,23 +473,25 @@ function npcs(sc, list) { return list.map(([i, o]) => { const P = npc(i, o || {}
   const tbl = grp(-5.6, 0, 2.6, sc); tbl.add(cyl(0.06, 0.06, 0.78, mat(0x222222), 0, 0.39, 0, 10)); tbl.add(cyl(0.3, 0.3, 0.04, mat(0x222222), 0, 0.02, 0, 16)); tbl.add(rbox(1.0, 0.05, 0.9, wood, 0, 0.8, 0));
   const chair = grp(-5.6, 0, 3.95, sc); chair.add(rbox(0.6, 0.06, 0.6, wood, 0, 0.5, 0)); chair.add(rbox(0.6, 0.75, 0.06, wood, 0, 0.9, 0.3)); [[-0.25, -0.25], [0.25, -0.25], [-0.25, 0.25], [0.25, 0.25]].forEach(([x, z]) => chair.add(cyl(0.025, 0.025, 0.5, mat(0x222222), x, 0.25, z, 6)));
   tbl.add(cyl(0.2, 0.17, 0.03, mat(0xffffff, { roughness: 0.2 }), 0, 0.84, 0.25, 24)); tbl.add(cyl(0.07, 0.06, 0.16, mat(0xffffff, { roughness: 0.2 }), 0.3, 0.9, 0.05, 16));
-  const toast = makeToast(); sc.add(toast); const plate = cyl(0.26, 0.22, 0.035, mat(0xffffff, { roughness: 0.2 }), 0, 0, 0, 24); sc.add(plate); const splat = rbox(0.18, 0.012, 0.16, mat(0xffe27a, { roughness: 0.3 })); splat.castShadow = false; sc.add(splat);
+  const toast = makeToast(); sc.add(toast); const toast2 = makeToast(); sc.add(toast2); const splat2 = rbox(0.18, 0.012, 0.16, mat(0xffe27a, { roughness: 0.3 })); splat2.castShadow = false; sc.add(splat2);
+  const crumbs = [...Array(10)].map(() => { const c = rbox(0.035, 0.03, 0.035, mat(0xc98a3a, { roughness: 0.9 })); c.castShadow = false; c.visible = false; sc.add(c); return c; });
+  const plate = cyl(0.26, 0.22, 0.035, mat(0xffffff, { roughness: 0.2 }), 0, 0, 0, 24); sc.add(plate); const splat = rbox(0.18, 0.012, 0.16, mat(0xffe27a, { roughness: 0.3 })); splat.castShadow = false; sc.add(splat);
   // other customers at the back table (background life)
   const extras = npcs(sc, [[6], [2, { hairStyle: 'long' }]]); extras[0].root.position.set(5.2, 0, 4.2); extras[1].root.position.set(6.0, 0, 3.2);
   const hero = makeLuckHero(), marcus = makeMarcus(), baker = makeBaker(); [hero, marcus, baker].forEach(P => sc.add(P.root));
   const coins = [0, 1, 2].map(() => { const c = makeCoin(0.07); c.visible = false; sc.add(c); return c; }); const spin = makeCoin(0.11); spin.visible = false; sc.add(spin);
   const wallet = grp(); wallet.add(rbox(0.3, 0.2, 0.05, mat(0x3a2418, { roughness: 0.6 }))); wallet.add(rbox(0.26, 0.05, 0.2, mat(0xd9cfc0, { roughness: 0.9 }), 0, -0.12, 0.05)); sc.add(wallet);
   const moths = [0, 1].map(() => { const g = grp(); [-1, 1].forEach(s => { const w = new THREE.Mesh(new THREE.PlaneGeometry(0.12, 0.08), mat(0xd8cfb8, { side: THREE.DoubleSide, roughness: 1 })); w.position.x = s * 0.06; g.add(w); g['w' + s] = w; }); sc.add(g); return g; });
-  S.bakery = { sc, key, win, win2, roll, price, toast, splat, plate, hero, marcus, baker, extras, coins, spin, wallet, moths, lamps, doily };
+  S.bakery = { sc, key, win, win2, roll, price, toast, splat, plate, toast2, splat2, crumbs, hero, marcus, baker, extras, coins, spin, wallet, moths, lamps, doily };
 }
 { // ---- the hand insert (coin flip): a big hand on a dark warm surface, top-down
   const sc = new THREE.Scene(); sc.background = new THREE.Color(0x120c08);
   lightRig(sc, { env: 0.3, sky: 0xffe8c8, ground: 0x3a2a1c, hemi: 0.35, keyC: 0xfff0d8, key: 0.85, keyPos: [3, 8, 4], R: 4, rim: 0.5, rimC: 0xffb070, rimPos: [-4, 3, -4] });
-  sc.add(rbox(14, 0.2, 14, new THREE.MeshStandardMaterial({ map: woodT('#5a3a22', 9), roughness: 0.5 }), 0, -0.5, 0));
-  const hand = makeHandInsert(); hand.position.set(0, -0.2, 0); sc.add(hand); const coin = makeCoin(0.28); sc.add(coin);
+  sc.add(rbox(14, 0.2, 14, new THREE.MeshStandardMaterial({ map: woodT('#5a3a22', 9), roughness: 0.5 }), 0, -0.1, 0)); sc.add(rbox(14, 6, 0.3, mat(0x2a1a12, { roughness: 0.9 }), 0, 3, -3.2));
+  const hand = makeHandInsert(); hand.visible = false; sc.add(hand); const coin = makeCoin(0.13); sc.add(coin); const hero = makeLuckHero(); sc.add(hero.root);
   [[-3, 0.5, -2, 0xffb35a], [2.6, 0.3, -2.6, 0xff8a3a], [3.2, 0.2, 1.8, 0xffd28a], [-2.4, 0.1, 2.2, 0xff9a4a]].forEach(([x, y, z, c]) => practical(sc, x, y, z, c, { i: 2, d: 4, r: 0.12, bokeh: 1.4 }));
   const spark = sparkle(1.4); spark.visible = false; sc.add(spark);
-  S.hand = { sc, hand, coin, spark };
+  S.hand = { sc, hand, coin, spark, hero, solids: { hero: hero.root, coin } };
 }
 { // ---- WINDY BRIDGE (Day 2): deck along z, the hero at z 0 facing +z (camera end), the note blows in from far down the bridge
   const sc = new THREE.Scene(); sc.background = new THREE.Color(0x9aa8b8); sc.fog = new THREE.Fog(0x9aa8b8, 30, 140);
@@ -497,10 +504,12 @@ function npcs(sc, list) { return list.map(([i, o]) => { const P = npc(i, o || {}
     for (let z = 4; z > -140; z -= 14) { const p = grp(sx * 3.6, 0, z, sc); p.add(cyl(0.07, 0.09, 4.6, mat(0x2a333d, { metalness: 0.5 }), 0, 2.3, 0, 10)); p.add(rbox(0.5, 0.25, 0.3, mat(0x2a333d), -sx * 0.25, 4.6, 0)); } }
   const r = rnd(12); for (let i = 0; i < 40; i++) { const x = (r() < 0.5 ? -1 : 1) * (25 + r() * 70), z = -60 - r() * 110, h = 8 + r() * 40; sc.add(rbox(6 + r() * 8, h, 6 + r() * 8, mat([0x7a8494, 0x8d96a3, 0x6a7280][i % 3], { roughness: 0.9 }), x, h / 2 - 9, z)); }
   const hero = makeLuckHero(); sc.add(hero.root); const note = makeNote(); sc.add(note);
+  // the hood that flips up onto his head in the gust (pivot at the back of the neck; rotation.x 0 = up, clear of head and hair)
+  const hm = mat(0xD7262E, { roughness: 0.75 }); const hood = grp(0, 0.75, -0.25, hero.spine); hood.add(rbox(0.86, 0.1, 0.74, hm, 0, 0.9, 0.22)); hood.add(rbox(0.86, 0.82, 0.1, hm, 0, 0.5, -0.16)); [-1, 1].forEach(sx => hood.add(rbox(0.08, 0.74, 0.7, hm, sx * 0.43, 0.52, 0.2))); hood.visible = false;
   const walkers = npcs(sc, [[0], [3, { hairStyle: 'long' }], [5], [7]]);
   const hats = [0x2a2a30, 0xd7262e, 0x6b4a2b].map(c => { const g = grp(); g.add(cyl(0.34, 0.34, 0.03, mat(c), 0, 0, 0, 20)); g.add(cyl(0.22, 0.24, 0.2, mat(c), 0, 0.1, 0, 18)); sc.add(g); return g; });
   const leaves = dropsInst(sc, 60, 0xc9a25a, 0.05);
-  S.bridge = { sc, key, hero, note, walkers, hats, leaves };
+  S.bridge = { sc, key, hero, note, walkers, hats, leaves, hood };
 }
 { // ---- RUSH-HOUR JUNCTION (Day 3): a footpath along z at x 0 crosses four roads (along x) at z = -4, -16, -28, -40; a signal faces +z before each road
   const sc = new THREE.Scene(); sc.background = new THREE.Color(0xb8c4d0); sc.fog = new THREE.Fog(0xb8c4d0, 40, 150);
@@ -516,6 +525,8 @@ function npcs(sc, list) { return list.map(([i, o]) => { const P = npc(i, o || {}
   const signals = ROADS.map(rz => [-1, 1].map(sx => { const s = makeSignal(); s.position.set(sx * 1.9, 0, rz + 4.0); sc.add(s); return s; }));
   const CARC = [0xd7262e, 0x2f5fb0, 0xe8e8ea, 0x1a1a1f, 0x2bb673, 0xe8a317, 0x8a8f98];
   const cars = []; ROADS.forEach((rz, ri) => [-1, 1].forEach(sx => { const n = ri < 2 ? 4 : 3; for (let k = 0; k < n; k++) { const c = makeCar(CARC[(ri * 5 + k * 3 + (sx > 0 ? 1 : 0)) % CARC.length], { open: ri === 0 && sx === 1 && k === 0 }); c.position.set(sx * (5.2 + k * 5.0), 0, rz + (sx > 0 ? -1.6 : 1.6)); c.rotation.y = sx > 0 ? -Math.PI / 2 : Math.PI / 2; sc.add(c); cars.push(c); } }));
+  // the angry driver's car (cars[4]) gets a door on its +z side, hinged at the front; it swings shut and locks him out
+  const dcar = cars[4]; const door = grp(0.97, 0, 0.9, dcar); const dm = mat(0xe8e8ea, { roughness: 0.25, metalness: 0.35 }); door.add(rbox(0.06, 0.55, 1.1, dm, 0, 0.68, -0.55)); door.add(rbox(0.04, 0.06, 0.18, mat(0x333333), 0.04, 0.82, -0.95)); dcar.door = door;
   const driver = npc(0, { hood: 0x3a6ad0, hoodD: 0x3a6ad0 }); driver.head.add(rbox(0.72, 0.14, 0.68, mat(0x111111), 0, 0.72, 0)); sc.add(driver.root);
   const hero = makeLuckHero(); sc.add(hero.root);
   const peds = npcs(sc, [[2], [4], [6, { hairStyle: 'long' }]]);
@@ -536,13 +547,14 @@ function npcs(sc, list) { return list.map(([i, o]) => { const P = npc(i, o || {}
   cm.add(rbox(1.8, 0.9, 1.8, body, 0, 0.45, 0)); cm.add(rbox(1.8, 0.45, 1.8, body, 0, 2.85, 0)); [[-0.87, -0.87], [0.87, -0.87], [-0.87, 0.87], [0.87, 0.87]].forEach(([x, z]) => cm.add(rbox(0.07, 1.75, 0.07, trim, x, 1.75, z)));
   const glassB = new THREE.Mesh(rgeo(1.7, 1.7, 1.7), GLASS); glassB.position.set(0, 1.75, 0); cm.add(glassB); cm.glassB = glassB;
   const door = grp(-0.85, 0.9, 0.86, cm); const gl = new THREE.Mesh(new THREE.PlaneGeometry(1.7, 1.7), GLASS); gl.position.set(0.85, 0.85, 0); door.add(gl); cm.door = door;
-  const marquee = signMesh(1.6, 0.36, signTex('CLAW', '#2a0a3a', '#ffd23a', 512, 128, '800 90px Montserrat, Arial'), true); marquee.position.set(0, 2.88, 0.91); cm.add(marquee);
+  const marquee = signMesh(1.6, 0.36, signTex('CLAW', '#2a0a3a', '#ffd23a', 512, 128, '800 90px Montserrat, Arial'), true); marquee.position.set(0, 2.88, 0.91); cm.add(marquee); cm.marquee = marquee; cm.sorry = signTex('SORRY', '#3a0a0a', '#ff4a5a', 512, 128, '800 90px Montserrat, Arial');
   cm.add(rbox(0.5, 0.35, 0.1, mat(0x111111), 0.45, 0.55, 0.91)); cm.add(rbox(0.12, 0.2, 0.05, mat(0xffd23a, { emissive: 0xffd23a, emissiveIntensity: 1.5 }), -0.4, 0.7, 0.92));
   practical(sc, 0, 2.5, 0, 0xffe8ff, { i: 3, d: 3, r: 0.04, ei: 1 });
   const claw = grp(0, 2.45, 0, cm); claw.add(cyl(0.02, 0.02, 1.2, mat(0xcfd3da, { metalness: 1, roughness: 0.2 }), 0, 0.6, 0, 6)); claw.add(cyl(0.12, 0.14, 0.16, mat(0xcfd3da, { metalness: 1, roughness: 0.2 }), 0, 0, 0, 14));
   claw.prongs = [0, 1, 2].map(i => { const p = grp(0, -0.05, 0, claw); p.rotation.y = i * 2.094; const a = grp(0.1, 0, 0, p); a.add(rbox(0.04, 0.32, 0.05, mat(0xcfd3da, { metalness: 1, roughness: 0.2 }), 0.04, -0.16, 0)); return a; }); cm.claw = claw;
-  const bears = [...Array(46)].map((_, i) => { const b = makeBear(i, 0.55 + (i % 4) * 0.05); sc.add(b); return b; });
-  const r = rnd(21); const pile = bears.map((b, i) => V([(r() - 0.5) * 1.3, 0.92 + Math.floor(i / 16) * 0.22 + r() * 0.08, (r() - 0.5) * 1.3]));
+  const bears = [...Array(156)].map((_, i) => { const b = makeBear(i, 0.58); sc.add(b); return b; });   // 46 in stock + 110 more than could ever fit (cartoon logic)
+  // the stock: a 5x5x2 stack on the machine floor (spacing 0.28, no overlaps), the centre of the top layer left free for the claw
+  const pile = []; for (let L = 0; L < 2 && pile.length < 46; L++) for (let gz = 4; gz >= 0; gz--) for (let gx = 0; gx < 5; gx++) { if (L === 1 && gx === 2 && gz === 2) continue; if (pile.length < 46) pile.push(V([(gx - 2) * 0.32, 0.92 + L * 0.42, (gz - 2) * 0.32])); }
   const hero = makeLuckHero(), kid = makeKid(); sc.add(hero.root); sc.add(kid.root);
   const mum = npc(1, { hairStyle: 'long', hood: 0xff8c5a, hoodD: 0xff8c5a }); sc.add(mum.root);
   S.arcade = { sc, key, cm, bears, pile, hero, kid, mum };
@@ -565,6 +577,7 @@ function npcs(sc, list) { return list.map(([i, o]) => { const P = npc(i, o || {}
   const bucket = grp(2.7, 0, -0.9, sc); bucket.add(cyl(0.2, 0.16, 0.35, mat(0x2f6ad0, { roughness: 0.4 }), 0, 0.18, 0, 16)); bucket.add(cyl(0.18, 0.18, 0.02, mat(0xffffff, { roughness: 0.1 }), 0, 0.34, 0, 16));
   const puddle = new THREE.Mesh(new THREE.CircleGeometry(1, 32), new THREE.MeshStandardMaterial({ color: 0x6a8aa8, roughness: 0.02, metalness: 0.8, envMapIntensity: 2 })); puddle.rotation.x = -Math.PI / 2; puddle.scale.set(1.8, 0.8, 1); puddle.position.set(-0.6, 0.05, 4.0); sc.add(puddle);
   const bus = makeBus(); bus.rotation.y = Math.PI / 2; sc.add(bus);
+  const fish = grp(); const fm = mat(0x7fa8c8, { roughness: 0.25, metalness: 0.3, envMapIntensity: 1.4 }); const fb = ball(0.16, fm, 0, 0, 0, undefined, 16); fb.scale.set(1.9, 0.75, 0.55); fish.add(fb); T(fish, cone(0.12, 0.22, fm, -0.36, 0, 0, 4)).rotation.z = Math.PI / 2; fish.add(ball(0.035, mat(0xffffff), 0.2, 0.05, 0.075, undefined, 8)); fish.add(ball(0.02, mat(0x111111), 0.215, 0.05, 0.095, undefined, 8)); fish.visible = false; sc.add(fish);
   const spray = dropsInst(sc, 420, 0xbfe6ff, 0.075); const sheet = new THREE.Mesh(new THREE.SphereGeometry(1, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2), new THREE.MeshStandardMaterial({ color: 0xa8dcff, roughness: 0.05, transparent: true, opacity: 0.35, envMapIntensity: 2, side: THREE.DoubleSide, depthWrite: false })); sheet.visible = false; sc.add(sheet);
   const hero = makeLuckHero(), marcus = makeMarcus(); sc.add(hero.root); sc.add(marcus.root);
   const cr = rnd(31); const pts = []; for (let i = 0; i < 160; i++) { const x = -5.0 - cr() * 13, z = 1.5 + cr() * 4.2; pts.push([x, 0, z, Math.PI / 2 + (cr() - 0.5) * 0.6]); } const crowd = crowdInst(sc, pts, { seed: 9 });
@@ -574,7 +587,7 @@ function npcs(sc, list) { return list.map(([i, o]) => { const P = npc(i, o || {}
   const smoke = [...Array(16)].map(() => { const s = sprite(smokeTex, 2.5); s.visible = false; sc.add(s); return s; });
   const flash = new THREE.PointLight(0xffc07a, 0, 30, 1.2); flash.position.set(4, 3, -2); sc.add(flash);
   const debris = debrisPool(sc, 28, [0xc8102e, 0x3a2a22, 0x222222, 0xbfe0ff]);
-  S.drive = { sc, key, car, bucket, puddle, bus, spray, sheet, hero, marcus, crowd, met, smoke, flash, debris, dome };
+  S.drive = { sc, key, car, bucket, puddle, bus, spray, sheet, hero, marcus, crowd, met, smoke, flash, debris, dome, fish };
 }
 { // ---- RACECOURSE (Day 9): the straight runs along x (horses run toward -x), the spectator rail at z 5.2, the finish post at x -0.5
   const sc = new THREE.Scene(); sc.background = new THREE.Color(0xa8cce8); sc.fog = new THREE.Fog(0xb8d4ea, 60, 220);
@@ -627,13 +640,16 @@ function npcs(sc, list) { return list.map(([i, o]) => { const P = npc(i, o || {}
   const chairM = mat(0x8a1020, { roughness: 0.6 }); const chair = grp(0, 0, 1.75, sc); chair.add(rbox(0.7, 0.12, 0.6, chairM, 0, 0.5, 0)); chair.add(rbox(0.7, 0.9, 0.12, chairM, 0, 1.0, 0.3)); chair.add(cyl(0.05, 0.05, 0.5, mat(0xc9a040, { metalness: 0.9, roughness: 0.3 }), 0, 0.25, 0, 8));
   const chand = [[-3, -2], [3, -2], [0, 2.5]].map(([x, z]) => { const g = grp(x, 4.6, z, sc); for (let k = 0; k < 8; k++) { const a = k / 8 * 6.283; g.add(ball(0.08, mat(0xfff2d0, { emissive: 0xffe0a0, emissiveIntensity: 3 }), Math.cos(a) * 0.5, 0, Math.sin(a) * 0.5, undefined, 8)); } const l = new THREE.PointLight(0xffd9a0, 10, 10, 1.4); g.add(l); const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: bokehTex, color: 0xffd9a0, transparent: true, opacity: 0.6, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false })); sp.scale.setScalar(2.2); g.add(sp); return g; });
   const slotTex = (s) => ctex(128, 160, (g, w, h) => { const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, '#ff3a6a'); gr.addColorStop(1, '#6a1aff'); g.fillStyle = gr; g.fillRect(0, 0, w, h); g.fillStyle = '#fff'; g.fillRect(14, 50, 100, 50); g.fillStyle = '#d7262e'; g.font = '800 40px InterW, Arial'; g.textAlign = 'center'; g.fillText(s, 64, 90); });
-  for (let k = 0; k < 9; k++) { const x = -8 + k * 2; const g = grp(x, 0, -6, sc); g.add(rbox(1.2, 2.2, 0.9, mat(0x1a1a24), 0, 1.1, 0)); const s = signMesh(0.9, 1.1, slotTex(['777', 'BAR', '$$$'][k % 3]), true); s.position.set(0, 1.5, 0.46); g.add(s); }
+  const slots = []; const jackTex = ctex(128, 160, (g, w, h) => { g.fillStyle = '#ffd23a'; g.fillRect(0, 0, w, h); g.fillStyle = '#fff'; g.fillRect(10, 50, 108, 56); g.fillStyle = '#e8243c'; g.font = '800 44px InterW, Arial'; g.textAlign = 'center'; g.fillText('777', 64, 92); g.fillStyle = '#7a1aff'; g.font = '800 20px InterW, Arial'; g.fillText('JACKPOT', 64, 140); });
+  for (let k = 0; k < 9; k++) { const x = -8 + k * 2; const g = grp(x, 0, -6, sc); g.add(rbox(1.2, 2.2, 0.9, mat(0x1a1a24), 0, 1.1, 0)); g.add(rbox(0.8, 0.12, 0.3, mat(0xc9a040, { metalness: 0.9, roughness: 0.3 }), 0, 0.62, 0.55)); const s = signMesh(0.9, 1.1, slotTex(['777', 'BAR', '$$$'][k % 3]), true); s.position.set(0, 1.5, 0.46); g.add(s); s.base = s.material.map; slots.push(s); }
+  // the payout: gold coins pouring out of every tray onto the carpet (instanced flat discs)
+  const payout = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.06, 0.06, 0.012, 14), new THREE.MeshStandardMaterial({ color: 0xffc94a, metalness: 1, roughness: 0.2, envMapIntensity: 1.6 }), 9 * 30); payout.frustumCulled = false; sc.add(payout);
   const cards = [...Array(5)].map((_, i) => { const c = makeCard(RANKS[i]); sc.add(c); return c; });
   const stacks = [...Array(14)].map((_, i) => { const s = makeChipStack(40, CHIPC[i % 5]); sc.add(s); return s; });
   const hero = makeLuckHero(), dealer = makeSuit(0xf4f4f4, { vest: true, tie: 0x111111, skin: 0x8a5a3c }), boss = makeSuit(0x1d1d24, { bald: true, tie: 0xc9a040, skin: 0xe8b896 }); [hero, dealer, boss].forEach(P => sc.add(P.root));
   const r = rnd(14); const pts = []; for (let i = 0; i < 26; i++) { const a = -0.9 + r() * 1.8; pts.push([Math.sin(a) * (3.0 + r() * 1.6), 0, 3.4 + Math.cos(a) * (1.0 + r() * 1.6), Math.PI + a * 0.4]); } const crowd = crowdInst(sc, pts, { seed: 12 });
   const near = npcs(sc, [[2, { hairStyle: 'long' }], [6]]);
-  S.casino = { sc, key, cards, stacks, hero, dealer, boss, crowd, near, chand };
+  S.casino = { sc, key, cards, stacks, hero, dealer, boss, crowd, near, chand, slots, jackTex, payout };
 }
 { // ---- PUB (Day 26): the bar along x at z -2.2, the TV above the back bar at (1.6, 3.3, -3.25) facing +z, the hero kneels at (0, 0, 1.3)
   const sc = new THREE.Scene(); sc.background = new THREE.Color(0x140c08);
@@ -646,12 +662,15 @@ function npcs(sc, list) { return list.map(([i, o]) => { const P = npc(i, o || {}
   const tvTex = screenTex(640, 400); const tv = grp(1.6, 3.4, -3.25, sc); tv.add(rbox(2.5, 1.6, 0.15, mat(0x111111))); const tvs = screenMesh(2.36, 1.48, tvTex, { z: 0.08 }); tv.add(tvs); const tvL = new THREE.PointLight(0x9fc0ff, 6, 6, 1.5); tvL.position.set(1.6, 3.2, -2.2); sc.add(tvL);
   [[-4, 3.6, 1], [0.5, 3.8, 2.5], [4, 3.6, 0.5]].forEach(([x, y, z]) => practical(sc, x, y, z, 0xffb86a, { i: 7, d: 8, r: 0.12, bokeh: 1.2 }));
   [[-4.5, 3.5], [4.6, 3.8]].forEach(([x, z]) => { const t = grp(x, 0, z, sc); t.add(cyl(0.7, 0.7, 0.06, wood, 0, 0.78, 0, 24)); t.add(cyl(0.06, 0.06, 0.76, mat(0x222222), 0, 0.38, 0, 8)); });
-  const r = rnd(41); const pts = []; for (let i = 0; i < 46; i++) { const x = -6.5 + r() * 13, z = 0.2 + r() * 6.5; if (Math.abs(x) < 1.6 && z < 3.4) continue; pts.push([x, 0, z, Math.PI + (r() - 0.5) * 0.5]); } const crowd = crowdInst(sc, pts, { seed: 21 });
+  const r = rnd(41); const pts = []; for (let i = 0; i < 46; i++) { const x = -6.5 + r() * 13, z = 0.2 + r() * 6.5; if (Math.abs(x) < 1.6 && z < 3.4) continue; if ([[-1.6, 2.3], [1.7, 2.5], [-2.6, 1.0], [2.6, 1.2], [0, 1.3]].some(([a, b]) => Math.hypot(a - x, b - z) < 1.0)) continue; pts.push([x, 0, z, Math.PI + (r() - 0.5) * 0.5]); } const crowd = crowdInst(sc, pts, { seed: 21 });
   const near = npcs(sc, [[3], [5, { hairStyle: 'long' }], [0], [4]]);
   const hero = makeLuckHero(); sc.add(hero.root); const phone = makeWinPhone(); sc.add(phone);
   const conf = dropsInst(sc, 260, 0xffffff, 0.05); const confC = [0xffd23a, 0xff3aa8, 0x3ae0ff, 0x7aff5a, 0xffffff]; for (let i = 0; i < 260; i++) conf.m.setColorAt(i, new THREE.Color(confC[i % 5]));
   const ticket = makeTicket(); ticket.scale.setScalar(0.25); sc.add(ticket);
-  S.pub = { sc, key, tv, tvTex, crowd, near, hero, phone, conf, ticket };
+  const barman = makeBaker(); barman.root.scale.setScalar(1.0); sc.add(barman.root); const jar = new THREE.Mesh(new THREE.CylinderGeometry(0.17, 0.15, 0.36, 20, 1, true), new THREE.MeshPhysicalMaterial({ color: 0xe8f4ff, roughness: 0.05, transparent: true, opacity: 0.3, side: THREE.DoubleSide, depthWrite: false }));
+  jar.position.set(-1.95, 1.18 + 0.18, -2.05); sc.add(jar); sc.add(cyl(0.15, 0.15, 0.02, mat(0xd8e8f0, { roughness: 0.1 }), -1.95, 1.19, -2.05, 20)); const jl = signMesh(0.26, 0.1, signTex('TIPS', '#fff6e0', '#c0392b', 256, 96, '800 64px InterW, Arial')); jl.position.set(-1.95, 1.36, -1.88); sc.add(jl);
+  for (let k = 0; k < 6; k++) { const c = makeCoin(0.05); c.position.set(-1.95 + Math.sin(k * 2) * 0.06, 1.21 + k * 0.012, -2.05 + Math.cos(k * 2) * 0.06); sc.add(c); } const tip = makeCoin(0.05); sc.add(tip);
+  S.pub = { sc, key, tv, tvTex, crowd, near, hero, phone, conf, ticket, barman, tip };
 }
 { // ---- the ticket insert + the nationwide queue (Day 26 montage)
   const sc = new THREE.Scene(); sc.background = new THREE.Color(0x0e0a08);
@@ -666,7 +685,7 @@ function npcs(sc, list) { return list.map(([i, o]) => { const P = npc(i, o || {}
   sc.add(rbox(200, 0.2, 200, new THREE.MeshStandardMaterial({ map: tileTex('#c8c0b0', '#b8b0a0', 8), roughness: 0.9 }), 0, -0.1, 0)); sc.children[sc.children.length - 1].material.map.repeat.set(20, 20);
   const kiosk = grp(0, 0, -14, sc); kiosk.add(rbox(5, 3.2, 3, mat(0xe8343c, { roughness: 0.5 }), 0, 1.6, 0)); const ks = signMesh(4.4, 1.1, signTex('LOTTO', '#e8343c', '#ffffff', 512, 128, '800 96px Montserrat, Arial'), true); ks.rotation.x = -Math.PI / 2; ks.position.set(0, 3.25, 0); kiosk.add(ks);
   const pts = []; for (let i = 0; i < 360; i++) { const u = i / 360; const row = Math.floor(u * 9), f = (u * 9) % 1; const x = (row % 2 ? 1 : -1) * (14 - f * 28) * -1, z = -10 + row * 3.0; pts.push([x, 0, z, row % 2 ? Math.PI / 2 : -Math.PI / 2]); }
-  const crowd = crowdInst(sc, pts, { seed: 33, s: 0.9 }); const r = rnd(9); for (let i = 0; i < 40; i++) { const x = -30 + r() * 60, z = -30 + r() * 60; if (Math.abs(x) < 18 && z > -16 && z < 18) continue; sc.add(rbox(6, 6 + r() * 10, 6, mat(0x8a8078, { roughness: 0.9 }), x, 3, z)); }
+  const crowd = crowdInst(sc, pts, { seed: 33, s: 0.9, min: 0.6 }); const r = rnd(9); for (let i = 0; i < 40; i++) { const x = -30 + r() * 60, z = -30 + r() * 60; if (Math.abs(x) < 18 && z > -16 && z < 18) continue; sc.add(rbox(6, 6 + r() * 10, 6, mat(0x8a8078, { roughness: 0.9 }), x, 3, z)); }
   const slips = dropsInst(sc, 120, 0xfff6e0, 0.12);
   S.plaza = { sc, crowd, slips };
 }
@@ -682,54 +701,68 @@ function hp(P, O, pos, ry, p, expr, who = 'hero') { P.root.visible = true; P.roo
 const SIT = { bob: 0.07, legs: [[1.5, 1.45], [1.5, 1.45]] };
 const TSIT = { bob: -0.32, legs: [[1.5, 1.45], [1.5, 1.45]] };
 const tS = (d) => TL[d].t, tE = (d) => TL[d].t1;
+const topOf = (m) => { m.updateWorldMatrix(true, false); const b = new THREE.Box3().setFromObject(m); return V([(b.min.x + b.max.x) / 2, b.max.y, (b.min.z + b.max.z) / 2]); };   // props rest ON a surface, never in it
 // ===== shared: the coin-flip insert that opens every day (same framing every time: the signature) =====
 const DAYS = [1, 2, 3, 5, 7, 9, 13, 20, 23, 26, 'END'];
-const INS = 0.75, LAND = 0.33;
-function coinInsert(t0, t1, mode, camO = {}) {
-  shot(t0, t1, 'hand', { ease: camO.ease || 'lin', p0: [0.15, 4.7, 1.9], p1: camO.p1 || [0.12, 4.4, 1.7], l0: camO.l || [0, 0.0, -0.25], fov: 40, shift: 0.0 }, (lt, O) => {
-    const H = S.hand, c = H.coin, dt = O - t0; const land = V([0.05, 0.005, 0.12]);
-    const fin = mode === 'tails' ? Math.PI : mode === 'edge' ? Math.PI / 2 : 0;
-    if (dt < LAND) { const u = dt / LAND; c.position.set(lerp(-0.6, land.x, u), land.y + 3.2 * (1 - u * u), lerp(0.9, land.z, u)); c.rotation.set(fin + (1 - u) * 26, 0.3 * (1 - u), 0); }
-    else { const b = dt - LAND; const hop = mode === 'edge' ? 0 : Math.max(0, Math.sin(Math.min(1, b / 0.14) * Math.PI)) * 0.07 * Math.exp(-b * 6);
-      c.position.set(land.x, land.y + hop + (mode === 'edge' ? 0.27 : 0), land.z); const wob = mode === 'edge' ? 0.32 * Math.exp(-b * 2.2) * Math.sin(b * 16) : 0; c.rotation.set(fin, 0.3, wob); }
-    H.hand.rotation.set(0, 0, 0.03 * Math.sin(O * 1.3)); H.hand.position.y = -0.2 + (dt > LAND && dt < LAND + 0.1 ? -0.03 : 0);
-    const sp = mode === 'heads' ? clamp(1 - (dt - LAND) / 0.4) * (dt >= LAND ? 1 : 0) : 0; H.spark.visible = sp > 0; H.spark.position.set(land.x + 0.12, 0.12, land.z - 0.05); H.spark.scale.setScalar(0.4 + 2.2 * sp * (1 - sp) * 2); H.spark.material.opacity = sp;
-  }, { grade: 'coin', live: 0.3, hideDiary: true, mblur: (O) => (O - t0 < LAND ? 3 : 1) });
+const INS = 0.75, LAND = 0.33, BONK = [0.17, 0.3, 0.52];   // Day 1: on the hand, up into his forehead, back down tails
+function coinInsert(t0, t1, mode, camO = {}) {   // the hero flicks the coin with his right thumb; it lands on the back of his outstretched left hand; his face reacts
+  shot(t0, t1, 'hand', { ease: camO.ease || 'lin', p0: camO.p0 || [-1.25, 2.3, 3.35], p1: camO.p1 || [-1.12, 2.25, 3.0], l0: camO.l || [-0.3, 1.95, 0.45], fov: 40 }, (lt, O) => {
+    const H = S.hand, h = H.hero, c = H.coin, dt = O - t0; resetRig(h); const flick = eOut(clamp(dt / 0.12)); const react = dt > LAND + 0.08;
+    const bonked = mode === 'tails' && dt > BONK[1] - 0.02; const expr = mode === 'tails' ? (bonked ? (dt < BONK[2] + 0.05 ? 'shock' : 'worried') : 'calm') : !react ? 'calm' : mode === 'edge' ? 'shock' : 'smile';
+    hp(h, O, [0, 0, 0], 0, { ...idle(O, 0), headX: 0.28 - (mode === 'tails' ? 0.3 * Math.exp(-Math.max(0, dt - BONK[1]) * 8) * (dt > BONK[1] ? 1 : 0) : 0), headY: 0.12, arms: [[-1.2, 0, 0.1, 0.35], [-0.95 - 0.45 * flick, 0.2, -0.1, 1.3 - 0.7 * flick]] }, expr, 'x');
+    h.root.updateMatrixWorld(true);
+    const top = topOf(h.arms[0].el.children[1]).add(V([0, 0.0115, 0]));   // the coin rests ON the back of the hand
+    const start = h.arms[1].el.localToWorld(V([0, -0.5, 0.15])); const fin = mode === 'tails' ? Math.PI : mode === 'edge' ? Math.PI / 2 : 0;
+    const brow = h.head.localToWorld(V([0, 0.5, 0.3 + 0.2]));   // just in front of his forehead (the coin's rim touches it)
+    if (mode === 'tails' && dt < BONK[2]) { if (dt < BONK[0]) { const u = dt / BONK[0]; c.position.copy(start.clone().lerp(top, u)).add(V([0, 1.0 * 4 * u * (1 - u), 0])); }
+      else if (dt < BONK[1]) { const u = (dt - BONK[0]) / (BONK[1] - BONK[0]); c.position.copy(top.clone().lerp(brow, eOut(u))); }
+      else { const u = (dt - BONK[1]) / (BONK[2] - BONK[1]); c.position.copy(brow.clone().lerp(top, eIn(u))).add(V([0, 0.25 * Math.sin(u * Math.PI) + 0.1 * (1 - u), 0])); c.rotation.set(Math.PI + (1 - u) * (1 - u) * 12, 0.3, 0); }
+      if (dt < BONK[1]) c.rotation.set(dt * 30, 0.3, 0); }
+    else if (mode !== 'tails' && dt < LAND) { const u = dt / LAND; c.position.copy(start.clone().lerp(top, u)).add(V([0, 1.3 * 4 * u * (1 - u), 0])); c.rotation.set(fin + (1 - u) * 26, 0.3, 0); }
+    else { const b = dt - LAND; const hop = mode === 'edge' ? 0 : Math.max(0, Math.sin(Math.min(1, b / 0.14) * Math.PI)) * 0.05 * Math.exp(-b * 6); const wob = mode === 'edge' ? 0.3 * Math.exp(-b * 2.2) * Math.sin(b * 16) : 0;
+      c.position.copy(top).add(V([0, hop + (mode === 'edge' ? 0.13 * Math.cos(wob) - 0.0115 : 0), 0])); c.rotation.set(fin, 0.3, wob); }
+    const sp = mode === 'heads' && dt >= LAND ? clamp(1 - (dt - LAND) / 0.4) : 0; H.spark.visible = sp > 0; H.spark.position.copy(top).add(V([0.08, 0.06, 0.05])); H.spark.scale.setScalar(0.15 + 0.9 * sp * (1 - sp) * 2); H.spark.material.opacity = sp;
+  }, { grade: 'coin', live: 0.3, hideDiary: true, dof: 0.1, mblur: (O) => (O - t0 < LAND ? 3 : 1) });
 }
 // ===== TITLE + DAY 1: the bakery =====
-const B = S.bakery; const QM = V([0.9, 0, 1.2]), QH = V([-0.7, 0, 2.95]);   // Marcus at the counter, the hero behind him in the queue
+const B = S.bakery; const QM = V([1.15, 0, 1.2]), QH = V([-0.35, 0, 1.3]);   // side by side at the counter, 1.2 apart; the last roll between them
 function bakeryBase(O, o = {}) { const b = B; [b.hero, b.marcus, b.baker].forEach(P => { resetRig(P); P.root.visible = false; }); b.extras.forEach((P, i) => { resetRig(P); hp(P, O, i ? [6.0, 0, 3.0] : [5.0, 0, 4.4], i ? -2.4 : 0.8, { ...idle(O, i * 2), arms: [[-0.5, 0, 0.13, 1.4], [0, 0, -0.13, 0.15]] }, 'smile', 'x'); });
-  b.roll.visible = true; b.roll.position.set(0.9, 1.25, 0.25); b.roll.rotation.set(0, 0, 0); b.price.visible = !!o.price; b.toast.visible = false; b.plate.visible = false; b.splat.visible = false; b.coins.forEach(c => c.visible = false); b.spin.visible = false; b.wallet.visible = false; b.moths.forEach(m => m.visible = false);
+  b.roll.visible = true; b.roll.position.set(0.45, 1.25, 0.25); b.roll.rotation.set(0, 0, 0); b.price.visible = !!o.price; [b.toast, b.toast2, b.plate, b.splat, b.splat2, ...b.crumbs].forEach(m => m.visible = false); b.coins.forEach(c => c.visible = false); b.spin.visible = false; b.wallet.visible = false; b.moths.forEach(m => m.visible = false);
   b.marcus.sponge.visible = b.marcus.ticket.visible = false; b.marcus.state(O, o.wet || 0, o.soot || 0);
   [b.win, b.win2].forEach(w => { w.rain.offset.y = O * 0.6; w.rain.offset.x = Math.sin(O * 0.3) * 0.02; });
-  hp(b.baker, O, [O < 2.3 ? -0.8 : 0.6, 0, -1.05], 0, { ...idle(O, 1), arms: [[-0.4, 0, 0.15, 1.3], [-0.4, 0, -0.15, 1.3]] }, 'calm', 'baker'); }
-// title A: low over the counter; the roll sharp in front; Marcus's hand takes it; the hero's sad face behind
-const GRAB = 1.05, BITE = 1.55, TURN = [2.0, 3.1];
-function marcusTitle(O) { const m = B.marcus; const reach = eIO(seg(O, 0.35, GRAB)), lift = eIO(seg(O, GRAB, BITE)), low = eIO(seg(O, BITE + 0.35, BITE + 0.8)), turn = eIO(seg(O, TURN[0], TURN[1]));
-  const armR = O < GRAB ? [lerp(-0.1, -1.35, reach), 0, -0.1, lerp(0.15, 0.25, reach)] : [lerp(lerp(-1.35, -1.25, lift), -0.35, low), 0, lerp(-0.1, -0.35, lift * (1 - low)), lerp(lerp(0.25, 2.0, lift), 1.3, low)];
-  hp(m, O, [QM.x, 0, QM.z], lerp(Math.PI, -0.25, turn), { ...idle(O, 3), spineX: 0.22 * reach * (1 - lift), arms: [[0, 0, 0.13, 0.15], armR] }, O > TURN[1] ? 'smirk' : O > BITE ? 'sniff' : 'calm', 'marcus');
-  if (O >= GRAB) { const h = m.arms[1].el; B.roll.position.copy(h.localToWorld(V([0, -0.46, 0.06]))); B.roll.rotation.set(0, lerp(Math.PI, -0.25, turn) + Math.PI / 2, 0.2); } }
-function heroQueue(O, expr = 'worried') { hp(B.hero, O, [QH.x, 0, QH.z], Math.PI + 0.25, { ...idle(O, 0), headX: 0.12, arms: [[0.05, 0, 0.13, 0.25], [0.05, 0, -0.13, 0.25]] }, expr, 'vo'); }
-shot(0, 2.3, 'bakery', { ease: 'lin', p0: [0.5, 1.42, -1.15], p1: [0.45, 1.44, -0.95], l0: [0.7, 1.5, 2.6], fov: 46, shift: 0.02 }, (lt, O) => { bakeryBase(O); marcusTitle(O); heroQueue(O); }, { grade: 'bakery', dof: 0.12 });
-shot(2.3, TL[1].t, 'bakery', { ease: 'lin', p0: [-0.35, 2.15, 5.3], p1: [-0.2, 2.1, 4.9], l0: [0.85, 1.95, 1.2], fov: 36 }, (lt, O) => { bakeryBase(O); marcusTitle(O); heroQueue(O, O > 3.9 ? 'worried' : 'calm'); }, { grade: 'bakery', dof: 0.12 });
+  hp(b.baker, O, [O < 5.2 ? -1.0 : 0.6, 0, -1.05], 0, { ...idle(O, 1), arms: [[-0.4, 0, 0.15, 1.3], [-0.4, 0, -0.15, 1.3]] }, 'calm', 'baker'); }
+const GRAB = 1.0, TURN = [1.25, 1.75], BITE = 2.0;
+function marcusTitle(O) { const m = B.marcus; const reach = eIO(seg(O, 0.3, GRAB)), lift = eIO(seg(O, GRAB, BITE)), low = eIO(seg(O, BITE + 0.35, BITE + 0.8)), turn = eIO(seg(O, TURN[0], TURN[1]));
+  const armR = O < GRAB ? [lerp(-0.1, -1.3, reach), lerp(0, 0.35, reach), lerp(-0.1, 0.25, reach), lerp(0.15, 0.3, reach)] : [lerp(lerp(-1.3, -1.25, lift), -0.35, low), 0, lerp(0.25, -0.3, lift) * (1 - low), lerp(lerp(0.3, 2.05, lift), 1.3, low)];
+  hp(m, O, [QM.x, 0, QM.z], lerp(Math.PI, Math.PI * 1.5, turn), { ...idle(O, 3), spineX: 0.25 * reach * (1 - lift), arms: [[0, 0, 0.13, 0.15], armR] }, O > BITE + 0.6 ? 'smirk' : O > BITE - 0.1 ? 'sniff' : 'calm', 'marcus');
+  if (O >= GRAB) { const h = m.arms[1].el; B.roll.position.copy(h.localToWorld(V([0, -0.46, 0.06]))); B.roll.rotation.set(0, lerp(Math.PI, Math.PI * 1.5, turn) + Math.PI / 2, 0.2); }
+  B.crumbs.forEach((c, i) => { const t0 = BITE + 0.02 + i * 0.03, f = seg(O, t0, t0 + 0.45); c.visible = O > t0; if (!c.visible) return; const mouth = m.head.localToWorld(V([0.05 * (i % 3 - 1), 0.15, 0.36])), land = B.hero.spine.localToWorld(V([-0.2 + 0.05 * i, 0.3 + 0.04 * (i % 4), 0.255]));
+    c.position.copy(f < 1 ? mouth.lerp(land, f).add(V([0, 0.25 * Math.sin(f * Math.PI), 0])) : land); c.rotation.set(i, O * 9 * (1 - f), i); }); }
+function heroQueue(O, expr = 'worried') { const reach = eIO(seg(O, 0.45, 1.15)), back = eIO(seg(O, 1.45, 1.9)), turn = eIO(seg(O, 1.55, 2.05));   // reaches a beat too late, closes on air, turns to see Marcus biting it
+  hp(B.hero, O, [QH.x, 0, QH.z], lerp(Math.PI, Math.PI / 2, turn), { ...idle(O, 0), spineX: 0.2 * reach * (1 - back), headX: 0.12, arms: [[lerp(lerp(0.05, -1.25, reach), 0.05, back), lerp(0, 0.3, reach) * (1 - back), lerp(0.13, -0.2, reach * (1 - back)), lerp(0.25, O > 1.2 && O < 1.5 ? 0.7 : 0.3, reach) ], [0.05, 0, -0.13, 0.25]] }, O < 1.2 ? 'calm' : O < 2.1 ? 'shock' : expr, 'vo'); }
+shot(0, 1.6, 'bakery', { ease: 'lin', p0: [0.6, 1.42, -1.2], p1: [0.55, 1.44, -1.0], l0: [0.55, 1.55, 2.6], fov: 50, shift: 0.02 }, (lt, O) => { bakeryBase(O); marcusTitle(O); heroQueue(O); }, { grade: 'bakery', dof: 0.12 });
+shot(1.6, TL[1].t, 'bakery', { ease: 'lin', p0: [0.6, 2.1, 7.0], p1: [0.58, 2.08, 6.6], l0: [0.55, 1.85, 1.25], fov: 40 }, (lt, O) => { bakeryBase(O); marcusTitle(O); heroQueue(O, O > 3.9 ? 'worried' : 'calm'); }, { grade: 'bakery', dof: 0.12 });
 // DAY 1: tails. At the window table: the toast slides off, flips, lands butter-down on his white trainer
-const T1 = tS(1), TSLIDE = T1 + 2.0, TLAND = T1 + 2.75;
+const T1 = tS(1), TSLIDE = T1 + 2.0, TLAND = T1 + 2.75, STEP = [T1 + 2.95, T1 + 3.15], TSLIDE2 = T1 + 3.15, TLAND2 = T1 + 3.65;
 const HS = V([-4.6, 0, 4.7]);   // he stands by the rainy window eating toast off a plate, facing +x
-function heroToast(O, expr = 'worried') { const h = B.hero; const look = O > TSLIDE && O < TLAND + 0.6;
-  hp(h, O, [HS.x, 0, HS.z], Math.PI / 2, { ...idle(O, 1), headX: look ? 0.5 : 0.1, headY: look ? 0.25 : 0, arms: [[-0.95, 0.15, 0.12, 1.35], [0.05, 0, -0.13, 0.2]] }, expr); return h; }
-const plateAt = () => B.hero.arms[0].el.localToWorld(V([0, -0.45, 0.05])).add(V([0, 0.06, 0]));
-const shoeAt = () => B.hero.legs[0].knee.localToWorld(V([0, -0.36, 0.14]));
-function toastAt(O) { const t = B.toast, p = B.plate; t.visible = p.visible = true; const pl = plateAt(); p.position.copy(pl); p.rotation.set(0, 0, 0.05);
-  const on = pl.clone().add(V([0, 0.045, 0])), edge = pl.clone().add(V([0, 0.03, 0.3]));
-  if (O < TSLIDE) { t.position.copy(on); t.rotation.set(0, 0.2, 0); return; }
-  const s = eIn(seg(O, TSLIDE, TSLIDE + 0.3)); if (O < TSLIDE + 0.3) { t.position.copy(on.clone().lerp(edge, s)); t.rotation.set(0.2 * s, 0.2, 0); return; }
-  const u = seg(O, TSLIDE + 0.3, TLAND), shoe = shoeAt().add(V([0, 0.06, 0])); t.position.copy(edge.clone().lerp(shoe, eIn(u))).add(V([0, 0.15 * Math.sin(u * Math.PI), 0.12 * Math.sin(u * Math.PI)])); t.rotation.set(0.2 + Math.PI * u, 0.2, 0.4 * u);
-  if (O >= TLAND) { t.position.copy(shoe); t.rotation.set(Math.PI, 0.2, 0.3); B.splat.visible = true; B.splat.position.copy(shoe.clone().add(V([0, -0.035, 0]))); } }
+function heroToast(O, expr = 'worried') { const h = B.hero; const look = O > TSLIDE && O < TLAND2 + 0.6; const st = eIO(seg(O, STEP[0], STEP[1]));
+  hp(h, O, [HS.x - 0.25 * st, 0, HS.z], Math.PI / 2, { ...idle(O, 1), headX: look ? 0.5 : 0.1, headY: look ? (O > TLAND + 0.3 ? -0.25 : 0.25) : 0, arms: [[-0.95, 0.15, 0.12, 1.35], [0.05, 0, -0.13, 0.2]], ...(st > 0 && st < 1 ? { legs: [[0.25 * Math.sin(st * Math.PI), 0.3 * Math.sin(st * Math.PI)], [0, 0]] } : {}) }, expr); return h; }
+const plateAt = () => topOf(B.hero.arms[0].el.children[1]).add(V([0, 0.022, 0]));
+const shoeAt = (L = 0) => { const k = B.hero.legs[L].knee; const p = k.localToWorld(V([0, -0.42, 0.32])); p.y = topOf(k.children[1]).y - 0.01; return p; };   // on the toe, clear of the shin
+function slice(t, splat, O, slide, land, L, stackY) { const pl = plateAt(); t.visible = true;
+  const on = pl.clone().add(V([0, 0.048 + stackY, 0])), edge = pl.clone().add(V([0.3, 0.048, 0]));
+  if (O < slide) { t.position.copy(on); t.rotation.set(0, 0.2, 0); return; }
+  const s2 = eIn(seg(O, slide, slide + 0.3)); if (O < slide + 0.3) { t.position.copy(on.clone().lerp(edge, s2)); t.rotation.set(0, 0.2, 0); return; }
+  const shoe = shoeAt(L).add(V([0, 0.06, 0])); if (O >= land) { t.position.copy(shoe); t.rotation.set(Math.PI, 0.2, 0); splat.visible = true; splat.position.copy(shoe.clone().add(V([0, -0.035, 0]))); return; }
+  // off the plate, out over the toe, then straight down onto it
+  const u = seg(O, slide + 0.3, land), above = shoe.clone().add(V([0, 0.35, 0])); t.position.copy(u < 0.6 ? edge.clone().lerp(above, eOut(u / 0.6)) : above.lerp(shoe, eIn((u - 0.6) / 0.4))); t.rotation.set(Math.PI * u, 0.2, 0.4 * u); }
+function toastAt(O) { B.plate.visible = true; B.plate.position.copy(plateAt()); B.plate.rotation.set(0, 0, 0);
+  slice(B.toast, B.splat, O, TSLIDE, TLAND, 0, 0); slice(B.toast2, B.splat2, O, TSLIDE2, TLAND2, 1, O < TSLIDE + 0.36 ? 0.085 : 0); }
 coinInsert(T1, T1 + INS, 'tails');
 shot(T1 + INS, TSLIDE + 0.15, 'bakery', { ease: 'lin', p0: [-1.3, 2.0, 6.3], p1: [-1.5, 1.98, 6.1], l0: [-4.6, 1.5, 4.7], fov: 42 }, (lt, O) => { bakeryBase(O); heroToast(O); toastAt(O); }, { grade: 'bakery', dof: 0.12 });
 shot(TSLIDE + 0.15, TLAND + 0.25, 'bakery', { ease: 'lin', p0: [-4.4, 1.35, 7.8], p1: [-4.4, 1.3, 7.6], l0: [-4.6, 1.25, 4.7], fov: 66 }, (lt, O) => { bakeryBase(O); heroToast(O, O > TLAND ? 'shock' : 'worried'); toastAt(O); }, { grade: 'bakery', mblur: (O) => (O > TSLIDE + 0.25 && O < TLAND ? 3 : 1), shakeAt: [[TLAND, 0.01]] });
-shot(TLAND + 0.25, T1 + 3.75, 'bakery', { ease: 'lin', p0: [-3.85, 0.55, 5.85], p1: [-3.95, 0.5, 5.7], l0: [-4.55, 0.12, 4.85], fov: 40 }, (lt, O) => { bakeryBase(O); heroToast(O, 'shock'); toastAt(O); }, { grade: 'bakery' });
-shot(T1 + 3.75, TL[2].t, 'bakery', { ease: 'lin', p0: [-1.75, 2.0, 4.4], p1: [-1.95, 1.98, 4.45], l0: [-4.6, 1.88, 4.7], fov: 40 }, (lt, O) => { bakeryBase(O); heroToast(O, 'worried'); toastAt(O); }, { grade: 'bakery', dof: 0.2 });
+shot(TLAND + 0.25, T1 + 3.95, 'bakery', { ease: 'lin', p0: [-3.2, 0.95, 4.72], p1: [-3.3, 0.9, 4.7], l0: [-4.55, 0.2, 4.7], fov: 50 }, (lt, O) => { bakeryBase(O); heroToast(O, 'shock'); toastAt(O); }, { grade: 'bakery' });
+shot(T1 + 3.95, TL[2].t, 'bakery', { ease: 'lin', p0: [-1.75, 2.0, 4.4], p1: [-1.95, 1.98, 4.45], l0: [-4.6, 1.88, 4.7], fov: 40 }, (lt, O) => { bakeryBase(O); heroToast(O, 'worried'); toastAt(O); }, { grade: 'bakery', dof: 0.2 });
 // ===== DAY 2: the windy bridge. A fiver tumbles down the bridge past everyone and slaps onto his face =====
 const Bw = S.bridge; const T2 = tS(2), SLAP = T2 + 3.05, PEEL = T2 + 3.55;
 const HZ = (O) => lerp(-3.2, 0, eOut(seg(O, T2 + 0.75, T2 + 2.9)));
@@ -741,52 +774,91 @@ function noteAt(O) { const n = Bw.note, h = Bw.hero; const face = h.head.localTo
   if (O < PEEL) { n.position.copy(face); n.quaternion.copy(h.head.getWorldQuaternion(new THREE.Quaternion())); return; }
   const k = eIO(seg(O, PEEL, PEEL + 0.4)); const hold = h.arms[0].el.localToWorld(V([0, -0.45, 0.1])).lerp(h.arms[1].el.localToWorld(V([0, -0.45, 0.1])), 0.5).add(V([0, -0.2, 0.12]));
   n.position.copy(face.clone().lerp(hold, k)); n.quaternion.copy(h.spine.getWorldQuaternion(new THREE.Quaternion())); n.rotateX(-0.25 * k); }
-function heroBridge(O, o = {}) { const h = Bw.hero; const z = HZ(O); const walking = O < T2 + 2.9; const k = eIO(seg(O, PEEL, PEEL + 0.4));
+const HOOD = T2 + 1.35;
+function heroBridge(O, o = {}) { const h = Bw.hero; const hk = seg(O, HOOD, HOOD + 0.45); Bw.hood.visible = O > HOOD; Bw.hood.rotation.x = -2.2 * (1 - eOut(hk)); const z = HZ(O); const walking = O < T2 + 2.9; const k = eIO(seg(O, PEEL, PEEL + 0.4));
   const arms = O < SLAP ? [[0.1, 0, 0.35, 1.5], [0.1, 0, -0.35, 1.5]] : O < PEEL ? [[-0.4, 0, 0.6, 1.2], [-0.4, 0, -0.6, 1.2]] : [[lerp(-2.3, -0.85, k), 0, 0.22, lerp(2.0, 1.15, k)], [lerp(-2.3, -0.85, k), 0, -0.22, lerp(2.0, 1.15, k)]];
-  hp(h, O, [0.3, 0, z], 0, walking ? { ...walk(O, 8.5, 0.9), arms: [[0.1, 0, 0.35, 1.5], [0.1, 0, -0.35, 1.5]] } : { ...idle(O, 0), spineX: O < PEEL ? -0.12 : 0.02, headX: O > PEEL ? 0.12 : -0.1, arms }, o.expr || (O < SLAP ? 'worried' : 'shock')); }
+  hp(h, O, [0.3, 0, z], 0, walking ? { ...walk(O, 8.5, 0.9), arms: [[0.1, 0, 0.35, 1.5], [0.1, 0, -0.35, 1.5]] } : { ...idle(O, 0), spineX: O < PEEL ? -0.12 : 0.02, headX: O > PEEL ? 0.12 : -0.1, arms }, o.expr || (O < SLAP ? (O > HOOD + 0.35 ? 'smirk' : 'worried') : 'shock')); }
 coinInsert(T2, T2 + INS, 'heads');
 shot(T2 + INS, SLAP, 'bridge', { ease: 'lin', p0: [0.95, 1.95, 11.5], p1: [0.9, 1.95, 10.6], l0: [0.15, 2.0, -12], fov: 19 }, (lt, O) => { bridgeBase(O); heroBridge(O); noteAt(O); }, { grade: 'bridge', mblur: 2 });
 shot(SLAP, T2 + 3.95, 'bridge', { ease: 'out', p0: [0.75, 2.2, 3.4], p1: [0.6, 2.15, 2.9], l0: [0.3, 2.05, 0], fov: 38 }, (lt, O) => { bridgeBase(O); heroBridge(O); noteAt(O); }, { grade: 'bridge', shakeAt: [[SLAP, 0.03]] });
 shot(T2 + 3.95, TL[3].t, 'bridge', { ease: 'lin', p0: [0.7, 2.15, 3.7], p1: [0.6, 2.1, 3.25], l0: [0.3, 1.9, 0], fov: 40 }, (lt, O) => { bridgeBase(O); heroBridge(O, { expr: O > T2 + 5.0 ? 'smile' : 'shock' }); noteAt(O); }, { grade: 'bridge', dof: 0.15 });
 // ===== DAY 3: rush hour. Every pedestrian light turns green as he walks up; the cars stack up honking =====
 const J = S.junction; const T3 = tS(3);
-const JZ = (O) => lerp(2.5, -9.0, seg(O, T3 + 0.75, T3 + 7.0));
+const JZ = (O) => lerp(2.5, -9.0, seg(O, T3 + 0.75, T3 + 7.0)); const DSLAM = T3 + 4.25, BTN = T3 + 6.05;   // the door locks him out; the button presses itself on the word 'button'
 function junctionBase(O) { const j = J; resetRig(j.hero); resetRig(j.driver);
   j.signals.forEach((pair, k) => { const on = O > T3 + 1.0 + k * 0.38; pair.forEach(s => s.setGreen(on)); });
   j.cars.forEach((c, i) => { c.position.y = 0.012 * Math.sin(O * 9 + i); });
-  j.peds.forEach((P, i) => { resetRig(P); const x = i === 0 ? -3.4 : 3.5 + i * 0.4, z = -12 - i * 7 + ((O * 1.4 + i * 2) % 3); hp(P, O, [x, 0.18, z], i === 0 ? 0.1 : Math.PI, walk(O + i, 8.5, 0.9), 'calm', 'x'); });
-  const dk = eOut(seg(O, T3 + 2.9, T3 + 3.3)); hp(j.driver, O, [5.6, 0.62 + 0.35 * dk, -5.85], -Math.PI / 2 - 0.25, { ...idle(O, 2), spineX: -0.05, arms: [[-2.5 + 0.25 * Math.sin(O * 14), 0, 0.5, 1.6], [-0.4, 0, -0.5, 0.6]] }, 'grit', 'driver'); }
+  j.peds.forEach((P, i) => { resetRig(P); const x = i === 0 ? -2.8 : 2.8, z = -12 - i * 7 + ((O * 1.4 + i * 2) % 3); hp(P, O, [x, 0.16, z], i === 0 ? 0 : Math.PI, walk(O + i, 8.5, 0.9), 'calm', 'x'); });
+  const slam = O > DSLAM; hp(j.driver, O, [6.1, 0, -3.85], slam ? -Math.PI / 2 + 0.9 * eOut(seg(O, DSLAM + 0.1, DSLAM + 0.4)) : -Math.PI / 2 - 0.35, { ...idle(O, 2), spineX: -0.05, arms: slam ? [[-0.6, 0, 0.9, 1.4], [-0.6, 0, -0.9, 1.4]] : [[-2.5 + 0.25 * Math.sin(O * 14), 0, 0.5, 1.6], [-0.4, 0, -0.5, 0.6]] }, slam ? 'shock' : 'grit', 'driver');
+  const dc = j.cars[4]; dc.door.rotation.y = O < DSLAM ? -0.8 : -0.8 * (1 - eIn(seg(O, DSLAM, DSLAM + 0.18))); const flash = O > DSLAM + 0.2 && Math.floor(O * 4) % 2 === 0;
+  dc.traverse(m => { if (m.isMesh && m.material.emissive && m.material.emissiveIntensity > 0.5) m.material.emissiveIntensity = flash ? 3 : 1.5; });
+  j.signals.forEach((pair, k) => pair.forEach(sg => sg.press(k === 1 ? eOut(seg(O, BTN, BTN + 0.12)) * (1 - eIn(seg(O, BTN + 0.4, BTN + 0.55))) : 0, k === 1 && O > BTN + 0.05 ? 1 : 0))); }
 function heroStroll(O) { hp(J.hero, O, [0.15, 0.16, JZ(O)], Math.PI, { ...walk(O, 6.5, 0.7), arms: [[0.15, 0, 0.42, 1.65], [0.15, 0, -0.42, 1.65]], headY: 0.15 * Math.sin(O * 0.8) }, 'smirk'); }
 coinInsert(T3, T3 + INS, 'heads');
 shot(T3 + INS, T3 + 3.0, 'junction', { ease: 'lin', p0: [3.2, 8.8, 11.5], p1: [2.8, 8.2, 9.0], l0: [0, 0, -20], fov: 46 }, (lt, O) => { junctionBase(O); heroStroll(O); }, { grade: 'street' });
-shot(T3 + 3.0, T3 + 4.6, 'junction', { ease: 'lin', p0: [1.2, 1.75, -1.2], p1: [1.5, 1.8, -1.6], l0: [5.4, 2.4, -5.85], fov: 42 }, (lt, O) => { junctionBase(O); heroStroll(O); }, { grade: 'street', dof: 0.12 });
-shot(T3 + 4.6, TL[5].t, 'junction', { ease: 'lin', pf: (O) => V([-0.5, 1.8, JZ(O) - 4.4]), lf: (O) => V([0.15, 1.8, JZ(O)]), fov: 44 }, (lt, O) => { junctionBase(O); heroStroll(O); }, { grade: 'street', dof: 0.12 });
+shot(T3 + 3.0, T3 + 4.6, 'junction', { ease: 'lin', p0: [2.1, 1.85, 0.4], p1: [2.35, 1.85, 0.1], l0: [5.6, 1.6, -4.1], fov: 44 }, (lt, O) => { junctionBase(O); heroStroll(O); }, { grade: 'street', dof: 0.12 });
+shot(T3 + 4.6, BTN - 0.2, 'junction', { ease: 'lin', pf: (O) => V([-0.5, 1.8, JZ(O) - 4.4]), lf: (O) => V([0.15, 1.8, JZ(O)]), fov: 44 }, (lt, O) => { junctionBase(O); heroStroll(O); }, { grade: 'street', dof: 0.12 });
+shot(BTN - 0.2, BTN + 0.55, 'junction', { ease: 'lin', p0: [-1.62, 1.3, -10.95], p1: [-1.66, 1.28, -11.15], l0: [-1.9, 1.32, -12.0], fov: 40 }, (lt, O) => { junctionBase(O); heroStroll(O); }, { grade: 'street', dof: 0.15 });
+shot(BTN + 0.55, TL[5].t, 'junction', { ease: 'lin', pf: (O) => V([-0.5, 1.8, JZ(O) - 4.4]), lf: (O) => V([0.15, 1.8, JZ(O)]), fov: 44 }, (lt, O) => { junctionBase(O); heroStroll(O); }, { grade: 'street', dof: 0.12 });
 // ===== DAY 5: the claw machine. One coin; the claw lifts the whole pile; the teddies bury him; the kid is outraged =====
 const A = S.arcade; const T5 = tS(5), DOWN = [T5 + 0.95, T5 + 1.85], GRIP = T5 + 2.1, UP = [T5 + 2.6, T5 + 3.3], POP = T5 + 3.35;
-const HA = V([0.3, 0, 1.95]);
-const mound = (() => { const r = rnd(5); return A.bears.map((b, i) => { const layer = Math.floor(i / 12), a = i * 2.39 + layer, rad = 0.75 - layer * 0.12 + r() * 0.2; return V([HA.x + Math.cos(a) * rad, 0.25 + layer * 0.36 + r() * 0.1, HA.z + Math.sin(a) * rad * 0.9]); }); })();
-function arcadeBase(O, o = {}) { const a = A; resetRig(a.hero); resetRig(a.kid); resetRig(a.mum); const cm = a.cm; const sh = O > UP[0] && O < POP + 0.4 ? 0.03 * Math.sin(O * 70) : 0; cm.position.set(sh, 0, 0); cm.rotation.z = sh * 0.5;
-  const cy = O < DOWN[0] ? 2.45 : O < DOWN[1] ? lerp(2.45, 1.45, eIO(seg(O, DOWN[0], DOWN[1]))) : O < UP[0] ? 1.45 : lerp(1.45, 2.3, eIO(seg(O, UP[0], UP[1]))); cm.claw.position.y = cy;
-  const close = eOut(seg(O, DOWN[1], GRIP)); cm.claw.prongs.forEach(p => p.rotation.z = lerp(0.45, -0.1, close));
-  cm.door.rotation.y = -1.7 * elastic(seg(O, POP, POP + 0.6));
-  const rr2 = rnd(77); a.bears.forEach((b, i) => { const p0 = a.pile[i]; const clump = V([(rr2() - 0.5) * 0.55, -0.25 - (i % 8) * 0.07, (rr2() - 0.5) * 0.55]);
-    const tStart = POP + 0.05 + i * 0.045, fly = seg(O, tStart, tStart + 0.65);
-    if (O < UP[0]) { b.position.copy(p0); b.rotation.set(0, i, 0); }
-    else if (O < tStart) { const k = eIO(seg(O, UP[0], UP[0] + 0.3)); b.position.copy(p0.clone().lerp(V([0, cy, 0]).add(clump), k)); b.rotation.set(0.3 * k, i, 0.2 * k); }
-    else { const from = V([0, cy, 0]).add(clump), to = mound[i]; b.position.copy(from.clone().lerp(to, eOut(fly))).add(V([0, 1.2 * Math.sin(fly * Math.PI), 0])); b.rotation.set(fly * 6 + i, i + fly * 3, fly * 4); if (fly >= 1) b.rotation.set(0.2 * Math.sin(i), i, 0.2 * Math.cos(i)); } });
+const HA = V([0.3, 0, 2.45]);   // far enough from the door that the teddies can get out
+// the avalanche: each teddy leaves the open door (straight out of its column), then a small physics simulation takes over:
+// solid balls (r 0.23) with gravity, colliding with each other, the floor, the machine and the people (vertical cylinders). Computed once at load.
+const XORD = (x) => [0, 3, 1, 4, 2][Math.round(x / 0.32) + 2];   // within a row, columns leave in the order 1,3,5,2,4
+const NSTOCK = A.pile.length, NB = A.bears.length, CROWN = NB - 1, CROWN_T = [T5 + 5.6, T5 + 6.35], ARMS_DOWN = T5 + 5.3, SORRY = T5 + 4.7;   // the last teddy lands on his head like a crown
+const EXIT = A.pile.map((p, i) => i).sort((a, b) => A.pile[b].y - A.pile[a].y || A.pile[b].z - A.pile[a].z || XORD(A.pile[a].x) - XORD(A.pile[b].x));
+const LAUNCH = []; EXIT.forEach((bi, k) => { LAUNCH[bi] = POP + 0.12 + k * 0.06; });
+const LIFT = 0.85, BR = 0.26, OUTT = 0.25, DOORZ = 0.9 + 0.26 + 0.01;
+// the people as stacked cylinders (x, z, [[y0, y1, radius]]): legs, body, raised arms — teddies pile against them, never into them
+const PEOPLE = [[HA.x, HA.z, [[0, 1.0, 0.42], [1.0, 1.6, 0.5], [1.6, 3.05, 0.68]]], [1.95, 3.25, [[0, 0.75, 0.44], [0.75, 1.35, 0.95], [1.35, 1.8, 0.44]]], [3.4, 4.1, [[0, 1.6, 0.5], [1.6, 3.15, 0.72]]]];   // the kid's pointing arm reaches ~0.9
+const SIM = (() => { const dt = 1 / 240, T1 = POP + 7.6, rr = rnd(99); const P = [], Vv = [], act = [], tOn = [], frames = [];
+  for (let i = 0; i < NB; i++) { if (i < NSTOCK) { const p0 = A.pile[i]; P.push(V([p0.x, p0.y + LIFT + 0.2, DOORZ])); tOn.push(LAUNCH[i] + OUTT); }
+    else { P.push(V([(rr() - 0.5) * 1.2, 1.2 + rr() * 1.3, DOORZ])); tOn.push(POP + 0.12 + NSTOCK * 0.06 + 0.3 + (i - NSTOCK) * 0.028); }   // then the flood: out of the open door, ~35 a second
+    const toMum = i >= NSTOCK && i % 2 === 0;   // half of the flood heads for the kid's mum
+    Vv.push(toMum ? V([(3.4 - P[i].x) * 1.25 + (rr() - 0.5) * 0.6, 2.6 + rr() * 1.2, 3.6 + rr() * 0.8]) : V([(HA.x - P[i].x) * 0.7 + (rr() - 0.5) * 1.8, 2.2 + rr() * 2.2, 1.6 + rr() * 1.6])); act.push(false); }
+  const free = (p) => P.every((q, j) => !act[j] || q.distanceTo(p) >= 2 * BR);
+  let t = POP, nextF = POP;
+  while (t < T1) { for (let i = 0; i < NB; i++) if (!act[i] && i !== CROWN && t >= tOn[i] && (i < NSTOCK || free(P[i]))) act[i] = true;   // a flood teddy only appears where there is room for it
+    const prev = P.map(p => p.clone());
+    for (let i = 0; i < NB; i++) if (act[i]) { Vv[i].y -= 9.8 * dt; P[i].addScaledVector(Vv[i], dt); }
+    for (let it = 0; it < 5; it++) {
+      for (let i = 0; i < NB; i++) { if (!act[i]) continue; const p = P[i]; if (p.y < BR) p.y = BR;
+        for (const [cx, cz, segs] of PEOPLE) for (const [y0, y1, cr] of segs) { const dx = p.x - cx, dz = p.z - cz, d = Math.hypot(dx, dz), m = cr + BR; if (d < m && p.y > y0 - BR && p.y < y1 + BR) { if (p.y > y1 && y1 >= 1.5) p.y = y1 + BR; else { const k = (m - d) / (d || 1e-6); p.x += dx * k; p.z += dz * k; } } }
+        const e = 0.9 + BR; if (Math.abs(p.x) < e && Math.abs(p.z) < e && p.y < 3.1 + BR) { const pen = [e - p.x, p.x + e, e - p.z, p.z + e, 3.1 + BR - p.y], m = pen.indexOf(Math.min(...pen)); if (m === 0) p.x = e; else if (m === 1) p.x = -e; else if (m === 2) p.z = e; else if (m === 3) p.z = -e; else p.y = 3.1 + BR; } }
+      for (let i = 0; i < NB; i++) if (act[i]) for (let j = i + 1; j < NB; j++) if (act[j]) { const dx = P[j].x - P[i].x; if (dx > 2 * BR || dx < -2 * BR) continue; const d = P[i].distanceTo(P[j]); if (d < 2 * BR && d > 1e-6) { const n = P[j].clone().sub(P[i]).multiplyScalar((2 * BR - d) / d / 2); P[i].sub(n); P[j].add(n); } } }
+    for (let i = 0; i < NB; i++) if (act[i]) { Vv[i] = P[i].clone().sub(prev[i]).divideScalar(dt); if (Vv[i].length() > 7) Vv[i].setLength(7);   // overlap pushes must not fling teddies into the sky
+      if (P[i].y <= BR + 0.01) Vv[i].multiplyScalar(0.92); else Vv[i].multiplyScalar(0.998); }
+    t += dt; while (nextF <= t) { frames.push({ p: P.map(p => p.clone()), a: act.slice() }); nextF += 1 / 30; } }
+  return frames; })();
+// resetRig() resets scale, so the kid is re-shrunk every frame
+function arcadeBase(O, o = {}) { const a = A; resetRig(a.hero); resetRig(a.kid); a.kid.root.scale.setScalar(0.62); resetRig(a.mum); const cm = a.cm; const sh = O > UP[0] && O < POP + 0.4 ? 0.03 * Math.sin(O * 70) : 0; cm.position.set(sh, 0, 0); cm.rotation.z = 0;
+  const cy = O < DOWN[0] ? 2.45 : O < DOWN[1] ? lerp(2.45, 1.45, eIO(seg(O, DOWN[0], DOWN[1]))) : O < UP[0] ? 1.45 : lerp(1.45, 2.3, eIO(seg(O, UP[0], UP[1]))); cm.claw.position.y = cy + 0.76;   // the claw stops on top of the stack (it never goes into it)
+  const close = eOut(seg(O, DOWN[1] - 0.35, DOWN[1])); cm.claw.prongs.forEach(p => p.rotation.z = lerp(0.45, -0.1, close));
+  cm.door.rotation.y = -1.7 * elastic(seg(O, POP, POP + 0.6)); cm.marquee.material.map = O > SORRY && (O > SORRY + 0.4 || Math.floor(O * 12) % 2) ? cm.sorry : cm.marquee.userData.claw || (cm.marquee.userData.claw = cm.marquee.material.map);
+  const lift = cy - 1.45; const F = SIM[Math.min(SIM.length - 1, Math.max(0, Math.round((O - POP) * 30)))];
+  a.bears.forEach((b, i) => { b.visible = true;
+    if (i < NSTOCK) { const p0 = a.pile[i].clone().add(V([sh, O > UP[0] ? lift : 0, 0])); const t0 = LAUNCH[i];
+      if (O < t0) { b.position.copy(p0); b.rotation.set(0, 0, 0); return; }
+      if (O < POP || !F.a[i]) { b.position.copy(p0.clone().lerp(V([p0.x, p0.y, DOORZ]), eIn(clamp((O - t0) / OUTT)))); b.rotation.set(0, 0, 0); return; } }
+    else if (i === CROWN) return;   // placed after the hero is posed (below)
+    else if (O < POP || !F.a[i]) { b.visible = false; return; }
+    const f = F.p[i]; b.position.set(f.x, f.y - 0.2, f.z); const air = clamp((f.y - BR) / 0.4); b.rotation.set(0, i * 0.9, 0.45 * air * Math.sin(O * 7 + i)); });
   const buried = seg(O, POP + 0.3, POP + 2.4);
-  hp(a.hero, O, [HA.x, 0, HA.z], lerp(Math.PI, Math.PI * 2 - 0.6, eIO(seg(O, POP + 0.05, POP + 0.5))), O < POP ? { ...idle(O, 0), headX: -0.15, arms: [[-0.5, 0, 0.2, 1.2], [-0.5, 0, -0.2, 1.2]] } : { ...idle(O, 0), spineX: -0.1 - 0.1 * Math.sin(O * 9), headX: -0.15, arms: [[-2.4 + 0.3 * buried, 0, 0.6, 0.5], [-2.4 + 0.3 * buried, 0, -0.6, 0.5]] }, O < POP ? 'calm' : 'laugh');
-  const kidPoint = O > T5 + 7.8; hp(a.kid, O, [1.95, 0, 2.75], -Math.PI / 2 - 0.5, { ...idle(O, 4), arms: [[0, 0, 0.13, 0.15], kidPoint ? [-1.5, 0.2, -0.2, 0.1] : [0, 0, -0.13, 0.15]], bob: kidPoint ? Math.abs(Math.sin(O * 8)) * 0.05 : 0 }, kidPoint ? 'grit' : (O > POP ? 'shock' : 'calm'), 'kid');
-  hp(a.mum, O, [3.4, 0, 3.6], -2.4, idle(O, 5), O > POP ? 'shock' : 'calm', 'x'); }
+  hp(a.hero, O, [HA.x, 0, HA.z], lerp(Math.PI, Math.PI * 2 - 0.6, eIO(seg(O, POP + 0.05, POP + 0.5))), O < POP ? { ...idle(O, 0), headX: -0.15, arms: [[-0.5, 0, 0.2, 1.2], [-0.5, 0, -0.2, 1.2]] } : { ...idle(O, 0), spineX: -0.02 - 0.02 * Math.sin(O * 9), headX: O > CROWN_T[1] ? 0.05 : -0.15, headY: 0, arms: O > ARMS_DOWN ? [[0.05, 0, 0.35, 0.3], [0.05, 0, -0.35, 0.3]] : [[-2.95 + 0.1 * Math.sin(O * 12), 0, 0.08, 0.15], [-2.95 + 0.1 * Math.cos(O * 12), 0, -0.08, 0.15]] }, O < POP ? 'calm' : 'laugh');
+  const kidPoint = O > T5 + 7.8; hp(a.kid, O, [1.95, 0, 3.25], -Math.PI / 2 - 0.5, { ...idle(O, 4), arms: [[0, 0, 0.13, 0.15], kidPoint ? [-1.5, 0.2, -0.2, 0.1] : [0, 0, -0.13, 0.15]], bob: kidPoint ? Math.abs(Math.sin(O * 8)) * 0.05 : 0 }, kidPoint ? 'grit' : (O > POP ? 'shock' : 'calm'), 'kid');
+  { const b = a.bears[CROWN]; b.visible = O > CROWN_T[0]; if (b.visible) { a.hero.root.updateMatrixWorld(true); const top = new THREE.Box3().setFromObject(a.hero.head).max.y + 0.004, hc = a.hero.head.localToWorld(V([0, 0.32, 0])), to = V([hc.x, top, hc.z]), from = V([0, 2.6, DOORZ]), u = seg(O, CROWN_T[0], CROWN_T[1]);
+    b.position.copy(u < 1 ? from.lerp(to, eIO(u)).add(V([0, 1.4 * Math.sin(u * Math.PI), 0])) : to); b.rotation.set(0, a.hero.root.rotation.y + Math.PI * 2 * (1 - u), 0); } }
+  hp(a.mum, O, [3.4, 0, 4.1], -2.4, { ...idle(O, 5), arms: O > POP + 3.4 ? [[-2.7, 0, 0.4, 0.3], [-2.7, 0, -0.4, 0.3]] : [[0, 0, 0.13, 0.15], [0, 0, -0.13, 0.15]] }, O > POP ? 'shock' : 'calm', 'x'); }
 coinInsert(T5, T5 + INS, 'heads');
 shot(T5 + INS, T5 + 2.45, 'arcade', { ease: 'lin', p0: [0.5, 1.78, 0.55], p1: [0.45, 1.72, 0.48], l0: [0, 2.7, 0], fov: 64, shift: 0 }, (lt, O) => { arcadeBase(O); }, { grade: 'arcade' });
 shot(T5 + 2.45, POP + 0.2, 'arcade', { ease: 'lin', p0: [3.4, 2.1, 2.6], p1: [3.1, 2.05, 2.3], l0: [0, 1.75, 0.2], fov: 44 }, (lt, O) => { arcadeBase(O); }, { grade: 'arcade', shakeAt: [[UP[0], 0.01], [POP, 0.025]] });
-shot(POP + 0.2, T5 + 7.85, 'arcade', { ease: 'lin', p0: [-2.9, 2.3, 6.2], p1: [-2.4, 2.15, 5.4], l0: [0.4, 1.35, 1.6], fov: 48 }, (lt, O) => { arcadeBase(O); }, { grade: 'arcade', mblur: (O) => (O < POP + 2.2 ? 2 : 1) });
-shot(T5 + 7.85, TL[7].t, 'arcade', { ease: 'lin', p0: [-1.5, 2.15, 5.7], p1: [-1.35, 2.1, 5.3], l0: [0.9, 1.95, 2.2], fov: 46 }, (lt, O) => { arcadeBase(O); }, { grade: 'arcade', dof: 0.12 });
+shot(POP + 0.2, T5 + 7.85, 'arcade', { ease: 'lin', p0: [-2.9, 3.1, 7.4], p1: [-2.4, 3.0, 6.6], l0: [0.6, 2.45, 2.5], fov: 50 }, (lt, O) => { arcadeBase(O); }, { grade: 'arcade', mblur: (O) => (O < POP + 2.2 ? 2 : 1) });
+shot(T5 + 7.85, TL[7].t, 'arcade', { ease: 'lin', p0: [-0.7, 3.2, 8.4], p1: [-0.6, 3.15, 8.0], l0: [1.0, 2.85, 2.9], fov: 46 }, (lt, O) => { arcadeBase(O); }, { grade: 'arcade', dof: 0.12 });
 // ===== DAY 7: Marcus's driveway. A bus hits the puddle; the wave bends around the hero and lands on Marcus =====
 const Dv = S.drive; const T7 = tS(7), SPLASH = T7 + 1.55, HIT = T7 + 2.55;
 const HD = V([-0.6, 0.18, 2.0]), MD = V([2.2, 0, -1.3]);
-function driveBase(O, o = {}) { const d = Dv; resetRig(d.hero); resetRig(d.marcus); d.marcus.sponge.visible = d.marcus.ticket.visible = false;
+function driveBase(O, o = {}) { const d = Dv; resetRig(d.hero); resetRig(d.marcus); d.fish.visible = false; d.marcus.sponge.visible = d.marcus.ticket.visible = false;
   d.bus.visible = false; d.sheet.visible = false; d.spray.m.visible = false; d.met.visible = false; d.smoke.forEach(s => s.visible = false); d.flash.intensity = 0; d.debris.forEach(D => D.m.visible = false);
   d.car.scale.set(1, 1, 1); d.car.position.set(4, 0, -2.6); d.car.rotation.set(0, 0, 0); d.crowd.upd(O, { count: o.crowd ? 160 : 0 }); }
 const dropRand = (() => { const r = rnd(17); return [...Array(420)].map(() => [r(), r(), r(), r()]); })();
@@ -801,60 +873,73 @@ function busAt(O) { const k = seg(O, SPLASH - 1.0, SPLASH + 1.1); if (k <= 0 || 
 function marcusWash(O, o = {}) { const m = Dv.marcus; const wet = seg(O, HIT, HIT + 0.3); const hit = O > HIT; const turn = eIO(seg(O, T7 + 3.0, T7 + 3.5));
   m.sponge.visible = true; const circ = hit ? 0 : 1; const pose = hit ? { ...idle(O, 2), spineX: -0.15, arms: [[-0.5, 0, 0.9, 1.0], [-0.5, 0, -0.9, 1.0]], headX: 0.1 } : { ...idle(O, 2), spineX: 0.25, arms: [[0, 0, 0.13, 0.15], [-1.25 + 0.2 * Math.sin(O * 6) * circ, 0.3 * Math.cos(O * 6) * circ, -0.15, 0.5]] };
   const back = hit ? eOut(seg(O, HIT, HIT + 0.35)) * 0.35 : 0; hp(m, O, [MD.x - back, 0, MD.z + back * 0.4], lerp(Math.PI / 2, -0.7, turn), pose, hit ? (O > T7 + 3.6 ? 'worried' : 'shock') : 'smirk', 'marcus'); m.state(O, wet); }
+// the fish rides the wave into Marcus's open-top car and lands on the driver's seat (seat top y 1.2), flopping
+const SEAT = V([3.58, 1.2 + 0.24, -2.85]);
+function fishAt(O) { const f = Dv.fish; f.visible = O > SPLASH + 0.1; if (!f.visible) return; const u = seg(O, SPLASH + 0.1, HIT + 0.15), from = V([-0.6, 0.3, 4.0]);
+  if (u < 1) { f.position.copy(from.lerp(SEAT, u)).add(V([0, 3.6 * Math.sin(u * Math.PI), 0])); f.rotation.set(u * 9, u * 4, 0); return; }
+  const fl = Math.max(0, Math.sin(O * 13)); f.position.copy(SEAT).add(V([0, -0.12 + 0.06 * fl, 0])); f.rotation.order = 'YXZ'; f.rotation.set(Math.PI / 2, 0.6, 0.3 * Math.sin(O * 9)); }   // lying on its side, tail flapping
 function heroPass(O) { const h = Dv.hero; const x = O < T7 + 1.35 ? lerp(-3.6, HD.x, seg(O, T7 + 0.75, T7 + 1.35)) : O < T7 + 4.4 ? HD.x : lerp(HD.x, 3.4, seg(O, T7 + 4.4, T7 + 6.4)); const walking = O < T7 + 1.35 || O > T7 + 4.4;
   const look = O > SPLASH && O < HIT + 0.4; hp(h, O, [x, 0.18, HD.z], O < T7 + 3.0 || walking ? Math.PI / 2 : Math.PI / 2 - 0.9, walking ? { ...walk(O, 8, 0.9), arms: [[0.15, 0, 0.42, 1.65], [0.15, 0, -0.42, 1.65]] } : { ...idle(O, 0), headX: look ? -0.5 : 0, arms: [[0.15, 0, 0.42, 1.65], [0.15, 0, -0.42, 1.65]] }, look ? 'shock' : 'smirk'); }
 coinInsert(T7, T7 + INS, 'heads');
 shot(T7 + INS, T7 + 1.45, 'drive', { ease: 'lin', p0: [-2.4, 4.6, 10.8], p1: [-2.0, 4.4, 10.2], l0: [0.6, 1.3, 0.3], fov: 40 }, (lt, O) => { driveBase(O); heroPass(O); marcusWash(O); busAt(O); }, { grade: 'sunny' });
 shot(T7 + 1.45, T7 + 3.05, 'drive', { ease: 'lin', p0: [-1.2, 7.6, 13.8], p1: [-1.0, 7.3, 13.2], l0: [0.9, 1.6, 0.4], fov: 40 }, (lt, O) => { driveBase(O); heroPass(O); marcusWash(O); busAt(O); sprayAt(O); }, { grade: 'sunny', mblur: 2, shakeAt: [[HIT, 0.015]] });
-shot(T7 + 3.05, TL[9].t, 'drive', { ease: 'lin', p0: [-0.1, 1.95, 1.3], p1: [0.15, 1.95, 1.0], l0: [2.0, 2.0, -1.2], fov: 42 }, (lt, O) => { driveBase(O); heroPass(O); marcusWash(O); sprayAt(O); }, { grade: 'sunny', dof: 0.15 });
+shot(T7 + 3.05, T7 + 5.2, 'drive', { ease: 'lin', p0: [-0.1, 1.95, 1.3], p1: [0.15, 1.95, 1.0], l0: [2.0, 2.0, -1.2], fov: 42 }, (lt, O) => { driveBase(O); heroPass(O); marcusWash(O); sprayAt(O); fishAt(O); }, { grade: 'sunny', dof: 0.15 });
+shot(T7 + 5.2, TL[9].t, 'drive', { ease: 'lin', p0: [2.4, 2.25, -0.8], p1: [2.5, 2.15, -1.05], l0: [3.6, 1.3, -2.85], fov: 42 }, (lt, O) => { driveBase(O); heroPass(O); marcusWash(O); fishAt(O); }, { grade: 'sunny', dof: 0.15 });
 // ===== DAY 9: the racecourse (TV racing style). The favourite stops for a sandwich; the field piles up; NO CHANCE wins =====
 const R = S.races; const T9 = tS(9), RACE0 = T9 + 3.85, STOPT = T9 + 5.05, STOPX = 46, PILE = T9 + 5.55;
 const FAV = (O) => lerp(80, STOPX, eOut(seg(O, RACE0, STOPT)));
-const LANE = [3.4, 1.6, -0.2, -2.0, 0.8];
-function horseX(i, O) { if (i === 0) return FAV(O); const free = 80 + 2.5 + i * 2.6 - 24 * (O - RACE0); return Math.max(free, STOPX + 1.5 + i * 0.6); }
+const LANE = [3.6, 1.8, 0.0, -1.8, -3.6];
+function horseX(i, O) { if (i === 0) return FAV(O); const free = 80 + 2.5 + i * 2.6 - 24 * (O - RACE0); return Math.max(free, STOPX + 3.2 + (i - 1) * 2.9); }
 function racesBase(O, o = {}) { const r = R; [r.hero, r.marcus, r.fan, ...r.copiers].forEach(resetRig); r.marcus.ticket.visible = O < T9 + 7.8; r.halves.forEach(h => h.visible = false); r.dust.forEach(s => s.visible = false); r.crowd.upd(O, { cheer: O > T9 + 7.6, jump: O > T9 + 7.6 });
   r.horses.forEach((h, i) => { h.visible = !o.noHorses; const x = horseX(i, O); h.position.set(x, 0, LANE[i]); h.rotation.set(0, -Math.PI / 2, 0);
-    if (i === 0) { if (O < STOPT) h.gallop(O * 15, 1); else { h.stand(O); h.neck.rotation.x = 0.55 + 0.08 * Math.sin(O * 10); h.position.z = LANE[0] + 0.6 * eOut(seg(O, STOPT, STOPT + 0.4)); } }
-    else { const crash = seg(O, PILE + (i - 1) * 0.12, PILE + (i - 1) * 0.12 + 0.7); if (crash > 0) { h.gallop(O * 15, 1 - crash); h.rotation.set(0, -Math.PI / 2, (i % 2 ? 1 : -1) * 1.5 * eOut(crash)); h.position.y = Math.sin(crash * Math.PI) * 1.2; h.position.x -= 2.5 * crash; } else h.gallop(O * 15 + i, 1); } });
-  r.pony.visible = !o.noHorses; r.pony.position.set(o.ponyX ?? 200, 0, 2.8); r.pony.gallop(O * 11, 0.8);
+    if (i === 0) { if (h.jockey) h.jockey.rotation.x = 0; if (O < STOPT) h.gallop(O * 15, 1); else { h.stand(O); h.neck.rotation.x = 0.55 + 0.08 * Math.sin(O * 10); h.position.z = LANE[0] + 0.6 * eOut(seg(O, STOPT, STOPT + 0.4)); if (h.jockey) h.jockey.rotation.x = 0.5 * eOut(seg(O, STOPT + 0.5, STOPT + 0.8)) + 0.05 * Math.sin(O * 10); } }   // the jockey leans in for a bite too
+    else { const crash = seg(O, PILE + (i - 1) * 0.12, PILE + (i - 1) * 0.12 + 0.7); if (crash > 0) { h.gallop(O * 15, 1 - crash); h.rotation.set(0, -Math.PI / 2, -1.5 * eOut(crash)); h.position.y = 0.38 * eOut(crash) + Math.sin(crash * Math.PI) * 0.8; } else h.gallop(O * 15 + i, 1); } });
+  r.pony.visible = !o.noHorses; r.pony.position.set(o.ponyX ?? 200, 0, o.ponyZ ?? 2.8); const bow = o.bow || 0; if (bow > 0) { r.pony.stand(O); r.pony.body.rotation.x = 0.2 * bow; r.pony.body.position.y = 1.45 + 0.04 * bow; r.pony.neck.rotation.x = 0.7 * bow; [0, 1].forEach(k => { r.pony.legs[k].th.rotation.x = -0.25 * bow; r.pony.legs[k].kn.rotation.x = 0.75 * bow; }); } else r.pony.gallop(O * 11, 0.8);   // NO CHANCE takes a bow on the line
   hp(r.fan, O, [STOPX - 1.2, 0, 6.0], Math.PI, { ...idle(O, 3), arms: [[0, 0, 0.13, 0.15], [-1.4, 0, -0.1, 0.2]] }, O > STOPT ? 'shock' : 'smile', 'x'); r.sandwich.position.copy(r.fan.arms[1].el.localToWorld(V([0, -0.5, 0.1]))); r.sandwich.visible = O < STOPT + 0.9;
   for (let k = 0; k < 20; k++) { const s = r.dust[k], f = seg(O, PILE + k * 0.03, PILE + 1.4 + k * 0.03); if (f <= 0 || f >= 1) continue; s.visible = true; s.position.set(STOPX + 2 + Math.sin(k * 2.3) * 2.5 * f, 0.4 + f * 1.6, LANE[1] + Math.cos(k * 1.7) * 2.2); s.scale.setScalar(1 + f * 3); s.material.opacity = 0.7 * (1 - f); } }
 function spectators(O) { const r = R; const win = O > T9 + 7.6; const jump = (ph) => win ? Math.abs(Math.sin(O * 8 + ph)) * 0.18 : 0;
   const slipArm = (ph, up) => up ? [-2.6 + 0.2 * Math.sin(O * 10 + ph), 0, -0.3, 0.3] : [-0.9, 0, -0.15, 0.9];
   hp(r.hero, O, [0, jump(0), 6.3], Math.PI, { ...idle(O, 0), arms: [win ? [-2.6, 0, 0.3, 0.3] : [0, 0, 0.13, 0.15], slipArm(0, win)] }, win ? 'laugh' : 'calm');
-  const copy = O > T9 + 2.9; [[-0.9, 7.5], [0.55, 8.0], [-2.0, 8.0]].forEach(([x, z], i) => { const P = r.copiers[i]; hp(P, O, [x, jump(i + 1), z], Math.PI + (i === 2 ? -0.25 : 0.25) * (O < T9 + 3.8 ? 1 : 0), { ...idle(O, i + 2), arms: [[0, 0, 0.13, 0.15], slipArm(i, copy && (win || O < T9 + 3.9))] }, win ? 'laugh' : i === 0 && O > T9 + 1.1 ? 'smile' : 'calm', i === 0 ? 'racegoer' : 'x'); });
-  const tear = O > T9 + 7.8; hp(r.marcus, O, [1.45, 0, 6.35], Math.PI - 0.2, { ...idle(O, 5), arms: [tear ? [-1.0, 0, 0.5, 1.3] : [0, 0, 0.13, 0.15], tear ? [-1.0, 0, -0.5, 1.3] : [-2.5 + 0.3 * Math.sin(O * 6), 0, -0.4, 0.3]] }, tear ? 'grit' : 'smirk', 'marcus');
-  if (tear) { const k = seg(O, T9 + 7.8, T9 + 8.8); R.halves.forEach((h, i) => { h.visible = true; const hand = r.marcus.arms[i].el.localToWorld(V([0, -0.5, 0.1])); h.position.copy(hand).add(V([(i ? 1 : -1) * 0.5 * k, -1.2 * k * k, 0.4 * k])); h.rotation.set(k * 6, k * 4 * (i ? 1 : -1), 0); }); } }
+  const copy = O > T9 + 2.9; [[-1.0, 7.6], [0.75, 8.4], [-2.3, 8.3]].forEach(([x, z], i) => { const P = r.copiers[i]; hp(P, O, [x, jump(i + 1), z], Math.PI + (i === 2 ? -0.25 : 0.25) * (O < T9 + 3.8 ? 1 : 0), { ...idle(O, i + 2), arms: [[0, 0, 0.13, 0.15], slipArm(i, copy && (win || O < T9 + 3.9))] }, win ? 'laugh' : i === 0 && O > T9 + 1.1 ? 'smile' : 'calm', i === 0 ? 'racegoer' : 'x'); });
+  const tear = O > T9 + 7.8; hp(r.marcus, O, [1.45, 0, 6.35], Math.PI - 0.2, { ...idle(O, 5), arms: [tear ? [-1.0, 0, 0.5, 1.3] : [0, 0, 0.13, 0.15], tear ? [-1.0, 0, -0.5, 1.3] : [-2.5 + 0.3 * Math.sin(O * 6), 0, -0.4, 0.3]] }, O > T9 + 8.35 ? 'shock' : tear ? 'grit' : 'smirk', 'marcus');
+  if (tear) { const k = seg(O, T9 + 7.8, T9 + 8.8); R.halves.forEach((h, i) => { h.visible = true; const hand = r.marcus.arms[i].el.localToWorld(V([0, -0.5, 0.1]));
+    if (i === 0) { const face = r.marcus.head.localToWorld(V([0.05, 0.38, 0.35])), u = seg(O, T9 + 7.85, T9 + 8.35); h.scale.setScalar(2.2);   // the wind blows this half straight back onto his face
+      if (u < 1) { h.position.copy(hand.clone().lerp(face, eIO(u))).add(V([0, 0.5 * Math.sin(u * Math.PI), 0.3 * Math.sin(u * Math.PI)])); h.rotation.set(u * 8, u * 5, 0); } else { h.position.copy(face); h.quaternion.copy(r.marcus.head.getWorldQuaternion(new THREE.Quaternion())); } return; }
+    h.scale.setScalar(1); h.position.copy(hand).add(V([0.5 * k, 1.2 * k, 0.4 * k])); h.rotation.set(k * 6, k * 4, 0); }); } }
 coinInsert(T9, T9 + INS, 'heads');
 shot(T9 + INS, RACE0, 'races', { ease: 'lin', p0: [0.45, 2.15, 1.3], p1: [0.35, 2.15, 1.7], l0: [0.1, 1.95, 7.0], fov: 52 }, (lt, O) => { racesBase(O, { noHorses: true }); spectators(O); }, { grade: 'races', dof: 0.12 });
-shot(RACE0, T9 + 5.25, 'races', { ease: 'lin', pf: (O) => V([FAV(O) + 5, 2.4, -13]), lf: (O) => V([FAV(O) + 1, 1.6, 2.2]), fov: 26 }, (lt, O) => { racesBase(O, { ponyX: 120 - 18 * (O - RACE0) }); spectators(O); }, { grade: 'races', race: 1, mblur: 2 });
-shot(T9 + 5.25, T9 + 6.65, 'races', { ease: 'lin', p0: [STOPX - 8, 2.0, -2.5], p1: [STOPX - 7.5, 2.1, -2.2], l0: [STOPX + 2, 1.6, 2.6], fov: 44 }, (lt, O) => { racesBase(O, { ponyX: lerp(STOPX + 16, STOPX - 4, seg(O, T9 + 5.7, T9 + 6.65)) }); spectators(O); }, { grade: 'races', race: 1, shakeAt: [[PILE + 0.2, 0.02]] });
-shot(T9 + 6.65, T9 + 7.6, 'races', { ease: 'lin', p0: [-9.5, 1.0, 1.2], p1: [-9.3, 1.0, 1.4], l0: [-5.3, 1.0, 2.8], fov: 38 }, (lt, O) => { racesBase(O, { noHorses: false, ponyX: lerp(0.0, -7.9, seg(O, T9 + 6.65, T9 + 7.6)) }); R.horses.forEach(h => h.visible = false); spectators(O); }, { grade: 'races', race: 2 });
-shot(T9 + 7.6, TL[13].t, 'races', { ease: 'lin', p0: [0.7, 2.15, 0.9], p1: [0.5, 2.1, 1.3], l0: [0.0, 1.9, 7.0], fov: 54 }, (lt, O) => { racesBase(O, { noHorses: true }); spectators(O); }, { grade: 'races' });
+shot(RACE0, T9 + 5.25, 'races', { ease: 'lin', pf: (O) => V([FAV(O) + 5, 2.4, -13]), lf: (O) => V([FAV(O) + 1, 1.6, 2.2]), fov: 26 }, (lt, O) => { racesBase(O, { ponyX: 120 - 18 * (O - RACE0), ponyZ: -4.5 }); spectators(O); }, { grade: 'races', race: 1, mblur: 2 });
+shot(T9 + 5.25, T9 + 6.65, 'races', { ease: 'lin', p0: [STOPX - 8, 2.0, -2.5], p1: [STOPX - 7.5, 2.1, -2.2], l0: [STOPX + 2, 1.6, 2.6], fov: 44 }, (lt, O) => { racesBase(O, { ponyX: lerp(STOPX + 16, STOPX - 4, seg(O, T9 + 5.7, T9 + 6.65)), ponyZ: -4.5 }); spectators(O); }, { grade: 'races', race: 1, shakeAt: [[PILE + 0.2, 0.02]] });
+shot(T9 + 6.65, T9 + 7.6, 'races', { ease: 'lin', p0: [-8.6, 1.35, 0.7], p1: [-8.4, 1.3, 0.9], l0: [-5.6, 1.0, 2.8], fov: 40 }, (lt, O) => { racesBase(O, { noHorses: false, ponyX: lerp(0.0, -5.55, eOut(seg(O, T9 + 6.65, T9 + 7.05))), bow: eIO(seg(O, T9 + 7.1, T9 + 7.4)) }); R.horses.forEach(h => h.visible = false); spectators(O); }, { grade: 'races', race: 2 });
+shot(T9 + 7.6, TL[13].t, 'races', { ease: 'lin', p0: [1.3, 2.15, 1.0], p1: [1.15, 2.1, 1.4], l0: [0.75, 1.9, 7.0], fov: 54 }, (lt, O) => { racesBase(O, { noHorses: true }); spectators(O); }, { grade: 'races' });
 // ===== DAY 13: the pause. The coin lands on its edge and stays there. The launderette at night =====
-const L = S.laundrette; const T13 = tS(13), EDGE_END = T13 + 2.7;
-coinInsert(T13, EDGE_END, 'edge', { p1: [1.1, 0.95, 2.2], l: [0.05, 0.25, 0.1], ease: 'lin' });
-function laundretteBase(O) { const l = L; resetRig(l.hero); l.drums.forEach((d, i) => { d.material.map.rotation = O * (2 + i * 0.3); }); l.tubes[1].intensity = 5 * (Math.sin(O * 31) > 0.97 ? 0.6 : 1);
+const L = S.laundrette; const T13 = tS(13), EDGE_END = T13 + 2.7, MSTOP = T13 + 3.55;   // every washing machine stops at the same moment
+coinInsert(T13, EDGE_END, 'edge', { p1: [-0.45, 1.62, 1.55], l: [-0.5, 1.55, 0.7], ease: 'lin' });
+function laundretteBase(O) { const l = L; resetRig(l.hero); l.drums.forEach((d, i) => { d.material.map.rotation = Math.min(O, MSTOP) * (2 + i * 0.3) + (O > MSTOP ? 0.15 * Math.exp(-(O - MSTOP) * 6) * Math.sin((O - MSTOP) * 30) : 0); }); l.tubes[1].intensity = 5 * (Math.sin(O * 31) > 0.97 ? 0.6 : 1);
   const h = l.hero; hp(h, O, [0, 0, 0.62], 0, { ...idle(O, 0), ...TSIT, spineX: 0.08, headX: 0.32, arms: [[-0.95, 0.75, -0.1, 1.05], [0.05, 0, -0.18, 0.3]] }, 'shock'); h.root.position.y = 0;
   const hand = h.arms[0].el.localToWorld(V([0, -0.44, 0])); l.coin.position.copy(hand).add(V([0, 0.17, 0])); l.coin.rotation.set(Math.PI / 2, 0.3, 0.02 * Math.sin(O * 2)); }
 shot(EDGE_END, TL[20].t, 'laundrette', { ease: 'lin', p0: [0.25, 1.75, 5.6], p1: [0.12, 1.8, 3.7], l0: [0, 1.55, 0.6], fov: 40 }, (lt, O) => { laundretteBase(O); }, { grade: 'night', dof: (O) => 0.1 + 0.15 * seg(O, EDGE_END, EDGE_END + 3) });
 // ===== DAY 20: the casino. Royal flush after royal flush; the crowd copies; the pit boss begs him to leave =====
-const C = S.casino; const T20 = tS(20), HAND0 = T20 + 0.85, HANDL = 0.55, BOSS = [T20 + 4.0, T20 + 4.9];
+const C = S.casino; const T20 = tS(20), HAND0 = T20 + 0.85, HANDL = 0.55, BOSS = [T20 + 4.0, T20 + 4.9], TOPPLE = T20 + 3.7, JACK = T20 + 3.85;
 function casinoBase(O) { const c = C; [c.hero, c.dealer, c.boss, ...c.near].forEach(resetRig); const hands = clamp(Math.floor((O - HAND0) / HANDL) + 1, 0, 5);
   c.cards.forEach((cd, i) => { const k = Math.min(4, Math.max(0, Math.floor((O - HAND0) / HANDL))), t0 = HAND0 + k * HANDL + i * 0.03; const inn = eOut(seg(O, t0, t0 + 0.18)), flip = eIO(seg(O, t0 + 0.2, t0 + 0.34)), out = k < 4 ? eIn(seg(O, t0 + 0.44, t0 + 0.54)) : 0;
     cd.visible = O > HAND0; const tx = -0.7 + i * 0.35; cd.position.set(lerp(0, tx, inn) + out * 1.2, 0.885 + 0.08 * Math.sin(flip * Math.PI), lerp(-0.9, 0.6, inn) - out * 0.8); cd.rotation.set(0, 0.05 * (i - 2), Math.PI * (1 - flip)); });
-  const grow = clamp((O - HAND0) / (HANDL * 5)); c.stacks.forEach((s, i) => { const side = i % 2 ? 1 : -1, row = Math.floor(i / 2); s.position.set(side * (0.75 + (row % 3) * 0.28), 0.87, 0.3 + Math.floor(row / 3) * 0.3); s.scale.set(1, 0.15 + 1.15 * grow * (0.7 + 0.3 * Math.sin(i)), 1);
-    if (O > BOSS[1]) { const p = eIO(seg(O, BOSS[1], BOSS[1] + 1.2)); s.position.z += 0.5 * p; s.position.x *= 1 - 0.3 * p; } });
+  const grow = clamp((O - HAND0) / (HANDL * 5)); c.stacks.forEach((s, i) => { const side = i % 2 ? 1 : -1, row = Math.floor(i / 2); s.position.set(side * (0.8 + row * 0.27), 0.87, 0.0);   // one row per side: toppled towers fall side by side, never onto each other s.scale.set(1, 0.15 + 1.15 * grow * (0.7 + 0.3 * Math.sin(i)), 1);
+    s.rotation.x = -1.05 * eIn(seg(O, TOPPLE + (i % 4) * 0.06, TOPPLE + 0.35 + (i % 4) * 0.06)); });   // the towers topple toward the dealer
+  c.slots.forEach((sl, k) => { sl.material.map = O > JACK + k * 0.02 ? c.jackTex : sl.base; });
+  { const mt = new THREE.Matrix4(), q = new THREE.Quaternion(); for (let k = 0; k < 9; k++) for (let j = 0; j < 30; j++) { const id = k * 30 + j, t0 = JACK + 0.1 + j * 0.045, u = seg(O, t0, t0 + 0.4), r2 = rnd(id + 7), rx = (r2() - 0.5) * 1.0, rz = 0.75 + r2() * 0.9;
+      const tray = V([-8 + k * 2, 0.7, -5.4]), rest = V([-8 + k * 2 + rx, 0.012 + 0.012 * (j % 3), -6 + rz]); const p = O < t0 ? V([0, -50, 0]) : tray.lerp(rest, u).add(V([0, 0.35 * Math.sin(u * Math.PI), 0]));
+      q.setFromEuler(new THREE.Euler(u < 1 ? u * 9 : 0, j, 0)); mt.compose(p, q, V([1, 1, 1])); c.payout.setMatrixAt(id, mt); } c.payout.instanceMatrix.needsUpdate = true; }
   c.crowd.upd(O, { cheer: O > HAND0 + 0.6, jump: O > T20 + 3.5 && O < BOSS[0] });
   hp(c.hero, O, [0, 0, 1.6], Math.PI, { ...idle(O, 0), ...TSIT, spineX: 0.12, headY: O > BOSS[0] + 0.3 ? -0.55 : 0, arms: [[-1.0, 0, 0.25, 0.9], [-1.0, 0, -0.25, 0.9]] }, O > BOSS[0] + 0.3 ? 'worried' : 'calm');
-  hp(c.dealer, O, [0, 0, -1.55], 0, { ...idle(O, 1), arms: [[-0.9, 0, 0.2, 0.9 + 0.3 * Math.sin(O * 9)], [-0.9, 0, -0.2, 1.0]] }, O > HAND0 + 1.5 ? 'shock' : 'calm', 'x');
+  hp(c.dealer, O, [0, 0, -1.55], 0, { ...idle(O, 1), spineX: O > TOPPLE ? -0.12 : 0, arms: O > TOPPLE - 0.1 ? [[-2.8, 0, 0.35, 0.2], [-2.8, 0, -0.35, 0.2]] : [[-0.9, 0, 0.2, 0.9 + 0.3 * Math.sin(O * 9)], [-0.9, 0, -0.2, 1.0]] }, O > HAND0 + 1.5 ? 'shock' : 'calm', 'x');
   c.near.forEach((P, i) => hp(P, O, [i ? 2.3 : -1.4, 0, i ? 2.4 : 3.0], Math.PI + (i ? 0.3 : -0.3), { ...idle(O, i + 3), arms: [[0, 0, 0.13, 0.15], [-2.4 + 0.3 * Math.sin(O * 9 + i), 0, -0.4, 0.4]] }, O > HAND0 + 0.6 ? 'laugh' : 'calm', 'x'));
-  const bw = eOut(seg(O, BOSS[0], BOSS[1])); const push = O > BOSS[1]; hp(c.boss, O, [lerp(-4.2, -1.45, bw), 0, lerp(1.6, 0.85, bw)], lerp(Math.PI / 2, 0.85, bw), bw < 1 ? walk(O, 8, 0.9) : { ...idle(O, 4), spineX: 0.3, arms: [[-1.0, 0, 0.3, 0.6], [-1.0, 0, -0.3, 0.6]] }, 'worried', 'pit boss');
+  const bw = eOut(seg(O, BOSS[0], BOSS[1])); const push = O > BOSS[1]; hp(c.boss, O, [lerp(-4.2, -1.8, bw), 0, lerp(1.6, 0.75, bw)], lerp(Math.PI / 2, 0.85, bw), bw < 1 ? walk(O, 8, 0.9) : { ...idle(O, 4), spineX: 0.15, arms: [[-1.0, 0, 0.3, 0.6], [-1.0, 0, -0.3, 0.6]] }, 'worried', 'pit boss');
   c.boss.sweat.forEach((s, i) => { s.position.y = 0.6 - ((O * 0.5 + i * 0.33) % 1) * 0.35; s.visible = bw > 0.5; }); }
 coinInsert(T20, T20 + INS, 'heads');
 shot(T20 + INS, T20 + 3.6, 'casino', { ease: 'lin', p0: [0.1, 3.55, 1.05], p1: [0.05, 3.3, 0.95], l0: [0, 0.86, 0.5], fov: 40, shift: 0 }, (lt, O) => { casinoBase(O); }, { grade: 'casino' });
-shot(T20 + 3.6, T20 + 4.35, 'casino', { ease: 'lin', p0: [1.5, 4.6, -3.2], p1: [1.35, 4.5, -2.85], l0: [0, 1.3, 2.4], fov: 46 }, (lt, O) => { casinoBase(O); }, { grade: 'casino', dof: 0.12 });
-shot(T20 + 4.35, TL[23].t, 'casino', { ease: 'lin', p0: [1.7, 2.25, 4.0], p1: [1.5, 2.2, 3.7], l0: [-1.35, 1.95, 0.85], fov: 40 }, (lt, O) => { casinoBase(O); }, { grade: 'casino', dof: 0.12 });
+shot(T20 + 3.6, T20 + 4.6, 'casino', { ease: 'lin', p0: [1.25, 3.2, 4.4], p1: [1.15, 3.15, 4.05], l0: [-0.25, 1.4, -3.6], fov: 48 }, (lt, O) => { casinoBase(O); }, { grade: 'casino' });
+shot(T20 + 4.6, TL[23].t, 'casino', { ease: 'lin', p0: [1.7, 2.25, 4.0], p1: [1.5, 2.2, 3.7], l0: [-1.35, 1.95, 0.85], fov: 40 }, (lt, O) => { casinoBase(O); }, { grade: 'casino', dof: 0.12 });
 // ===== DAY 23: the meteorite. It misses him by a metre and flattens Marcus's car =====
 const T23 = tS(23), IMPACT = T23 + 2.2, MSKY = V([-26, 46, -34]), MCAR = V([4, 0.9, -2.6]);
 const HP23 = (O) => V([lerp(-3.0, 0.55, eOut(seg(O, T23 + 0.75, T23 + 2.0))), 0.18, 1.75]);
@@ -863,28 +948,31 @@ function meteorScene(O) { const d = Dv; driveBase(O, { crowd: true }); d.crowd.u
   if (O >= IMPACT) { const k = eOut(seg(O, IMPACT, IMPACT + 0.12)); d.car.scale.set(1 + 0.18 * k, 1 - 0.7 * k, 1 + 0.1 * k); d.met.visible = true; d.met.position.set(4, 0.75 - 0.2 * k, -2.6); d.met.trail.forEach(s => s.position.set(0, 0, 9999)); d.met.light.intensity = 6 + 4 * Math.sin(O * 9);
     d.flash.intensity = 80 * Math.max(0, 1 - (O - IMPACT) / 0.35); burst(d.debris, O, IMPACT, MCAR, 4.5, 4.0);
     d.smoke.forEach((s, i) => { const f = seg(O, IMPACT + i * 0.05, IMPACT + 3.5 + i * 0.05); s.visible = f > 0 && f < 1; s.position.set(4 + Math.sin(i * 2.1) * (0.6 + 1.6 * f), 0.8 + f * 3.2 + (i % 4) * 0.3, -2.6 + Math.cos(i * 1.3) * (0.6 + 1.2 * f)); s.scale.setScalar(1.2 + 2.8 * f); s.material.opacity = 0.75 * (1 - f); }); }
-  const m = d.marcus; const hit = O > IMPACT; m.sponge.visible = true; const turn = eIO(seg(O, IMPACT + 0.9, IMPACT + 1.6));
-  hp(m, O, [1.95, 0.04, 0.25], hit ? lerp(Math.PI / 2, -0.35, turn) : Math.PI / 2, hit ? { ...idle(O, 2), spineX: 0.1, headX: 0.18, arms: [[0.05, 0, 0.13, 0.15], [-0.45, 0, -0.2, 0.8]] } : { ...idle(O, 2), spineX: 0.25, arms: [[0, 0, 0.13, 0.15], [-1.25 + 0.2 * Math.sin(O * 6), 0.3 * Math.cos(O * 6), -0.15, 0.5]] }, hit ? (O > IMPACT + 1.0 ? 'worried' : 'shock') : 'smile', 'marcus'); m.state(O, 0, hit ? 0.5 : 0);
-  const pat = O > T23 + 5.4; const hpos = O < T23 + 5.0 ? HP23(O) : HP23(O).lerp(V([0.82, 0.12, 0.55]), eIO(seg(O, T23 + 5.0, T23 + 5.5)));
-  hp(d.hero, O, [hpos.x, hpos.y, hpos.z], O < T23 + 2.0 ? Math.PI / 2 : lerp(0.9, 0.25, eIO(seg(O, T23 + 5.0, T23 + 5.5))), O < T23 + 2.0 ? { ...walk(O, 8, 0.9), arms: [[0.15, 0, 0.42, 1.65], [0.15, 0, -0.42, 1.65]] } : { ...idle(O, 0), arms: [[0.15, 0, 0.42, 1.65], pat ? [-0.25, 0, -0.75, 0.5 + 0.1 * Math.sin(O * 10)] : [0.15, 0, -0.42, 1.65]] }, O > IMPACT && O < IMPACT + 0.8 ? 'calm' : 'calm'); }
+  const m = d.marcus; const hit = O > IMPACT; m.sponge.visible = true; const go = eIO(seg(O, IMPACT + 0.9, IMPACT + 1.7)), scrub = O > IMPACT + 1.7, lookUp = O > T23 + 3.35 && O < T23 + 4.5;   // he walks to the wreck and keeps sponging it
+  hp(m, O, [lerp(1.95, 2.0, go), 0.04, lerp(0.25, -1.6, go)], hit ? Math.PI / 2 + 0.15 : Math.PI / 2, hit ? { ...(go > 0 && go < 1 ? walk(O, 6, 0.6) : idle(O, 2)), spineX: scrub ? 0.35 : 0.1, headX: scrub ? 0.25 : 0.18, headY: lookUp ? -0.6 : 0, arms: [[0.05, 0, 0.13, 0.15], scrub ? [-0.75 + 0.12 * Math.sin(O * 3.5), 0.25 * Math.cos(O * 3.5), -0.1, 0.35] : [-0.45, 0, -0.2, 0.8]] } : { ...idle(O, 2), spineX: 0.25, arms: [[0, 0, 0.13, 0.15], [-1.25 + 0.2 * Math.sin(O * 6), 0.3 * Math.cos(O * 6), -0.15, 0.5]] }, hit ? (O > IMPACT + 1.0 ? 'worried' : 'shock') : 'smile', 'marcus'); m.state(O, 0, hit ? 0.5 : 0);
+  { const k = O < IMPACT + 0.5 ? 1 : O < IMPACT + 1.5 ? (Math.floor((O - IMPACT) * 4) % 2 ? 1.2 : 0) * (1 - seg(O, IMPACT + 0.5, IMPACT + 1.5)) : 0; d.car.traverse(mm => { if (mm.isMesh && mm.material.emissive && mm.material.emissive.getHex() !== 0) mm.material.emissiveIntensity = k; }); }   // the alarm: two sad blinks, then dead
+  const pat = O > T23 + 5.4; const hpos = O < T23 + 5.0 ? HP23(O) : HP23(O).lerp(V([0.45, 0.18, 1.7]), eIO(seg(O, T23 + 5.0, T23 + 5.5)));
+  hp(d.hero, O, [hpos.x, hpos.y, hpos.z], O < T23 + 2.0 ? Math.PI / 2 : lerp(0.9, 0.25, eIO(seg(O, T23 + 5.0, T23 + 5.5))), O < T23 + 2.0 ? { ...walk(O, 8, 0.9), arms: [[0.15, 0, 0.42, 1.65], [0.15, 0, -0.42, 1.65]] } : { ...idle(O, 0), arms: [pat ? [-2.2, 0, 0.75, 0.2 + 0.1 * Math.sin(O * 10)] : [0.15, 0, 0.42, 1.65], [0.15, 0, -0.42, 1.65]] }, O > IMPACT && O < IMPACT + 0.8 ? 'calm' : 'calm'); }
 coinInsert(T23, T23 + INS, 'heads');
 shot(T23 + INS, T23 + 1.5, 'drive', { ease: 'lin', pf: (O) => HP23(O).add(V([4.2, 1.6, 4.6])), lf: (O) => HP23(O).add(V([-1.6, 1.5, 0.3])), fov: 46 }, (lt, O) => { meteorScene(O); }, { grade: 'sunny' });
 shot(T23 + 1.5, IMPACT - 0.05, 'drive', { ease: 'lin', p0: [8.2, 1.4, 7.2], p1: [7.8, 1.45, 6.8], l0: [3.2, 3.0, -2.4], fov: 52 }, (lt, O) => { meteorScene(O); }, { grade: 'sunny', mblur: (O) => (O > T23 + 1.15 ? 3 : 1) });
 shot(IMPACT - 0.05, T23 + 3.4, 'drive', { ease: 'out', p0: [7.6, 1.5, 6.6], p1: [6.7, 1.5, 5.4], l0: [3.4, 1.3, -2.4], fov: 46, z0: 1, z1: 1.2, roll0: 0, roll1: -4 }, (lt, O) => { meteorScene(O); }, { grade: 'sunny', shakeAt: [[IMPACT, 0.05]] });
-shot(T23 + 3.4, T23 + 5.1, 'drive', { ease: 'lin', p0: [1.5, 2.0, 3.2], p1: [1.45, 2.0, 2.9], l0: [1.95, 2.0, 0.25], fov: 40 }, (lt, O) => { meteorScene(O); }, { grade: 'sunny', dof: 0.15 });
+shot(T23 + 3.4, T23 + 5.1, 'drive', { ease: 'lin', p0: [4.6, 2.35, 1.7], p1: [4.5, 2.3, 1.45], l0: [2.6, 1.8, -1.6], fov: 40 }, (lt, O) => { meteorScene(O); }, { grade: 'sunny', dof: 0.15 });
 shot(T23 + 5.1, TL[26].t, 'drive', { ease: 'lin', p0: [0.7, 2.35, 6.4], p1: [0.8, 2.3, 5.9], l0: [1.4, 1.7, 0.3], fov: 42 }, (lt, O) => { meteorScene(O); }, { grade: 'sunny', dof: 0.1 });
 // ===== DAY 26: the lottery. Same numbers as the whole country; every ball matches; 31 million winners; 64p =====
-const PB = S.pub; const T26 = tS(26), BALL0 = T26 + 5.6, BALLD = 0.42, CHOIR = T26 + 5.6;
+const PB = S.pub; const T26 = tS(26), BALL0 = T26 + 5.6, BALLD = 0.42, CHOIR = T26 + 5.6, TIP = T26 + 14.95, SIGH = T26 + 15.55;
 const TKT = (n) => { const i = LOTTO.indexOf(n), c = (n - 1) % 10, r = Math.floor((n - 1) / 10); return V([((34 + c * 49) / 512 - 0.5) * 1.6, 0.06, ((92 + r * 40) / 320 - 0.5) * 1.0]); };
 coinInsert(T26, T26 + INS, 'heads');
 shot(T26 + INS, T26 + 2.0, 'ticket', { ease: 'lin', p0: [0.1, 1.45, 0.75], p1: [0.05, 1.3, 0.6], l0: [0, 0, 0.05], fov: 44, shift: 0 }, (lt, O) => { const k = seg(O, T26 + 0.85, T26 + 1.95); drawTicket(k); const i = Math.min(5, Math.floor(k * 6)), f = (k * 6) % 1; const a = TKT(LOTTO[i]), b = TKT(LOTTO[Math.min(5, i + 1)]);
   S.ticket.pen.position.copy(a.clone().lerp(b, eIO(clamp(f * 1.6 - 0.6))).add(V([0.04 * Math.sin(O * 40), 0.05 * Math.abs(Math.sin(f * Math.PI)), 0]))); S.ticket.pen.rotation.set(0.5, 0, -0.4); }, { grade: 'coin', live: 0.4 });
 shot(T26 + 2.0, T26 + 3.6, 'plaza', { ease: 'lin', p0: [2, 44, 18], p1: [1.5, 38, 13], l0: [0, 0, -2], fov: 48 }, (lt, O) => { S.plaza.crowd.upd(O, {}); const sl = S.plaza.slips; for (let i = 0; i < 120; i++) { const u = ((O * 0.6 + i * 0.0083) % 1); sl.set(i, V([Math.sin(i * 7.1) * (2 + 10 * u), 3 + 9 * Math.sin(u * Math.PI), -14 + Math.cos(i * 3.3) * (2 + 8 * u)]), 1.2); } sl.done(); }, { grade: 'street' });
 function pubBase(O, o = {}) { const p = PB; [p.hero, ...p.near].forEach(resetRig); p.phone.visible = false; p.ticket.visible = false; p.conf.m.visible = false;
-  const balls = clamp(Math.floor((O - BALL0) / BALLD) + 1, 0, 6); const win = balls >= 6; drawDraw(p.tvTex, O, o.host); p.crowd.upd(O, { cheer: balls > 0, jump: win && O < T26 + 10.8 });
+  const balls = clamp(Math.floor((O - BALL0) / BALLD) + 1, 0, 6); const win = balls >= 6; drawDraw(p.tvTex, O, o.host); const sigh = eIO(seg(O, SIGH, SIGH + 0.4)); p.crowd.upd(O, { cheer: balls > 0 && !sigh, jump: O > CHOIR && O < T26 + 10.8, sigh });   // the whole pub leaps on the choir, then sighs as one at 64p
+  resetRig(p.barman); const drop = seg(O, TIP, TIP + 0.5); hp(p.barman, O, [-1.95, 0, -2.95], 0, { ...idle(O, 6), arms: [[-0.4, 0, 0.13, 1.2], O > TIP - 0.6 && O < TIP + 0.9 ? [-1.25, 0, -0.05, 0.25] : [-0.4, 0, -0.13, 1.2]] }, sigh > 0.5 ? 'worried' : 'smile', 'x');
+  { const hand = p.barman.arms[1].el.localToWorld(V([0, -0.5, 0.06])), into = V([-1.95, 1.23 + 0.075, -2.05]); p.tip.visible = O > TIP - 0.6 && O < TIP + 3; p.tip.position.copy(O < TIP ? hand : hand.clone().lerp(into, eIn(drop))); p.tip.rotation.set(O < TIP ? Math.PI / 2 : Math.PI / 2 * (1 - drop) + drop * 0.2, 0, 0); }
   const kneel = O > CHOIR - 0.1 && O < T26 + 18.2; const armsUp = O > CHOIR && O < T26 + 10.8; const phoneLook = O > T26 + 14.0;
   hp(p.hero, O, [0, 0, 1.3], Math.PI + (O > T26 + 15.4 ? -0.1 : 0), { ...idle(O, 0), ...(kneel ? KNEEL : {}), headX: armsUp ? -0.35 : phoneLook ? 0.25 : 0, arms: armsUp ? [[-2.7, 0, 0.55, 0.25], [-2.7, 0, -0.55, 0.25]] : phoneLook ? [[-0.9, 0.4, 0.1, 1.5], [0.05, 0, -0.15, 0.2]] : [[-0.6, 0, 0.12, 1.2], [-0.6, 0, -0.12, 1.2]] }, armsUp ? 'laugh' : phoneLook ? 'calm' : 'worried');
-  p.near.forEach((P, i) => { const x = [-1.6, 1.7, -2.6, 2.6][i], z = [2.3, 2.5, 1.0, 1.2][i]; hp(P, O, [x, 0, z], Math.PI + (x > 0 ? 0.25 : -0.25) * (phoneLook ? 0 : 1), { ...idle(O, i + 1), arms: phoneLook ? [[-1.1, 0.4, 0.1, 1.6], [0.05, 0, -0.13, 0.15]] : balls > 0 ? [[-2.6 + 0.2 * Math.sin(O * 9 + i), 0, 0.4, 0.3], [-0.6, 0, -0.13, 1.0]] : [[-0.7, 0, 0.13, 1.0], [0, 0, -0.13, 0.15]] }, win && !phoneLook ? 'laugh' : phoneLook ? 'worried' : 'shock', 'x'); });
+  p.near.forEach((P, i) => { const x = [-1.6, 1.7, -2.6, 2.6][i], z = [2.3, 2.5, 1.0, 1.2][i]; hp(P, O, [x, 0, z], Math.PI + (x > 0 ? 0.25 : -0.25) * (phoneLook ? 0 : 1), { ...idle(O, i + 1), spineX: 0.2 * sigh, headX: 0.5 * sigh, arms: phoneLook ? [[-1.1, 0.4, 0.1, 1.6], [0.05, 0, -0.13, 0.15]] : balls > 0 ? [[-2.6 + 0.2 * Math.sin(O * 9 + i), 0, 0.4, 0.3], [-0.6, 0, -0.13, 1.0]] : [[-0.7, 0, 0.13, 1.0], [0, 0, -0.13, 0.15]] }, win && !phoneLook ? 'laugh' : phoneLook ? 'worried' : 'shock', 'x'); });
   if (O > CHOIR && O < T26 + 12) { p.conf.m.visible = true; for (let i = 0; i < 260; i++) { const u = ((O - CHOIR) * 0.35 + (i * 0.618) % 1) % 1; p.conf.set(i, V([Math.sin(i * 12.9) * 4, 4.2 - u * 4.2, 2.5 + Math.abs(Math.cos(i * 7.7)) * 3]), 0.8 + 0.4 * Math.sin(O * 9 + i)); } p.conf.done(); } }
 // the TV picture: a 1990s lottery draw (purple studio, a drum of balls, the drawn balls lined up), or the result card
 const BALLC = ['#e8343c', '#ffd23a', '#2bb673', '#1f8fe0', '#ff8a3a', '#9b59d6'];
@@ -902,24 +990,28 @@ shot(T26 + 3.6, T26 + 5.5, 'pub', { ease: 'lin', p0: [-1.0, 2.7, -2.85], p1: [-0
 shot(T26 + 5.5, T26 + 7.65, 'pub', { ease: 'lin', p0: [1.6, 3.4, 3.5], p1: [1.6, 3.4, 3.1], l0: [1.6, 3.4, -3.25], fov: 40, shift: 0 }, (lt, O) => { pubBase(O); }, { grade: 'vhs', vhs: 1 });
 shot(T26 + 7.65, T26 + 10.85, 'pub', { ease: 'lin', p0: [0.5, 1.8, -1.6], p1: [0.35, 1.75, -1.25], l0: [0, 1.7, 1.3], fov: 46 }, (lt, O) => { pubBase(O); }, { grade: 'pub', dof: 0.1 });
 shot(T26 + 10.85, T26 + 14.3, 'pub', { ease: 'lin', p0: [0.7, 2.35, 3.9], p1: [0.9, 2.4, 3.3], l0: [1.6, 3.15, -3.25], fov: 40 }, (lt, O) => { pubBase(O, { host: true }); }, { grade: 'pub' });
-shot(T26 + 14.3, T26 + 15.55, 'pub', { ease: 'lin', p0: [-2.45, 2.95, -1.7], p1: [-2.45, 2.8, -1.75], l0: [-2.5, 1.19, -2.05], fov: 40, shift: 0 }, (lt, O) => { pubBase(O, { host: true }); const ph = PB.phone; ph.visible = true; ph.position.set(-2.5, 1.2, -2.05); ph.rotation.set(-Math.PI / 2, 0, 0.1); drawWinPhone(seg(O, T26 + 14.35, T26 + 15.1), O); }, { grade: 'pub', live: 0.4 });
-shot(T26 + 15.55, TL.END.t, 'pub', { ease: 'lin', p0: [0.35, 1.72, -1.5], p1: [0.28, 1.7, -1.2], l0: [0, 1.62, 1.3], fov: 40 }, (lt, O) => { pubBase(O, { host: true }); }, { grade: 'pub', dof: 0.15 });
+shot(T26 + 14.3, T26 + 15.55, 'pub', { ease: 'lin', p0: [-2.25, 3.35, -1.55], p1: [-2.25, 3.2, -1.6], l0: [-2.25, 1.19, -2.05], fov: 40, shift: 0 }, (lt, O) => { pubBase(O, { host: true }); const ph = PB.phone; ph.visible = true; ph.position.set(-2.5, 1.2, -2.05); ph.rotation.set(-Math.PI / 2, 0, 0.1); drawWinPhone(seg(O, T26 + 14.35, T26 + 15.1), O); }, { grade: 'pub', live: 0.4 });
+shot(T26 + 15.55, TL.END.t, 'pub', { ease: 'lin', p0: [0.45, 1.85, -1.55], p1: [0.4, 1.82, -1.4], l0: [0, 1.75, 1.6], fov: 50 }, (lt, O) => { pubBase(O, { host: true }); }, { grade: 'pub', dof: 0.15 });
 // ===== END: the bakery again, from behind the counter. One roll left, 64p. Marcus is broke. "Unlucky, mate." =====
-const TE = tS('END'), SLIDE = TE + 2.25, HANDOVER = TE + 3.6, LINE = TE + 4.75, SPIN = TE + 6.0, LAST = TE + 8.2;
-function endScene(O) { bakeryBase(O, { price: true, wet: 0.7, soot: 0.6 }); const b = B; const step = eIO(seg(O, TE + 1.0, TE + 1.8));
-  const mx = lerp(0.9, -0.35, step), mz = lerp(1.2, 2.1, step); const wal = O < TE + 1.0;
-  hp(b.marcus, O, [mx, 0, mz], O < TE + 1.0 ? Math.PI : lerp(Math.PI, 1.1, eIO(seg(O, TE + 1.6, TE + 2.2))), { ...idle(O, 3), headX: 0.15, arms: [[wal ? -0.9 : 0.05, 0, 0.2, wal ? 1.2 : 0.15], [wal ? -0.9 : 0.05, 0, -0.2, wal ? 1.2 : 0.15]] }, 'worried', 'marcus');
+const TE = tS('END'), SLIDE = TE + 2.25, HANDOVER = TE + 3.6, LINE = TE + 4.75, SPIN = TE + 6.0, SETTLE = TE + 7.45, FAINT = [TE + 7.85, TE + 8.3], LAST = TE + 8.3;
+function endScene(O) { bakeryBase(O, { price: true, wet: 0.7, soot: 0.6 }); const b = B; const step = eIO(seg(O, TE + 1.0, TE + 1.5));
+  const mx = lerp(0.9, -0.55, step), mz = 1.2; const wal = O < TE + 1.0;
+  hp(b.marcus, O, [mx, 0, mz], O < TE + 1.0 ? Math.PI : O > SETTLE - 0.6 ? lerp(1.1, Math.PI, eIO(seg(O, SETTLE - 0.6, SETTLE - 0.2))) : lerp(Math.PI, 1.1, eIO(seg(O, TE + 1.6, TE + 2.2))), { ...idle(O, 3), headX: 0.15, arms: [[wal ? -0.9 : 0.05, 0, 0.2, wal ? 1.2 : 0.15], [wal ? -0.9 : 0.05, 0, -0.2, wal ? 1.2 : 0.15]] }, O > SETTLE ? 'shock' : 'worried', 'marcus');
+  { const k = eIn(seg(O, FAINT[0], FAINT[1])); b.marcus.root.rotation.order = 'YXZ'; b.marcus.root.rotation.x = -1.45 * k; b.marcus.root.position.y = 0.25 * Math.sin(k * Math.PI / 2); }   // faints straight back onto the open floor
   if (wal) { b.wallet.visible = true; b.wallet.position.copy(b.marcus.arms[0].el.localToWorld(V([0.15, -0.5, 0.12]))); b.wallet.rotation.set(0.4, Math.PI, 0); b.moths.forEach((m, i) => { m.visible = true; const f = seg(O, TE + 0.2 + i * 0.25, TE + 1.6 + i * 0.25); m.position.copy(b.wallet.position).add(V([Math.sin(O * 5 + i) * 0.3 * f, 0.1 + f * 1.4, -0.2 * f])); m.w1.rotation.y = Math.sin(O * 40) * 0.8; m['w-1'].rotation.y = -Math.sin(O * 40) * 0.8; }); }
-  const hx = lerp(0.15, 0.9, step), hz = lerp(2.75, 1.25, step); const turn = eIO(seg(O, LINE - 0.4, LINE));
+  const hstep = eIO(seg(O, TE + 1.6, TE + 2.15)); const hx = lerp(0.15, 0.9, hstep), hz = lerp(2.75, 1.25, hstep); const turn = eIO(seg(O, LINE - 0.4, LINE));
   const has = O > HANDOVER; const bite = eIO(seg(O, HANDOVER + 0.2, HANDOVER + 0.5)) * (1 - eIO(seg(O, HANDOVER + 0.75, LINE - 0.1)));
-  hp(b.hero, O, [hx, 0, hz], lerp(Math.PI, Math.PI + 2.15, turn), { ...idle(O, 0), arms: [[0.05, 0, 0.13, 0.2], has ? [lerp(-0.6, -1.1, bite), 0, -0.15, lerp(1.2, 2.1, bite)] : O > SLIDE - 0.5 && O < SLIDE + 0.5 ? [-1.2, 0, -0.1, 0.3] : [0.05, 0, -0.13, 0.2]] }, O > LINE ? 'smirk' : bite > 0.5 ? 'sniff' : 'calm');
+  hp(b.hero, O, [hx, 0, hz], lerp(Math.PI, Math.PI + 2.15, turn), { ...idle(O, 0), arms: [[0.05, 0, 0.13, 0.2], has ? [lerp(-0.6, -1.1, bite), 0, -0.15, lerp(1.2, 2.1, bite)] : O > SLIDE - 0.1 && O < SLIDE + 0.5 ? [-1.2, 0, -0.1, 0.3] : [0.05, 0, -0.13, 0.2]] }, O > LINE ? 'smirk' : bite > 0.5 ? 'sniff' : 'calm');
   hp(b.baker, O, [0.6, 0, -1.05], 0, { ...idle(O, 1), arms: [[-0.4, 0, 0.15, 1.3], O > HANDOVER - 0.5 && O < HANDOVER + 0.1 ? [-1.25, 0, -0.1, 0.3] : [-0.4, 0, -0.15, 1.3]] }, 'smile', 'baker');
   if (has) { b.roll.position.copy(b.hero.arms[1].el.localToWorld(V([0, -0.46, 0.06]))); b.roll.rotation.set(0, b.hero.root.rotation.y + Math.PI / 2, 0.2); } else if (O > HANDOVER - 0.5) { b.roll.position.copy(b.baker.arms[1].el.localToWorld(V([0, -0.46, 0.06]))); }
   b.coins.forEach((c, i) => { c.visible = O > SLIDE - 0.4; const k = eOut(seg(O, SLIDE, SLIDE + 0.5)); c.position.set(0.95 + i * 0.1 - 0.15 * k, 1.17, lerp(0.45, -0.05, k) + i * 0.04); c.rotation.set(0, i, 0); }); }
 shot(TE, TE + 2.2, 'bakery', { ease: 'lin', p0: [-1.6, 1.85, -1.9], p1: [-1.45, 1.82, -1.7], l0: [0.6, 1.6, 1.8], fov: 46, shift: 0.02 }, (lt, O) => { endScene(O); }, { grade: 'bakery', dof: 0.12 });
 shot(TE + 2.2, LINE - 0.45, 'bakery', { ease: 'lin', p0: [3.0, 2.1, 2.7], p1: [2.8, 2.05, 2.4], l0: [0.5, 1.9, -1.0], fov: 42 }, (lt, O) => { endScene(O); }, { grade: 'bakery', dof: 0.1 });
 shot(LINE - 0.45, SPIN, 'bakery', { ease: 'lin', p0: [0.5, 2.0, 6.0], p1: [0.45, 2.0, 5.6], l0: [0.25, 1.9, 1.6], fov: 40 }, (lt, O) => { endScene(O); }, { grade: 'bakery', dof: 0.12 });
-shot(SPIN, DUR + 0.5, 'bakery', { ease: 'lin', p0: [1.25, 1.33, 1.25], p1: [1.15, 1.3, 1.05], l0: [0.85, 1.17, 0.35], fov: 36, shift: 0 }, (lt, O) => { endScene(O); const c = B.spin; c.visible = true; c.rotation.order = 'YXZ'; const w = 0.12 + 0.1 * Math.max(0, 1 - (O - SPIN) / 2.5); c.position.set(0.85, 1.135 + 0.11 * Math.cos(w), 0.35); c.rotation.set(Math.PI / 2 - w, O * 26, 0); }, { grade: 'bakery', hideDiary: true, dark: (O) => (O >= LAST + 0.05 ? 1 : 0) });
+function spinCoin(O) { const c = B.spin; c.visible = true; c.rotation.order = 'YXZ'; const settle = O >= SETTLE, w = settle ? 0 : 0.12 + 0.1 * Math.max(0, 1 - (O - SPIN) / 1.2); c.position.set(0.85, 1.135 + 0.11 * Math.cos(w), 0.35); c.rotation.set(Math.PI / 2 - w, (settle ? SETTLE : O) * 26 - (settle ? 0 : 0), 0); }
+shot(SPIN, SETTLE + 0.25, 'bakery', { ease: 'lin', p0: [1.25, 1.33, 1.25], p1: [1.15, 1.3, 1.05], l0: [0.85, 1.17, 0.35], fov: 36, shift: 0 }, (lt, O) => { endScene(O); spinCoin(O); }, { grade: 'bakery', hideDiary: true });
+// Marcus stares at the coin standing on its edge... and faints backwards, out of frame. Black on the TING's tail.
+shot(SETTLE + 0.25, DUR + 0.5, 'bakery', { ease: 'lin', p0: [-1.15, 2.35, -2.55], p1: [-1.1, 2.35, -2.4], l0: [-0.5, 1.45, 1.6], fov: 52, shift: 0 }, (lt, O) => { endScene(O); spinCoin(O); }, { grade: 'bakery', hideDiary: true, dark: (O) => (O >= LAST + 0.05 ? 1 : 0) });
 const SAFE_L = 90, SAFE_R = 140, CAP_W = W - SAFE_L - SAFE_R, CAP_X = SAFE_L + CAP_W / 2;   // safe area: full-screen players crop the edges, Instagram's buttons cover the right side
 function stepAt(T) { let s = null; for (const st of STEPS) if (T >= st.t) s = st; return s; }
 function spaced(g, text, x, y, sp) { let cx = x; for (const ch of text) { g.fillText(ch, cx, y); cx += g.measureText(ch).width + sp; } return cx - x; }
@@ -1069,6 +1161,31 @@ export function renderFrame(Oreal) {
 export const TIMELINE = { STEPS, DUR, cuts: shots.map(s => s.t0), flashes: shots.filter(s => s.flash !== undefined).map(s => s.flash) };
 window.captionText = (O) => { const c = cueAt(O); if (!c) return ''; return c.kind === 'shout' ? c.words.map(w => w.w).join(' ') : captionChunk(c, O); };
 window.hookText = () => '';
-window.S = S; window.cam = cam; window.shots = shots; window.renderFrame = renderFrame; window.TIMELINE = TIMELINE;
+// ---------------------------------------------------------------- solidity check (owner rule: nothing passes through a body, car or prop)
+// window.collide(O) poses the shot at time O (no render) and returns every pair of solid bodies whose oriented boxes overlap.
+const SOLIDS = () => { const L = (sc, list) => list.filter(([, o]) => o).map(([n, o]) => [n, o]);
+  return { bakery: L(S.bakery, [['hero', S.bakery.hero.root], ['marcus', S.bakery.marcus.root], ['baker', S.bakery.baker.root], ['extra0', S.bakery.extras[0].root], ['extra1', S.bakery.extras[1].root], ['toast', S.bakery.toast], ['toast2', S.bakery.toast2], ['plate', S.bakery.plate], ['coinspin', S.bakery.spin]]),
+    hand: L(S.hand, Object.entries(S.hand.solids || {})),
+    bridge: L(S.bridge, [['hero', S.bridge.hero.root], ...S.bridge.walkers.map((P, i) => ['walker' + i, P.root])]),
+    junction: L(S.junction, [['hero', S.junction.hero.root], ['driver', S.junction.driver.root], ...S.junction.peds.map((P, i) => ['ped' + i, P.root]), ...S.junction.cars.map((c, i) => ['car' + i, c]), ...S.junction.signals.flat().map((s, i) => ['signal' + i, s])]),
+    arcade: L(S.arcade, [['hero', S.arcade.hero.root], ['kid', S.arcade.kid.root], ['mum', S.arcade.mum.root], ['machine', S.arcade.cm], ...S.arcade.bears.map((b, i) => ['bear' + i, b])]),
+    drive: L(S.drive, [['hero', S.drive.hero.root], ['marcus', S.drive.marcus.root], ['car', S.drive.car], ['bus', S.drive.bus], ['fish', S.drive.fish]]),
+    races: L(S.races, [['hero', S.races.hero.root], ['marcus', S.races.marcus.root], ['fan', S.races.fan.root], ...S.races.copiers.map((P, i) => ['copier' + i, P.root]), ...S.races.horses.map((h, i) => ['horse' + i, h]), ['pony', S.races.pony], ['post', S.races.post]]),
+    laundrette: L(S.laundrette, [['hero', S.laundrette.hero.root]]),
+    casino: L(S.casino, [['hero', S.casino.hero.root], ['dealer', S.casino.dealer.root], ['boss', S.casino.boss.root], ...S.casino.near.map((P, i) => ['near' + i, P.root]), ...S.casino.stacks.map((t, i) => ['chips' + i, t])]),
+    pub: L(S.pub, [['hero', S.pub.hero.root], ['barman', S.pub.barman.root], ...S.pub.near.map((P, i) => ['near' + i, P.root])]),
+    ticket: [], plaza: [] }; };
+const CROWDS = () => ({ drive: S.drive.crowd, races: S.races.crowd, casino: S.casino.crowd, pub: S.pub.crowd, plaza: S.plaza.crowd });
+const shownDeep = (o) => { for (let p = o; p; p = p.parent) if (!p.visible) return false; return true; };
+function obbsOf(obj) { const out = []; obj.traverse(m => { if (!m.isMesh || m.isInstancedMesh || !shownDeep(m)) return; const mt = Array.isArray(m.material) ? m.material[0] : m.material; if (mt && mt.transparent && mt.opacity < 0.5) return;
+  if (!m.geometry.boundingBox) m.geometry.computeBoundingBox(); const bb = m.geometry.boundingBox; const ob = new OBB().fromBox3(bb); ob.applyMatrix4(m.matrixWorld); ob.halfSize.multiplyScalar(0.82); if (Math.max(ob.halfSize.x, ob.halfSize.y, ob.halfSize.z) < 0.025) return; out.push(ob); }); return out; }
+function crowdObbs(cr) { if (!cr) return []; return cr.D.map((d, i) => { if (d.vis === false) return null; const ob = new OBB(V([d.p[0], d.p[1] + 1.15 * d.s, d.p[2]]), V([0.26 * d.s, 1.0 * d.s, 0.17 * d.s]), new THREE.Matrix3().setFromMatrix4(new THREE.Matrix4().makeRotationY(d.ry))); return ['crowd' + i, [ob]]; }).filter(Boolean); }
+window.collide = (O) => { const sh = shots.find(s => O >= s.t0 && O < s.t1) || shots[shots.length - 1]; sh.setup(clamp((O - sh.t0) / (sh.t1 - sh.t0)), O, O); const sc = S[sh.scene].sc; sc.updateMatrixWorld(true);
+  const ents = (SOLIDS()[sh.scene] || []).filter(([, o]) => shownDeep(o)).map(([n, o]) => [n, obbsOf(o)]).filter(([, b]) => b.length).concat((CROWDS()[sh.scene] && CROWDS()[sh.scene].D.some(d => d.vis !== false)) ? crowdObbs(CROWDS()[sh.scene]) : []);
+  const hits = []; for (let i = 0; i < ents.length; i++) for (let j = i + 1; j < ents.length; j++) { if (ents[i][0].startsWith('crowd') && ents[j][0].startsWith('crowd')) continue; let hit = false;
+    for (const a of ents[i][1]) { for (const b of ents[j][1]) if (a.center.distanceTo(b.center) < a.halfSize.length() + b.halfSize.length() && a.intersectsOBB(b)) { hit = true; break; } if (hit) break; }
+    if (hit) hits.push(ents[i][0] + '×' + ents[j][0]); }
+  return { scene: sh.scene, hits }; };
+window.THREE = THREE; window.S = S; window.cam = cam; window.shots = shots; window.renderFrame = renderFrame; window.TIMELINE = TIMELINE;
 fetch('dialogue.json').then(r => r.json()).then(d => { DIALOGUE = d; }).catch(() => { DIALOGUE = []; })
   .then(() => Promise.all(['800 78px Montserrat', '500 96px Playfair', 'italic 500 236px Playfair', '500 128px Lora', '600 30px InterW', '700 30px InterW', 'italic 400 46px Lora', 'italic 500 190px Playfair'].map(f => document.fonts.load(f)))).then(() => { window.READY = true; });

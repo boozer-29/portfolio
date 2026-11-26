@@ -147,6 +147,31 @@ export function renderFrame(Oreal) {
 export const TIMELINE = { STEPS, DUR, cuts: shots.map(s => s.t0), flashes: shots.filter(s => s.flash !== undefined).map(s => s.flash) };
 window.captionText = (O) => { const c = cueAt(O); if (!c) return ''; return c.kind === 'shout' ? c.words.map(w => w.w).join(' ') : captionChunk(c, O); };
 window.hookText = () => '';
-window.S = S; window.cam = cam; window.shots = shots; window.renderFrame = renderFrame; window.TIMELINE = TIMELINE;
+// ---------------------------------------------------------------- solidity check (owner rule: nothing passes through a body, car or prop)
+// window.collide(O) poses the shot at time O (no render) and returns every pair of solid bodies whose oriented boxes overlap.
+const SOLIDS = () => { const L = (sc, list) => list.filter(([, o]) => o).map(([n, o]) => [n, o]);
+  return { bakery: L(S.bakery, [['hero', S.bakery.hero.root], ['marcus', S.bakery.marcus.root], ['baker', S.bakery.baker.root], ['extra0', S.bakery.extras[0].root], ['extra1', S.bakery.extras[1].root], ['toast', S.bakery.toast], ['toast2', S.bakery.toast2], ['plate', S.bakery.plate], ['coinspin', S.bakery.spin]]),
+    hand: L(S.hand, Object.entries(S.hand.solids || {})),
+    bridge: L(S.bridge, [['hero', S.bridge.hero.root], ...S.bridge.walkers.map((P, i) => ['walker' + i, P.root])]),
+    junction: L(S.junction, [['hero', S.junction.hero.root], ['driver', S.junction.driver.root], ...S.junction.peds.map((P, i) => ['ped' + i, P.root]), ...S.junction.cars.map((c, i) => ['car' + i, c]), ...S.junction.signals.flat().map((s, i) => ['signal' + i, s])]),
+    arcade: L(S.arcade, [['hero', S.arcade.hero.root], ['kid', S.arcade.kid.root], ['mum', S.arcade.mum.root], ['machine', S.arcade.cm], ...S.arcade.bears.map((b, i) => ['bear' + i, b])]),
+    drive: L(S.drive, [['hero', S.drive.hero.root], ['marcus', S.drive.marcus.root], ['car', S.drive.car], ['bus', S.drive.bus], ['fish', S.drive.fish]]),
+    races: L(S.races, [['hero', S.races.hero.root], ['marcus', S.races.marcus.root], ['fan', S.races.fan.root], ...S.races.copiers.map((P, i) => ['copier' + i, P.root]), ...S.races.horses.map((h, i) => ['horse' + i, h]), ['pony', S.races.pony], ['post', S.races.post]]),
+    laundrette: L(S.laundrette, [['hero', S.laundrette.hero.root]]),
+    casino: L(S.casino, [['hero', S.casino.hero.root], ['dealer', S.casino.dealer.root], ['boss', S.casino.boss.root], ...S.casino.near.map((P, i) => ['near' + i, P.root]), ...S.casino.stacks.map((t, i) => ['chips' + i, t])]),
+    pub: L(S.pub, [['hero', S.pub.hero.root], ['barman', S.pub.barman.root], ...S.pub.near.map((P, i) => ['near' + i, P.root])]),
+    ticket: [], plaza: [] }; };
+const CROWDS = () => ({ drive: S.drive.crowd, races: S.races.crowd, casino: S.casino.crowd, pub: S.pub.crowd, plaza: S.plaza.crowd });
+const shownDeep = (o) => { for (let p = o; p; p = p.parent) if (!p.visible) return false; return true; };
+function obbsOf(obj) { const out = []; obj.traverse(m => { if (!m.isMesh || m.isInstancedMesh || !shownDeep(m)) return; const mt = Array.isArray(m.material) ? m.material[0] : m.material; if (mt && mt.transparent && mt.opacity < 0.5) return;
+  if (!m.geometry.boundingBox) m.geometry.computeBoundingBox(); const bb = m.geometry.boundingBox; const ob = new OBB().fromBox3(bb); ob.applyMatrix4(m.matrixWorld); ob.halfSize.multiplyScalar(0.82); if (Math.max(ob.halfSize.x, ob.halfSize.y, ob.halfSize.z) < 0.025) return; out.push(ob); }); return out; }
+function crowdObbs(cr) { if (!cr) return []; return cr.D.map((d, i) => { if (d.vis === false) return null; const ob = new OBB(V([d.p[0], d.p[1] + 1.15 * d.s, d.p[2]]), V([0.26 * d.s, 1.0 * d.s, 0.17 * d.s]), new THREE.Matrix3().setFromMatrix4(new THREE.Matrix4().makeRotationY(d.ry))); return ['crowd' + i, [ob]]; }).filter(Boolean); }
+window.collide = (O) => { const sh = shots.find(s => O >= s.t0 && O < s.t1) || shots[shots.length - 1]; sh.setup(clamp((O - sh.t0) / (sh.t1 - sh.t0)), O, O); const sc = S[sh.scene].sc; sc.updateMatrixWorld(true);
+  const ents = (SOLIDS()[sh.scene] || []).filter(([, o]) => shownDeep(o)).map(([n, o]) => [n, obbsOf(o)]).filter(([, b]) => b.length).concat((CROWDS()[sh.scene] && CROWDS()[sh.scene].D.some(d => d.vis !== false)) ? crowdObbs(CROWDS()[sh.scene]) : []);
+  const hits = []; for (let i = 0; i < ents.length; i++) for (let j = i + 1; j < ents.length; j++) { if (ents[i][0].startsWith('crowd') && ents[j][0].startsWith('crowd')) continue; let hit = false;
+    for (const a of ents[i][1]) { for (const b of ents[j][1]) if (a.center.distanceTo(b.center) < a.halfSize.length() + b.halfSize.length() && a.intersectsOBB(b)) { hit = true; break; } if (hit) break; }
+    if (hit) hits.push(ents[i][0] + '×' + ents[j][0]); }
+  return { scene: sh.scene, hits }; };
+window.THREE = THREE; window.S = S; window.cam = cam; window.shots = shots; window.renderFrame = renderFrame; window.TIMELINE = TIMELINE;
 fetch('dialogue.json').then(r => r.json()).then(d => { DIALOGUE = d; }).catch(() => { DIALOGUE = []; })
   .then(() => Promise.all(['800 78px Montserrat', '500 96px Playfair', 'italic 500 236px Playfair', '500 128px Lora', '600 30px InterW', '700 30px InterW', 'italic 400 46px Lora', 'italic 500 190px Playfair'].map(f => document.fonts.load(f)))).then(() => { window.READY = true; });

@@ -106,40 +106,46 @@ def reels(t, g=-10):   # the slot widget spinning, three stops
 for s in TLJ['steps']:
     if s['day'] not in (1, 13, 'END'): ting(s['t0'] + 0.33)
     reels(s['t0'] + 0.5)
-place(sfx, click(3000, 0.6), T1 - 0.05 + 0.33 - 0.38 + 0.05, 0); place(sfx, thud(240, 0.04, 0.7), T1 + 0.33)   # Day 1: thk, tails
+place(sfx, click(3000, 0.6), T1 - 0.05, 0); place(sfx, click(2600, 0.5), T1 + 0.17, -4); place(sfx, thud(320, 0.05, 0.9), T1 + 0.3); place(sfx, thud(240, 0.04, 0.7), T1 + 0.52)   # Day 1: flick, tink on the hand, BONK on the forehead, thk: tails
 ting(T13 + 0.33, 0, 1.6)   # Day 13: the coin lands on its edge and rings on
 # beds: every scene has its own ambience (no dead air)
 for name, a_, b_, gd in [('amb_bakery', 0, T2, -2), ('amb_wind', T2, T3, 0), ('amb_traffic', T3, T5, -2), ('amb_arcade', T5, T7, -2), ('amb_suburb', T7, T9, -2),
-                         ('amb_races', T9, T13, 0), ('amb_laundrette', T13, T20, -4), ('amb_casino', T20, T23, -2), ('amb_suburb', T23, T26, -2), ('amb_pub', T26 + 3.6, TE, -2), ('amb_bakery', TE, DUR, -2)]:
+                         ('amb_races', T9, T13, 0), ('amb_laundrette', T13, T13 + 3.55, -4), ('amb_casino', T20, T23, -2), ('amb_suburb', T23, T26, -2), ('amb_pub', T26 + 3.6, TE, -2), ('amb_bakery', TE, DUR, -2)]:
     walla(name, a_, b_ - a_ + 0.4, gd - 6, 4.6 if name == 'amb_pub' else 0.0)   # the pub bed loops only its murmur tail; the cheer plays once, on the balls   # beds sit under the music, never over it
 # title: till bell, the roll taken, rain; Day 1: the toast flip + splat on the trainer
-place(sfx, ding(1760, 0.6, 0.12), 0.05, -6); place(sfx, swish(0.6, 900, 300), T1 + 1.6, -4); place(sfx, noise(0.25, 150, 1500, 0.3, 0.003, 0.12) + thud(90, 0.08, 0.6)[:int(0.25 * SR)], T1 + 3.15)
+place(sfx, ding(1760, 0.6, 0.12), 0.05, -6); place(sfx, swish(0.3, 2500, 900), 0.95, -8); place(sfx, swish(0.45, 900, 300), T1 + 2.3, -4)
+for tl in (T1 + 2.75, T1 + 3.65): place(sfx, noise(0.25, 150, 1500, 0.3, 0.003, 0.12) + thud(90, 0.08, 0.6)[:int(0.25 * SR)], tl + 0.02)   # both slices land butter-down
+place(sfx, swish(0.35, 700, 250), T1 + 3.3, -6)
 # Day 2: the note fluttering down the bridge, the slap on his face
 for k in range(10): place(sfx, noise(0.07, 1500, 6000, 0.05, 0.01, 0.03), T2 + 1.2 + k * 0.17, -6)
-place(sfx, noise(0.12, 400, 4000, 0.4, 0.002, 0.05), T2 + 3.05)
+place(sfx, noise(0.12, 400, 4000, 0.4, 0.002, 0.05), T2 + 3.05); place(sfx, swish(0.5, 400, 2500), T2 + 1.35, -2); place(sfx, thud(110, 0.05, 0.5), T2 + 1.78, -6)   # the hood whooshes up and settles
 # Day 3: green-man beeps rippling away, horns stacking up
 for k in range(8): place(sfx, ding(2093, 0.05, 0.06), T3 + 1.0 + k * 0.22, -8)
+place(sfx, thud(85, 0.12, 1.0) + thud(160, 0.04, 0.6), T3 + 4.27, 0); place(sfx, click(2400, 0.8), T3 + 4.4, -2); place(sfx, gen('horn_stuck', 0.9, 2.4), T3 + 4.45, -4)   # door slams, locks, horn stuck
+place(sfx, click(1500, 0.9) + thud(400, 0.02, 0.3)[:int(0.05 * SR)], T3 + 6.07, -2)   # the button presses itself
 # Day 5: coin in the slot, the claw whine, the clunk, the avalanche
-place(sfx, click(2200, 0.8), T5 + 1.05); place(sfx, whine(1.2, 300, 520, 0.05), T5 + 1.3, -4); place(sfx, thud(150, 0.06, 0.7), T5 + 2.5); place(sfx, gen('teddy_avalanche', 1.2), T5 + 2.7, 0)
+place(sfx, click(2200, 0.8), T5 + 1.05); place(sfx, whine(1.2, 300, 520, 0.05), T5 + 1.3, -4); place(sfx, thud(150, 0.06, 0.7), T5 + 2.5); place(sfx, gen('teddy_avalanche', 1.2), T5 + 2.7, 0); place(sfx, gen('teddy_avalanche', 1.0), T5 + 5.2, -2); place(sfx, click(1200, 0.7), T5 + 4.7, -4); place(sfx, thud(260, 0.05, 0.4), T5 + 6.37, -4)   # the flood, the sign flips to SORRY, the crown lands
 # Day 7: the bus, the puddle wave around him, onto Marcus
-place(sfx, gen('splash', 1.3), T7 + 1.5, 0)
+place(sfx, gen('splash', 1.3), T7 + 1.5, 0); place(sfx, gen('fish_flop', 1.0), T7 + 2.75, -6); place(sfx, gen('fish_flop', 1.1), T7 + 5.2, 0)   # the fish lands on the seat and flops
 # Day 13: launderette tumble thuds under the hush
 for k in range(6): place(sfx, thud(70, 0.1, 0.3), T13 + 1.3 + k * 0.9, -10)
+place(sfx, thud(55, 0.25, 0.8), T13 + 3.55, -4)   # every machine stops at once (the bed below cuts there too)
 # Day 20: five card flips, chip towers clattering, the crowd gasp
 for k in range(5): place(sfx, swish(0.18, 2000, 4500), T20 + 1.0 + k * 0.55, -6); place(sfx, click(1500, 0.5), T20 + 1.15 + k * 0.55, -6)
-for k in range(12): place(sfx, click(2600 + 300 * (k % 4), 0.35), T20 + 3.9 + k * 0.04, -6)
+place(sfx, gen('chip_spill', 1.2), T20 + 3.7, 0); place(sfx, gen('coin_cascade', 1.1), T20 + 3.9, -2)   # the towers topple; every slot machine pays out
 # Day 23: the meteor scream + impact
-place(sfx, gen('meteor', 1.5), T23 + 1.2, 0); place(sfx, thud(40, 0.6, 1.0), T23 + 2.4, 0)
+place(sfx, gen('meteor', 1.5), T23 + 1.2, 0); place(sfx, thud(40, 0.6, 1.0), T23 + 2.4, 0); place(sfx, gen('car_alarm_die', 1.0), T23 + 2.65, -4)   # the alarm's sad death
 # Day 26: pen scratch on the ticket, printers jamming, balls tumbling, every ball cheered, confetti
 place(sfx, noise(0.9, 2000, 7000, 0.025, 0.05, 0.2), T26 + 1.0, -6)
 for k in range(16): place(sfx, click(900 + 100 * (k % 5), 0.5), T26 + 2.2 + k * 0.08, -8)
 for k in range(30): place(sfx, click(1200 + 200 * (k % 6), 0.3), T26 + 3.8 + k * 0.05, -10)
 for k in range(6): place(sfx, thud(200, 0.05, 0.5), T26 + 4.0 + k * 0.28, -6)
-place(sfx, gen('amb_pub', 1.0), T26 + 3.6, -2)
+place(sfx, gen('amb_pub', 1.0), T26 + 3.6, -2); place(sfx, gen('crowd_sigh', 1.2), T26 + 15.5, -2); place(sfx, ding(3200, 0.12, 0.08), T26 + 15.47, -6)   # the whole pub sighs; 64p clinks into the tip jar
 # END: the till, 64p sliding over the counter, the final coin spin rattling down to one last TING
 place(sfx, noise(0.4, 1500, 5000, 0.04, 0.02, 0.1), TE + 1.7, -6); place(sfx, ding(1760, 0.6, 0.12), TE + 2.05, -6)
-for k in range(24): place(sfx, click(3500, 0.25), TE + 6.0 + 2.0 * (1 - (1 - k / 24) ** 1.6), -8)
-ting(TE + 8.2, 0, 0.9)
+for k in range(24): place(sfx, click(3500, 0.25), TE + 6.0 + 1.4 * (1 - (1 - k / 24) ** 1.6), -8)
+ting(TE + 7.45, 0, 1.4)   # it stops dead, standing on its edge
+place(sfx, gen('faint_thud', 1.2), TE + 8.25, 0)
 sfx *= 0.8
 
 

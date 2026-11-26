@@ -31,8 +31,8 @@ function npcs(sc, list) { return list.map(([i, o]) => { const P = npc(i, o || {}
   const glass = new THREE.Mesh(rgeo(2.6, 0.62, 0.95), GLASS); glass.position.set(-1.45, 1.44, 0); sc.add(glass); sc.add(rbox(2.62, 0.05, 0.97, mat(0xd9d4cc, { metalness: 0.6, roughness: 0.3 }), -1.45, 1.76, 0));
   for (let k = 0; k < 6; k++) { const p = ball(0.13, mat([0xd9953f, 0xe0b25a, 0xc06a30][k % 3], { roughness: 0.6 }), -2.5 + k * 0.4, 1.24, (k % 2) * 0.2 - 0.1, undefined, 12); p.scale.set(1.3, 0.7, 1); sc.add(p); }
   const till = grp(2.7, 1.13, -0.1, sc); till.add(rbox(0.6, 0.3, 0.5, mat(0x2a2a30))); T(till, rbox(0.5, 0.32, 0.05, mat(0x1a1d24, { emissive: 0x3fd0a0, emissiveIntensity: 0.4 }), 0, 0.33, 0)).rotation.x = -0.3;
-  const doily = cyl(0.3, 0.3, 0.01, mat(0xffffff, { roughness: 0.9 }), 0.9, 1.135, 0.25, 24); sc.add(doily);
-  const roll = makeSausageRoll(1.1); roll.position.set(0.9, 1.25, 0.25); sc.add(roll);
+  const doily = cyl(0.3, 0.3, 0.01, mat(0xffffff, { roughness: 0.9 }), 0.45, 1.135, 0.25, 24); sc.add(doily);
+  const roll = makeSausageRoll(1.1); roll.position.set(0.55, 1.25, 0.25); sc.add(roll);
   const price = makePriceCard('64p', 'SAUSAGE ROLL'); price.position.set(0.25, 1.38, 0.47); price.rotation.x = -0.2; sc.add(price);
   // pendant lamps
   const lamps = [-3.4, 0.6, 4.0].map(x => { const l = practical(sc, x, 3.75, 0.6, 0xffcf8a, { i: 9, d: 9, r: 0.14, bokeh: 0.9 }); sc.add(cyl(0.01, 0.01, 1.2, mat(0x222222), x, 4.4, 0.6, 6)); sc.add(cone(0.32, 0.3, mat(0x2a3a2a, { roughness: 0.5 }), x, 3.92, 0.6, 18)); return l; });
@@ -40,23 +40,25 @@ function npcs(sc, list) { return list.map(([i, o]) => { const P = npc(i, o || {}
   const tbl = grp(-5.6, 0, 2.6, sc); tbl.add(cyl(0.06, 0.06, 0.78, mat(0x222222), 0, 0.39, 0, 10)); tbl.add(cyl(0.3, 0.3, 0.04, mat(0x222222), 0, 0.02, 0, 16)); tbl.add(rbox(1.0, 0.05, 0.9, wood, 0, 0.8, 0));
   const chair = grp(-5.6, 0, 3.95, sc); chair.add(rbox(0.6, 0.06, 0.6, wood, 0, 0.5, 0)); chair.add(rbox(0.6, 0.75, 0.06, wood, 0, 0.9, 0.3)); [[-0.25, -0.25], [0.25, -0.25], [-0.25, 0.25], [0.25, 0.25]].forEach(([x, z]) => chair.add(cyl(0.025, 0.025, 0.5, mat(0x222222), x, 0.25, z, 6)));
   tbl.add(cyl(0.2, 0.17, 0.03, mat(0xffffff, { roughness: 0.2 }), 0, 0.84, 0.25, 24)); tbl.add(cyl(0.07, 0.06, 0.16, mat(0xffffff, { roughness: 0.2 }), 0.3, 0.9, 0.05, 16));
-  const toast = makeToast(); sc.add(toast); const plate = cyl(0.26, 0.22, 0.035, mat(0xffffff, { roughness: 0.2 }), 0, 0, 0, 24); sc.add(plate); const splat = rbox(0.18, 0.012, 0.16, mat(0xffe27a, { roughness: 0.3 })); splat.castShadow = false; sc.add(splat);
+  const toast = makeToast(); sc.add(toast); const toast2 = makeToast(); sc.add(toast2); const splat2 = rbox(0.18, 0.012, 0.16, mat(0xffe27a, { roughness: 0.3 })); splat2.castShadow = false; sc.add(splat2);
+  const crumbs = [...Array(10)].map(() => { const c = rbox(0.035, 0.03, 0.035, mat(0xc98a3a, { roughness: 0.9 })); c.castShadow = false; c.visible = false; sc.add(c); return c; });
+  const plate = cyl(0.26, 0.22, 0.035, mat(0xffffff, { roughness: 0.2 }), 0, 0, 0, 24); sc.add(plate); const splat = rbox(0.18, 0.012, 0.16, mat(0xffe27a, { roughness: 0.3 })); splat.castShadow = false; sc.add(splat);
   // other customers at the back table (background life)
   const extras = npcs(sc, [[6], [2, { hairStyle: 'long' }]]); extras[0].root.position.set(5.2, 0, 4.2); extras[1].root.position.set(6.0, 0, 3.2);
   const hero = makeLuckHero(), marcus = makeMarcus(), baker = makeBaker(); [hero, marcus, baker].forEach(P => sc.add(P.root));
   const coins = [0, 1, 2].map(() => { const c = makeCoin(0.07); c.visible = false; sc.add(c); return c; }); const spin = makeCoin(0.11); spin.visible = false; sc.add(spin);
   const wallet = grp(); wallet.add(rbox(0.3, 0.2, 0.05, mat(0x3a2418, { roughness: 0.6 }))); wallet.add(rbox(0.26, 0.05, 0.2, mat(0xd9cfc0, { roughness: 0.9 }), 0, -0.12, 0.05)); sc.add(wallet);
   const moths = [0, 1].map(() => { const g = grp(); [-1, 1].forEach(s => { const w = new THREE.Mesh(new THREE.PlaneGeometry(0.12, 0.08), mat(0xd8cfb8, { side: THREE.DoubleSide, roughness: 1 })); w.position.x = s * 0.06; g.add(w); g['w' + s] = w; }); sc.add(g); return g; });
-  S.bakery = { sc, key, win, win2, roll, price, toast, splat, plate, hero, marcus, baker, extras, coins, spin, wallet, moths, lamps, doily };
+  S.bakery = { sc, key, win, win2, roll, price, toast, splat, plate, toast2, splat2, crumbs, hero, marcus, baker, extras, coins, spin, wallet, moths, lamps, doily };
 }
 { // ---- the hand insert (coin flip): a big hand on a dark warm surface, top-down
   const sc = new THREE.Scene(); sc.background = new THREE.Color(0x120c08);
   lightRig(sc, { env: 0.3, sky: 0xffe8c8, ground: 0x3a2a1c, hemi: 0.35, keyC: 0xfff0d8, key: 0.85, keyPos: [3, 8, 4], R: 4, rim: 0.5, rimC: 0xffb070, rimPos: [-4, 3, -4] });
-  sc.add(rbox(14, 0.2, 14, new THREE.MeshStandardMaterial({ map: woodT('#5a3a22', 9), roughness: 0.5 }), 0, -0.5, 0));
-  const hand = makeHandInsert(); hand.position.set(0, -0.2, 0); sc.add(hand); const coin = makeCoin(0.28); sc.add(coin);
+  sc.add(rbox(14, 0.2, 14, new THREE.MeshStandardMaterial({ map: woodT('#5a3a22', 9), roughness: 0.5 }), 0, -0.1, 0)); sc.add(rbox(14, 6, 0.3, mat(0x2a1a12, { roughness: 0.9 }), 0, 3, -3.2));
+  const hand = makeHandInsert(); hand.visible = false; sc.add(hand); const coin = makeCoin(0.13); sc.add(coin); const hero = makeLuckHero(); sc.add(hero.root);
   [[-3, 0.5, -2, 0xffb35a], [2.6, 0.3, -2.6, 0xff8a3a], [3.2, 0.2, 1.8, 0xffd28a], [-2.4, 0.1, 2.2, 0xff9a4a]].forEach(([x, y, z, c]) => practical(sc, x, y, z, c, { i: 2, d: 4, r: 0.12, bokeh: 1.4 }));
   const spark = sparkle(1.4); spark.visible = false; sc.add(spark);
-  S.hand = { sc, hand, coin, spark };
+  S.hand = { sc, hand, coin, spark, hero, solids: { hero: hero.root, coin } };
 }
 { // ---- WINDY BRIDGE (Day 2): deck along z, the hero at z 0 facing +z (camera end), the note blows in from far down the bridge
   const sc = new THREE.Scene(); sc.background = new THREE.Color(0x9aa8b8); sc.fog = new THREE.Fog(0x9aa8b8, 30, 140);
@@ -69,10 +71,12 @@ function npcs(sc, list) { return list.map(([i, o]) => { const P = npc(i, o || {}
     for (let z = 4; z > -140; z -= 14) { const p = grp(sx * 3.6, 0, z, sc); p.add(cyl(0.07, 0.09, 4.6, mat(0x2a333d, { metalness: 0.5 }), 0, 2.3, 0, 10)); p.add(rbox(0.5, 0.25, 0.3, mat(0x2a333d), -sx * 0.25, 4.6, 0)); } }
   const r = rnd(12); for (let i = 0; i < 40; i++) { const x = (r() < 0.5 ? -1 : 1) * (25 + r() * 70), z = -60 - r() * 110, h = 8 + r() * 40; sc.add(rbox(6 + r() * 8, h, 6 + r() * 8, mat([0x7a8494, 0x8d96a3, 0x6a7280][i % 3], { roughness: 0.9 }), x, h / 2 - 9, z)); }
   const hero = makeLuckHero(); sc.add(hero.root); const note = makeNote(); sc.add(note);
+  // the hood that flips up onto his head in the gust (pivot at the back of the neck; rotation.x 0 = up, clear of head and hair)
+  const hm = mat(0xD7262E, { roughness: 0.75 }); const hood = grp(0, 0.75, -0.25, hero.spine); hood.add(rbox(0.86, 0.1, 0.74, hm, 0, 0.9, 0.22)); hood.add(rbox(0.86, 0.82, 0.1, hm, 0, 0.5, -0.16)); [-1, 1].forEach(sx => hood.add(rbox(0.08, 0.74, 0.7, hm, sx * 0.43, 0.52, 0.2))); hood.visible = false;
   const walkers = npcs(sc, [[0], [3, { hairStyle: 'long' }], [5], [7]]);
   const hats = [0x2a2a30, 0xd7262e, 0x6b4a2b].map(c => { const g = grp(); g.add(cyl(0.34, 0.34, 0.03, mat(c), 0, 0, 0, 20)); g.add(cyl(0.22, 0.24, 0.2, mat(c), 0, 0.1, 0, 18)); sc.add(g); return g; });
   const leaves = dropsInst(sc, 60, 0xc9a25a, 0.05);
-  S.bridge = { sc, key, hero, note, walkers, hats, leaves };
+  S.bridge = { sc, key, hero, note, walkers, hats, leaves, hood };
 }
 { // ---- RUSH-HOUR JUNCTION (Day 3): a footpath along z at x 0 crosses four roads (along x) at z = -4, -16, -28, -40; a signal faces +z before each road
   const sc = new THREE.Scene(); sc.background = new THREE.Color(0xb8c4d0); sc.fog = new THREE.Fog(0xb8c4d0, 40, 150);
@@ -88,6 +92,8 @@ function npcs(sc, list) { return list.map(([i, o]) => { const P = npc(i, o || {}
   const signals = ROADS.map(rz => [-1, 1].map(sx => { const s = makeSignal(); s.position.set(sx * 1.9, 0, rz + 4.0); sc.add(s); return s; }));
   const CARC = [0xd7262e, 0x2f5fb0, 0xe8e8ea, 0x1a1a1f, 0x2bb673, 0xe8a317, 0x8a8f98];
   const cars = []; ROADS.forEach((rz, ri) => [-1, 1].forEach(sx => { const n = ri < 2 ? 4 : 3; for (let k = 0; k < n; k++) { const c = makeCar(CARC[(ri * 5 + k * 3 + (sx > 0 ? 1 : 0)) % CARC.length], { open: ri === 0 && sx === 1 && k === 0 }); c.position.set(sx * (5.2 + k * 5.0), 0, rz + (sx > 0 ? -1.6 : 1.6)); c.rotation.y = sx > 0 ? -Math.PI / 2 : Math.PI / 2; sc.add(c); cars.push(c); } }));
+  // the angry driver's car (cars[4]) gets a door on its +z side, hinged at the front; it swings shut and locks him out
+  const dcar = cars[4]; const door = grp(0.97, 0, 0.9, dcar); const dm = mat(0xe8e8ea, { roughness: 0.25, metalness: 0.35 }); door.add(rbox(0.06, 0.55, 1.1, dm, 0, 0.68, -0.55)); door.add(rbox(0.04, 0.06, 0.18, mat(0x333333), 0.04, 0.82, -0.95)); dcar.door = door;
   const driver = npc(0, { hood: 0x3a6ad0, hoodD: 0x3a6ad0 }); driver.head.add(rbox(0.72, 0.14, 0.68, mat(0x111111), 0, 0.72, 0)); sc.add(driver.root);
   const hero = makeLuckHero(); sc.add(hero.root);
   const peds = npcs(sc, [[2], [4], [6, { hairStyle: 'long' }]]);
@@ -108,13 +114,14 @@ function npcs(sc, list) { return list.map(([i, o]) => { const P = npc(i, o || {}
   cm.add(rbox(1.8, 0.9, 1.8, body, 0, 0.45, 0)); cm.add(rbox(1.8, 0.45, 1.8, body, 0, 2.85, 0)); [[-0.87, -0.87], [0.87, -0.87], [-0.87, 0.87], [0.87, 0.87]].forEach(([x, z]) => cm.add(rbox(0.07, 1.75, 0.07, trim, x, 1.75, z)));
   const glassB = new THREE.Mesh(rgeo(1.7, 1.7, 1.7), GLASS); glassB.position.set(0, 1.75, 0); cm.add(glassB); cm.glassB = glassB;
   const door = grp(-0.85, 0.9, 0.86, cm); const gl = new THREE.Mesh(new THREE.PlaneGeometry(1.7, 1.7), GLASS); gl.position.set(0.85, 0.85, 0); door.add(gl); cm.door = door;
-  const marquee = signMesh(1.6, 0.36, signTex('CLAW', '#2a0a3a', '#ffd23a', 512, 128, '800 90px Montserrat, Arial'), true); marquee.position.set(0, 2.88, 0.91); cm.add(marquee);
+  const marquee = signMesh(1.6, 0.36, signTex('CLAW', '#2a0a3a', '#ffd23a', 512, 128, '800 90px Montserrat, Arial'), true); marquee.position.set(0, 2.88, 0.91); cm.add(marquee); cm.marquee = marquee; cm.sorry = signTex('SORRY', '#3a0a0a', '#ff4a5a', 512, 128, '800 90px Montserrat, Arial');
   cm.add(rbox(0.5, 0.35, 0.1, mat(0x111111), 0.45, 0.55, 0.91)); cm.add(rbox(0.12, 0.2, 0.05, mat(0xffd23a, { emissive: 0xffd23a, emissiveIntensity: 1.5 }), -0.4, 0.7, 0.92));
   practical(sc, 0, 2.5, 0, 0xffe8ff, { i: 3, d: 3, r: 0.04, ei: 1 });
   const claw = grp(0, 2.45, 0, cm); claw.add(cyl(0.02, 0.02, 1.2, mat(0xcfd3da, { metalness: 1, roughness: 0.2 }), 0, 0.6, 0, 6)); claw.add(cyl(0.12, 0.14, 0.16, mat(0xcfd3da, { metalness: 1, roughness: 0.2 }), 0, 0, 0, 14));
   claw.prongs = [0, 1, 2].map(i => { const p = grp(0, -0.05, 0, claw); p.rotation.y = i * 2.094; const a = grp(0.1, 0, 0, p); a.add(rbox(0.04, 0.32, 0.05, mat(0xcfd3da, { metalness: 1, roughness: 0.2 }), 0.04, -0.16, 0)); return a; }); cm.claw = claw;
-  const bears = [...Array(46)].map((_, i) => { const b = makeBear(i, 0.55 + (i % 4) * 0.05); sc.add(b); return b; });
-  const r = rnd(21); const pile = bears.map((b, i) => V([(r() - 0.5) * 1.3, 0.92 + Math.floor(i / 16) * 0.22 + r() * 0.08, (r() - 0.5) * 1.3]));
+  const bears = [...Array(156)].map((_, i) => { const b = makeBear(i, 0.58); sc.add(b); return b; });   // 46 in stock + 110 more than could ever fit (cartoon logic)
+  // the stock: a 5x5x2 stack on the machine floor (spacing 0.28, no overlaps), the centre of the top layer left free for the claw
+  const pile = []; for (let L = 0; L < 2 && pile.length < 46; L++) for (let gz = 4; gz >= 0; gz--) for (let gx = 0; gx < 5; gx++) { if (L === 1 && gx === 2 && gz === 2) continue; if (pile.length < 46) pile.push(V([(gx - 2) * 0.32, 0.92 + L * 0.42, (gz - 2) * 0.32])); }
   const hero = makeLuckHero(), kid = makeKid(); sc.add(hero.root); sc.add(kid.root);
   const mum = npc(1, { hairStyle: 'long', hood: 0xff8c5a, hoodD: 0xff8c5a }); sc.add(mum.root);
   S.arcade = { sc, key, cm, bears, pile, hero, kid, mum };
@@ -137,6 +144,7 @@ function npcs(sc, list) { return list.map(([i, o]) => { const P = npc(i, o || {}
   const bucket = grp(2.7, 0, -0.9, sc); bucket.add(cyl(0.2, 0.16, 0.35, mat(0x2f6ad0, { roughness: 0.4 }), 0, 0.18, 0, 16)); bucket.add(cyl(0.18, 0.18, 0.02, mat(0xffffff, { roughness: 0.1 }), 0, 0.34, 0, 16));
   const puddle = new THREE.Mesh(new THREE.CircleGeometry(1, 32), new THREE.MeshStandardMaterial({ color: 0x6a8aa8, roughness: 0.02, metalness: 0.8, envMapIntensity: 2 })); puddle.rotation.x = -Math.PI / 2; puddle.scale.set(1.8, 0.8, 1); puddle.position.set(-0.6, 0.05, 4.0); sc.add(puddle);
   const bus = makeBus(); bus.rotation.y = Math.PI / 2; sc.add(bus);
+  const fish = grp(); const fm = mat(0x7fa8c8, { roughness: 0.25, metalness: 0.3, envMapIntensity: 1.4 }); const fb = ball(0.16, fm, 0, 0, 0, undefined, 16); fb.scale.set(1.9, 0.75, 0.55); fish.add(fb); T(fish, cone(0.12, 0.22, fm, -0.36, 0, 0, 4)).rotation.z = Math.PI / 2; fish.add(ball(0.035, mat(0xffffff), 0.2, 0.05, 0.075, undefined, 8)); fish.add(ball(0.02, mat(0x111111), 0.215, 0.05, 0.095, undefined, 8)); fish.visible = false; sc.add(fish);
   const spray = dropsInst(sc, 420, 0xbfe6ff, 0.075); const sheet = new THREE.Mesh(new THREE.SphereGeometry(1, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2), new THREE.MeshStandardMaterial({ color: 0xa8dcff, roughness: 0.05, transparent: true, opacity: 0.35, envMapIntensity: 2, side: THREE.DoubleSide, depthWrite: false })); sheet.visible = false; sc.add(sheet);
   const hero = makeLuckHero(), marcus = makeMarcus(); sc.add(hero.root); sc.add(marcus.root);
   const cr = rnd(31); const pts = []; for (let i = 0; i < 160; i++) { const x = -5.0 - cr() * 13, z = 1.5 + cr() * 4.2; pts.push([x, 0, z, Math.PI / 2 + (cr() - 0.5) * 0.6]); } const crowd = crowdInst(sc, pts, { seed: 9 });
@@ -146,7 +154,7 @@ function npcs(sc, list) { return list.map(([i, o]) => { const P = npc(i, o || {}
   const smoke = [...Array(16)].map(() => { const s = sprite(smokeTex, 2.5); s.visible = false; sc.add(s); return s; });
   const flash = new THREE.PointLight(0xffc07a, 0, 30, 1.2); flash.position.set(4, 3, -2); sc.add(flash);
   const debris = debrisPool(sc, 28, [0xc8102e, 0x3a2a22, 0x222222, 0xbfe0ff]);
-  S.drive = { sc, key, car, bucket, puddle, bus, spray, sheet, hero, marcus, crowd, met, smoke, flash, debris, dome };
+  S.drive = { sc, key, car, bucket, puddle, bus, spray, sheet, hero, marcus, crowd, met, smoke, flash, debris, dome, fish };
 }
 { // ---- RACECOURSE (Day 9): the straight runs along x (horses run toward -x), the spectator rail at z 5.2, the finish post at x -0.5
   const sc = new THREE.Scene(); sc.background = new THREE.Color(0xa8cce8); sc.fog = new THREE.Fog(0xb8d4ea, 60, 220);
@@ -199,13 +207,16 @@ function npcs(sc, list) { return list.map(([i, o]) => { const P = npc(i, o || {}
   const chairM = mat(0x8a1020, { roughness: 0.6 }); const chair = grp(0, 0, 1.75, sc); chair.add(rbox(0.7, 0.12, 0.6, chairM, 0, 0.5, 0)); chair.add(rbox(0.7, 0.9, 0.12, chairM, 0, 1.0, 0.3)); chair.add(cyl(0.05, 0.05, 0.5, mat(0xc9a040, { metalness: 0.9, roughness: 0.3 }), 0, 0.25, 0, 8));
   const chand = [[-3, -2], [3, -2], [0, 2.5]].map(([x, z]) => { const g = grp(x, 4.6, z, sc); for (let k = 0; k < 8; k++) { const a = k / 8 * 6.283; g.add(ball(0.08, mat(0xfff2d0, { emissive: 0xffe0a0, emissiveIntensity: 3 }), Math.cos(a) * 0.5, 0, Math.sin(a) * 0.5, undefined, 8)); } const l = new THREE.PointLight(0xffd9a0, 10, 10, 1.4); g.add(l); const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: bokehTex, color: 0xffd9a0, transparent: true, opacity: 0.6, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false })); sp.scale.setScalar(2.2); g.add(sp); return g; });
   const slotTex = (s) => ctex(128, 160, (g, w, h) => { const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, '#ff3a6a'); gr.addColorStop(1, '#6a1aff'); g.fillStyle = gr; g.fillRect(0, 0, w, h); g.fillStyle = '#fff'; g.fillRect(14, 50, 100, 50); g.fillStyle = '#d7262e'; g.font = '800 40px InterW, Arial'; g.textAlign = 'center'; g.fillText(s, 64, 90); });
-  for (let k = 0; k < 9; k++) { const x = -8 + k * 2; const g = grp(x, 0, -6, sc); g.add(rbox(1.2, 2.2, 0.9, mat(0x1a1a24), 0, 1.1, 0)); const s = signMesh(0.9, 1.1, slotTex(['777', 'BAR', '$$$'][k % 3]), true); s.position.set(0, 1.5, 0.46); g.add(s); }
+  const slots = []; const jackTex = ctex(128, 160, (g, w, h) => { g.fillStyle = '#ffd23a'; g.fillRect(0, 0, w, h); g.fillStyle = '#fff'; g.fillRect(10, 50, 108, 56); g.fillStyle = '#e8243c'; g.font = '800 44px InterW, Arial'; g.textAlign = 'center'; g.fillText('777', 64, 92); g.fillStyle = '#7a1aff'; g.font = '800 20px InterW, Arial'; g.fillText('JACKPOT', 64, 140); });
+  for (let k = 0; k < 9; k++) { const x = -8 + k * 2; const g = grp(x, 0, -6, sc); g.add(rbox(1.2, 2.2, 0.9, mat(0x1a1a24), 0, 1.1, 0)); g.add(rbox(0.8, 0.12, 0.3, mat(0xc9a040, { metalness: 0.9, roughness: 0.3 }), 0, 0.62, 0.55)); const s = signMesh(0.9, 1.1, slotTex(['777', 'BAR', '$$$'][k % 3]), true); s.position.set(0, 1.5, 0.46); g.add(s); s.base = s.material.map; slots.push(s); }
+  // the payout: gold coins pouring out of every tray onto the carpet (instanced flat discs)
+  const payout = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.06, 0.06, 0.012, 14), new THREE.MeshStandardMaterial({ color: 0xffc94a, metalness: 1, roughness: 0.2, envMapIntensity: 1.6 }), 9 * 30); payout.frustumCulled = false; sc.add(payout);
   const cards = [...Array(5)].map((_, i) => { const c = makeCard(RANKS[i]); sc.add(c); return c; });
   const stacks = [...Array(14)].map((_, i) => { const s = makeChipStack(40, CHIPC[i % 5]); sc.add(s); return s; });
   const hero = makeLuckHero(), dealer = makeSuit(0xf4f4f4, { vest: true, tie: 0x111111, skin: 0x8a5a3c }), boss = makeSuit(0x1d1d24, { bald: true, tie: 0xc9a040, skin: 0xe8b896 }); [hero, dealer, boss].forEach(P => sc.add(P.root));
   const r = rnd(14); const pts = []; for (let i = 0; i < 26; i++) { const a = -0.9 + r() * 1.8; pts.push([Math.sin(a) * (3.0 + r() * 1.6), 0, 3.4 + Math.cos(a) * (1.0 + r() * 1.6), Math.PI + a * 0.4]); } const crowd = crowdInst(sc, pts, { seed: 12 });
   const near = npcs(sc, [[2, { hairStyle: 'long' }], [6]]);
-  S.casino = { sc, key, cards, stacks, hero, dealer, boss, crowd, near, chand };
+  S.casino = { sc, key, cards, stacks, hero, dealer, boss, crowd, near, chand, slots, jackTex, payout };
 }
 { // ---- PUB (Day 26): the bar along x at z -2.2, the TV above the back bar at (1.6, 3.3, -3.25) facing +z, the hero kneels at (0, 0, 1.3)
   const sc = new THREE.Scene(); sc.background = new THREE.Color(0x140c08);
@@ -218,12 +229,15 @@ function npcs(sc, list) { return list.map(([i, o]) => { const P = npc(i, o || {}
   const tvTex = screenTex(640, 400); const tv = grp(1.6, 3.4, -3.25, sc); tv.add(rbox(2.5, 1.6, 0.15, mat(0x111111))); const tvs = screenMesh(2.36, 1.48, tvTex, { z: 0.08 }); tv.add(tvs); const tvL = new THREE.PointLight(0x9fc0ff, 6, 6, 1.5); tvL.position.set(1.6, 3.2, -2.2); sc.add(tvL);
   [[-4, 3.6, 1], [0.5, 3.8, 2.5], [4, 3.6, 0.5]].forEach(([x, y, z]) => practical(sc, x, y, z, 0xffb86a, { i: 7, d: 8, r: 0.12, bokeh: 1.2 }));
   [[-4.5, 3.5], [4.6, 3.8]].forEach(([x, z]) => { const t = grp(x, 0, z, sc); t.add(cyl(0.7, 0.7, 0.06, wood, 0, 0.78, 0, 24)); t.add(cyl(0.06, 0.06, 0.76, mat(0x222222), 0, 0.38, 0, 8)); });
-  const r = rnd(41); const pts = []; for (let i = 0; i < 46; i++) { const x = -6.5 + r() * 13, z = 0.2 + r() * 6.5; if (Math.abs(x) < 1.6 && z < 3.4) continue; pts.push([x, 0, z, Math.PI + (r() - 0.5) * 0.5]); } const crowd = crowdInst(sc, pts, { seed: 21 });
+  const r = rnd(41); const pts = []; for (let i = 0; i < 46; i++) { const x = -6.5 + r() * 13, z = 0.2 + r() * 6.5; if (Math.abs(x) < 1.6 && z < 3.4) continue; if ([[-1.6, 2.3], [1.7, 2.5], [-2.6, 1.0], [2.6, 1.2], [0, 1.3]].some(([a, b]) => Math.hypot(a - x, b - z) < 1.0)) continue; pts.push([x, 0, z, Math.PI + (r() - 0.5) * 0.5]); } const crowd = crowdInst(sc, pts, { seed: 21 });
   const near = npcs(sc, [[3], [5, { hairStyle: 'long' }], [0], [4]]);
   const hero = makeLuckHero(); sc.add(hero.root); const phone = makeWinPhone(); sc.add(phone);
   const conf = dropsInst(sc, 260, 0xffffff, 0.05); const confC = [0xffd23a, 0xff3aa8, 0x3ae0ff, 0x7aff5a, 0xffffff]; for (let i = 0; i < 260; i++) conf.m.setColorAt(i, new THREE.Color(confC[i % 5]));
   const ticket = makeTicket(); ticket.scale.setScalar(0.25); sc.add(ticket);
-  S.pub = { sc, key, tv, tvTex, crowd, near, hero, phone, conf, ticket };
+  const barman = makeBaker(); barman.root.scale.setScalar(1.0); sc.add(barman.root); const jar = new THREE.Mesh(new THREE.CylinderGeometry(0.17, 0.15, 0.36, 20, 1, true), new THREE.MeshPhysicalMaterial({ color: 0xe8f4ff, roughness: 0.05, transparent: true, opacity: 0.3, side: THREE.DoubleSide, depthWrite: false }));
+  jar.position.set(-1.95, 1.18 + 0.18, -2.05); sc.add(jar); sc.add(cyl(0.15, 0.15, 0.02, mat(0xd8e8f0, { roughness: 0.1 }), -1.95, 1.19, -2.05, 20)); const jl = signMesh(0.26, 0.1, signTex('TIPS', '#fff6e0', '#c0392b', 256, 96, '800 64px InterW, Arial')); jl.position.set(-1.95, 1.36, -1.88); sc.add(jl);
+  for (let k = 0; k < 6; k++) { const c = makeCoin(0.05); c.position.set(-1.95 + Math.sin(k * 2) * 0.06, 1.21 + k * 0.012, -2.05 + Math.cos(k * 2) * 0.06); sc.add(c); } const tip = makeCoin(0.05); sc.add(tip);
+  S.pub = { sc, key, tv, tvTex, crowd, near, hero, phone, conf, ticket, barman, tip };
 }
 { // ---- the ticket insert + the nationwide queue (Day 26 montage)
   const sc = new THREE.Scene(); sc.background = new THREE.Color(0x0e0a08);
@@ -238,7 +252,7 @@ function npcs(sc, list) { return list.map(([i, o]) => { const P = npc(i, o || {}
   sc.add(rbox(200, 0.2, 200, new THREE.MeshStandardMaterial({ map: tileTex('#c8c0b0', '#b8b0a0', 8), roughness: 0.9 }), 0, -0.1, 0)); sc.children[sc.children.length - 1].material.map.repeat.set(20, 20);
   const kiosk = grp(0, 0, -14, sc); kiosk.add(rbox(5, 3.2, 3, mat(0xe8343c, { roughness: 0.5 }), 0, 1.6, 0)); const ks = signMesh(4.4, 1.1, signTex('LOTTO', '#e8343c', '#ffffff', 512, 128, '800 96px Montserrat, Arial'), true); ks.rotation.x = -Math.PI / 2; ks.position.set(0, 3.25, 0); kiosk.add(ks);
   const pts = []; for (let i = 0; i < 360; i++) { const u = i / 360; const row = Math.floor(u * 9), f = (u * 9) % 1; const x = (row % 2 ? 1 : -1) * (14 - f * 28) * -1, z = -10 + row * 3.0; pts.push([x, 0, z, row % 2 ? Math.PI / 2 : -Math.PI / 2]); }
-  const crowd = crowdInst(sc, pts, { seed: 33, s: 0.9 }); const r = rnd(9); for (let i = 0; i < 40; i++) { const x = -30 + r() * 60, z = -30 + r() * 60; if (Math.abs(x) < 18 && z > -16 && z < 18) continue; sc.add(rbox(6, 6 + r() * 10, 6, mat(0x8a8078, { roughness: 0.9 }), x, 3, z)); }
+  const crowd = crowdInst(sc, pts, { seed: 33, s: 0.9, min: 0.6 }); const r = rnd(9); for (let i = 0; i < 40; i++) { const x = -30 + r() * 60, z = -30 + r() * 60; if (Math.abs(x) < 18 && z > -16 && z < 18) continue; sc.add(rbox(6, 6 + r() * 10, 6, mat(0x8a8078, { roughness: 0.9 }), x, 3, z)); }
   const slips = dropsInst(sc, 120, 0xfff6e0, 0.12);
   S.plaza = { sc, crowd, slips };
 }

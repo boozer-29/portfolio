@@ -442,3 +442,30 @@ Each item below is a bug that actually happened. Avoid it while building; tick i
 - **A camera that eases to a stop ('io'/'out') at the end of a held insert gave 1 duplicate frame** (the coin-on-edge swoop). Use `ease: 'lin'` on held shots.
 - **`capcheck.js` with software GL timed out loading the page;** it now uses the Metal GPU. Its mini server types files by URL ending, so never add `?query` to its URL.
 - **Don't chain patch → render → encode → QA in one command:** one failed patch assert left the frames rendered from stale captions. Run and check each step.
+
+### 9.20 Owner feedback on Luck (Nov 2026): things passing through each other, a hand-only insert, not funny enough
+- **Everything is solid.** The owner found, in single frames: the coin sunk into the hand, pedestrians walking through cars, the driver standing inside
+  his car, teddies passing through the hero. Hand-checked test frames missed all of them. **Run `node collide.js 0.05` before every render:** it poses each
+  shot (no render) 20× a second and tests oriented boxes (`three/addons/math/OBB.js`, shrunk 18 %) between every registered solid — rigs, vehicles,
+  horses, bears, the claw machine, instanced crowd members. Register new solids in `SOLIDS()` in `part_d.js`. It must print `TOTAL 0`.
+- **Resting props:** place them on the measured top surface of what they rest on (`topOf(mesh)` = world bounding-box top), never at a guessed offset.
+  Held/rested props must not tilt into their support (a 0.05 rad plate tilt pushed its rim into the toast).
+- **Many bodies moving at once (an avalanche):** don't hand-animate paths (46 hand-planned teddy flights always brushed somewhere). Simulate them: balls with
+  gravity colliding with each other, the floor, boxes and people (stacked cylinders per body part: legs, torso, raised arms), computed once at load
+  (`SIM` in `part_c1.js`), spawning only where there is room. Keep the people upright (a lean moves the body off its collider) and away from spawn points.
+- **Kinematic stacks:** a block of objects that moves together (the claw lifting the stock) never overlaps; give the claw a gap instead of pushing into it.
+- **Inserts show the hero, not a floating hand:** the coin flip is a medium shot of him flicking the coin onto the back of his hand, face reacting
+  (worried on tails, grin on heads, shock on the edge). Camera above hand height so the coin face reads, far enough that the face clears the widget.
+- **People and traffic:** pedestrians walk where cars aren't (in front of the bumpers, clear of signal poles); an angry driver gets out of the car rather than
+  standing through its roof.
+
+### 9.21 Luck comedy pass (Nov 2026): build mistakes
+- **`resetRig()` resets scale to 1:** the kid (scale 0.62) was drawn adult-sized in every frame. Re-apply any rig scale right after `resetRig()`.
+- **A `//` comment pasted mid-line struck again** (it silently commented out the rest of `arcadeBase`, found only when the checker crashed, and an older
+  one had disabled the toast's flip rotation). Comments go on their own line, always.
+- **Rotation order:** a prop that must lie on its side and then yaw (the fish) needs `rotation.order = 'YXZ'`; with the default XYZ it stood upright.
+- **Simulated piles:** colliders must cover raised arms and pointing arms (segment the person by height), and the top segment must reach the real top
+  (caps, hats), or objects rest on an invisible shelf. Cap simulated speeds (7 m/s): overlap pushes at spawn flung teddies 50 m into the air.
+- **Cameras inside characters, again:** the end shot sat inside the baker. Every camera move goes through the checker's mindset: what stands there?
+- **Gag beats need their own framing:** a gag that happens on a character's head or face (the teddy crown, the ticket on Marcus's face) must be
+  test-framed: the stat widget and diary hide the top 35 %, so aim higher (subject lower) for head gags; flat props on a face sit in front of the eyes (z ≥ 0.345).

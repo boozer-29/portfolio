@@ -145,3 +145,20 @@ Estimated cost: ~2.5–3k credits (18.6k left).
 - Day 1 restaged: he stands by the rainy window holding the plate, so the toast's fall to his white trainer is in one full-body frame.
 - Voices: Marcus = Harry, kid = Della (pitched up), driver = Nolan, commentator = Bill, racegoer = River, pit boss = Jack, lottery host = Brian (nPcz), baker = Grandma Santa Maria.
 - Timeline: 102.3 s (`timeline.json`).
+
+---
+## v2 — comedy pass (owner: "not funny enough"), for approval
+Same voices and timing. Every beat gets a physical gag with a visible punchline and a bigger reaction. Everything stays solid (MASTER_PROMPT 9.20).
+1. **Title:** the hero reaches for the last roll at the same moment; Marcus's hand gets there first. The hero's fingers close on air, and Marcus bites it right in his face, crumbs landing on his hoodie.
+2. **Day 1:** the coin bounces off his hand, bonks him on the forehead and lands tails. The first toast lands butter-down on one trainer; he steps back, and the second slice slides off onto the other trainer. *"Of course it did."*
+3. **Day 2:** the gust blows every hat on the bridge away; his hood flips up onto his head perfectly. Then the fiver slaps his face.
+4. **Day 3:** the angry driver gets out to shout; his door swings shut behind him and locks, keys inside, horn stuck. On *"I never even pressed the button"*, the crossing button presses itself (macro).
+5. **Day 5:** the flood also buries the kid's mum; the last teddy lands on the hero's head like a crown; the machine's sign flips from CLAW to SORRY.
+6. **Day 7:** after the wave, a fish lands in Marcus's open-top car and flops on the driver's seat.
+7. **Day 9:** the favourite's jockey shares the sandwich; NO CHANCE stops on the line and takes a bow; Marcus tears up his ticket and the wind blows half of it back into his face.
+8. **Day 13:** unchanged pause beat. Every washing machine stops at the same moment: total hush around the standing coin.
+9. **Day 20:** the chip towers topple onto the dealer; behind them every slot machine hits 7-7-7 at once and coins pour across the carpet.
+10. **Day 23:** after the meteor, the car alarm gives one sad, dying "wee-woo…"; Marcus keeps sponging the crater out of habit.
+11. **Day 26:** the whole pub leaps on the choir. On 64p, everyone looks down at their phones and sighs in unison; the barman drops his 64p into the tip jar.
+12. **End:** after *"Unlucky, mate"*, the change coin spins… and lands on its edge again. Marcus faints out of frame. Cut to black on the TING.
+New sounds only (no new voice lines): car alarm, fish flop, crowd sigh, coin cascade, horn stuck (about 200 credits).

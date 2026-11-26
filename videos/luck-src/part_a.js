@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { Reflector } from 'three/addons/objects/Reflector.js';
+import { OBB } from 'three/addons/math/OBB.js';
 
 const W = 1080, H = 1920; export const DUR = 102.3;
 let DIALOGUE = [];

@@ -87,6 +87,9 @@ const manTex = (green) => ctex(128, 128, (g, w, h) => { g.fillStyle = '#0b0b0b';
 const MAN_R = new THREE.MeshBasicMaterial({ map: manTex(false), toneMapped: false }), MAN_G = new THREE.MeshBasicMaterial({ map: manTex(true), toneMapped: false });
 function makeSignal() { const g = grp(); g.add(cyl(0.06, 0.06, 2.8, mat(0x2a2d33, { metalness: 0.5, roughness: 0.4 }), 0, 1.4, 0, 10)); g.add(rbox(0.42, 0.46, 0.3, mat(0x1d1f24), 0, 2.6, 0.12));
   g.face = new THREE.Mesh(new THREE.PlaneGeometry(0.34, 0.34), MAN_R); g.face.position.set(0, 2.6, 0.28); g.add(g.face); g.glow = new THREE.PointLight(0x3dff7a, 0, 2.5, 2); g.glow.position.set(0, 2.6, 0.6); g.add(g.glow);
+  const bx = grp(0, 1.15, 0.1, g); bx.add(rbox(0.24, 0.34, 0.12, mat(0xffd21f, { roughness: 0.5 }))); const btnM = new THREE.MeshStandardMaterial({ color: 0x232323, roughness: 0.4, emissive: 0x3dff7a, emissiveIntensity: 0 }); const btn = cyl(0.05, 0.05, 0.05, btnM, 0, -0.05, 0.075, 16); btn.rotation.x = Math.PI / 2; bx.add(btn);
+  const wait = new THREE.Mesh(new THREE.PlaneGeometry(0.16, 0.06), new THREE.MeshBasicMaterial({ map: signTex('WAIT', '#3a0a0a', '#ff4a3a', 128, 48, '800 34px InterW, Arial'), toneMapped: false })); wait.position.set(0, 0.1, 0.062); bx.add(wait);
+  g.press = (k, lit = 0) => { btn.position.z = 0.075 - 0.03 * k; btnM.emissiveIntensity = 2.5 * lit; wait.material.color.setScalar(lit > 0.5 ? 0.25 : 1); };   // the push button (presses itself on Day 3)
   g.setGreen = (on) => { g.face.material = on ? MAN_G : MAN_R; g.glow.color.setHex(on ? 0x3dff7a : 0xff3b2f); g.glow.intensity = on ? 2.2 : 0.8; }; return g; }
 function makeCar(col, o = {}) { const g = grp(); const b = mat(col, { roughness: 0.25, metalness: 0.35, envMapIntensity: 1.2 });
   g.add(rbox(1.9, 0.6, 4.0, b, 0, 0.6, 0)); if (!o.open) g.add(rbox(1.66, 0.55, 2.0, mat(0x9fb8d0, { roughness: 0.05, metalness: 0.5, envMapIntensity: 1.5 }), 0, 1.15, -0.2));
@@ -145,15 +148,16 @@ function drawWinPhone(k, O) { const g = phoneTex.g, w = 320, h = 640; g.fillStyl
   g.fillStyle = '#1f8fe0'; rr(g, 60, 520, w - 120, 64, 32); g.fill(); g.fillStyle = '#fff'; g.font = '700 24px InterW, Arial'; g.fillText('CLAIM PRIZE', w / 2, 560); phoneTex.needsUpdate = true; }
 function makeWinPhone() { const g = grp(); g.add(rbox(0.5, 1.0, 0.05, mat(0x15171c, { roughness: 0.3, metalness: 0.5 }))); g.add(screenMesh(0.46, 0.92, phoneTex, { z: 0.028 })); return g; }
 // instanced crowd: simple standing people (bodies + heads), per-instance colours; update bobs/turns them
-function crowdInst(sc, pts, o = {}) {
+function crowdInst(sc, pts0, o = {}) {
+  const pts = []; for (const p of pts0) if (pts.every(q => Math.hypot(q[0] - p[0], q[2] - p[2]) >= (o.min ?? 0.75) || Math.abs(q[1] - p[1]) > 0.5)) pts.push(p);   // people keep their distance (no two bodies in one spot)
   const n = pts.length; const body = new THREE.InstancedMesh(rgeo(0.62, 1.15, 0.4), new THREE.MeshStandardMaterial({ roughness: 0.75 }), n), head = new THREE.InstancedMesh(rgeo(0.46, 0.46, 0.42), new THREE.MeshStandardMaterial({ roughness: 0.55 }), n), legs = new THREE.InstancedMesh(rgeo(0.56, 0.75, 0.34), new THREE.MeshStandardMaterial({ roughness: 0.75 }), n);
   const r = rnd(o.seed || 5), skins = [0xe7b289, 0xd9a67e, 0x8a5a3c, 0xc8946c, 0x6b4128, 0xf0c09a], tops = [0xd7262e, 0x1f4fd6, 0x2bb673, 0xe8a317, 0x9b59d6, 0x333333, 0xf2f2f2, 0x20a0a0, 0xff8c5a, 0x8a6a49], bots = [0x2d3a63, 0x2b2b2b, 0x4b3a2a, 0x3b4a6b, 0x5a5a39];
   const D = pts.map((p, i) => ({ p, s: (o.s || 1) * (0.9 + r() * 0.2), ph: r() * 10, ry: p[3] ?? (o.ry || 0) }));
   D.forEach((d, i) => { body.setColorAt(i, new THREE.Color(tops[Math.floor(r() * tops.length)])); head.setColorAt(i, new THREE.Color(skins[Math.floor(r() * skins.length)])); legs.setColorAt(i, new THREE.Color(bots[Math.floor(r() * bots.length)])); });
   [body, head, legs].forEach(m => { m.castShadow = true; m.receiveShadow = true; m.frustumCulled = false; sc.add(m); });
   const mt = new THREE.Matrix4(), q = new THREE.Quaternion(), e = new THREE.Euler();
-  const upd = (O, f = {}) => { D.forEach((d, i) => { const vis = f.count == null || i < f.count; const s = vis ? d.s : 0.0001; const bob = Math.abs(Math.sin(O * (f.jump ? 9 : 2) + d.ph)) * (f.jump ? 0.35 : 0.03) * s; const ry = d.ry + Math.sin(O * 0.7 + d.ph) * 0.15;
-      e.set(0, ry, f.cheer ? Math.sin(O * 7 + d.ph) * 0.08 : 0); q.setFromEuler(e); const x = d.p[0], y = d.p[1] + bob, z = d.p[2];
+  const upd = (O, f = {}) => { D.forEach((d, i) => { const vis = f.count == null || i < f.count; d.vis = vis; const s = vis ? d.s : 0.0001; const bob = Math.abs(Math.sin(O * (f.jump ? 9 : 2) + d.ph)) * (f.jump ? 0.35 : 0.03) * s; const ry = d.ry + Math.sin(O * 0.7 + d.ph) * 0.15, sg = f.sigh || 0;   // sigh: everyone slumps forward at once
+      e.order = 'YXZ'; e.set(0.22 * sg, ry, f.cheer ? Math.sin(O * 7 + d.ph) * 0.08 : 0); q.setFromEuler(e); const x = d.p[0], y = d.p[1] + bob - 0.06 * sg, z = d.p[2];
       mt.compose(V([x, y + 0.38 * s, z]), q, V([s, s, s])); legs.setMatrixAt(i, mt); mt.compose(V([x, y + 1.3 * s, z]), q, V([s, s, s])); body.setMatrixAt(i, mt); mt.compose(V([x, y + 2.15 * s, z]), q, V([s, s, s])); head.setMatrixAt(i, mt); });
     [body, head, legs].forEach(m => { m.instanceMatrix.needsUpdate = true; }); };
   upd(0); return { upd, D };
