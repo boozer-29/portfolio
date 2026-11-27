@@ -47,12 +47,12 @@ function heroToast(O, expr = 'worried') { const h = B.hero; const look = O > TSL
 const plateAt = () => topOf(B.hero.arms[0].el.children[1]).add(V([0, 0.022, 0]));
 const shoeAt = (L = 0) => { const k = B.hero.legs[L].knee; const p = k.localToWorld(V([0, -0.42, 0.32])); p.y = topOf(k.children[1]).y - 0.01; return p; };   // on the toe, clear of the shin
 function slice(t, splat, O, slide, land, L, stackY) { const pl = plateAt(); t.visible = true;
-  const on = pl.clone().add(V([0, 0.048 + stackY, 0])), edge = pl.clone().add(V([0.3, 0.048, 0]));
+  const on = pl.clone().add(V([0, 0.048 + stackY, 0])), edge = pl.clone().add(V([0.4, 0.048, 0]));
   if (O < slide) { t.position.copy(on); t.rotation.set(0, 0.2, 0); return; }
   const s2 = eIn(seg(O, slide, slide + 0.3)); if (O < slide + 0.3) { t.position.copy(on.clone().lerp(edge, s2)); t.rotation.set(0, 0.2, 0); return; }
-  const shoe = shoeAt(L).add(V([0, 0.06, 0])); if (O >= land) { t.position.copy(shoe); t.rotation.set(Math.PI, 0.2, 0); splat.visible = true; splat.position.copy(shoe.clone().add(V([0, -0.035, 0]))); return; }
-  // off the plate, out over the toe, then straight down onto it
-  const u = seg(O, slide + 0.3, land), above = shoe.clone().add(V([0, 0.35, 0])); t.position.copy(u < 0.6 ? edge.clone().lerp(above, eOut(u / 0.6)) : above.lerp(shoe, eIn((u - 0.6) / 0.4))); t.rotation.set(Math.PI * u, 0.2, 0.4 * u); }
+  const toe = shoeAt(L), shoe = toe.clone().add(V([0.05, 0.06, 0])); if (O >= land) { t.position.copy(shoe); t.rotation.set(Math.PI, 0, 0); splat.visible = true; splat.position.copy(toe.clone().add(V([0, 0.025, 0]))); return; }
+  // off the plate, out over the toe, then straight down onto it; centred 0.05 ahead of the toe and square to the foot so its back edge clears the shin (owner: it went into his leg)
+  const u = seg(O, slide + 0.3, land), above = shoe.clone().add(V([0, 0.35, 0])); t.position.copy(u < 0.6 ? edge.clone().lerp(above, eOut(u / 0.6)) : above.lerp(shoe, eIn((u - 0.6) / 0.4))); t.rotation.set(Math.PI * u, 0, 0); }
 function toastAt(O) { B.plate.visible = true; B.plate.position.copy(plateAt()); B.plate.rotation.set(0, 0, 0);
   slice(B.toast, B.splat, O, TSLIDE, TLAND, 0, 0); slice(B.toast2, B.splat2, O, TSLIDE2, TLAND2, 1, O < TSLIDE + 0.36 ? 0.085 : 0); }
 coinInsert(T1, T1 + INS, 'tails');
@@ -85,7 +85,8 @@ const JZ = (O) => lerp(2.5, -9.0, seg(O, T3 + 0.75, T3 + 7.0)); const DSLAM = T3
 function junctionBase(O) { const j = J; resetRig(j.hero); resetRig(j.driver);
   j.signals.forEach((pair, k) => { const on = O > T3 + 1.0 + k * 0.38; pair.forEach(s => s.setGreen(on)); });
   j.cars.forEach((c, i) => { c.position.y = 0.012 * Math.sin(O * 9 + i); });
-  j.peds.forEach((P, i) => { resetRig(P); const x = i === 0 ? -2.8 : 2.8, z = -12 - i * 7 + ((O * 1.4 + i * 2) % 3); hp(P, O, [x, 0.16, z], i === 0 ? 0 : Math.PI, walk(O + i, 8.5, 0.9), 'calm', 'x'); });
+  // walkers cover ground at their gait speed (walk 8.5 ≈ 2.1 u/s), the way they face; the old 3-unit loop read as walking on the spot
+  j.peds.forEach((P, i) => { resetRig(P); const dir = i === 0 ? 1 : -1, x = i === 0 ? -2.8 : 2.8, z = [-16, -7, -20][i] + dir * 2.1 * (O - T3); hp(P, O, [x, 0.16, z], i === 0 ? 0 : Math.PI, walk(O + i, 8.5, 0.9), 'calm', 'x'); });
   const slam = O > DSLAM; hp(j.driver, O, [6.1, 0, -3.85], slam ? -Math.PI / 2 + 0.9 * eOut(seg(O, DSLAM + 0.1, DSLAM + 0.4)) : -Math.PI / 2 - 0.35, { ...idle(O, 2), spineX: -0.05, arms: slam ? [[-0.6, 0, 0.9, 1.4], [-0.6, 0, -0.9, 1.4]] : [[-2.5 + 0.25 * Math.sin(O * 14), 0, 0.5, 1.6], [-0.4, 0, -0.5, 0.6]] }, slam ? 'shock' : 'grit', 'driver');
   const dc = j.cars[4]; dc.door.rotation.y = O < DSLAM ? -0.8 : -0.8 * (1 - eIn(seg(O, DSLAM, DSLAM + 0.18))); const flash = O > DSLAM + 0.2 && Math.floor(O * 4) % 2 === 0;
   dc.traverse(m => { if (m.isMesh && m.material.emissive && m.material.emissiveIntensity > 0.5) m.material.emissiveIntensity = flash ? 3 : 1.5; });

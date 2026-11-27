@@ -469,3 +469,14 @@ Each item below is a bug that actually happened. Avoid it while building; tick i
 - **Cameras inside characters, again:** the end shot sat inside the baker. Every camera move goes through the checker's mindset: what stands there?
 - **Gag beats need their own framing:** a gag that happens on a character's head or face (the teddy crown, the ticket on Marcus's face) must be
   test-framed: the stat widget and diary hide the top 35 %, so aim higher (subject lower) for head gags; flat props on a face sit in front of the eyes (z ≥ 0.345).
+
+### 9.22 Owner feedback on Luck v2 (Nov 2026): toast in the leg, walking on the spot
+- **The checker's 18 % shrink hides shallow cuts into thin props.** The falling toast sat ~0.03 inside his shin the whole fall (it was centred on the toe with a yaw,
+  so its back edge reached past the shin's front face); `collide.js` at the default shrink saw nothing. For small/thin props (toast, coins, cards, notes) also run
+  `SHRINK=0.97 node collide.js 0.01 <from> <to>` over the beat; ignore only true resting contact (a held plate on a hand). Place a resting prop from the measured
+  faces (shin front z = 0.145, shoe front z = 0.27 from the knee), not a guessed "toe" point.
+- **A flat prop flipping about an axis keeps its full width along that axis** while it's on edge: a slice tumbling about the facing axis spans forward/back, straight
+  into the shin. Keep that span clear of the body for the whole fall, not just at the landing.
+- **Background walkers must cover ground at their gait speed, in the direction they face.** Pedestrians looped over a 3-unit strip at 1.4 u/s with a ~2 u/s gait
+  (and one moved backwards), snapping back every 2 s: it read as walking on the spot. Give each walker one straight path across the whole scene,
+  z = start + dir × speed × t, speed ≈ walk freq × 0.25 (walk 8.5 ≈ 2.1 u/s), then run the checker.
