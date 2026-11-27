@@ -1,0 +1,494 @@
+# MASTER PROMPT — Polygram "What if…?" reels (three.js + Playwright edition)
+
+Paste this whole file into a Claude Code session on the Mac, in the repo `boozer-29/portfolio`, branch `claude/cool-bardeen-010lrr`.
+Newest reference implementation: `videos/drip-src/` (copied from `wifi-src`: rig v2 with the arm fix, safe-area text, Reflector mirrors, a drip-kit accessory system). Older: `wifi-src/`, `afro-src/`, `mums-cooking-src/`.
+**Read `videos/REFERENCE_ANALYSIS.md` first** — the owner's reference reels, broken down beat by beat. It is the quality and comedy bar.
+
+---
+
+## 0. Machine and tools
+- MacBook Pro M1, **8 GB RAM**. The pipeline is **three.js + Playwright** (headless Chromium on the Metal GPU, `GPU=1`). Blender is not used.
+- Audio: ElevenLabs (key in the macOS Keychain, see 9.8), ffmpeg, Python + numpy for the mix, **Whisper** (whisper.cpp) for timing.
+- Re-use the shout takes and SFX in `videos/assets/audio/`. Music: `videos/assets/music/tiki_tiki.mp3` (owner's choice; no songs with vocals).
+
+## 1. Format (owner's rules, revised Nov 2026 after the reference study)
+A "What if ___?" escalation reel. **The joke is the consequence, not the growth.**
+- **What escalates can vary:** doubling per day / hour / event ("every kick", "every burp"), linear growth (+1 inch a day, told as a life story
+  with time skips), or no number at all (a world-reaction montage: "What if the Bomboclat Guy passed away?"). Pick what serves the topic.
+- **Every step = one specific consequence**, ideally anchored in a real-world benchmark, and **shown happening on screen** (section 8):
+  "Office chairs are tested for a 125 kg person." → the chair collapses. "194 dB is the limit for sound in air." → the shockwave flattens the street.
+- **Skip steps.** Only show the numbers with a great consequence (Day 2, 3, 4, 5, 6, 7, 9, 12, 14, 18…). Never grind through every doubling.
+- **Two-beat captions:** a factual setup line, then a deadpan punchline line ("It's now as long as you are tall." → "Nice.").
+  House style = bureaucratic understatement against catastrophe ("The police ask you to keep it down." · "The UN asks you to please stop.").
+- **Running gags and callbacks inside the episode** (the queue of opponents that never ends; "excuse you" coming back from Mom).
+- **A pause beat mid-way:** one held face close-up that breaks the rhythm before the biggest hit ("He's starting to enjoy this." / "Kick #40 is charging…").
+- **Twist or poignant ending**, ideally looping to the first shot ("In space, no one can hear you burp." · "You're 107. Still single.").
+- **Length 50–120 s** (aim 60–90), **~2–4 s per step**, fast. A face reaction at least every ~10 s. Every shot keeps moving.
+- **Opening:** title card "What if your ___ …?" in Playfair Display 500, white, the topic word huge in italic, red accent line, soft dark wash
+  (fade in 0.45 s, out 0.3 s) over a slow establishing shot.
+- **Standalone episodes:** only the hero recurs. No side characters, props or jokes from earlier episodes.
+- Optional: a short silence drop (0.5–0.8 s) right before the final payoff.
+
+## 2. The hero (same in every episode)
+Voxel/low-poly cartoon man, ~2.2 units tall: **red hoodie (#D7262E, darker #9E1A21 trim), white drawstrings, grey or blue jeans, dark brown hair (#2A1D17), warm skin (#E7B289), black shoes**.
+Big blocky head, big white eyes with black pupils, chunky brows, simple mouth. Rig v2 (required): spine, neck, shoulders + **elbows**, hips + **knees**, hands;
+face controls for brows, eyelids (blinks), pupils (darts), mouth shapes. Anticipation before every big action, overshoot/elastic settle, secondary motion,
+blinks every 2–4 s, mouth only moves while that character is audibly speaking, camera shake on impacts.
+
+**Voices** (ElevenLabs `eleven_v3`, audio tags like `[deadpan]`): hero = Kevin `eRcsJdPMOM0mtGC03ul7`. **He is strictly Jamaican (owner, Nov 2026):** write his lines in light patois (mi, di, fi, yuh, Cho!, Lawd) and start every tag with `[strong Jamaican accent, thick patois, …]`. One-off characters: pick fitting voices from the owner's
+list (`GET /v2/voices`), new to the series each episode. **The hero always talks (owner's rule):** give him 5–8 short spoken lines per reel in Kevin's voice — reactions and punchlines on the beats
+where he's on screen, reacting to or extending the caption joke (never reading the caption aloud). Shouts alone don't count. Other characters
+speak when the story needs them (a friend, a doctor, a voicemail).
+
+**BOMBOCLAT is a reaction, not a rule.** Never put one mechanically on every step. Use it only where it's funny (a few times per reel, sometimes never),
+and **never the same way twice in a row**: a stuttered "bombo… bombo… bomboclat!", a confused "bomboclat?", a resigned "hmm… bomboclat",
+a long "BOMBOOOOOO…" hard-cut by the next impact, a muffled one from inside something, a delayed one after a held silence.
+**Generate every shout in the hero's own voice** (Kevin `eRcsJdPMOM0mtGC03ul7`, eleven_v3) so it matches his lines — the old shared takes in
+`videos/assets/audio/shouts/` sound like a different person (owner, Nov 2026). Write the delivery into the text + tags, e.g.
+`[confused, shocked] Bomboclaat?` · `[stuttering in disbelief, getting louder] Bombo... bombo... BOMBOCLAAAT!` ·
+`[screaming, rising panic, getting louder and louder] BOMBOOOOOOOOOOOO` · `[tired, defeated, quiet sigh] Hmm... bomboclaat.`
+For the long scream, shape a **crescendo** (gain ramp from ≈ −14 dB to full over its length, no compressor on it) and hard-cut it at its
+loudest with the next shot — the swelling "BOMBOOOOO" is the joke. Trim each take to the slot, take word times from Whisper (`wifi-src/shouts.py`). Caption the shout exactly as it is heard ("BOMBO… BOMBO… BOMBOCLAAT!", "BOMBOOOO—").
+
+## 3. On-screen text system
+1. **Stat block** (top-left, x≈2.5 %, y≈14–29 %): label (Inter SemiBold caps, wide tracking, e.g. `BODY WEIGHT`), big number **with a unit** (Lora Medium,
+   e.g. `280 kg`, `130 dB`, `1,595 J`), comparison line (Inter caps, e.g. `≈ A MOTORCYCLE`), `DAY n` / `HOUR n` / `KICK #n`, red pill `×2 EVERY DAY`,
+   and an optional **status pill** that escalates (CASUAL → SMOKER → CHAIN SMOKER → CHIMNEY). Number swaps with a 5-frame scale tick.
+2. **Diary captions (the main storytelling text):** Lora italic, 1–2 lines, directly under the stat block. Two beats per step: setup, then punchline
+   (each on screen ≥ 1.2 s + 0.05 s per character). Never over a face.
+3. **Dialogue captions** (only when someone speaks): Montserrat ExtraBold caps, white with black stroke, ~62–72 % height, word-by-word in chunks
+   of ≤ 3 words, speaker label for non-hero characters. Only while that character is audibly speaking (gate on audible spans, word times from Scribe of the mix).
+4. Shout captions get their own card (bigger, pop-in, slight shake) and match the variant heard.
+5. In-world props carry text too (news lower-thirds, billboards, phone alerts). No channel watermark.
+
+**Safe area (owner, Nov 2026 — the left text got cut in full-screen):** keep ALL text inside 1080×1920 safe margins:
+left ≥ 90 px, right ≥ 140 px (Instagram's like/comment/share buttons), top ≥ 250 px, bottom ≥ 380 px (caption + username bar).
+Stat block, diary captions and dialogue captions all start at `SAFE_L = 90` and wrap at `W − SAFE_L − SAFE_R` (see `wifi-src/part_d.js`).
+Never place text at x = 30 again.
+
+## 4. Look — the quality bar (it must never look like AI slop)
+Match the references in `REFERENCE_ANALYSIS.md` (items 11–15):
+- **Cinematic lighting:** motivated practical lights (lamps, neon, screens, a glowing tip), strong rim/back light, warm key vs cool fill, night scenes with
+  emissive windows; volumetric haze/smoke and light shafts; bokeh lights in out-of-focus backgrounds; a filmic grade per scene (warm/teal), vignette.
+- **Camera:** extreme face close-ups for reactions, macro inserts of props (a scale display, an ashtray, a clock), low hero angles, slow push-ins,
+  dense aerial wides, a camera that rides with the action (following a flying body through walls); crash zoom + roll on big hits; every shot moves.
+- **Readable destruction:** planks/glass/dust clouds, shockwave rings, glowing cracks, debris arcs, speed streaks, motion blur on fast moves.
+- **Scale set pieces:** dense instanced cities, Earth from orbit with clouds and city lights, rings, black holes with accretion disks.
+- **Depth of field only on face close-ups**; bloom on glowing things; soft contact shadows (shadow cameras set up correctly, see 9.3).
+- Low-poly is the style, *not* an excuse: fill sets with props, give materials variation, light every scene on purpose.
+- **Renderer upgrades to build into the next episode** (three.js, all cheap on the M1): ambient occlusion pass (`SAOPass`/N8AO) for contact depth;
+  volumetric light cones + drifting haze sprites; bokeh sprites for out-of-focus practical lights; emissive window grids for night cities;
+  soft particle smoke/dust (instanced, depth-faded); subtle film grain + slight chromatic aberration in the 2D compositor; per-shot colour grade LUT-style tints;
+  speed streaks + radial blur on impacts; a shockwave ring mesh; glowing crack decals.
+
+## 5. Audio rules
+- Mix in numpy (stems: voice / music / SFX / sub). Lines −18 dBFS RMS, shouts −15 dBFS RMS (light compression first).
+- Music: TIKI TIKI cut to the story (muffled intro under the title, the drop on the first big hit, a cut to silence for a comedic beat, a second drop for the finale).
+- Music ~8–9 dB under dialogue (dynamic duck, −3…−16 dB), full level between lines. Captions-only reels: music carries the rhythm, SFX hit every consequence.
+- Punchy SFX on every consequence (impact, shatter, whoosh, sonic boom, rumble); sub-bass swell on the big tiers (−44 dB + 2 dB per tier).
+- Click-free edits, no two voices overlapping, master two-pass loudnorm **−14 LUFS, −1 dBTP**.
+
+## 6. Deliverables (owner's rule, Nov 2026)
+- **Render the final Full HD directly: 1080×1920, 30 fps (`RSCALE=1`), H.264 High (CRF ~17, maxrate ~10 Mbps), AAC 256 kbps 44.1 kHz.**
+  **No low-res preview pass** — it doubles render time and tokens. Instead, check test frames of every shot at RSCALE 0.5 before the full render
+  (section 8b step 4), then render 1080p once. Never 4K unless asked.
+- File `videos/polygram-<topic>-1080p.mp4`, source in `videos/<topic>-src/`.
+
+## 7. QA before delivering (all must pass)
+- 0 frames with a caption and no audible voice; 0 spoken words without a caption; no caption > 0.1 s late (check against Scribe of the final MP4).
+- Every BOMBOCLAT and every line recognised in a Scribe transcript of the final MP4; every line ≥ 8 dB above the background (p10).
+- No clicks at edit points, no clipping, −14 LUFS ±1, true peak ≤ −0.5 dBTP.
+- No duplicate/frozen frames (ffmpeg mpdecimate keeps all), no low-motion half-second, video and audio exactly the same length.
+- Visual scan every 0.5 s: no camera inside geometry, no cropped faces, nothing blocking the action, text never covering faces for long.
+
+## 8. Every step needs a visible consequence (owner's rule, Nov 2026)
+Growth alone is boring ("his hair just grows, the kite is just stuck") and a pop + shout + one-liner pattern feels forced. Every step must show the
+**consequence happening on screen**: the chair collapses, he crashes through the floor, the window explodes, the dojo wall breaks, the police turn up.
+Prefer a cause → effect chain, and pay off an early beat at the end (callback).
+- The consequence must happen **inside the shot's frame**. Portrait is narrow: horizontal half-FOV ≈ 0.56 × the vertical one. If it happens off-screen,
+  it doesn't count — add a shot for it.
+- Give each consequence its own SFX, but keep tonal/chirpy SFX out of voice-free gaps (Scribe hears them as words).
+
+## 8b. Production workflow — step by step (owner's rule, Nov 2026)
+Make every episode in this order. Finish each step before starting the next.
+
+**Step 1 — Script.** Write the episode as a script, step by step: the number, the two-beat caption (setup / punchline), the consequence we see,
+any dialogue or shout variant. Under every paragraph add one `CAMERA:` line saying exactly what the camera sees (framing, angle, movement, lighting,
+who is in shot). To the point, no over-explaining. Example:
+> Day 3 · 280 kg · ≈ A MOTORCYCLE — "Office chairs are tested for a 125 kg person." He sits. The gaming chair bends, then snaps; he drops to the floor.
+> CAMERA: low 3/4 from the desk, monitor glow as rim light; on the snap, crash zoom on his face; dust motes in the lamp light.
+
+Then turn the script into the shot list (times, shots, camera) — the `CAMERA:` lines become the shots.
+
+**Step 2 — Voice.** Generate the voice lines (ElevenLabs, once each). Run **Whisper** (free, local — whisper.cpp) on every line to get
+word timings and check it says the right words. Then fit the voice to the animation:
+- add pauses where the animation needs a beat (split a line or insert silence between phrases),
+- if a line is too fast or too slow for its shot, fix it (regenerate with a pacing tag, or `atempo` 0.9–1.1 for small changes),
+- set the cue times from the Whisper timings, so the timeline is built on the real audio.
+Scribe is still used for the final-mix caption QA (section 7); Whisper does the per-line checks so credits aren't spent on them.
+- Run it with `python3 ../tools/whisper_lines.py audio/*.mp3` from the episode folder: prints each line's words, speech start/end,
+  words per second and every pause > 0.25 s, and writes `<line>.whisper.json` (word timings) next to the mp3.
+  Pace guide: ~2.5–3.5 words/s is normal; > 4.5 only for panicked/shouted lines; < 2 sounds slow.
+
+**Step 3 — Animation.** Build the episode in the current pipeline (three.js + Playwright, rig v2), following sections 1–8 and the quality bar in section 4.
+Light every scene on purpose, dress the sets, animate every consequence.
+
+**Step 3b — Final render.** After step 4's test-frame pass is clean, render the **final 1080p directly** (`RSCALE=1`, `GPU=1`) and run the QA (section 7).
+
+**Step 4 — Find the mistakes, then update this file.** Render a test frame at the key moment of every shot (RSCALE 0.5) and actively hunt for mistakes:
+faces hidden, bad framing, off-screen events, duplicate frames, audio/caption problems, code bugs. Fix them, and once all are found,
+add each one to section 9 so it never happens again.
+
+## 8c. Why reels go viral: the Drizzle "HUSS" study (owner's request, Nov 2026)
+@thedrizzleshow (Roblox story reels, 33k followers) usually gets 40k–300k views. One reel hit **21.7M views / 2.6M likes / 10.5k comments** in a week, then two quick variants hit 9.1M and 7.4M.
+The reel (91 s): "In this town, everybody is out partying. Except me." He works in a burger shop, training to wrap burgers faster and faster. Every wrap is a top-down POV of his hands plus a grunt: "HUSS!". Gag: he wraps the manager's tie. Ending: at midnight the whole party comes in hungry, and his pointless skill saves the night.
+What made it spread, and what we take from it (the lessons, never the content):
+1. **One signature sound per episode**: short, physical, easy to copy in any language, tied to the core action and repeated as the rhythm of the edit. Nearly every comment just types it back ("HUSS HUSS HUSS"); comments are the algorithm. Invent a new one each episode; never reuse HUSS or our old sounds.
+2. **First-person, relatable hook in the first second**: "Everybody is X. Except me." The hero narrates his own life (he is the underdog, not a narrator talking about him).
+3. **Mock-epic seriousness about something tiny**: stopwatches, training montages and intense faces for wrapping a burger. The bigger the effort, the smaller the thing should be.
+4. **A recurring satisfying POV insert** (the same framing each time), cut on the sound, so the montage has a beat.
+5. **One quotable absurd line**, which viewers quote back in the comments ("The cat is fine. The cat is warm."). Write one on purpose, said deadpan.
+6. **Captions readable with no English**: one big centred word at a time, so the global audience (most comments were Hindi, Arabic or Spanish) can follow it.
+7. **A payoff that flips the premise**: the boring grind becomes the thing that saves everyone.
+8. **Strike while it's hot**: they posted a mirrored sequel ("…Including me", POV 2) and a variant within two days, and both went viral. When one of ours pops, post a twist variant fast.
+
+## 9. Bug checklist — read before building, re-check before every preview
+Every finished episode uses the three.js + Playwright pipeline (`videos/mums-cooking-src/`, `videos/afro-src/`), not Blender (section 0).
+Each item below is a bug that actually happened. Avoid it while building; tick it off before sending a preview.
+
+### 9.1 Copying the previous episode (things that are hard-coded)
+- `part_a.js`: `DUR`, `STEPS` (day, t, value **with unit as a string** e.g. `'2.4 m'`, comparison line), `TITLE`.
+- `part_d.js`: stat label (`'JOLLOF COOKED'` → new label), the value draw (no extra `' kg'` suffix), the title-card words,
+  the caption **speaker-label map** (every new speaker or the label is blank), `HEROES` list (every hero rig, or strings/shout-mouth won't animate), `GRADES` for new scenes.
+- `render.js`: the `pairs` mode loops to a hard-coded frame count (1728) — set it to `DUR × 30`.
+- Mixer: `DUR`, every cue time, `STEPS` for pops/boings, whoosh times, sub-swell times, the silence-drop start/end, the music cut points.
+- `build.sh` output name and `index.html` script `src` must match.
+- `node_modules`: symlink to the previous episode (don't reinstall); `.gitignore` needs `node_modules` with **no** trailing slash (the symlink is a file).
+
+### 9.2 Code gotchas
+- `V()` takes an array: `V([x, y, z])`. `V(x, y, z)` throws "Spread syntax requires …iterable" at render time.
+- `Object3D.add()` returns the parent — use `T(parent, child)` when you need the child (`T(g, cyl(...)).rotation.z = …`).
+- Every rig must be added to its scene (`sc.add(P.root)`), or it is silently invisible.
+- Call `resetRig(P)` **before** `P.root.visible = false` (resetRig makes it visible again).
+- The code is dense one-liners: a `// comment` placed mid-line silently comments out the rest of the line (lost commas/statements → syntax
+  errors or, worse, silently skipped code). Comments only at the very end of a line. Run `./build.sh` (`node --check`) after every edit.
+- Anything computed from world positions (`wp()`, anchors on the hair/rig, shadows/decals under an object, props attached to a body part)
+  must be computed **after** the rig is posed and scaled in that shot's setup, never in the scene-base function that runs before posing.
+- When patching files with scripted find/replace, patch one file per script run so a failed match doesn't leave half the edits applied.
+- **Never put a `//` comment on the same line as code when patching** — not even at the "end": these files are one-liners, so the
+  "end of a line" is usually the middle of a statement. This bug happened 4 times on the afro episode. Comments go on their own line above.
+- `RoundedBoxGeometry` reports `parameters.width/height/depth` as 1 (it scales a unit box), so finding a mesh by its size fails.
+  Keep a direct reference (`const apron = T(spine, rbox(...))`) to anything you will animate or hide later.
+- Helper poses that return `legs` (e.g. `popPose`) override a seated pose — for seated characters force `legs: SIT.legs` after merging.
+
+### 9.3 Lighting and shadows
+- `lightRig`: after setting `key.shadow.camera` left/right/top/bottom/near/far you **must call `key.shadow.camera.updateProjectionMatrix()`**,
+  or three.js keeps its default ±5-unit shadow box and only things right next to the light target cast shadows. Same for every other
+  shadow-casting light. (Still unfixed in `mums-cooking-src/part_a.js`; fixed in `afro-src/part_a.js`.)
+- A key/directional light must sit far outside giant scaled objects (≥ 3× their size). A light inside a giant afro/planet kills its shadow.
+- When shade/shadow is the joke, frame a visible sun/shade **edge** (part of the area stays in sun) and keep the fill low (hemi ≤ 0.25,
+  env ≤ 0.2). A shadow that covers the whole frame under bright fill just looks like evenly lit ground.
+- Very dark albedo (near-black hair, dark capes) reads as a flat black blob in shade. Keep hair around `#4a3022`/`#5c3d2b` with
+  `envMapIntensity` ≈ 0.7 so the shapes still read.
+
+### 9.4 Faces are never hidden
+- A raised arm on the **camera side** crosses the face. Comb/scratch/wave poses: hand over the *top* of the head, or use the far-side arm.
+- The doubling "pop" pose flings arms **out sideways**, not forward/up, so hands don't cover the face in crash zooms.
+- Hide hand props (comb, phone, clippers) during crash zooms on the face.
+- Side characters too: a barber holding clippers up in front of himself hides his own face — hold props low and to the side.
+- Things that fly (capes, debris, smoke, thrown props) move **away from** the camera or behind heads, never across a face.
+- Big hair/hats/helmets: anchor the shape above the hairline (centre above the head, bottom at the hairline) so it can't hang over the eyes.
+- Two characters in one shot: offset them so neither is half-hidden behind the other's body.
+- Hand props (comb, leaf blower, phone) held on the camera-side arm end up in front of the mouth. Hold props low and out to the
+  side (shoulder z ≈ ±1.0–1.6), or turn the character so the prop arm is on the far side.
+- A prop or side character in the foreground of a close-up (bird on a nest, barber's head) must sit to one side of the frame, with the
+  look target between it and the hero's face — never on the line from the camera to the face.
+- Captions sit at 72 % of the frame height: in face close-ups aim the camera slightly **below** the face so the face sits above ~60 %
+  and the caption lands on the chest, not the eyes.
+
+### 9.5 Framing and camera
+- Big objects (giant hair, planets, a scaled-up hero): keep the camera ≥ 1.5× the object's radius away and frame from the hairline down.
+  Too close = a brown wall filling the frame, or the camera ends up inside the geometry.
+- Look targets: aim at the face/subject, not at the top of the hair — aiming high crops the face out at the bottom.
+- Portrait is narrow: horizontal half-FOV ≈ 0.56 × the vertical one. Props a few metres to the side are off-screen. Check every event
+  is inside the frame (render a test frame mid-event).
+- Low cameras in cluttered sets (market stalls, furniture) get blocked by a roof/table edge filling half the frame — raise the camera above
+  the props or move it to a clear lane.
+- Random scenery (instanced city blocks) can spawn right next to the camera path and fill the frame with giant cubes — exclude scenery from
+  the camera's side of the set.
+- Don't put depth of field on a shot whose subject is a mid-distance prop (moon close-up became a blur) — DoF only on face close-ups.
+- Aim at **computed world points** (`afroC(hero)`, `wp(head)`) for anything attached to a rig. The afro's centre sits above and behind
+  the head and turns with the body, so hand-typed coordinates miss it (the HELP aerial looked at empty hair).
+- Size props to the frame: at camera distance *d* the portrait frame is only ≈ 0.52·*d* wide at fov 46. Text/letters meant to be read
+  should fill ≤ ~60 % of that width — compute it before placing the camera.
+- Size comparisons ("hers is twice his") only read if both objects are about the same distance from the camera.
+- Keep the camera ≥ 1.5 units from any side character, and shoot from the side their face points to.
+
+### 9.6 Motion, duplicates, QA
+- Low-motion shots (news desk, a still barber, a wide room shot) produce mpdecimate duplicate frames even at 30 fps. Give every shot real
+  camera travel (a visible push, ≳ 0.5 units) plus character motion.
+- The default camera ease is `'out'`, which slows to a near-stop at the end of the shot — on slow shots use `ease: 'lin'`.
+- Run the mpdecimate count on the low-res preview **before** sending it (`ffmpeg -i preview.mp4 -vf mpdecimate -loglevel debug -f null - 2>&1 | grep -c "drop pts"` must be 0).
+- Flash timing: a flash at exactly t = n/30 + 1/60 repeats the same alpha on two frames → duplicate frame. Offset slightly (40.36, not 40.35).
+- Render test frames at the key moment of **every** shot and look at them before rendering the full preview.
+
+### 9.7 Audio
+- Per-line ffmpeg filters (pitch, PA, radio) must apply to dialogue lines too, not only shouts (the mums mixer only applied them to shouts).
+- Small characters (birds, kids): `asetrate=44100*k,aresample=44100,atempo=1/k` (k ≈ 1.12–1.2) raises pitch without moving the
+  ElevenLabs timestamps.
+- Generate each line once and check it with Scribe straight away (`gen_tts.py` does both); regenerate only a line Scribe mishears.
+- Scribe hallucinates words in quiet music/SFX passages: keep `verify_captions.py`'s voice-stem filter, and keep tonal/chirpy SFX
+  (dings, chirps, tones) out of voice-free gaps — use noise-based whooshes there instead.
+- 30 ms fade-in on every line (abrupt starts click). Sub-bass swell per tier at −44 dB + 2 dB per tier so it doesn't mask the shouts.
+- After regenerating a line (e.g. slower), re-run the mixer and check the printed spans: a longer take can run into the next cue.
+  Keep ≥ 0.45 s between a punchline's end and the next shout so the reaction can land.
+- Whisper base.en mishears some words ("Date on" → "Dayton", "Saturday" → "sattade"). Before paying for a regeneration, run Scribe once
+  on just that line (a few credits); regenerate only if Scribe also mishears it.
+
+### 9.8 Mac setup and tooling
+- ElevenLabs key lives in the macOS Keychain (item `elevenlabs`); `~/.zshrc` exports it as `ELEVENLABS_API_KEY`. In a non-login shell:
+  `export ELEVENLABS_API_KEY=$(security find-generic-password -a "$USER" -s elevenlabs -w)`. An API key starts with `sk_` — the key **ID**
+  shown in the dashboard list is not the key.
+- `npm install` / `npx playwright install chromium` must be run by the owner in Terminal (Claude's auto mode blocks downloading external code).
+- Homebrew ffmpeg has **no `drawtext`** filter, so `sheet.py` fails — label contact sheets with Pillow instead.
+- Whisper = whisper.cpp (`brew install whisper-cpp`, command `whisper-cli`), model `~/.cache/whisper/ggml-base.en.bin`
+  (148 MB, from huggingface ggerganov/whisper.cpp). The very first run takes ~1 min (macOS scans the new binary); after that ~1 s per line.
+  `--dtw` word timing returns nothing in this build — use the token offsets from `-ojf` (whisper_lines.py does this).
+- The small base.en model mishears rare words (it heard "Comb" as "Komp"). If only one unusual word differs from the script, listen to
+  the line before regenerating; Scribe on the final mix is the real check.
+- Don't `rm` relative globs after a `cd` (the safety check blocks it); use absolute paths or write into a fresh directory.
+- Render in one process (`GPU=1`), never in parallel (8 GB RAM). Wrap long renders in `caffeinate -dimsu`. GPU=1 renders ≈ 30–50 ms/frame at RSCALE=0.5.
+
+### 9.9 Learned on the Wi-Fi episode (portrait framing, inserts, sets)
+- **Portrait is narrow.** At fov 40 the frame is only ≈ 0.4 × distance wide. A 0.66-unit head needs the camera ≳ 2 units away for a readable
+  close-up (or widen the fov to 55–62 when a wall stops you backing off). Closer than that you get one eye and a mouth.
+- **Wide sets don't fit.** A dollhouse cutaway of two flats (15 units) can't be framed in portrait — track the camera sideways with the action instead.
+- **Moving things must cross the look direction.** Anything meant to fly through frame (a plane) has to pass within ≈ ±15° horizontally of the
+  camera's look line; plan the path from the camera, not from the set.
+- **Phone/screen inserts:** when a character holds a phone facing themselves, the screen side is inside their head — never put the camera there.
+  Use a separate prop phone (on a desk) for macro inserts of the screen.
+- **In-world text** (sat-nav, signs, phone screens) must sit in the lower two-thirds of the frame: the stat block and diary captions cover the top ~35 %.
+  Put the key words where the framing shows them, and render a test frame to read them.
+- **Cameras inside walls:** check camera positions against the room's wall boxes (a camera at x 2.2 sat inside the bathroom wall at x 2.0).
+  Also watch for glass railings and seat backs right in front of the lens.
+- **Seats and screens:** decide which way a seat faces before seating characters; seat-back screens face the row behind.
+- **Sitting reads as standing from the front.** Shoot seated poses (toilet, chair, bed edge) from a 3/4 side angle so the bent legs read.
+- **Decals ride on their parent:** rotating the Moon rotated its Wi-Fi icon out of view — animate the camera, not the object carrying the icon.
+- **Space lighting:** an object lit only from behind is invisible against black space. Give every space shot a key light from the camera side plus a rim.
+- **Crater/texture detail:** stroked circles read as bubbles. Use soft radial gradients (dark floor, light rim) for craters and spots.
+- **Reusing an old mixer:** copy helper *functions* only — the old file's placement lines come along and break the new mix. String-replace patterns
+  fail on tiny differences; use a regex or rewrite the section.
+
+### 9.10 Learned on Wi-Fi revision 2 (owner's screenshots)
+- **THE arm bug (caused hands-through-faces in every episode):** in the original `pose()`, a shoulder's z rotation swings the **right** arm
+  (+x side) *inward* for negative values — so every "arm out to the side" pose crossed the face. Fixed in `wifi-src/part_a.js`:
+  `A.sh.rotation.set(a[0], a[1], -a[2])`, so now arm 0 (left) uses **+z = outward**, arm 1 (right) uses **−z = outward**, for every rig.
+  Copy this `part_a.js` for new episodes; never copy the older ones (mums/afro still have the inward sign).
+- Hand props raised high: hold the arm *up and out* (`[-2.3, 0, ±1.05, 0.25]`), never folded over the top of the head (the forearm bends back through the skull).
+- Seated characters need real seats: give every sitter a chair (seat ≈ 0.5, hips bob ≈ −0.26) — without one they hover at desk height and read as sitting *on* the desk.
+- A phone's glow light goes **in front of the face** (≈ 0.45 in front of the head), not at the phone — a light inside the torso makes the chest glow.
+- Captions vs in-world text: move boards/signs out of the caption band (y ≈ 33–40 % of frame) or reframe — text over text is unreadable.
+- Status pills must match the place (the school was labelled STREET).
+- "Something happens, then it doubles": every step needs a physical action the hero or the world performs (chair collapses, a bike crashes into a bin,
+  the plug gets pulled and a continent goes dark, rent envelopes pile up) — a ring sweeping past plus a caption is not an action.
+- The hero talks on most beats (section 2); generate his lines, check them with Whisper, and when a written `[pause]` produces an over-long gap, trim it in the mix (`CUTS` in `timeline.py`) instead of regenerating again.
+- Inserting a pause: cut only at true silence (≤ −45 dB). If two words run together (no silence), regenerate with the beat written into the line.
+- Turned characters: after a turn, check the final yaw faces the camera (the teacher ended up back-to-camera).
+- **Camera paths through bodies/props:** a push-in that passes through a character or a chair gives frames of solid colour (and mpdecimate flags them as duplicates). Check both ends AND the middle of every camera move against the characters and furniture near it.
+
+### 9.11 Learned on the Drip episode (Nov 2026)
+- **Check the ElevenLabs key first** (`curl -H "xi-api-key: …" https://api.elevenlabs.io/v1/user/subscription`). The Keychain key had gone invalid (401
+  "Invalid API key"). The owner makes a new key and saves it with `security add-generic-password -U -a "$USER" -s elevenlabs -w` (paste it at both prompts).
+- `/usr/bin/python3` has no numpy. Run the mixer/shout/QA scripts with `/opt/homebrew/bin/python3`, and call sub-scripts with `sys.executable`, not `'python3'`.
+- `render.js test` used `path.join(ROOT, TDIR)`, so an absolute `TDIR` wrote into `<src>/private/tmp/…`. Fixed with `path.resolve` (drip-src).
+- **Portrait framing too tight was the #1 test-frame bug** (10+ shots in the first pass: giant heads, a face under the stat block, a leg filling the frame).
+  At fov 44 a full body needs the camera ≈ 5+ units away, waist-up ≈ 3.5–4, a face close-up ≈ 2.2–2.8. Compute the distance before placing the camera.
+- **Where the subject lands in frame:** aiming the camera *above* the face pushes the subject down, clear of the stat block and diary (top ≈ 35 %).
+- **Crowds near the camera:** photographers placed on the camera's line at the runway end filled the frame with solid blue/black. Keep extras off the
+  camera line, and send walking characters (models stepping off the runway) to targets on the flanks, never on the camera→hero line.
+- **Rows of seats (bus, cinema):** 1.5-high seat backs hide the seats and props from a low camera. Shoot from above (y ≈ 2.5) and hide the rows between camera and subject.
+- **Crossed arms:** shoulder x −1.1 with elbow 1.75 lifts a forearm to the face. Use `[[-0.55, 0, -0.22, 1.55], [-0.6, 0, 0.22, 1.5]]` (arm 0: −z = inward).
+- **Big hand props (umbrellas):** parented to a forearm they inherit the arm's rotation and point out of frame. Place them in world space from `wp(hand)` each frame.
+- **Accessories on small characters** (the pigeons' chains) ended up inside the body box: put them in front of the chest (z ≥ front face + 0.02) and check in a close-up.
+- **Tracking a walking character:** a camera lerping p0→p1 at a fixed speed falls behind; use `pf`/`lf` functions that follow the character's position.
+- **Mirrors (`Reflector`):** filmed from behind the subject you get a back-of-head blob. Film the mirror from the side, so the subject and the reflection both read.
+- **Big moving props must not cross a talking face:** Saturn's rings slid in front of its own face. End such moves out of the camera→face line (the rings end as a hoop around the hero).
+- **QA scripts copied from an older episode** had a hard-coded frame count (1656) and the old line list. `qa_final.py` now reads the frame count from `timeline.json`;
+  update its line list and `capcheck.js`'s frame count per episode.
+- **In-world text in a background** (a bus destination sign) landed inside the stat block. Remove text props that can fall in the top 35 %.
+- **Check the punchline word in the final mix, not just the isolated take.** Scribe heard "mi already have a ring" in the raw take but "…already having"
+  in the mix (Kevin's accent runs "have a ring" together). Fix: regenerate with a beat before the key word (`have a... ring.`), drop the music under the
+  punchline (`SIL` covers the whole line), then Scribe the mix again. Lengthen the step in `timeline.py` if the new take is longer.
+- **QA line checks must match whole words:** `'ring' in transcript` passed on "hove*ring*". `qa_final.py` now matches word-bounded phrases.
+- **Shouts need ≥ 10 dB over the bed:** the swelling scream sat ~9 dB above the music. The mixer now ducks the bed a further 4 dB under every shout.
+- **Held scream vowels:** Scribe gives one short word ("Bombo.") for a 2 s "BOMBOOOO—", so the caption checker flagged the rest as unheard.
+  `verify_captions.py` accepts shout frames only where the voice stem is clearly audible (≥ 10 dB above the bed).
+- **Disk space:** the Mac filled up during the encode (154 MB free, "No space left on device"). Check `df -h ~` before the final render;
+  2,800 frames ≈ 0.8 GB + a 100 MB MP4. Old episodes' `frames*` folders (git-ignored) are the big items — ask the owner before deleting them.
+- **After re-timing captions, re-render only the frames that change:** delete the frames inside every old and new dialogue span (±0.4 s) and after any
+  timeline change, then rerun `render.js all` (it skips frames that exist).
+- **Captions must respect the safe area too:** spoken and shout captions were centred on W/2 at 82–84 % width, so they poked into the 140 px right
+  margin, and the long stutter shout ("BOMBO… BOMBO… BOMBOCLAAAT!") ran off the left edge (font floor 60 px). `part_d.js` now centres captions in the
+  safe box (`CAP_X`, `CAP_W = W − SAFE_L − SAFE_R`) and lets the font shrink to 36–40 px. Check the longest caption in a test frame.
+- **GitHub rejects files over 100 MB:** the CRF 17 final was 105 MB. Encode the committed 1080p at CRF 18, maxrate 8.5M (≈ 90 MB for 94 s) and re-run QA on that file.
+- **The project lives in iCloud Drive (Desktop).** With the disk full, macOS evicted `.git` files (`ls -lO` shows `dataless`; reading them times out) and
+  iCloud won't restore dot-folders. Git breaks ("not a git repository"). Fix used: a fresh `git clone --depth 1 -b <branch>` outside Desktop, copy
+  the episode in, commit and push. Keep ≥ 5 GB free so macOS doesn't evict files.
+
+### 9.12 Owner rule: no repeats between episodes (Nov 2026)
+- **Nothing from an earlier video comes back.** The drip v1 recycled the rizz reel (pigeons, news anchor, astronaut, a cosmic body
+  offering a gift and getting a smug no) and the Wi-Fi shout set word for word. Before writing a script, list every setting, side
+  character, gag, shout delivery, style break, stat display and ending type already used (all `episodes/*.md` + `rizz-reel-src/dialogue.json`)
+  and use none of them. Reuse only the tech (rig, compositor, mixer, QA).
+- **Already used, banned:** bedroom/mirror openers, Mum at the door, loop-back endings, pigeons, news studio/anchor, ISS/astronaut,
+  Moon, Saturn/rings/planets/Sun, galaxy/universe finales, crowd rings with hearts, barbershop, B&W strobe flex montage,
+  "visible from space" tiers, the confused/stutter/long/resigned shout set, a side character saying the last BOMBOCLAT.
+- **Each episode needs its own style break(s)** (the rizz B&W montage is the bar) and a twist ending nobody saw coming.
+
+### 9.13 Learned on Drip v2 (Nov 2026, the rethink)
+- **Reference build is now `drip2-src`.** New per-episode tricks there: a diegetic stat (a swinging paper price tag whose old prices get scribbled out),
+  style-break shots (`letterbox`, `sketch`, `cctv` + `fps: 12` on a shot), a flattened rig as a living shadow, and a music bed processed per scene
+  (through-the-wall low-pass, cut out, tape-stop, tinny CCTV speaker, silence) instead of one flat bed.
+- **`mat()` is cached by colour:** mutating a material's colour changes every mesh that shares that hex. Give anything that changes colour mid-episode
+  (the hero's jacket, the bouncer's jacket at the end, a mannequin) its own unique hex, and give separate props a different hex from it.
+- **`sc.add(x)` returns the scene,** so `sc.add(rbox(...)).visible = false` hides the whole scene.
+- **Scaled side characters reach higher:** a bouncer at scale 1.28 with shoulder x −1.2 put his hand on the hero's face. Compute hand height
+  (shoulder height − cos(x)·arm length) before posing a "hand on chest".
+- **Over-the-shoulder shots** put the camera inside the near character's head unless it sits ≥ 2.5 units behind them; check both characters' faces.
+- **Crowds that gather round the hero** (gallery visitors) must stand behind and beside him, never in the front half, or the push-in hits a body.
+- **A tag on a raised forearm hangs upside-down:** flip the card (`rotation.z = π`) for inserts where the forearm is up. In-world prop text (the £40 tag)
+  only reads in a dedicated insert shot.
+- **Pencil-sketch filter:** edges = image minus itself shifted 2 px (`difference`), then `grayscale brightness(5) invert` (not `contrast()`, which
+  washes small differences to white), multiplied over paper.
+- **Low-fps CCTV shots repeat frames** and fail the duplicate-frame check: add per-frame video noise (grain at 0.5 overlay) to those shots.
+- **Hard cuts to silence click:** fade the bed over 30 ms before zeroing it.
+
+### 9.14 Owner feedback on Drip v2 (Nov 2026)
+- **BOMBOCLATs must be Kevin's own voice and funny.** The pitch-shifted "voice crack" (asetrate ×1.3) and the whisper both sounded like another person.
+  Generate voiced takes with comedic delivery tags (outraged, dragged-out, stunned-slow), never pitch-shift or whisper; check the take's median pitch
+  matches his spoken lines (≈ 125–210 Hz). Reverb/echo is fine when it is the gag.
+- **The doubling subject must transform completely each step.** "Drip" = a whole new outfit per day (jacket, trousers, shoes, hat, extras), not gold
+  added to the same clothes. `drip2-src/part_b.js` has `OUTFITS` (per day) + `WM` (wardrobe materials); the hero's outfit follows `stepAt(O)`.
+- **Playwright's browser cache can vanish** (`~/Library/Caches/ms-playwright` cleared): `render.js`/`capcheck.js` now fall back to the installed
+  Chrome (`CHROME` env or `/Applications/Google Chrome 2.app`) instead of downloading a new browser.
+
+### 9.15 Owner feedback on Drip v2, round 2 (Nov 2026)
+- **Music never drops out.** Cutting the bed (zoo), tape-stopping into silence (bullet time) and silencing it for a whisper all read as random cuts.
+  Crossfade between versions of the same continuous bed (through-the-wall, muffled, tinny) and dip it; the only silence is under the final punchline.
+- **No dead air: background voices everywhere.** Every day gets a voice: extras reacting (queue, kid, guard's earpiece, gallery visitor, shopkeeper,
+  passers-by), each captioned with a speaker label, plus a crowd-ambience bed per location (`gen_sfx.py`, ElevenLabs sound generation, levelled in the mixer).
+- **Walking must cover ground.** A gait over a short slide reads as walking on the spot: speed ≈ gait (walk(O, 10) ≈ 2.4 u/s), and walk *through* the frame.
+- **Kneeling helpers go in front, never overlapping:** the guard tying laces sat inside the hero's legs. Put him facing the shoe from the front and shoot from the side.
+- **Actions must read:** "two men try to rob him" needs the grab and the demand ("Oi. Wallet. Now."), then the twist (flash, recoil, they hand over their own wallets).
+- **CCTV shots:** a high wide fov-74 camera made the people tiny and dark; use fov ≈ 64 from ~4 m and add a fill light over the action.
+
+### 9.16 Owner feedback on Drip v2, round 3: bodies passing through each other (Nov 2026)
+- **No interpenetration, checked from every camera.** Fix 9.15 put the guard in front but his forward lean drove his head into the hero's puffer. The muggers stood ~0.7 m from the hero, so their torsos sank into his.
+  Rule: keep ≥ 1.1 m between two characters' centres (more with bulky outfits); a kneeling helper leans ≤ 0.35 and the *hero brings the foot to him*. Exit paths go round the hero in side lanes, never straight through his spot.
+- **Test-frame every contact beat** (grab, hand-over, tie, rise, walk-off) at full size, not only the shot's start frame.
+- **Comments go on their own line.** A `//` comment pasted mid-line in a part file silently cut off the rest of the shot (twice now); then `export` errors appear in the bundle. Run `build.sh` after every part edit, because the page loads `drip.js`, not the parts.
+
+### 9.17 Laziness episode: build mistakes (Nov 2026)
+- **Frame from the rig's real geometry, not a guess.** The hero is ~2.2 units tall. His head centre is 2.19 up from the feet, and on his back he spans 2.5 units. My first cameras were 1–2 units from faces, so every shot was a crop.
+  Compute the head/target position first; for a waist-up shot at fov 40 keep ~2.5–3.5 units away.
+  `laziness-src/dbg.js` renders any time from a free camera (`node dbg.js out.jpg T "px,py,pz" "lx,ly,lz" fov`): look at the set from outside before framing shots.
+- **Portrait is narrow** (horizontal half-FOV ≈ 0.56 × vertical). Two things far apart sideways never fit. Line them up in depth instead (camera looks down the room: machine far, catcher near).
+- **`parent.add(child)` returns the parent.** `g.add(mesh).rotation.x = …` rotates the whole group. Use `T(parent, child)`, which returns the child.
+- **Lying characters:** use a quaternion (`Q(-π/2, π/2, 0)` on the back, `Q(π/2, -π/2, 0)` face-down, head toward -x) and slerp between them for a roll.
+  On his back, `arms[0]` is the arm on the front edge: use it for anything he reaches with.
+- **Check every camera against the props** (the coffee table hid two shots: the camera was inside or under it).
+- **Regex replacements must match whole numbers** (`0\.[3-6]` turned `0.45` into `0.155`).
+- **eleven_v3 audio tags may render as silence** (`[yawns]` left a 0.7 s hole). Generate the sound as its own Kevin take and splice it in.
+  Verify it with Scribe `tag_audio_events=true` (it reports `[yawns]`/`[sighs]`).
+- **Tools:** numpy and PIL live in `/opt/homebrew/bin/python3` (the default `python3` has neither). `build.sh` checks the bundle as an ES module (copy to `.mjs`, then `node --check`).
+- **Short accented lines get misheard:** Kevin's one-word "Night." came back from Scribe as "Nine." Give one-word lines a second word ("Night, night.").
+  Re-check any new take is voiced (median pitch ≈ 125–210 Hz), not whispered.
+- **Caption QA:** `fix_spans.py` retimes captions to Scribe of the final mix. It must not grab the next cue's first word (cap each window at the next cue).
+  Shout spans come from the voice stem only, so silent gaps inside a shout stay uncaptioned.
+  Re-render only the frames whose caption text changed (compare `captions_per_frame.json` before and after).
+- **Static inserts count as duplicate frames:** a fully drawn blueprint held for 0.3 s failed mpdecimate. Keep something moving (drifting grid, moving pen).
+- **Don't put an SFX click exactly on a cue start:** the click check reads it as an edit click.
+
+### 9.18 Owner feedback on Laziness: "no background music at all" (Nov 2026)
+- **The music must be clearly audible the whole video; it's what gives viewers the dopamine.** The laziness bed was a quiet lo-fi track at ×0.3 gain,
+  low-passed to 700 Hz for long stretches (title, pause beat, golf, blackout) and ducked ~7 dB under near-constant voices. Its stem measured
+  −22.7 LUFS against the voice stem's −17.4, so on a phone it read as silence.
+  Rule: an energetic full-band track (owner library: `tiki_tiki`, `aura`, …), never muffled for more than ~2 s, ducked only 5–6 dB under lines,
+  full level between lines. QA: the music stem is within ~6 dB (LUFS) of the voice stem, and every 3 s window without a voice has the music ≥ −24 LUFS.
+- **Every joke must read from the picture alone** (most viewers watch with no sound and don't read English). Each script beat gets a `READ:` line
+  (what a viewer understands with the sound off). Show cause and effect inside one frame, and give every prop that carries the joke (a ticket, a phone amount, cards) its own macro insert.
+
+### 9.19 Luck episode: build mistakes (Nov 2026)
+- **Cameras too close, again** (about 25 shots in the first test pass). With the stat widget + diary covering the top ~35 %, a waist-up shot at fov 40
+  needs the camera ≥ 3.5 units from the subject, a face ≥ 2.3, a full body ≈ 3 units at fov 60–66. Compute it before typing coordinates.
+- **Cameras inside things render as a flat colour or black:** inside the baker (placed for a later shot of the same set), outside a wall (z 8.6 past
+  the wall at 8.2), right behind a pedestrian-signal box, through a bystander's head. Check each camera against every character and prop in that scene,
+  including ones positioned for other shots of the same set.
+- **A prop falling at a seated character's feet can't be filmed** (thighs and the table hide it from every angle). Restage: he stands, and the whole fall,
+  hand to shoe, happens inside one full-body frame; then a macro of the result.
+- **"Standing on its edge" doesn't read top-down** (a standing coin seen from above looks like a flat coin). Swoop the camera low and to the side.
+- **The hero faced away for his biggest reaction** (buried in teddies, facing the machine). After the event, turn him to the camera.
+- **Particles (confetti) spawned between the camera and the face.** Spawn them behind the subject, never on the camera side.
+- **Crowds placed outside the frame do nothing.** Put instanced crowds where the camera looks, and give the "everyone copies him" setup its own shot.
+- **A 16:10 TV in portrait:** at fov 40 the frame is ≈ 0.41 × distance wide, so a 2.5-unit TV needs the camera ≥ 6 units away to show the whole screen.
+- **In-world text on a counter is seen from both sides:** use a tent card (two planes back to back) so it reads from behind the counter too.
+- **Full-band level checks break with bass-heavy music (AURA):** SNR, the caption verifier and the shout-span builder now measure the speech band
+  (300 Hz–4 kHz, +6 dB). Shout caption spans merge gaps ≤ 0.4 s, or the caption flickers in 8 pieces.
+- **Kevin's "pence" is heard as "pins"** (Scribe too). "Sixty-four... pennies." is unambiguous.
+- **Voices:** only 8 unused ElevenLabs voices were left on the account, and this episode used all of them. Before the next episode the owner
+  needs to add new voices from the Voice Library (no new characters can be cast otherwise).
+- **Choppy shouts (a laugh) can't hold one caption:** the verifier flags every silent gap. `fix_spans.py` now builds shout spans frame by frame with the
+  verifier's own test (same window, speech band) and drops runs < 0.2 s; a span's end must not reach the next silent frame.
+- **A camera that eases to a stop ('io'/'out') at the end of a held insert gave 1 duplicate frame** (the coin-on-edge swoop). Use `ease: 'lin'` on held shots.
+- **`capcheck.js` with software GL timed out loading the page;** it now uses the Metal GPU. Its mini server types files by URL ending, so never add `?query` to its URL.
+- **Don't chain patch → render → encode → QA in one command:** one failed patch assert left the frames rendered from stale captions. Run and check each step.
+
+### 9.20 Owner feedback on Luck (Nov 2026): things passing through each other, a hand-only insert, not funny enough
+- **Everything is solid.** The owner found, in single frames: the coin sunk into the hand, pedestrians walking through cars, the driver standing inside
+  his car, teddies passing through the hero. Hand-checked test frames missed all of them. **Run `node collide.js 0.05` before every render:** it poses each
+  shot (no render) 20× a second and tests oriented boxes (`three/addons/math/OBB.js`, shrunk 18 %) between every registered solid — rigs, vehicles,
+  horses, bears, the claw machine, instanced crowd members. Register new solids in `SOLIDS()` in `part_d.js`. It must print `TOTAL 0`.
+- **Resting props:** place them on the measured top surface of what they rest on (`topOf(mesh)` = world bounding-box top), never at a guessed offset.
+  Held/rested props must not tilt into their support (a 0.05 rad plate tilt pushed its rim into the toast).
+- **Many bodies moving at once (an avalanche):** don't hand-animate paths (46 hand-planned teddy flights always brushed somewhere). Simulate them: balls with
+  gravity colliding with each other, the floor, boxes and people (stacked cylinders per body part: legs, torso, raised arms), computed once at load
+  (`SIM` in `part_c1.js`), spawning only where there is room. Keep the people upright (a lean moves the body off its collider) and away from spawn points.
+- **Kinematic stacks:** a block of objects that moves together (the claw lifting the stock) never overlaps; give the claw a gap instead of pushing into it.
+- **Inserts show the hero, not a floating hand:** the coin flip is a medium shot of him flicking the coin onto the back of his hand, face reacting
+  (worried on tails, grin on heads, shock on the edge). Camera above hand height so the coin face reads, far enough that the face clears the widget.
+- **People and traffic:** pedestrians walk where cars aren't (in front of the bumpers, clear of signal poles); an angry driver gets out of the car rather than
+  standing through its roof.
+
+### 9.21 Luck comedy pass (Nov 2026): build mistakes
+- **`resetRig()` resets scale to 1:** the kid (scale 0.62) was drawn adult-sized in every frame. Re-apply any rig scale right after `resetRig()`.
+- **A `//` comment pasted mid-line struck again** (it silently commented out the rest of `arcadeBase`, found only when the checker crashed, and an older
+  one had disabled the toast's flip rotation). Comments go on their own line, always.
+- **Rotation order:** a prop that must lie on its side and then yaw (the fish) needs `rotation.order = 'YXZ'`; with the default XYZ it stood upright.
+- **Simulated piles:** colliders must cover raised arms and pointing arms (segment the person by height), and the top segment must reach the real top
+  (caps, hats), or objects rest on an invisible shelf. Cap simulated speeds (7 m/s): overlap pushes at spawn flung teddies 50 m into the air.
+- **Cameras inside characters, again:** the end shot sat inside the baker. Every camera move goes through the checker's mindset: what stands there?
+- **Gag beats need their own framing:** a gag that happens on a character's head or face (the teddy crown, the ticket on Marcus's face) must be
+  test-framed: the stat widget and diary hide the top 35 %, so aim higher (subject lower) for head gags; flat props on a face sit in front of the eyes (z ≥ 0.345).
+
+### 9.22 Owner feedback on Luck v2 (Nov 2026): toast in the leg, walking on the spot
+- **The checker's 18 % shrink hides shallow cuts into thin props.** The falling toast sat ~0.03 inside his shin the whole fall (it was centred on the toe with a yaw,
+  so its back edge reached past the shin's front face); `collide.js` at the default shrink saw nothing. For small/thin props (toast, coins, cards, notes) also run
+  `SHRINK=0.97 node collide.js 0.01 <from> <to>` over the beat; ignore only true resting contact (a held plate on a hand). Place a resting prop from the measured
+  faces (shin front z = 0.145, shoe front z = 0.27 from the knee), not a guessed "toe" point.
+- **A flat prop flipping about an axis keeps its full width along that axis** while it's on edge: a slice tumbling about the facing axis spans forward/back, straight
+  into the shin. Keep that span clear of the body for the whole fall, not just at the landing.
+- **Background walkers must cover ground at their gait speed, in the direction they face.** Pedestrians looped over a 3-unit strip at 1.4 u/s with a ~2 u/s gait
+  (and one moved backwards), snapping back every 2 s: it read as walking on the spot. Give each walker one straight path across the whole scene,
+  z = start + dir × speed × t, speed ≈ walk freq × 0.25 (walk 8.5 ≈ 2.1 u/s), then run the checker.
+
+### 9.23 Owner feedback on Luck v3 (Nov 2026): "the accent feels Indian"
+- **Kevin drifts off Jamaican on plain English.** His voice card says Jamaican, but its description is a French-first Caribbean speaker; British lines
+  ("Course it did", "mate", "pence") with only mood tags came out sounding Indian. Fix: patois spelling + `[strong Jamaican accent, thick patois, <mood>]`
+  on every Kevin line. The jokes follow suit: patois in his lines and the diary punchlines ("Fi him side.", "First go. Bless up."), kept readable for non-English viewers.
+- **Test the accent on 1–2 lines and send the owner an old-vs-new clip** before regenerating the set (≈ 150 credits vs ≈ 1k).
+- **Whisper base.en can't read patois** ("Cept mi" → "Set me", "Lawd" → "Lord"); judge takes with Scribe on the mix, and make `qa_final.py` phrases
+  ones Scribe hears reliably both ways ("the button", not "press the button": it heard "press" once and "pressed" the next run).
+- **ElevenLabs v3 alignment is loose on accented takes** ("button" 0.3 s late). Sync any word-timed gag (the self-pressing button) to the Scribe word time
+  in `dialogue.json` after `fix_spans.py`, not to the TTS alignment.
+- **Line-specific mixer hacks go stale when a take is replaced:** `CUTS['h0']`, `LIFT['h1']` and the inserted "Of course" caption word were tied to the old takes.
+  Remove them whenever that line is regenerated. `part_a.js` `STEPS` is a pasted copy of `timeline.json`: re-sync it after changing caption text.

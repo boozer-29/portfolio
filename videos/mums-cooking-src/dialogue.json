@@ -1,0 +1,553 @@
+[
+ {
+  "file": "/tmp/claude-0/-home-user-portfolio/29721ef2-106f-55d6-a1c4-5440c2b42e2c/scratchpad/mums/audio/h1.mp3",
+  "speaker": "hero",
+  "at": 3.37,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Mummy,",
+    "t": 3.46,
+    "e": 3.76
+   },
+   {
+    "w": "this",
+    "t": 3.98,
+    "e": 4.14
+   },
+   {
+    "w": "one",
+    "t": 4.24,
+    "e": 4.36
+   },
+   {
+    "w": "sweet",
+    "t": 4.48,
+    "e": 4.76
+   },
+   {
+    "w": "o.",
+    "t": 4.82,
+    "e": 5.0
+   }
+  ],
+  "spans": [
+   [
+    3.4,
+    5.12
+   ]
+  ]
+ },
+ {
+  "file": "/home/user/portfolio/videos/assets/audio/shouts/bomboclat_hero_A.mp3",
+  "speaker": "hero",
+  "at": 6.9,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAT!",
+    "t": 7.02
+   }
+  ],
+  "spans": [
+   [
+    7.06,
+    7.92
+   ]
+  ]
+ },
+ {
+  "file": "/tmp/claude-0/-home-user-portfolio/29721ef2-106f-55d6-a1c4-5440c2b42e2c/scratchpad/mums/audio/n2.mp3",
+  "speaker": "neighbour",
+  "at": 8.6,
+  "kind": "line",
+  "words": [
+   {
+    "w": "I",
+    "t": 8.76,
+    "e": 8.82
+   },
+   {
+    "w": "just",
+    "t": 8.94,
+    "e": 9.16
+   },
+   {
+    "w": "dey",
+    "t": 9.2,
+    "e": 9.36
+   },
+   {
+    "w": "pass.",
+    "t": 9.4,
+    "e": 9.92
+   }
+  ],
+  "spans": [
+   [
+    8.7,
+    10.04
+   ]
+  ]
+ },
+ {
+  "file": "/home/user/portfolio/videos/assets/audio/shouts/bomboclat_hero_B.mp3",
+  "speaker": "hero",
+  "at": 10.54,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAT!",
+    "t": 10.62
+   }
+  ],
+  "spans": [
+   [
+    10.68,
+    11.65
+   ]
+  ]
+ },
+ {
+  "file": "/home/user/portfolio/videos/assets/audio/shouts/bomboclat_hero_A.mp3",
+  "speaker": "hero",
+  "at": 14.7,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAAT!",
+    "t": 14.82
+   }
+  ],
+  "spans": [
+   [
+    14.83,
+    15.51
+   ]
+  ]
+ },
+ {
+  "file": "/tmp/claude-0/-home-user-portfolio/29721ef2-106f-55d6-a1c4-5440c2b42e2c/scratchpad/mums/audio/f4.mp3",
+  "speaker": "fisherman",
+  "at": 16.55,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Dem",
+    "t": 16.68,
+    "e": 16.88
+   },
+   {
+    "w": "no",
+    "t": 16.94,
+    "e": 17.06
+   },
+   {
+    "w": "even",
+    "t": 17.12,
+    "e": 17.34
+   },
+   {
+    "w": "need",
+    "t": 17.46,
+    "e": 17.64
+   },
+   {
+    "w": "bait",
+    "t": 17.76,
+    "e": 17.96
+   },
+   {
+    "w": "again.",
+    "t": 18.02,
+    "e": 18.42
+   }
+  ],
+  "spans": [
+   [
+    16.62,
+    18.54
+   ]
+  ]
+ },
+ {
+  "file": "/home/user/portfolio/videos/assets/audio/shouts/bomboclat_hero_B.mp3",
+  "speaker": "hero",
+  "at": 19.14,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAT!",
+    "t": 19.22
+   }
+  ],
+  "spans": [
+   [
+    19.3,
+    20.2
+   ]
+  ]
+ },
+ {
+  "file": "/tmp/claude-0/-home-user-portfolio/29721ef2-106f-55d6-a1c4-5440c2b42e2c/scratchpad/mums/audio/p5.mp3",
+  "speaker": "pilot",
+  "at": 21.06,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Ladies",
+    "t": 21.14,
+    "e": 21.44
+   },
+   {
+    "w": "and",
+    "t": 21.46,
+    "e": 21.52
+   },
+   {
+    "w": "gentlemen,",
+    "t": 21.6,
+    "e": 22.06
+   },
+   {
+    "w": "we",
+    "t": 22.36,
+    "e": 22.44
+   },
+   {
+    "w": "are",
+    "t": 22.48,
+    "e": 22.56
+   },
+   {
+    "w": "making",
+    "t": 22.62,
+    "e": 22.94
+   },
+   {
+    "w": "a",
+    "t": 23.06,
+    "e": 23.12
+   },
+   {
+    "w": "small",
+    "t": 23.26,
+    "e": 23.56
+   },
+   {
+    "w": "detour.",
+    "t": 23.66,
+    "e": 24.08
+   }
+  ],
+  "spans": [
+   [
+    21.08,
+    24.2
+   ]
+  ]
+ },
+ {
+  "file": "/home/user/portfolio/videos/assets/audio/shouts/bomboclat_hero_A.mp3",
+  "speaker": "hero",
+  "at": 24.3,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAT!",
+    "t": 24.42
+   }
+  ],
+  "spans": [
+   [
+    24.43,
+    25.33
+   ]
+  ]
+ },
+ {
+  "file": "/tmp/claude-0/-home-user-portfolio/29721ef2-106f-55d6-a1c4-5440c2b42e2c/scratchpad/mums/audio/m6.mp3",
+  "speaker": "mum",
+  "at": 27.28,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Wash",
+    "t": 27.5,
+    "e": 27.76
+   },
+   {
+    "w": "your",
+    "t": 27.82,
+    "e": 27.94
+   },
+   {
+    "w": "hands",
+    "t": 28.08,
+    "e": 28.48
+   },
+   {
+    "w": "first.",
+    "t": 28.6,
+    "e": 28.98
+   }
+  ],
+  "spans": [
+   [
+    27.44,
+    29.1
+   ]
+  ]
+ },
+ {
+  "file": "/home/user/portfolio/videos/assets/audio/shouts/bomboclat_hero_B.mp3",
+  "speaker": "hero",
+  "at": 29.34,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAAT!",
+    "t": 29.42
+   }
+  ],
+  "spans": [
+   [
+    29.48,
+    30.46
+   ]
+  ]
+ },
+ {
+  "file": "/tmp/claude-0/-home-user-portfolio/29721ef2-106f-55d6-a1c4-5440c2b42e2c/scratchpad/mums/audio/h7.mp3",
+  "speaker": "hero",
+  "at": 30.95,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Ah",
+    "t": 31.12,
+    "e": 31.32
+   },
+   {
+    "w": "God,",
+    "t": 31.52,
+    "e": 31.82
+   },
+   {
+    "w": "this",
+    "t": 32.0,
+    "e": 32.119
+   },
+   {
+    "w": "is",
+    "t": 32.18,
+    "e": 32.36
+   },
+   {
+    "w": "too",
+    "t": 32.4,
+    "e": 32.52
+   },
+   {
+    "w": "much",
+    "t": 32.58,
+    "e": 32.759
+   },
+   {
+    "w": "rice!",
+    "t": 32.88,
+    "e": 33.24
+   }
+  ],
+  "spans": [
+   [
+    31.06,
+    33.36
+   ]
+  ]
+ },
+ {
+  "file": "/home/user/portfolio/videos/assets/audio/shouts/bomboclat_hero_A.mp3",
+  "speaker": "hero",
+  "at": 34.1,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAT!",
+    "t": 34.22
+   }
+  ],
+  "spans": [
+   [
+    34.23,
+    35.09
+   ]
+  ]
+ },
+ {
+  "file": "/tmp/claude-0/-home-user-portfolio/29721ef2-106f-55d6-a1c4-5440c2b42e2c/scratchpad/mums/audio/a8.mp3",
+  "speaker": "astronaut",
+  "at": 35.9,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Houston...",
+    "t": 36.06,
+    "e": 36.56
+   },
+   {
+    "w": "we",
+    "t": 37.5,
+    "e": 37.58
+   },
+   {
+    "w": "are",
+    "t": 37.62,
+    "e": 37.74
+   },
+   {
+    "w": "not",
+    "t": 37.82,
+    "e": 38.16
+   },
+   {
+    "w": "coming",
+    "t": 38.48,
+    "e": 38.72
+   },
+   {
+    "w": "back.",
+    "t": 38.82,
+    "e": 39.18
+   }
+  ],
+  "spans": [
+   [
+    36.0,
+    36.68
+   ],
+   [
+    37.44,
+    39.3
+   ]
+  ]
+ },
+ {
+  "file": "/home/user/portfolio/videos/assets/audio/shouts/bomboclat_hero_B.mp3",
+  "speaker": "hero",
+  "at": 40.29,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAAAT!",
+    "t": 40.37
+   }
+  ],
+  "spans": [
+   [
+    40.38,
+    41.38
+   ]
+  ]
+ },
+ {
+  "file": "/tmp/claude-0/-home-user-portfolio/29721ef2-106f-55d6-a1c4-5440c2b42e2c/scratchpad/mums/audio/m9.mp3",
+  "speaker": "mum",
+  "at": 42.97,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Who",
+    "t": 43.02,
+    "e": 43.14
+   },
+   {
+    "w": "invited",
+    "t": 43.18,
+    "e": 43.62
+   },
+   {
+    "w": "all",
+    "t": 43.7,
+    "e": 43.78
+   },
+   {
+    "w": "these",
+    "t": 43.82,
+    "e": 44.02
+   },
+   {
+    "w": "people?",
+    "t": 44.08,
+    "e": 44.54
+   }
+  ],
+  "spans": [
+   [
+    42.96,
+    44.66
+   ]
+  ]
+ },
+ {
+  "file": "/tmp/claude-0/-home-user-portfolio/29721ef2-106f-55d6-a1c4-5440c2b42e2c/scratchpad/mums/audio/h9.mp3",
+  "speaker": "hero",
+  "at": 48.15,
+  "kind": "line",
+  "words": [
+   {
+    "w": "So...",
+    "t": 48.3,
+    "e": 48.56
+   },
+   {
+    "w": "nothing",
+    "t": 49.28,
+    "e": 49.56
+   },
+   {
+    "w": "remain",
+    "t": 49.62,
+    "e": 49.88
+   },
+   {
+    "w": "for",
+    "t": 49.94,
+    "e": 50.04
+   },
+   {
+    "w": "me?",
+    "t": 50.1,
+    "e": 50.22
+   }
+  ],
+  "spans": [
+   [
+    48.24,
+    48.68
+   ],
+   [
+    49.22,
+    50.34
+   ]
+  ]
+ },
+ {
+  "file": "/home/user/portfolio/videos/assets/audio/shouts/bomboclat_hero_question.mp3",
+  "speaker": "hero",
+  "at": 50.58,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAT?!",
+    "t": 50.72
+   }
+  ],
+  "spans": [
+   [
+    50.75,
+    51.44
+   ]
+  ]
+ }
+]

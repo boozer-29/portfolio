@@ -1,0 +1,332 @@
+{
+ "TITLE": 4.2,
+ "DUR": 106.0,
+ "PAUSES": {},
+ "CUTS": {},
+ "title_audio": [
+  {
+   "file": "h0",
+   "at": 0.35,
+   "on": 0.49,
+   "end": 3.9
+  }
+ ],
+ "steps": [
+  {
+   "day": 1,
+   "t0": 4.2,
+   "t1": 11.0,
+   "value": "4,000",
+   "cmp": "GOAL: 10,000",
+   "status": "",
+   "setup": "Doctors recommend 10,000 steps a day.",
+   "setup_on": 4.55,
+   "punch": "He's saving them for later.",
+   "punch_on": 6.93,
+   "audio": [
+    {
+     "file": "d1",
+     "at": 4.7,
+     "on": 4.73,
+     "end": 5.77
+    },
+    {
+     "file": "nah",
+     "at": 5.8,
+     "on": 5.99,
+     "end": 7.84
+    },
+    {
+     "file": "h1",
+     "at": 9.0,
+     "on": 9.14,
+     "end": 10.42
+    }
+   ]
+  },
+  {
+   "day": 2,
+   "t0": 11.0,
+   "t1": 19.2,
+   "value": "2,000",
+   "cmp": "TIME TO STAND!",
+   "status": "",
+   "setup": "The remote is two metres away.",
+   "setup_on": 11.35,
+   "punch": "So he goes fishing.",
+   "punch_on": 13.45,
+   "audio": [
+    {
+     "file": "nah",
+     "at": 11.2,
+     "on": 11.39,
+     "end": 13.24
+    },
+    {
+     "file": "p2",
+     "at": 14.4,
+     "on": 14.47,
+     "end": 15.84
+    },
+    {
+     "file": "h2",
+     "at": 17.4,
+     "on": 18.35,
+     "end": 18.99
+    }
+   ]
+  },
+  {
+   "day": 4,
+   "t0": 19.2,
+   "t1": 25.2,
+   "value": "500",
+   "cmp": "MOVE GOAL: FAILED",
+   "status": "",
+   "setup": "The light switch is four metres away.",
+   "setup_on": 19.55,
+   "punch": "Engineers would call this overkill.",
+   "punch_on": 21.93,
+   "audio": [
+    {
+     "file": "h4",
+     "at": 23.95,
+     "on": 24.19,
+     "end": 25.19
+    }
+   ]
+  },
+  {
+   "day": 6,
+   "t0": 25.2,
+   "t1": 36.1,
+   "value": "125",
+   "cmp": "ARE YOU OK?",
+   "status": "",
+   "setup": "It's his turn to wash up.",
+   "setup_on": 25.55,
+   "punch": "He'd rather invent something.",
+   "punch_on": 27.45,
+   "audio": [
+    {
+     "file": "host",
+     "at": 25.4,
+     "on": 25.41,
+     "end": 30.43
+    },
+    {
+     "file": "sh_yawn",
+     "at": 31.9,
+     "on": 31.9,
+     "end": 35.81
+    }
+   ]
+  },
+  {
+   "day": 9,
+   "t0": 36.1,
+   "t1": 43.1,
+   "value": "15.6",
+   "cmp": "CHECKING PULSE\u2026",
+   "status": "",
+   "setup": "Dentists say brush for two minutes.",
+   "setup_on": 36.45,
+   "punch": "He outsources it.",
+   "punch_on": 38.75,
+   "audio": [
+    {
+     "file": "h9",
+     "at": 38.3,
+     "on": 38.58,
+     "end": 40.18
+    },
+    {
+     "file": "d9",
+     "at": 40.9,
+     "on": 41.0,
+     "end": 42.88
+    }
+   ]
+  },
+  {
+   "day": 13,
+   "t0": 43.1,
+   "t1": 55.7,
+   "value": "0.98",
+   "cmp": "LESS THAN 1 STEP",
+   "status": "",
+   "setup": "He now takes less than one step a day.",
+   "setup_on": 43.45,
+   "punch": "Today's is still loading.",
+   "punch_on": 45.87,
+   "audio": [
+    {
+     "file": "d13",
+     "at": 44.5,
+     "on": 44.6,
+     "end": 47.34
+    },
+    {
+     "file": "h13",
+     "at": 47.5,
+     "on": 47.67,
+     "end": 50.95
+    },
+    {
+     "file": "nah",
+     "at": 51.1,
+     "on": 51.29,
+     "end": 53.14
+    },
+    {
+     "file": "sh_sleep",
+     "at": 53.3,
+     "on": 53.31,
+     "end": 55.31
+    }
+   ]
+  },
+  {
+   "day": 16,
+   "t0": 55.7,
+   "t1": 65.5,
+   "value": "0.12",
+   "cmp": "PLEASE MOVE",
+   "status": "",
+   "setup": "The pizza is at the door.",
+   "setup_on": 56.05,
+   "punch": "The door is eleven metres away.",
+   "punch_on": 57.95,
+   "audio": [
+    {
+     "file": "golf",
+     "at": 56.0,
+     "on": 56.49,
+     "end": 60.56
+    },
+    {
+     "file": "drv",
+     "at": 60.7,
+     "on": 60.81,
+     "end": 62.9
+    },
+    {
+     "file": "h16",
+     "at": 63.1,
+     "on": 63.2,
+     "end": 64.9
+    }
+   ]
+  },
+  {
+   "day": 20,
+   "t0": 65.5,
+   "t1": 74.7,
+   "value": "0.0076",
+   "cmp": "WATCH GIVING UP",
+   "status": "",
+   "setup": "Putting on socks takes about nine seconds.",
+   "setup_on": 65.85,
+   "punch": "He builds a factory to save them.",
+   "punch_on": 68.43,
+   "audio": [
+    {
+     "file": "p20",
+     "at": 68.3,
+     "on": 68.4,
+     "end": 72.08
+    },
+    {
+     "file": "nah",
+     "at": 72.3,
+     "on": 72.49,
+     "end": 74.34
+    }
+   ]
+  },
+  {
+   "day": 25,
+   "t0": 74.7,
+   "t1": 83.1,
+   "value": "0.00024",
+   "cmp": "WATCH ASLEEP",
+   "status": "",
+   "setup": "The chippy is 300 metres away.",
+   "setup_on": 75.05,
+   "punch": "So he strings the whole city together.",
+   "punch_on": 77.15,
+   "audio": [
+    {
+     "file": "h25",
+     "at": 77.1,
+     "on": 77.13,
+     "end": 80.26
+    },
+    {
+     "file": "nb",
+     "at": 80.6,
+     "on": 80.71,
+     "end": 82.88
+    }
+   ]
+  },
+  {
+   "day": 30,
+   "t0": 83.1,
+   "t1": 95.5,
+   "value": "0.0000075",
+   "cmp": "LOW BATTERY",
+   "status": "",
+   "setup": "A storm cuts the power across London.",
+   "setup_on": 83.45,
+   "punch": "Every machine stops. Except his.",
+   "punch_on": 85.83,
+   "audio": [
+    {
+     "file": "bo",
+     "at": 83.7,
+     "on": 83.81,
+     "end": 85.21
+    },
+    {
+     "file": "eng",
+     "at": 85.5,
+     "on": 85.65,
+     "end": 89.22
+    }
+   ]
+  },
+  {
+   "day": "END",
+   "t0": 95.5,
+   "t1": 105.7,
+   "value": "0",
+   "cmp": "SAVED LONDON \u2713",
+   "status": "",
+   "setup": "Day 31. London is saved.",
+   "setup_on": 95.85,
+   "punch": "The washing-up is not.",
+   "punch_on": 97.71,
+   "audio": [
+    {
+     "file": "dEnd",
+     "at": 96.5,
+     "on": 96.56,
+     "end": 100.38
+    },
+    {
+     "file": "nah",
+     "at": 100.6,
+     "on": 100.79,
+     "end": 102.64
+    },
+    {
+     "file": "sh_wake",
+     "at": 103.4,
+     "on": 103.52,
+     "end": 104.66
+    }
+   ]
+  }
+ ]
+}

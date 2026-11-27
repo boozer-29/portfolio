@@ -1,0 +1,249 @@
+{
+ "TITLE": 3.0,
+ "DUR": 93.8,
+ "PAUSES": {},
+ "CUTS": {},
+ "steps": [
+  {
+   "day": 1,
+   "t0": 3.0,
+   "t1": 10.6,
+   "value": "\u00a340",
+   "cmp": "A CHARITY-SHOP HOODIE",
+   "status": "BASIC",
+   "setup": "Day 1. One hoodie. \u00a340.",
+   "setup_on": 3.35,
+   "punch": "From a charity shop. It shows.",
+   "punch_on": 5.17,
+   "audio": [
+    {
+     "file": "mum1",
+     "at": 5.4,
+     "end": 8.04
+    },
+    {
+     "file": "h1",
+     "at": 8.4,
+     "end": 10.0
+    }
+   ]
+  },
+  {
+   "day": 3,
+   "t0": 10.6,
+   "t1": 17.0,
+   "value": "\u00a3160",
+   "cmp": "NEW WHITE TRAINERS",
+   "status": "FRESH",
+   "setup": "Day 3. Brand-new white trainers.",
+   "setup_on": 10.95,
+   "punch": "He hasn't touched the ground since.",
+   "punch_on": 13.13,
+   "audio": [
+    {
+     "file": "h3",
+     "at": 14.2,
+     "end": 15.72
+    }
+   ]
+  },
+  {
+   "day": 5,
+   "t0": 17.0,
+   "t1": 24.4,
+   "value": "\u00a3640",
+   "cmp": "\u2248 A DESIGNER JACKET",
+   "status": "DRIPPY",
+   "setup": "Day 5. The pigeons start copying his fit.",
+   "setup_on": 17.35,
+   "punch": "Tiny chains. Tiny bucket hats.",
+   "punch_on": 19.89,
+   "audio": [
+    {
+     "file": "pigeon",
+     "at": 20.2,
+     "end": 22.28
+    },
+    {
+     "file": "sh_question",
+     "at": 22.6,
+     "end": 23.64
+    }
+   ]
+  },
+  {
+   "day": 8,
+   "t0": 24.4,
+   "t1": 30.0,
+   "value": "\u00a35,120",
+   "cmp": "\u2248 A GOLD CHAIN",
+   "status": "ICED OUT",
+   "setup": "Day 8. The chain gets its own seat on the bus.",
+   "setup_on": 24.75,
+   "punch": "A granny has to stand.",
+   "punch_on": 27.49,
+   "audio": []
+  },
+  {
+   "day": 10,
+   "t0": 30.0,
+   "t1": 38.8,
+   "value": "\u00a320,480",
+   "cmp": "\u2248 A NEW CAR",
+   "status": "ICED OUT",
+   "setup": "In 2013, a London skyscraper's glare melted a car's mirror.",
+   "setup_on": 30.35,
+   "punch": "His chain does it before breakfast.",
+   "punch_on": 33.61,
+   "audio": [
+    {
+     "file": "h10",
+     "at": 36.4,
+     "end": 38.4
+    }
+   ]
+  },
+  {
+   "day": 12,
+   "t0": 38.8,
+   "t1": 46.6,
+   "value": "\u00a381,920",
+   "cmp": "\u2248 TWO YEARS' WAGES",
+   "status": "ICED OUT",
+   "setup": "Day 12. London Fashion Week.",
+   "setup_on": 39.15,
+   "punch": "The models walk off the runway to look at him.",
+   "punch_on": 41.17,
+   "audio": [
+    {
+     "file": "sh_stutter",
+     "at": 41.8,
+     "end": 45.91
+    }
+   ]
+  },
+  {
+   "day": 15,
+   "t0": 46.6,
+   "t1": 54.2,
+   "value": "\u00a3655,360",
+   "cmp": "\u2248 TWO HOUSES",
+   "status": "NATIONAL TREASURE",
+   "setup": "Day 15. Worth more than two average UK houses.",
+   "setup_on": 46.95,
+   "punch": "Then he sees his reflection.",
+   "punch_on": 49.69,
+   "audio": [
+    {
+     "file": "h15",
+     "at": 50.5,
+     "end": 52.98
+    }
+   ]
+  },
+  {
+   "day": 18,
+   "t0": 54.2,
+   "t1": 62.2,
+   "value": "\u00a35.2 million",
+   "cmp": "\u2248 A PRIVATE JET",
+   "status": "NATIONAL TREASURE",
+   "setup": "Day 18. The Met Office issues a drip warning.",
+   "setup_on": 54.55,
+   "punch": "Londoners are told to carry umbrellas.",
+   "punch_on": 57.25,
+   "audio": [
+    {
+     "file": "anchor",
+     "at": 55.4,
+     "end": 58.2
+    },
+    {
+     "file": "h18",
+     "at": 59.9,
+     "end": 61.74
+    }
+   ]
+  },
+  {
+   "day": 22,
+   "t0": 62.2,
+   "t1": 67.6,
+   "value": "\u00a384 million",
+   "cmp": "\u2248 A SUPERYACHT",
+   "status": "VISIBLE FROM SPACE",
+   "setup": "Day 22. The Great Wall isn't visible from space.",
+   "setup_on": 62.55,
+   "punch": "His chain is.",
+   "punch_on": 65.37,
+   "audio": []
+  },
+  {
+   "day": 27,
+   "t0": 67.6,
+   "t1": 74.9,
+   "value": "\u00a32.7 billion",
+   "cmp": "\u2248 THE CROWN JEWELS",
+   "status": "VISIBLE FROM SPACE",
+   "setup": "Day 27. Nearly as much as the Crown Jewels.",
+   "setup_on": 67.95,
+   "punch": "The Tower of London wants his hoodie.",
+   "punch_on": 70.57,
+   "audio": [
+    {
+     "file": "sh_long",
+     "at": 72.6,
+     "end": 74.9
+    }
+   ]
+  },
+  {
+   "day": 36,
+   "t0": 74.9,
+   "t1": 86.7,
+   "value": "\u00a31.4 trillion",
+   "cmp": "\u2248 HALF THE UK ECONOMY",
+   "status": "COSMIC",
+   "setup": "Day 36. Saturn's rings are almost pure ice.",
+   "setup_on": 75.25,
+   "punch": "The original drip.",
+   "punch_on": 77.87,
+   "audio": [
+    {
+     "file": "saturn",
+     "at": 78.3,
+     "end": 81.82
+    },
+    {
+     "file": "h36",
+     "at": 82.5,
+     "end": 86.02
+    }
+   ]
+  },
+  {
+   "day": "END",
+   "t0": 86.7,
+   "t1": 93.5,
+   "value": "",
+   "cmp": "",
+   "status": "",
+   "setup": "Day 37. He goes home.",
+   "setup_on": 87.05,
+   "punch": "",
+   "punch_on": null,
+   "audio": [
+    {
+     "file": "mum2",
+     "at": 87.7,
+     "end": 90.58
+    },
+    {
+     "file": "sh_resigned",
+     "at": 90.9,
+     "end": 92.9
+    }
+   ]
+  }
+ ]
+}

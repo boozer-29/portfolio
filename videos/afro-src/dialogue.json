@@ -1,0 +1,474 @@
+[
+ {
+  "file": "/Users/riteshvinod/Desktop/claude code/portfolio/videos/afro-src/audio/h1.mp3",
+  "speaker": "hero",
+  "at": 3.68,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Date.",
+    "t": 4.096
+   },
+   {
+    "w": "On",
+    "t": 4.267
+   },
+   {
+    "w": "Saturday...",
+    "t": 4.391
+   },
+   {
+    "w": "Easy.",
+    "t": 5.264
+   }
+  ],
+  "spans": [
+   [
+    3.7,
+    5.65
+   ]
+  ]
+ },
+ {
+  "file": "/Users/riteshvinod/Desktop/claude code/portfolio/videos/afro-src/../assets/audio/shouts/bomboclat_hero_A.mp3",
+  "speaker": "hero",
+  "at": 6.1,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAT!",
+    "t": 6.22
+   }
+  ],
+  "spans": [
+   [
+    6.23,
+    7.02
+   ]
+  ]
+ },
+ {
+  "file": "/Users/riteshvinod/Desktop/claude code/portfolio/videos/afro-src/audio/h2.mp3",
+  "speaker": "hero",
+  "at": 9.86,
+  "kind": "line",
+  "words": [
+   {
+    "w": "...Excuse",
+    "t": 9.99
+   },
+   {
+    "w": "you.",
+    "t": 11.0
+   }
+  ],
+  "spans": [
+   [
+    10.02,
+    11.41
+   ]
+  ]
+ },
+ {
+  "file": "/Users/riteshvinod/Desktop/claude code/portfolio/videos/afro-src/../assets/audio/shouts/bomboclat_hero_B.mp3",
+  "speaker": "hero",
+  "at": 11.94,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAT!",
+    "t": 12.02
+   }
+  ],
+  "spans": [
+   [
+    12.1,
+    12.22
+   ],
+   [
+    12.68,
+    13.07
+   ]
+  ]
+ },
+ {
+  "file": "/Users/riteshvinod/Desktop/claude code/portfolio/videos/afro-src/audio/b3.mp3",
+  "speaker": "bird",
+  "at": 14.9,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Excuse",
+    "t": 15.196
+   },
+   {
+    "w": "me.",
+    "t": 15.46
+   },
+   {
+    "w": "We",
+    "t": 15.86
+   },
+   {
+    "w": "have",
+    "t": 16.228
+   },
+   {
+    "w": "a",
+    "t": 16.46
+   },
+   {
+    "w": "lease.",
+    "t": 16.58
+   }
+  ],
+  "spans": [
+   [
+    15.01,
+    15.74
+   ],
+   [
+    16.17,
+    16.86
+   ]
+  ]
+ },
+ {
+  "file": "/Users/riteshvinod/Desktop/claude code/portfolio/videos/afro-src/../assets/audio/shouts/bomboclat_hero_A.mp3",
+  "speaker": "hero",
+  "at": 17.5,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAAT!",
+    "t": 17.62
+   }
+  ],
+  "spans": [
+   [
+    17.63,
+    18.52
+   ]
+  ]
+ },
+ {
+  "file": "/Users/riteshvinod/Desktop/claude code/portfolio/videos/afro-src/audio/r4.mp3",
+  "speaker": "barber",
+  "at": 21.81,
+  "kind": "line",
+  "words": [
+   {
+    "w": "It's",
+    "t": 22.103
+   },
+   {
+    "w": "yours...",
+    "t": 22.303
+   },
+   {
+    "w": "now.",
+    "t": 23.51
+   }
+  ],
+  "spans": [
+   [
+    22.04,
+    22.86
+   ],
+   [
+    23.45,
+    23.93
+   ]
+  ]
+ },
+ {
+  "file": "/Users/riteshvinod/Desktop/claude code/portfolio/videos/afro-src/../assets/audio/shouts/bomboclat_hero_B.mp3",
+  "speaker": "hero",
+  "at": 24.34,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAT!",
+    "t": 24.42
+   }
+  ],
+  "spans": [
+   [
+    24.49,
+    25.44
+   ]
+  ]
+ },
+ {
+  "file": "/Users/riteshvinod/Desktop/claude code/portfolio/videos/afro-src/audio/h5.mp3",
+  "speaker": "hero",
+  "at": 28.2,
+  "kind": "line",
+  "words": [
+   {
+    "w": "I'm",
+    "t": 28.32
+   },
+   {
+    "w": "okay!",
+    "t": 28.568
+   }
+  ],
+  "spans": [
+   [
+    28.44,
+    29.3
+   ]
+  ]
+ },
+ {
+  "file": "/Users/riteshvinod/Desktop/claude code/portfolio/videos/afro-src/../assets/audio/shouts/bomboclat_hero_A.mp3",
+  "speaker": "hero",
+  "at": 29.7,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAT!",
+    "t": 29.82
+   }
+  ],
+  "spans": [
+   [
+    29.83,
+    30.74
+   ]
+  ]
+ },
+ {
+  "file": "/Users/riteshvinod/Desktop/claude code/portfolio/videos/afro-src/audio/n6.mp3",
+  "speaker": "anchor",
+  "at": 33.75,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Experts",
+    "t": 34.228
+   },
+   {
+    "w": "have",
+    "t": 34.374
+   },
+   {
+    "w": "confirmed...",
+    "t": 34.718
+   },
+   {
+    "w": "it",
+    "t": 37.263
+   },
+   {
+    "w": "does",
+    "t": 37.434
+   },
+   {
+    "w": "say",
+    "t": 37.73
+   },
+   {
+    "w": "help.",
+    "t": 37.93
+   }
+  ],
+  "spans": [
+   [
+    33.82,
+    35.5
+   ],
+   [
+    37.35,
+    38.22
+   ]
+  ]
+ },
+ {
+  "file": "/Users/riteshvinod/Desktop/claude code/portfolio/videos/afro-src/../assets/audio/shouts/bomboclat_hero_B.mp3",
+  "speaker": "hero",
+  "at": 38.54,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAAT!",
+    "t": 38.62
+   }
+  ],
+  "spans": [
+   [
+    38.68,
+    39.6
+   ]
+  ]
+ },
+ {
+  "file": "/Users/riteshvinod/Desktop/claude code/portfolio/videos/afro-src/audio/a7.mp3",
+  "speaker": "astronaut",
+  "at": 41.55,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Houston...",
+    "t": 41.988
+   },
+   {
+    "w": "we",
+    "t": 42.883
+   },
+   {
+    "w": "have",
+    "t": 43.022
+   },
+   {
+    "w": "a",
+    "t": 43.19
+   },
+   {
+    "w": "tangle.",
+    "t": 43.27
+   }
+  ],
+  "spans": [
+   [
+    41.63,
+    42.13
+   ],
+   [
+    42.95,
+    43.53
+   ]
+  ]
+ },
+ {
+  "file": "/Users/riteshvinod/Desktop/claude code/portfolio/videos/afro-src/../assets/audio/shouts/bomboclat_hero_A.mp3",
+  "speaker": "hero",
+  "at": 44.1,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAT!",
+    "t": 44.22
+   }
+  ],
+  "spans": [
+   [
+    44.23,
+    45.04
+   ]
+  ]
+ },
+ {
+  "file": "/Users/riteshvinod/Desktop/claude code/portfolio/videos/afro-src/audio/h8.mp3",
+  "speaker": "hero",
+  "at": 46.55,
+  "kind": "line",
+  "words": [
+   {
+    "w": "You",
+    "t": 46.62
+   },
+   {
+    "w": "know",
+    "t": 46.662
+   },
+   {
+    "w": "what?",
+    "t": 46.838
+   },
+   {
+    "w": "It's",
+    "t": 47.323
+   },
+   {
+    "w": "a",
+    "t": 47.71
+   },
+   {
+    "w": "look.",
+    "t": 47.83
+   }
+  ],
+  "spans": [
+   [
+    46.64,
+    47.05
+   ],
+   [
+    47.58,
+    48.25
+   ]
+  ]
+ },
+ {
+  "file": "/Users/riteshvinod/Desktop/claude code/portfolio/videos/afro-src/../assets/audio/shouts/bomboclat_hero_B.mp3",
+  "speaker": "hero",
+  "at": 49.54,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAAAT!",
+    "t": 49.62
+   }
+  ],
+  "spans": [
+   [
+    49.69,
+    50.66
+   ]
+  ]
+ },
+ {
+  "file": "/Users/riteshvinod/Desktop/claude code/portfolio/videos/afro-src/audio/d9.mp3",
+  "speaker": "date",
+  "at": 52.95,
+  "kind": "line",
+  "words": [
+   {
+    "w": "Sorry",
+    "t": 53.17
+   },
+   {
+    "w": "I'm",
+    "t": 53.35
+   },
+   {
+    "w": "late.",
+    "t": 53.574
+   },
+   {
+    "w": "Traffic.",
+    "t": 54.37
+   }
+  ],
+  "spans": [
+   [
+    53.07,
+    53.91
+   ],
+   [
+    54.22,
+    54.81
+   ]
+  ]
+ },
+ {
+  "file": "/Users/riteshvinod/Desktop/claude code/portfolio/videos/afro-src/../assets/audio/shouts/bomboclat_hero_question.mp3",
+  "speaker": "hero",
+  "at": 55.26,
+  "kind": "shout",
+  "words": [
+   {
+    "w": "BOMBOCLAAT?!",
+    "t": 55.4
+   }
+  ],
+  "spans": [
+   [
+    55.43,
+    56.18
+   ]
+  ]
+ }
+]

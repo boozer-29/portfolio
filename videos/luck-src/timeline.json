@@ -1,0 +1,293 @@
+{
+ "TITLE": 5.2,
+ "DUR": 102.3,
+ "PAUSES": {},
+ "CUTS": {
+  "m0": [
+   0.05,
+   0.9
+  ],
+  "m7": [
+   0.4,
+   1.45
+  ]
+ },
+ "title_audio": [
+  {
+   "file": "h0",
+   "at": 0.25,
+   "on": 0.29,
+   "end": 2.69
+  },
+  {
+   "file": "m0",
+   "at": 3.55,
+   "on": 4.02,
+   "end": 4.9
+  }
+ ],
+ "steps": [
+  {
+   "day": 1,
+   "t0": 5.2,
+   "t1": 11.0,
+   "value": "1 IN 2",
+   "cmp": "\u2248 A COIN FLIP",
+   "status": "",
+   "setup": "Day 1. He loses a coin flip.",
+   "setup_on": 5.55,
+   "punch": "Against himself.",
+   "punch_on": 7.57,
+   "audio": [
+    {
+     "file": "h1",
+     "at": 8.7,
+     "on": 8.76,
+     "end": 10.98
+    }
+   ]
+  },
+  {
+   "day": 2,
+   "t0": 11.0,
+   "t1": 17.6,
+   "value": "1 IN 4",
+   "cmp": "\u2248 2 HEADS IN A ROW",
+   "status": "",
+   "setup": "Day 2. The wind picks a side.",
+   "setup_on": 11.35,
+   "punch": "Fi him side.",
+   "punch_on": 13.41,
+   "audio": [
+    {
+     "file": "h2",
+     "at": 14.9,
+     "on": 15.03,
+     "end": 17.58
+    }
+   ]
+  },
+  {
+   "day": 3,
+   "t0": 17.6,
+   "t1": 24.6,
+   "value": "1 IN 8",
+   "cmp": "\u2248 3 HEADS IN A ROW",
+   "status": "",
+   "setup": "Day 3. Rush hour.",
+   "setup_on": 17.95,
+   "punch": "Every light turn green fi him. Only him.",
+   "punch_on": 19.53,
+   "audio": [
+    {
+     "file": "drv",
+     "at": 20.6,
+     "on": 20.82,
+     "end": 22.16
+    },
+    {
+     "file": "h3",
+     "at": 22.2,
+     "on": 22.33,
+     "end": 24.18
+    }
+   ]
+  },
+  {
+   "day": 5,
+   "t0": 24.6,
+   "t1": 35.5,
+   "value": "1 IN 32",
+   "cmp": "\u2248 A CLAW MACHINE WIN",
+   "status": "",
+   "setup": "Claw machines usually grip properly about once every 30 goes.",
+   "setup_on": 24.95,
+   "punch": "First go. Bless up.",
+   "punch_on": 28.29,
+   "audio": [
+    {
+     "file": "sh_laugh",
+     "at": 28.2,
+     "on": 28.33,
+     "end": 32.32
+    },
+    {
+     "file": "kid",
+     "at": 32.55,
+     "on": 32.64,
+     "end": 35.31
+    }
+   ]
+  },
+  {
+   "day": 7,
+   "t0": 35.5,
+   "t1": 41.9,
+   "value": "1 IN 128",
+   "cmp": "\u2248 7 HEADS IN A ROW",
+   "status": "",
+   "setup": "Day 7. Bad luck still exists.",
+   "setup_on": 35.85,
+   "punch": "It just go next door.",
+   "punch_on": 37.91,
+   "audio": [
+    {
+     "file": "m7",
+     "at": 39.3,
+     "on": 39.43,
+     "end": 40.52
+    }
+   ]
+  },
+  {
+   "day": 9,
+   "t0": 41.9,
+   "t1": 50.7,
+   "value": "1 IN 512",
+   "cmp": "\u2248 A 500-TO-1 OUTSIDER",
+   "status": "",
+   "setup": "Day 9. He bets \u00a32 on the worst horse in the race.",
+   "setup_on": 42.25,
+   "punch": "500 to 1.",
+   "punch_on": 45.11,
+   "audio": [
+    {
+     "file": "rg",
+     "at": 43.1,
+     "on": 43.19,
+     "end": 45.7
+    },
+    {
+     "file": "com",
+     "at": 46.0,
+     "on": 46.24,
+     "end": 49.0
+    }
+   ]
+  },
+  {
+   "day": 13,
+   "t0": 50.7,
+   "t1": 58.1,
+   "value": "1 IN 8,192",
+   "cmp": "\u2248 A COIN ON ITS EDGE",
+   "status": "",
+   "setup": "A coin lands on its edge about once in 6,000 flips.",
+   "setup_on": 51.05,
+   "punch": "His did.",
+   "punch_on": 53.99,
+   "audio": [
+    {
+     "file": "h13",
+     "at": 54.3,
+     "on": 54.31,
+     "end": 56.89
+    }
+   ]
+  },
+  {
+   "day": 20,
+   "t0": 58.1,
+   "t1": 66.7,
+   "value": "1 IN 1 MILLION",
+   "cmp": "\u2248 A ROYAL FLUSH",
+   "status": "",
+   "setup": "A royal flush: 1 in 649,740 hands.",
+   "setup_on": 58.45,
+   "punch": "Him get five inna row.",
+   "punch_on": 60.71,
+   "audio": [
+    {
+     "file": "boss",
+     "at": 62.5,
+     "on": 62.61,
+     "end": 66.06
+    }
+   ]
+  },
+  {
+   "day": 23,
+   "t0": 66.7,
+   "t1": 75.3,
+   "value": "1 IN 8.4 MILLION",
+   "cmp": "\u2248 23 HEADS IN A ROW",
+   "status": "",
+   "setup": "Only one person has ever been confirmed hit by a meteorite.",
+   "setup_on": 67.05,
+   "punch": "Today, a car get it.",
+   "punch_on": 70.31,
+   "audio": [
+    {
+     "file": "m23",
+     "at": 70.2,
+     "on": 70.2,
+     "end": 71.09
+    },
+    {
+     "file": "h23",
+     "at": 71.85,
+     "on": 71.98,
+     "end": 75.09
+    }
+   ]
+  },
+  {
+   "day": 26,
+   "t0": 75.3,
+   "t1": 93.4,
+   "value": "1 IN 67 MILLION",
+   "cmp": "\u2248 THE LOTTO JACKPOT",
+   "status": "",
+   "setup": "Lotto jackpot: 1 in 45 million.",
+   "setup_on": 75.65,
+   "punch": "By now, di whole country a copy him numbers.",
+   "punch_on": 77.79,
+   "audio": [
+    {
+     "file": "sh_choir",
+     "at": 80.9,
+     "on": 80.91,
+     "end": 85.96
+    },
+    {
+     "file": "host",
+     "at": 86.15,
+     "on": 86.26,
+     "end": 89.79
+    },
+    {
+     "file": "h26",
+     "at": 90.05,
+     "on": 90.05,
+     "end": 92.49
+    }
+   ]
+  },
+  {
+   "day": "END",
+   "t0": 93.4,
+   "t1": 102.0,
+   "value": "1 IN 134 MILLION",
+   "cmp": "\u2248 ONE SAUSAGE ROLL",
+   "status": "",
+   "setup": "Day 27. One sausage roll left. It costs 64p.",
+   "setup_on": 93.75,
+   "punch": "Him have exactly 64p.",
+   "punch_on": 96.41,
+   "audio": [
+    {
+     "file": "lady",
+     "at": 95.7,
+     "on": 95.7,
+     "end": 97.74
+    },
+    {
+     "file": "hEnd",
+     "at": 98.2,
+     "on": 98.32,
+     "end": 99.44
+    }
+   ]
+  }
+ ]
+}
