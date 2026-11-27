@@ -36,7 +36,7 @@ def words_of(js, off):
 SHOUT_WORDS = json.load(open(os.path.join(VA, 'shout_words.json')))   # word reveal offsets of each shout (from shouts.py)
 voice = np.zeros((N, 2), np.float32); dry = []; DLG = []
 # LIFT: the soft 'Of course it did' sits low in the speech band; DROPW: words removed with the CUTS trim
-PAUSES = TLJ['PAUSES']; LIFT = {'h1': 3.0}; DROPW = {'m0': ('Hmm.',)}
+PAUSES = TLJ['PAUSES']; LIFT = {}; DROPW = {'m0': ('Hmm.',)}
 SPK = {'m0': 'marcus', 'm7': 'marcus', 'm23': 'marcus', 'kid': 'kid', 'drv': 'driver', 'com': 'commentator', 'rg': 'racegoer', 'boss': 'pit boss', 'host': 'tv host', 'lady': 'baker'}
 FX = {'kid': 'asetrate=44100*1.18,aresample=44100,atempo=0.8475,', 'host': 'highpass=f=260,lowpass=f=5200,', 'com': 'highpass=f=200,lowpass=f=6500,'}   # kid: pitched up (timestamps kept); host + commentator: through a TV
 for a in TLJ['title_audio'] + [c for s in TLJ['steps'] for c in s['audio']]:
@@ -61,7 +61,6 @@ for a in TLJ['title_audio'] + [c for s in TLJ['steps'] for c in s['audio']]:
             words = [dict(w, t=at + cut[1]) if at + cut[0] <= w['t'] < at + cut[1] else w for w in words if w['w'] not in DROPW.get(f, ())]   # TTS word starts can sit inside the trimmed gap: move them to its end
             for w in words:
                 if w['t'] >= at + cut[1]: w['t'] = round(w['t'] - (cut[1] - cut[0]), 3)
-        if f == 'h1': words = [{'w': 'Of', 't': round(words[0]['t'] - 0.12, 3)}, {'w': 'course', 't': words[0]['t']}] + words[1:]   # Kevin says 'Of course it did.'
         spk, kind = SPK.get(f, 'hero'), 'line'
     tr = np.zeros((N, 2), np.float32); place(tr, x, at); dry.append(tr.copy()); voice += tr
     DLG.append({'file': f, 'speaker': spk, 'at': round(at, 3), 'kind': kind, 'words': words})

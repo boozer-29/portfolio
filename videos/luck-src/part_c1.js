@@ -81,7 +81,7 @@ shot(SLAP, T2 + 3.95, 'bridge', { ease: 'out', p0: [0.75, 2.2, 3.4], p1: [0.6, 2
 shot(T2 + 3.95, TL[3].t, 'bridge', { ease: 'lin', p0: [0.7, 2.15, 3.7], p1: [0.6, 2.1, 3.25], l0: [0.3, 1.9, 0], fov: 40 }, (lt, O) => { bridgeBase(O); heroBridge(O, { expr: O > T2 + 5.0 ? 'smile' : 'shock' }); noteAt(O); }, { grade: 'bridge', dof: 0.15 });
 // ===== DAY 3: rush hour. Every pedestrian light turns green as he walks up; the cars stack up honking =====
 const J = S.junction; const T3 = tS(3);
-const JZ = (O) => lerp(2.5, -9.0, seg(O, T3 + 0.75, T3 + 7.0)); const DSLAM = T3 + 4.25, BTN = T3 + 6.05;   // the door locks him out; the button presses itself on the word 'button'
+const JZ = (O) => lerp(2.5, -9.0, seg(O, T3 + 0.75, T3 + 7.0)); const DSLAM = T3 + 4.25, BTN = T3 + 5.9;   // the door locks him out; the button presses itself on the word 'button'
 function junctionBase(O) { const j = J; resetRig(j.hero); resetRig(j.driver);
   j.signals.forEach((pair, k) => { const on = O > T3 + 1.0 + k * 0.38; pair.forEach(s => s.setGreen(on)); });
   j.cars.forEach((c, i) => { c.position.y = 0.012 * Math.sin(O * 9 + i); });

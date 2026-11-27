@@ -48,7 +48,7 @@ subprocess.run('curl -sS -H "xi-api-key: ' + os.environ.get('ELEVENLABS_API_KEY'
 txt = json.load(open('mix_stt.json'))['text']; print('   transcript of the MP4:', txt)
 shouts = sum(('ombo' in w['text'].lower() or 'omba' in w['text'].lower() or 'bomb' in w['text'].lower() or 'umbo' in w['text'].lower() or 'claa' in w['text'].lower() or 'clat' in w['text'].lower()) for w in json.load(open('mix_stt.json'))['words'] if w['type'] == 'word')
 check('both BOMBOCLATs heard (laughing + choir)', shouts >= 2, shouts)
-for line in ['except me', 'unlucky mate', 'course it did', 'five pound', 'seriously', 'pressed the button', 'took all of them', 'copy him', 'sandwich', 'now i\'m scared', 'take it all', 'meteorite', 'hallelujah', 'million winners', 'pennies', 'last one']:
+for line in ['except me', 'unlucky mate', 'always go', 'five pound', 'seriously', 'the button', 'took all of them', 'copy him', 'sandwich', 'frighten', 'take it all', 'meteorite', 'hallelujah', 'million winners', 'pennies', 'last one']:
     check(f'line heard: "{line}"', f' {line.lower()}' in ' ' + txt.lower().replace('.', ' ').replace(',', ' ').replace('?', ' ').replace('!', ' ').replace('  ', ' '))
 r = subprocess.run([sys.executable, 'verify_captions.py'], capture_output=True, text=True).stdout; print('  ', r.strip().replace('\n', '\n   '))
 check('captions: 0 errors (no text without voice, no voice without text, none late)', 'ERRORS: 0' in r)

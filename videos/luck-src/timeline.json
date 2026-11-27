@@ -3,10 +3,6 @@
  "DUR": 102.3,
  "PAUSES": {},
  "CUTS": {
-  "h0": [
-   2.15,
-   2.6
-  ],
   "m0": [
    0.05,
    0.9
@@ -20,8 +16,8 @@
   {
    "file": "h0",
    "at": 0.25,
-   "on": 0.34,
-   "end": 3.68
+   "on": 0.29,
+   "end": 2.69
   },
   {
    "file": "m0",
@@ -45,9 +41,9 @@
    "audio": [
     {
      "file": "h1",
-     "at": 9.3,
-     "on": 9.37,
-     "end": 10.27
+     "at": 8.7,
+     "on": 8.76,
+     "end": 10.98
     }
    ]
   },
@@ -60,14 +56,14 @@
    "status": "",
    "setup": "Day 2. The wind picks a side.",
    "setup_on": 11.35,
-   "punch": "His.",
+   "punch": "Fi him side.",
    "punch_on": 13.41,
    "audio": [
     {
      "file": "h2",
      "at": 14.9,
-     "on": 15.09,
-     "end": 17.11
+     "on": 15.03,
+     "end": 17.58
     }
    ]
   },
@@ -80,7 +76,7 @@
    "status": "",
    "setup": "Day 3. Rush hour.",
    "setup_on": 17.95,
-   "punch": "Every light turns green for him. Only him.",
+   "punch": "Every light turn green fi him. Only him.",
    "punch_on": 19.53,
    "audio": [
     {
@@ -92,8 +88,8 @@
     {
      "file": "h3",
      "at": 22.2,
-     "on": 22.34,
-     "end": 24.09
+     "on": 22.33,
+     "end": 24.18
     }
    ]
   },
@@ -106,7 +102,7 @@
    "status": "",
    "setup": "Claw machines usually grip properly about once every 30 goes.",
    "setup_on": 24.95,
-   "punch": "First go.",
+   "punch": "First go. Bless up.",
    "punch_on": 28.29,
    "audio": [
     {
@@ -132,7 +128,7 @@
    "status": "",
    "setup": "Day 7. Bad luck still exists.",
    "setup_on": 35.85,
-   "punch": "It just goes next door.",
+   "punch": "It just go next door.",
    "punch_on": 37.91,
    "audio": [
     {
@@ -184,8 +180,8 @@
     {
      "file": "h13",
      "at": 54.3,
-     "on": 54.41,
-     "end": 57.2
+     "on": 54.31,
+     "end": 56.89
     }
    ]
   },
@@ -198,7 +194,7 @@
    "status": "",
    "setup": "A royal flush: 1 in 649,740 hands.",
    "setup_on": 58.45,
-   "punch": "He gets five in a row.",
+   "punch": "Him get five inna row.",
    "punch_on": 60.71,
    "audio": [
     {
@@ -218,7 +214,7 @@
    "status": "",
    "setup": "Only one person has ever been confirmed hit by a meteorite.",
    "setup_on": 67.05,
-   "punch": "Today, it's a car.",
+   "punch": "Today, a car get it.",
    "punch_on": 70.31,
    "audio": [
     {
@@ -230,8 +226,8 @@
     {
      "file": "h23",
      "at": 71.85,
-     "on": 71.93,
-     "end": 74.61
+     "on": 71.98,
+     "end": 75.09
     }
    ]
   },
@@ -244,7 +240,7 @@
    "status": "",
    "setup": "Lotto jackpot: 1 in 45 million.",
    "setup_on": 75.65,
-   "punch": "By now, the whole country copies his numbers.",
+   "punch": "By now, di whole country a copy him numbers.",
    "punch_on": 77.79,
    "audio": [
     {
@@ -262,8 +258,8 @@
     {
      "file": "h26",
      "at": 90.05,
-     "on": 90.42,
-     "end": 93.12
+     "on": 90.05,
+     "end": 92.49
     }
    ]
   },
@@ -276,7 +272,7 @@
    "status": "",
    "setup": "Day 27. One sausage roll left. It costs 64p.",
    "setup_on": 93.75,
-   "punch": "He has exactly 64p.",
+   "punch": "Him have exactly 64p.",
    "punch_on": 96.41,
    "audio": [
     {
@@ -288,8 +284,8 @@
     {
      "file": "hEnd",
      "at": 98.2,
-     "on": 98.3,
-     "end": 99.28
+     "on": 98.32,
+     "end": 99.44
     }
    ]
   }

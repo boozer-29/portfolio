@@ -1,16 +1,16 @@
 # ElevenLabs TTS (eleven_v3, with timestamps) for each line, once. Check them with ../tools/whisper_lines.py (free) — Scribe only for the final mix.
 # usage: python3 gen_tts.py [keys...]   (ELEVENLABS_API_KEY from env)
 import json, base64, subprocess, sys, os
-LINES = {   # Luck (script approved 2026-11-25). Kevin = hero; Marcus = Harry; kid = Della (pitched up in the mix); driver = Nolan;
+LINES = {   # Kevin's lines: patois + a strong-Jamaican-accent tag (plain British English drifted to an Indian-sounding accent, owner Nov 2026). Luck (script approved 2026-11-25). Kevin = hero; Marcus = Harry; kid = Della (pitched up in the mix); driver = Nolan;
             # commentator = Bill; racegoer = River; pit boss = Jack; lottery host = Brian (nPcz); bakery lady = Grandma Santa Maria (all new to the series)
- 'h0':   ('eRcsJdPMOM0mtGC03ul7', "[flat, sorry for himself, deadpan] Everybody wins something. Except me."),
- 'h1':   ('eRcsJdPMOM0mtGC03ul7', "[flat, defeated, not even surprised] Course it did."),
- 'h2':   ('eRcsJdPMOM0mtGC03ul7', "[stunned, then delighted, can't believe it] Five pound? For ME?"),
- 'h3':   ('eRcsJdPMOM0mtGC03ul7', "[strolling, casual, a bit smug] I never even pressed the button."),
- 'h13':  ('eRcsJdPMOM0mtGC03ul7', "[quiet, staring, genuinely unsettled, not whispering] Okay... now I'm scared."),
- 'h23':  ('eRcsJdPMOM0mtGC03ul7', "[kind, comforting, patting a friend's shoulder] Look on the bright side. You've got a meteorite."),
- 'h26':  ('eRcsJdPMOM0mtGC03ul7', "[deadpan, flat, reading his phone, pronouncing every word clearly] Sixty-four... pennies."),
- 'hEnd': ('eRcsJdPMOM0mtGC03ul7', "[calm, slow, sweet revenge, smug] Unlucky, mate."),
+ 'h0':   ('eRcsJdPMOM0mtGC03ul7', "[strong Jamaican accent, thick patois, flat, sorry for himself, deadpan] Everybody win someting. Cept mi."),
+ 'h1':   ('eRcsJdPMOM0mtGC03ul7', "[strong Jamaican accent, thick patois, flat, defeated, not even surprised] Cho! A suh it always go."),
+ 'h2':   ('eRcsJdPMOM0mtGC03ul7', "[strong Jamaican accent, thick patois, stunned, then delighted, can't believe it] Five pound? Fi MI?"),
+ 'h3':   ('eRcsJdPMOM0mtGC03ul7', "[strong Jamaican accent, thick patois, strolling, casual, a bit smug] Mi neva even press di button, yuh know."),
+ 'h13':  ('eRcsJdPMOM0mtGC03ul7', "[strong Jamaican accent, thick patois, quiet, staring, genuinely unsettled, not whispering] Lawd... now mi frighten."),
+ 'h23':  ('eRcsJdPMOM0mtGC03ul7', "[strong Jamaican accent, thick patois, kind, comforting, patting a friend's shoulder] Look pon di bright side, bredda. Yuh get a free meteorite."),
+ 'h26':  ('eRcsJdPMOM0mtGC03ul7', "[strong Jamaican accent, thick patois, deadpan, staring at his phone in disbelief] Sixty-four pennies? Wah di..."),
+ 'hEnd': ('eRcsJdPMOM0mtGC03ul7', "[strong Jamaican accent, thick patois, calm, slow, sweet revenge, smug] Unlucky, mate."),
  'sl':   ('eRcsJdPMOM0mtGC03ul7', "[laughing uncontrollably while shouting, can't stop laughing] Bombo... hahahaha... claaat!"),
  'sc':   ('eRcsJdPMOM0mtGC03ul7', "[singing like a gospel choir, hallelujah, one long held high note] Bombo-claaaaaaaaat!"),
  'm0':   ('SOYHLrjzK2X1ezoPC6cr', "[smug, smirking, chewing] Unlucky, mate."),

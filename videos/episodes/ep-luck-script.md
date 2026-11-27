@@ -162,3 +162,10 @@ Same voices and timing. Every beat gets a physical gag with a visible punchline 
 11. **Day 26:** the whole pub leaps on the choir. On 64p, everyone looks down at their phones and sighs in unison; the barman drops his 64p into the tip jar.
 12. **End:** after *"Unlucky, mate"*, the change coin spins… and lands on its edge again. Marcus faints out of frame. Cut to black on the TING.
 New sounds only (no new voice lines): car alarm, fish flop, crowd sigh, coin cascade, horn stuck (about 200 credits).
+
+---
+## v3 — Jamaican pass (owner's friend: "the accent feels Indian")
+Kevin's 8 lines regenerated in patois with a strong-Jamaican-accent tag: "Everybody win someting. Cept mi." · "Cho! A suh it always go." · "Five pound? Fi MI?" ·
+"Mi neva even press di button, yuh know." · "Lawd... now mi frighten." · "Look pon di bright side, bredda. Yuh get a free meteorite." · "Sixty-four pennies? Wah di..." · "Unlucky, mate."
+Diary punchlines: "Fi him side." · "Every light turn green fi him. Only him." · "First go. Bless up." · "It just go next door." · "Him get five inna row." ·
+"Today, a car get it." · "By now, di whole country a copy him numbers." · "Him have exactly 64p." Marcus and the side characters stay British.

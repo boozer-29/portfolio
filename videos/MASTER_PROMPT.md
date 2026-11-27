@@ -35,7 +35,7 @@ Big blocky head, big white eyes with black pupils, chunky brows, simple mouth. R
 face controls for brows, eyelids (blinks), pupils (darts), mouth shapes. Anticipation before every big action, overshoot/elastic settle, secondary motion,
 blinks every 2–4 s, mouth only moves while that character is audibly speaking, camera shake on impacts.
 
-**Voices** (ElevenLabs `eleven_v3`, audio tags like `[deadpan]`): hero = Kevin `eRcsJdPMOM0mtGC03ul7`. One-off characters: pick fitting voices from the owner's
+**Voices** (ElevenLabs `eleven_v3`, audio tags like `[deadpan]`): hero = Kevin `eRcsJdPMOM0mtGC03ul7`. **He is strictly Jamaican (owner, Nov 2026):** write his lines in light patois (mi, di, fi, yuh, Cho!, Lawd) and start every tag with `[strong Jamaican accent, thick patois, …]`. One-off characters: pick fitting voices from the owner's
 list (`GET /v2/voices`), new to the series each episode. **The hero always talks (owner's rule):** give him 5–8 short spoken lines per reel in Kevin's voice — reactions and punchlines on the beats
 where he's on screen, reacting to or extending the caption joke (never reading the caption aloud). Shouts alone don't count. Other characters
 speak when the story needs them (a friend, a doctor, a voicemail).
@@ -480,3 +480,15 @@ Each item below is a bug that actually happened. Avoid it while building; tick i
 - **Background walkers must cover ground at their gait speed, in the direction they face.** Pedestrians looped over a 3-unit strip at 1.4 u/s with a ~2 u/s gait
   (and one moved backwards), snapping back every 2 s: it read as walking on the spot. Give each walker one straight path across the whole scene,
   z = start + dir × speed × t, speed ≈ walk freq × 0.25 (walk 8.5 ≈ 2.1 u/s), then run the checker.
+
+### 9.23 Owner feedback on Luck v3 (Nov 2026): "the accent feels Indian"
+- **Kevin drifts off Jamaican on plain English.** His voice card says Jamaican, but its description is a French-first Caribbean speaker; British lines
+  ("Course it did", "mate", "pence") with only mood tags came out sounding Indian. Fix: patois spelling + `[strong Jamaican accent, thick patois, <mood>]`
+  on every Kevin line. The jokes follow suit: patois in his lines and the diary punchlines ("Fi him side.", "First go. Bless up."), kept readable for non-English viewers.
+- **Test the accent on 1–2 lines and send the owner an old-vs-new clip** before regenerating the set (≈ 150 credits vs ≈ 1k).
+- **Whisper base.en can't read patois** ("Cept mi" → "Set me", "Lawd" → "Lord"); judge takes with Scribe on the mix, and make `qa_final.py` phrases
+  ones Scribe hears reliably both ways ("the button", not "press the button": it heard "press" once and "pressed" the next run).
+- **ElevenLabs v3 alignment is loose on accented takes** ("button" 0.3 s late). Sync any word-timed gag (the self-pressing button) to the Scribe word time
+  in `dialogue.json` after `fix_spans.py`, not to the TTS alignment.
+- **Line-specific mixer hacks go stale when a take is replaced:** `CUTS['h0']`, `LIFT['h1']` and the inserted "Of course" caption word were tied to the old takes.
+  Remove them whenever that line is regenerated. `part_a.js` `STEPS` is a pasted copy of `timeline.json`: re-sync it after changing caption text.
